@@ -1,5 +1,5 @@
 {
-    "name": "Boilerplate Card",
+    "name": "Hourly Weather Card",
     "render_readme": true,
-    "filename": "boilerplate-card.js"
+    "filename": "hourly-weather-card.js"
 }

@@ -1,9 +1,9 @@
 resources:
-  - url: http://127.0.0.1:5000/boilerplate-card.js
+  - url: http://127.0.0.1:5000/hourly-weather-card.js
     type: module
 views:
   - cards:
-      - type: custom:boilerplate-card
-        name: Boilerplate Card Development
-        entity: sun.sun
+      - type: custom:hourly-weather
+        name: Hourly Weather Card Development
+        entity: weather.home
         test_gui: true

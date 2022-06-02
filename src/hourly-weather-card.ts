@@ -11,7 +11,7 @@ import {
   getLovelace,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 
-import type { BoilerplateCardConfig } from './types';
+import type { HourlyWeatherCardConfig } from './types';
 import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
@@ -47,10 +47,10 @@ export class BoilerplateCard extends LitElement {
   // https://lit.dev/docs/components/properties/
   @property({ attribute: false }) public hass!: HomeAssistant;
 
-  @state() private config!: BoilerplateCardConfig;
+  @state() private config!: HourlyWeatherCardConfig;
 
   // https://lit.dev/docs/components/properties/#accessors-custom
-  public setConfig(config: BoilerplateCardConfig): void {
+  public setConfig(config: HourlyWeatherCardConfig): void {
     // TODO Check for required fields and that they are of the proper format
     if (!config) {
       throw new Error(localize('common.invalid_configuration'));
