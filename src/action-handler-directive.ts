@@ -1,5 +1,5 @@
 import { noChange } from 'lit';
-import { AttributePart, directive, Directive, DirectiveParameters } from 'lit/directive';
+import { AttributePart, directive, Directive, DirectiveParameters } from 'lit/directive.js';
 
 import { ActionHandlerDetail, ActionHandlerOptions } from 'custom-card-helpers/dist/types';
 import { fireEvent } from 'custom-card-helpers';
