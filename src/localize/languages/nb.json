@@ -1,7 +1,24 @@
 {
   "common": {
     "version": "Versjon",
-    "invalid_configuration": "Ikke gyldig konfiguration",
-    "show_warning": "Vis advarsel"
+    "invalid_configuration": "Ikke gyldig konfiguration"
+  },
+  "errors": {
+    "missing_entity": "entity mangler i konfigurasjonen",
+    "too_many_hours_requested": "For mange timer forespurt i num_hours. Må være <= antall timer i prognoseenheten."
+  },
+  "conditions": {
+    "clear": "Klar",
+    "cloudy": "Skyet",
+    "fog": "Tåke",
+    "hail": "Hagl",
+    "thunderstorm": "Tordenvær",
+    "partlyCloudy": "Delvis skyet",
+    "heavyRain": "Mye regn",
+    "rain": "Regn",
+    "snow": "Snø",
+    "mixedPrecip": "Blandet nedbør",
+    "sunny": "Solfylt",
+    "windy": "Vindfullt"
   }
 }

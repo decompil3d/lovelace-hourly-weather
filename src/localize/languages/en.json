@@ -1,8 +1,24 @@
 {
   "common": {
     "version": "Version",
-    "invalid_configuration": "Invalid configuration",
-    "show_warning": "Show Warning",
-    "show_error": "Show Error"
+    "invalid_configuration": "Invalid configuration"
+  },
+  "errors": {
+    "missing_entity": "entity is missing in configuration",
+    "too_many_hours_requested": "Too many hours requested in num_hours. Must be <= number of hours in forecast entity."
+  },
+  "conditions": {
+    "clear": "Clear",
+    "cloudy": "Cloudy",
+    "fog": "Fog",
+    "hail": "Hail",
+    "thunderstorm": "Thunderstorm",
+    "partlyCloudy": "Partly cloudy",
+    "heavyRain": "Heavy rain",
+    "rain": "Rain",
+    "snow": "Snow",
+    "mixedPrecip": "Mixed precip",
+    "sunny": "Sunny",
+    "windy": "Windy"
   }
 }

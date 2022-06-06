@@ -11,14 +11,16 @@ import {
   getLovelace,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 
-import type { HourlyWeatherCardConfig } from './types';
+import type { ConditionSpan, ForecastHour, HourlyWeatherCardConfig, HourTemperature } from './types';
 import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
+import { WeatherBar } from './weather-bar';
+customElements.define('weather-bar', WeatherBar);
 
 /* eslint no-console: 0 */
 console.info(
-  `%c  BOILERPLATE-CARD \n%c  ${localize('common.version')} ${CARD_VERSION}    `,
+  `%c  HOURLY-WEATHER-CARD \n%c  ${localize('common.version')} ${CARD_VERSION}    `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
@@ -26,17 +28,16 @@ console.info(
 // This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
-  type: 'boilerplate-card',
-  name: 'Boilerplate Card',
-  description: 'A template custom card for you to create something awesome',
+  type: 'hourly-weather-card',
+  name: 'Hourly Weather Card',
+  description: 'A card to render hourly weather conditions as a bar.',
 });
 
-// TODO Name your custom element
-@customElement('boilerplate-card')
-export class BoilerplateCard extends LitElement {
+@customElement('hourly-weather-card')
+export class HourlyWeatherCard extends LitElement {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     await import('./editor');
-    return document.createElement('boilerplate-card-editor');
+    return document.createElement('hourly-weather-card-editor');
   }
 
   public static getStubConfig(): Record<string, unknown> {
@@ -51,9 +52,12 @@ export class BoilerplateCard extends LitElement {
 
   // https://lit.dev/docs/components/properties/#accessors-custom
   public setConfig(config: HourlyWeatherCardConfig): void {
-    // TODO Check for required fields and that they are of the proper format
     if (!config) {
       throw new Error(localize('common.invalid_configuration'));
+    }
+
+    if (!config.entity) {
+      throw new Error(localize('errors.missing_entity'));
     }
 
     if (config.test_gui) {
@@ -61,7 +65,7 @@ export class BoilerplateCard extends LitElement {
     }
 
     this.config = {
-      name: 'Boilerplate',
+      name: 'Hourly Weather',
       ...config,
     };
   }
@@ -77,27 +81,58 @@ export class BoilerplateCard extends LitElement {
 
   // https://lit.dev/docs/components/rendering/
   protected render(): TemplateResult | void {
-    // TODO Check for stateObj or other necessary things and render a warning if missing
-    if (this.config.show_warning) {
-      return this._showWarning(localize('common.show_warning'));
+    const entityId: string = this.config.entity;
+    const state = this.hass.states[entityId];
+    const { forecast } = state.attributes as { forecast: ForecastHour[] };
+    const numHours = this.config.num_hours ?? 12;
+
+    if (numHours > forecast.length) {
+      return this._showError(localize('errors.too_many_hours_requested'));
     }
 
-    if (this.config.show_error) {
-      return this._showError(localize('common.show_error'));
-    }
+    const conditionList = this.getConditionListFromForecast(forecast, numHours);
+    const timeFormat = new Intl.DateTimeFormat(void 0, {
+      hour: 'numeric'
+    });
+    const temperatures: HourTemperature[] = forecast.map(fh => ({
+      hour: timeFormat.format(new Date(fh.datetime)),
+      temperature: fh.temperature
+    }));
+    temperatures.length = numHours;
 
     return html`
       <ha-card
         .header=${this.config.name}
         @action=${this._handleAction}
         .actionHandler=${actionHandler({
-          hasHold: hasAction(this.config.hold_action),
-          hasDoubleClick: hasAction(this.config.double_tap_action),
-        })}
+      hasHold: hasAction(this.config.hold_action),
+      hasDoubleClick: hasAction(this.config.double_tap_action),
+    })}
         tabindex="0"
         .label=${`Boilerplate: ${this.config.entity || 'No Entity Defined'}`}
-      ></ha-card>
+      >
+        <div class="card-content">
+          <weather-bar .conditions=${conditionList} .temperatures=${temperatures}></weather-bar>
+        </div>
+      </ha-card>
     `;
+  }
+
+  private getConditionListFromForecast(forecast: ForecastHour[], numHours = 12): ConditionSpan[] {
+    let lastCond: string = forecast[0].condition;
+    let j = 0;
+    const res: ConditionSpan[] = [[lastCond, 1]];
+    for (let i = 1; i < numHours; i++) {
+      const cond: string = forecast[i].condition;
+      if (cond === lastCond) {
+        res[j][1]++;
+      } else {
+        res.push([cond, 1]);
+        j++;
+        lastCond = cond;
+      }
+    }
+    return res;
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {

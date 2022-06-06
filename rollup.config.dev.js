@@ -8,16 +8,25 @@ import ignore from './rollup-plugins/ignore';
 import { ignoreTextfieldFiles } from './elements/ignore/textfield';
 import { ignoreSelectFiles } from './elements/ignore/select';
 import { ignoreSwitchFiles } from './elements/ignore/switch';
+import { defineConfig } from 'rollup';
 
-export default {
+export default defineConfig({
   input: ['src/hourly-weather-card.ts'],
   output: {
     dir: './dist',
     format: 'es',
+    sourcemap: true
   },
   plugins: [
     resolve(),
-    typescript(),
+    typescript({
+      tsconfigOverride: {
+        compilerOptions: {
+          sourceMap: true,
+          inlineSourceMap: false
+        }
+      }
+    }),
     json(),
     babel({
       exclude: 'node_modules/**',
@@ -26,8 +35,7 @@ export default {
     serve({
       contentBase: './dist',
       host: '0.0.0.0',
-      port: 5000,
-      allowCrossOrigin: true,
+      port: 5555,
       headers: {
         'Access-Control-Allow-Origin': '*',
       },
@@ -36,4 +44,4 @@ export default {
       files: [...ignoreTextfieldFiles, ...ignoreSelectFiles, ...ignoreSwitchFiles].map((file) => require.resolve(file)),
     }),
   ],
-};
+})

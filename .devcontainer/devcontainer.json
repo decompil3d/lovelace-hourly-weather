@@ -1,9 +1,12 @@
 // See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
   "name": "Hourly Weather Card Development",
-  "image": "ludeeus/container:monster",
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": ".."
+  },
   "context": "..",
-  "appPort": ["5000:5000", "9123:8123"],
+  "appPort": ["5555:5555", "9123:8123"],
   "postCreateCommand": "npm install",
   "runArgs": [
     "-v",

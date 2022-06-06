@@ -49,12 +49,8 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.entity || '';
   }
 
-  get _show_warning(): boolean {
-    return this._config?.show_warning || false;
-  }
-
-  get _show_error(): boolean {
-    return this._config?.show_error || false;
+  get _numHours(): number {
+    return this._config?.num_hours ?? 12;
   }
 
   protected render(): TemplateResult | void {
@@ -62,8 +58,7 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
       return html``;
     }
 
-    // You can restrict on domain type
-    const entities = Object.keys(this.hass.states);
+    const entities = Object.keys(this.hass.states).filter(e => e.startsWith('weather.'));
 
     return html`
       <mwc-select
@@ -76,8 +71,8 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         @closed=${(ev) => ev.stopPropagation()}
       >
         ${entities.map((entity) => {
-          return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
-        })}
+      return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
+    })}
       </mwc-select>
       <mwc-textfield
         label="Name (Optional)"
@@ -85,20 +80,12 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         .configValue=${'name'}
         @input=${this._valueChanged}
       ></mwc-textfield>
-      <mwc-formfield .label=${`Toggle warning ${this._show_warning ? 'off' : 'on'}`}>
-        <mwc-switch
-          .checked=${this._show_warning !== false}
-          .configValue=${'show_warning'}
-          @change=${this._valueChanged}
-        ></mwc-switch>
-      </mwc-formfield>
-      <mwc-formfield .label=${`Toggle error ${this._show_error ? 'off' : 'on'}`}>
-        <mwc-switch
-          .checked=${this._show_error !== false}
-          .configValue=${'show_error'}
-          @change=${this._valueChanged}
-        ></mwc-switch>
-      </mwc-formfield>
+      <mwc-textfield
+        label="Number of hours to show (Optional)"
+        .value=${this._numHours}
+        .configValue=${'num_hours'}
+        @input=${this._valueChanged}
+      ></mwc-textfield>
     `;
   }
 
