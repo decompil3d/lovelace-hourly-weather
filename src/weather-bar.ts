@@ -1,5 +1,5 @@
-import { LitElement, html, css, TemplateResult, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { LitElement, html, css, TemplateResult } from "lit";
+import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import { localize } from "./localize/localize";
 import type { ConditionSpan, HourTemperature } from "./types";
