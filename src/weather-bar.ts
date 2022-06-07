@@ -91,7 +91,7 @@ export class WeatherBar extends LitElement {
       grid-auto-columns: 1fr;
     }
     .bar > div {
-      height: 100%;
+      height: 30px;
       text-align: center;
       align-items: center;
       display: grid;
