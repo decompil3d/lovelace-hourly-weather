@@ -13,9 +13,10 @@ import { defineConfig } from 'rollup';
 export default defineConfig({
   input: ['src/hourly-weather.ts'],
   output: {
-    dir: './dist',
+    file: 'dist/hourly-weather.js',
     format: 'es',
-    sourcemap: true
+    sourcemap: true,
+    inlineDynamicImports: true
   },
   plugins: [
     resolve(),

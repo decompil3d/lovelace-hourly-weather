@@ -41,8 +41,9 @@ export default [
   {
     input: 'src/hourly-weather.ts',
     output: {
-      dir: 'dist',
+      file: 'dist/hourly-weather.js',
       format: 'es',
+      inlineDynamicImports: true
     },
     plugins: [...plugins],
   },
