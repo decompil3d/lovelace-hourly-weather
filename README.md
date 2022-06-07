@@ -12,6 +12,8 @@ An hourly weather card for Home Assistant. Visualize upcoming weather conditions
 [![Discord][discord-shield]][discord]
 [![Community Forum][forum-shield]][forum]
 
+![Screenshot of Hourly Weather card](hourly-weather.png)
+
 ## Options
 
 | Name              | Type   | Requirement  | Description                                 | Default             |
