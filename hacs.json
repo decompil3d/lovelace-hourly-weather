@@ -1,6 +1,5 @@
 {
     "name": "Hourly Weather Card",
     "render_readme": true,
-    "filename": "hourly-weather.js",
-    "content_in_root": true
+    "filename": "hourly-weather.js"
 }
