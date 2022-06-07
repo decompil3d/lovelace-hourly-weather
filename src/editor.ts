@@ -85,6 +85,9 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         .value=${this._numHours}
         .configValue=${'num_hours'}
         @input=${this._valueChanged}
+        .pattern=${"([1-9][0-9]*[02468])|([2468])"}
+        .autoValidate=${true}
+        validationMessage="Must be an even integer greater than or equal to 2"
       ></mwc-textfield>
     `;
   }

@@ -103,10 +103,12 @@ export class WeatherBar extends LitElement {
       overflow: hidden;
     }
     .bar > div:first-child {
-      border-radius: 10px 0 0 10px;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
     }
     .bar > div:last-child {
-      border-radius: 0 10px 10px 0;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
     }
     .clear-night {
       background-color: var(--color-clear-night);
@@ -179,12 +181,12 @@ export class WeatherBar extends LitElement {
       border-right: 1px solid var(--divider-color, lightgray);
     }
     .bar-block-bottom {
-      color: var(--secondary-text-color, gray);
       text-align: center;
       grid-area: bottom;
       padding-top: 5px;
     }
     .hour {
+      color: var(--secondary-text-color, gray);
       font-size: 0.9rem;
     }
     .temperature {

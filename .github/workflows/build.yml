@@ -18,3 +18,8 @@ jobs:
         run: |
           npm ci
           npm run build
+      - uses: "home-assistant/actions/hassfest@master"
+      - name: HACS Action
+        uses: "hacs/action@main"
+        with:
+          category: "plugin"

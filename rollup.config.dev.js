@@ -11,7 +11,7 @@ import { ignoreSwitchFiles } from './elements/ignore/switch';
 import { defineConfig } from 'rollup';
 
 export default defineConfig({
-  input: ['src/hourly-weather-card.ts'],
+  input: ['src/hourly-weather.ts'],
   output: {
     dir: './dist',
     format: 'es',

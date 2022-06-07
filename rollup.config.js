@@ -39,7 +39,7 @@ const plugins = [
 
 export default [
   {
-    input: 'src/hourly-weather-card.ts',
+    input: 'src/hourly-weather.ts',
     output: {
       dir: 'dist',
       format: 'es',

@@ -2,6 +2,6 @@ default_config:
 lovelace:
   mode: yaml
   resources:
-    - url: http://127.0.0.1:5555/hourly-weather-card.js
+    - url: http://127.0.0.1:5555/hourly-weather.js
       type: module
 demo:

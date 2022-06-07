@@ -12,7 +12,7 @@
     "weather",
     "hourly"
   ],
-  "module": "hourly-weather-card.js",
+  "module": "src/hourly-weather.js",
   "repository": "git@github.com:decompil3d/lovelace-hourly-weather.git",
   "author": "Jonathan Keslin <github@jonathankeslin.com>",
   "license": "MIT",
