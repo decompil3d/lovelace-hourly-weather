@@ -2,7 +2,7 @@ import { ActionConfig, LovelaceCard, LovelaceCardConfig, LovelaceCardEditor } fr
 
 declare global {
   interface HTMLElementTagNameMap {
-    'hourly-weather-card-editor': LovelaceCardEditor;
+    'hourly-weather-editor': LovelaceCardEditor;
     'hui-error-card': LovelaceCard;
   }
 }

@@ -13,6 +13,45 @@ An hourly weather card for Home Assistant. Visualize upcoming weather conditions
 [![Community Forum][forum-shield]][forum]
 
 ![Screenshot of Hourly Weather card](hourly-weather.png)
+_Can you tell that I live in Seattle?_ 😭
+
+## Installation
+
+### Easiest method:
+
+Install via HACS
+
+### Alternative method:
+
+1. Download `hourly-weather.js` from the [Releases][releases] page
+2. Upload to `/www/hourly-weather/hourly-weather.js` (via Samba, File Editor, SSH, etc.)
+3. Visit the Resources page in your Home Assistant install and add `/hourly-weather/hourly-weather.js` as a
+   JavaScript Module.
+   [![Open your Home Assistant instance and show your dashboard resources.](https://my.home-assistant.io/badges/lovelace_resources.svg)](https://my.home-assistant.io/redirect/lovelace_resources/)
+4. Refresh your browser
+
+## Usage
+
+This card will show in the "Add card" modal. It has a GUI editor for configuring settings.
+
+If you prefer YAML, here is a sample config:
+
+```yaml
+type: custom:hourly-weather
+entity: weather.my_hourly_weather_entity
+num_hours: 18 # optional, defaults to 12
+name: Next 18 hours # optional, defaults to "Hourly Weather"
+```
+
+### Choosing the right entity
+
+This card is focused on displaying hourly weather data. If you try selecting a weather entity that provides daily
+forecasts, it will show a warning. I've tested with the OpenWeatherMap integration using the `onecall_hourly` mode and
+that works very well.
+
+If you already use OpenWeatherMap for daily data, you can add a second integration of the same
+component for hourly -- just adjust the latitude or longitude a tiny bit (i.e. change the last decimal by 1).
+Otherwise, the integration may complain of a duplicate unique ID.
 
 ## Options
 
@@ -20,7 +59,7 @@ An hourly weather card for Home Assistant. Visualize upcoming weather conditions
 | ----------------- | ------ | ------------ | ------------------------------------------- | ------------------- |
 | type              | string | **Required** | `custom:hourly-weather`                     |                     |
 | entity            | string | **Required** | Home Assistant weather entity ID.           |                     |
-| name              | string | **Optional** | Card name                                   | Weather entity name |
+| name              | string | **Optional** | Card name                                   | `Hourly Weather`    |
 | num_hours         | number | **Optional** | Number of hours to show (even integer >= 2) | `12`                |
 | tap_action        | object | **Optional** | Action to take on tap                       | `action: more-info` |
 | hold_action       | object | **Optional** | Action to take on hold                      | `none`              |

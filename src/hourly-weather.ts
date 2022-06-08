@@ -28,16 +28,16 @@ console.info(
 // This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
-  type: 'hourly-weather-card',
+  type: 'hourly-weather',
   name: 'Hourly Weather Card',
   description: 'A card to render hourly weather conditions as a bar.',
 });
 
-@customElement('hourly-weather-card')
+@customElement('hourly-weather')
 export class HourlyWeatherCard extends LitElement {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     await import('./editor');
-    return document.createElement('hourly-weather-card-editor');
+    return document.createElement('hourly-weather-editor');
   }
 
   public static getStubConfig(): Record<string, unknown> {
@@ -90,6 +90,7 @@ export class HourlyWeatherCard extends LitElement {
       return this._showError(localize('errors.too_many_hours_requested'));
     }
 
+    const isForecastDaily = this.isForecastDaily(forecast);
     const conditionList = this.getConditionListFromForecast(forecast, numHours);
     const timeFormat = new Intl.DateTimeFormat(void 0, {
       hour: 'numeric'
@@ -112,6 +113,8 @@ export class HourlyWeatherCard extends LitElement {
         .label=${`Boilerplate: ${this.config.entity || 'No Entity Defined'}`}
       >
         <div class="card-content">
+          ${isForecastDaily ?
+        this._showWarning('The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.') : ''}
           <weather-bar .conditions=${conditionList} .temperatures=${temperatures}></weather-bar>
         </div>
       </ha-card>
@@ -133,6 +136,12 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
     return res;
+  }
+
+  private isForecastDaily(forecast: ForecastHour[]): boolean {
+    const dates = forecast.map(f => new Date(f.datetime).getDate());
+    const uniqueDates = new Set(dates);
+    return uniqueDates.size >= forecast.length - 1;
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
