@@ -1,0 +1,24 @@
+{
+  "common": {
+    "version": "Versão",
+    "invalid_configuration": "Configuração Inválida"
+  },
+  "errors": {
+    "missing_entity": "A entidade não existe na configuração",
+    "too_many_hours_requested": "Demasiadas horas solicitadas em num_hours. Deve ser menor que o número de horas disponíveis na entidade de meteo."
+  },
+  "conditions": {
+    "clear": "Limpo",
+    "cloudy": "Nublado",
+    "fog": "Nevoeiro",
+    "hail": "Granizo",
+    "thunderstorm": "Trovoada",
+    "partlyCloudy": "Parcialmente nublado",
+    "heavyRain": "Chuva forte",
+    "rain": "Chuva",
+    "snow": "Neve",
+    "mixedPrecip": "Precipitação mista",
+    "sunny": "Sol",
+    "windy": "Vento"
+  }
+}
