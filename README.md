@@ -4,7 +4,7 @@ An hourly weather card for Home Assistant. Visualize upcoming weather conditions
 
 [![GitHub Release][releases-shield]][releases]
 [![License][license-shield]](LICENSE.md)
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
 ![Project Maintenance][maintenance-shield]
 [![GitHub Activity][commits-shield]][commits]
@@ -19,7 +19,7 @@ _Can you tell that I live in Seattle?_ 😭
 
 ### Easiest method:
 
-Install via HACS
+✨ Install via HACS
 
 ### Alternative method:
 
@@ -48,6 +48,9 @@ name: Next 18 hours # optional, defaults to "Hourly Weather"
 This card is focused on displaying hourly weather data. If you try selecting a weather entity that provides daily
 forecasts, it will show a warning. I've tested with the OpenWeatherMap integration using the `onecall_hourly` mode and
 that works very well.
+
+> ℹ️ NOTE: If your selected weather entity provides forecasts in increments of greater than one hour at a time, each segment
+> of the bar will be for one segment, not one hour.
 
 If you already use OpenWeatherMap for daily data, you can add a second integration of the same
 component for hourly -- just adjust the latitude or longitude a tiny bit (i.e. change the last decimal by 1).
