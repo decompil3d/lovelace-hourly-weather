@@ -92,7 +92,7 @@ export class HourlyWeatherCard extends LitElement {
 
     const isForecastDaily = this.isForecastDaily(forecast);
     const conditionList = this.getConditionListFromForecast(forecast, numHours);
-    const timeFormat = new Intl.DateTimeFormat(void 0, {
+    const timeFormat = new Intl.DateTimeFormat(localize("common.iso"), {
       hour: 'numeric'
     });
     const temperatures: HourTemperature[] = forecast.map(fh => ({
