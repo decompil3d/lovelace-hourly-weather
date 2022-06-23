@@ -49,7 +49,7 @@
     "rollup": "^2.58.0",
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-typescript2": "^0.32.1",
     "typescript": "^4.4.3"
   },
   "resolutions": {
