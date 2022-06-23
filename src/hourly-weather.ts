@@ -9,6 +9,8 @@ import {
   handleAction,
   LovelaceCardEditor,
   getLovelace,
+  formatTime,
+  FrontendLocaleData,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 
 import type { ConditionSpan, ForecastHour, HourlyWeatherCardConfig, HourTemperature } from './types';
@@ -92,11 +94,8 @@ export class HourlyWeatherCard extends LitElement {
 
     const isForecastDaily = this.isForecastDaily(forecast);
     const conditionList = this.getConditionListFromForecast(forecast, numHours);
-    const timeFormat = new Intl.DateTimeFormat(localize("common.iso"), {
-      hour: 'numeric'
-    });
     const temperatures: HourTemperature[] = forecast.map(fh => ({
-      hour: timeFormat.format(new Date(fh.datetime)),
+      hour: this.formatHour(new Date(fh.datetime), this.hass.locale),
       temperature: fh.temperature
     }));
     temperatures.length = numHours;
@@ -142,6 +141,15 @@ export class HourlyWeatherCard extends LitElement {
     const dates = forecast.map(f => new Date(f.datetime).getDate());
     const uniqueDates = new Set(dates);
     return uniqueDates.size >= forecast.length - 1;
+  }
+
+  private formatHour(time: Date, locale: FrontendLocaleData): string {
+    const formatted = formatTime(time, locale);
+    if (formatted.includes('AM') || formatted.includes('PM')) {
+      // Drop ':00' in 12 hour time
+      return formatted.replace(':00', '');
+    }
+    return formatted;
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {

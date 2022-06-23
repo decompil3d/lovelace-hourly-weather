@@ -1,7 +1,6 @@
 {
   "common": {
     "version": "Versão",
-    "iso": "pt-PT",
     "invalid_configuration": "Configuração Inválida"
   },
   "errors": {

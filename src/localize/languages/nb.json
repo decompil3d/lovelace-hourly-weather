@@ -1,7 +1,6 @@
 {
   "common": {
     "version": "Versjon",
-    "iso": "nb-NO",
     "invalid_configuration": "Ikke gyldig konfiguration"
   },
   "errors": {
