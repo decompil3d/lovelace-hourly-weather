@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
@@ -5,6 +7,7 @@ import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import serve from 'rollup-plugin-serve';
 import json from '@rollup/plugin-json';
+import replace from '@rollup/plugin-replace';
 import ignore from './rollup-plugins/ignore';
 import { ignoreTextfieldFiles } from './elements/ignore/textfield';
 import { ignoreSelectFiles } from './elements/ignore/select';
@@ -23,6 +26,12 @@ const serveopts = {
 };
 
 const plugins = [
+  replace({
+    preventAssignment: true,
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    'process.env.TIPPY_CSS': JSON.stringify(
+      fs.readFileSync(path.join(__dirname, 'node_modules/tippy.js/dist/tippy.css'), 'utf8'))
+  }),
   nodeResolve({}),
   commonjs(),
   typescript(),

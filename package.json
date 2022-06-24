@@ -1,6 +1,6 @@
 {
   "name": "lovelace-hourly-weather",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "Hourly weather card for Home Assistant. Visualize upcoming weather conditions as a colored horizontal bar.",
   "keywords": [
     "home-assistant",
@@ -28,7 +28,8 @@
     "@material/mwc-textfield": "^0.26.1",
     "custom-card-helpers": "^1.7.2",
     "home-assistant-js-websocket": "^7.1.0",
-    "lit": "^2.0.0"
+    "lit": "^2.0.0",
+    "tippy.js": "^6.3.7"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -38,19 +39,20 @@
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "@typescript-eslint/eslint-plugin": "^5.27.0",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.27.0",
-    "eslint": "^8.16.0",
+    "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.4.1",
-    "rollup": "^2.58.0",
+    "rollup": "^2.75.7",
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "typescript": "^4.4.3"
+    "rollup-plugin-typescript2": "^0.32.1",
+    "typescript": "^4.7.4"
   },
   "resolutions": {
     "lit": "^2.1.2",
