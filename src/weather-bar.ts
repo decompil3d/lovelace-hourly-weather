@@ -1,6 +1,7 @@
-import { LitElement, html, css, TemplateResult } from "lit";
+import { LitElement, html, css, TemplateResult, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
+import tippy from 'tippy.js';
 import { localize } from "./localize/localize";
 import type { ConditionSpan, HourTemperature } from "./types";
 
@@ -22,6 +23,8 @@ const LABELS = {
   'exceptional': localize('conditions.clear')
 }
 
+const tippyStyles: string = process.env.TIPPY_CSS || '';
+
 export class WeatherBar extends LitElement {
   @property({ type: Array })
   conditions: ConditionSpan[] = [];
@@ -36,7 +39,7 @@ export class WeatherBar extends LitElement {
       const label = LABELS[cond[0]];
       const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1]) };
       conditionBars.push(html`
-        <div class=${cond[0]} style=${styleMap(barStyles)} title=${label}>
+        <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
           <span class="condition-label">${label}</span>
         </div>
       `);
@@ -65,7 +68,14 @@ export class WeatherBar extends LitElement {
     `;
   }
 
-  static styles = css`
+  connectedCallback(): void {
+    super.connectedCallback();
+    tippy(this.renderRoot.querySelectorAll('.bar > div'), {
+      appendTo: this.renderRoot.firstElementChild || void 0
+    });
+  }
+
+  static styles = [unsafeCSS(tippyStyles), css`
     .main {
       --color-clear-night: #111;
       --color-cloudy: #777777;
@@ -192,5 +202,5 @@ export class WeatherBar extends LitElement {
     .temperature {
       font-size: 1.1rem;
     }
-  `;
+  `];
 }
