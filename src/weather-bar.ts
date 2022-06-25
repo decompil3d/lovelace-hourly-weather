@@ -21,7 +21,25 @@ const LABELS = {
   'windy': localize('conditions.windy'),
   'windy-variant': localize('conditions.windy'),
   'exceptional': localize('conditions.clear')
-}
+};
+
+const ICONS = {
+  'clear-night': 'weather-night',
+  'cloudy',
+  'fog',
+  'hail',
+  'lightning',
+  'lightning-rainy',
+  'partlycloudy': 'weather-partly-cloudy',
+  'pouring',
+  'rainy',
+  'snowy',
+  'snowy-rainy',
+  'sunny',
+  'windy',
+  'windy-variant',
+  'exceptional': 'alert-outline'
+};
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -39,10 +57,14 @@ export class WeatherBar extends LitElement {
     let gridStart = 1;
     for (const cond of this.conditions) {
       const label = LABELS[cond[0]];
+      let icon = ICONS[cond[0]];
+      if (icon === cond[0]) icon = 'mdi:weather-' + icon;
+      else icon = 'mdi:' + icon;
       const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1]) };
       conditionBars.push(html`
         <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
           <span class="condition-label">${label}</span>
+          <span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>
         </div>
       `);
     }
