@@ -1,0 +1,34 @@
+{
+  "common": {
+    "version": "Version",
+    "title": "Stündliches Wetterbedingungen",
+    "title_card": "Stündliche Wetterbedingungen",
+    "description": "Diese Karte stellt stündliche Wetterbedingungen als Balken dar.",
+    "invalid_configuration": "Ungültige Konfiguration"
+  },
+  "editor": {
+    "entity": "Entität",
+    "name": "Bezeichnung (optional)",
+    "hours_to_show": "Anzahl der anzuzeigenden Stunden (optional)"
+  },
+  "errors": {
+    "missing_entity": "Keine Wetter-Entität festgelegt",
+    "too_many_hours_requested": "Anzuzeigender Zeitraum kann nicht größer sein, als in der Wetter-Entität festgelegt.",
+    "daily_forecasts": "Die gewählte Wetter-Entität scheint tägliche Vorhersagen zu liefern. Bitte eine Wetter-Entität mit stündlicher Vorhersage wählen.",
+    "must_be_int": "Muss eine gerade ganze Zahl größer oder gleich 2 sein."
+  },
+  "conditions": {
+    "clear": "Klar",
+    "cloudy": "Bewölkt",
+    "fog": "Nebel",
+    "hail": "Hagel",
+    "thunderstorm": "Gewitter",
+    "partlyCloudy": "Teilweise bewölkt",
+    "heavyRain": "Platzregen",
+    "rain": "Regen",
+    "snow": "Schnee",
+    "mixedPrecip": "Gemischter Niederschlag",
+    "sunny": "Sonnig",
+    "windy": "Windig"
+  }
+}
