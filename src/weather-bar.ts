@@ -1,7 +1,7 @@
-import { LitElement, html, css, TemplateResult, unsafeCSS } from "lit";
+import { LitElement, html, css, TemplateResult, unsafeCSS, PropertyValueMap } from "lit";
 import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
-import tippy from 'tippy.js';
+import tippy, { Instance } from 'tippy.js';
 import { localize } from "./localize/localize";
 import type { ConditionSpan, HourTemperature } from "./types";
 
@@ -31,6 +31,8 @@ export class WeatherBar extends LitElement {
 
   @property({ type: Array })
   temperatures: HourTemperature[] = [];
+
+  private tips: Instance[] = [];
 
   render() {
     const conditionBars: TemplateResult[] = [];
@@ -68,9 +70,12 @@ export class WeatherBar extends LitElement {
     `;
   }
 
-  connectedCallback(): void {
-    super.connectedCallback();
-    tippy(this.renderRoot.querySelectorAll('.bar > div'), {
+  protected update(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+    super.update(changedProperties);
+
+    this.tips.forEach(t => t.destroy());
+
+    this.tips = tippy(this.renderRoot.querySelectorAll('.bar > div'), {
       appendTo: this.renderRoot.firstElementChild || void 0
     });
   }
