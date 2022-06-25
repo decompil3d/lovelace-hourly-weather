@@ -1,0 +1,33 @@
+{
+  "common": {
+    "version": "Wersja",
+    "title": "Pogoda godzinowa",
+    "title_card": "Pogoda godzinowa",
+    "description": "Karta w formie wykresu słupkowego dla pogody godzinowej",
+    "invalid_configuration": "Nieprawiłowa konfiguracja"
+  },
+  "editor": {
+    "entity": "Encja",
+    "name": "Nazwa (opcjonalnie)",
+    "hours_to_show": "Liczba godzin do wyświetlenia (opcjonalnie)"
+  },
+  "errors": {
+    "missing_entity": "encja nie istnieje",
+    "too_many_hours_requested": "Liczba godzin nie może być większa od ilości godzin dostępnych w encji pogodowej.",
+    "daily_forecasts": "Wybrana encja dostarcza pogodę dniową, wybierz encję z pogodą godzinową."
+  },
+  "conditions": {
+    "clear": "Bezchmurnie",
+    "cloudy": "Pochmurnie",
+    "fog": "Mgła",
+    "hail": "Grad",
+    "thunderstorm": "Burza",
+    "partlyCloudy": "Częściowe zachmurzenie",
+    "heavyRain": "Ulewa",
+    "rain": "Deszcz",
+    "snow": "Śnieg",
+    "mixedPrecip": "Mieszane opady",
+    "sunny": "Słonecznie",
+    "windy": "Wietrznie"
+  }
+}
