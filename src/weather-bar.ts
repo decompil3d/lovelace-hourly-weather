@@ -76,7 +76,8 @@ export class WeatherBar extends LitElement {
     this.tips.forEach(t => t.destroy());
 
     this.tips = tippy(this.renderRoot.querySelectorAll('.bar > div'), {
-      appendTo: this.renderRoot.firstElementChild || void 0
+      appendTo: this.renderRoot.firstElementChild || void 0,
+      touch: 'hold'
     });
   }
 
