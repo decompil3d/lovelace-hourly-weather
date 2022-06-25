@@ -9,6 +9,7 @@ import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
 import { switchDefinition } from '../elements/switch';
 import { textfieldDefinition } from '../elements/textfield';
+import { localize } from './localize/localize';
 
 @customElement('hourly-weather-editor')
 export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
@@ -64,7 +65,7 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
       <mwc-select
         naturalMenuWidth
         fixedMenuPosition
-        label="Entity (Required)"
+        label=${localize('editor.entity')}
         .configValue=${'entity'}
         .value=${this._entity}
         @selected=${this._valueChanged}
@@ -75,19 +76,19 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     })}
       </mwc-select>
       <mwc-textfield
-        label="Name (Optional)"
+      label=${localize('editor.name')}
         .value=${this._name}
         .configValue=${'name'}
         @input=${this._valueChanged}
       ></mwc-textfield>
       <mwc-textfield
-        label="Number of hours to show (Optional)"
+      label=${localize('editor.hours_to_show')}
         .value=${this._numHours}
         .configValue=${'num_hours'}
         @input=${this._valueChanged}
         .pattern=${"([1-9][0-9]*[02468])|([2468])"}
         .autoValidate=${true}
-        validationMessage="Must be an even integer greater than or equal to 2"
+        validationMessage=${localize('errors.must_be_int')}
       ></mwc-textfield>
     `;
   }

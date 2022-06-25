@@ -31,8 +31,8 @@ console.info(
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
   type: 'hourly-weather',
-  name: 'Hourly Weather Card',
-  description: 'A card to render hourly weather conditions as a bar.',
+  name: localize('common.title_card'),
+  description: localize('common.description'),
 });
 
 @customElement('hourly-weather')
@@ -67,7 +67,7 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     this.config = {
-      name: 'Hourly Weather',
+      name: localize('common.title'),
       ...config,
     };
   }
@@ -113,7 +113,7 @@ export class HourlyWeatherCard extends LitElement {
       >
         <div class="card-content">
           ${isForecastDaily ?
-        this._showWarning('The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.') : ''}
+        this._showWarning(localize('errors.daily_forecasts')) : ''}
           <weather-bar .conditions=${conditionList} .temperatures=${temperatures}></weather-bar>
         </div>
       </ha-card>

@@ -1,11 +1,21 @@
 {
   "common": {
     "version": "Versão",
+    "title": "Tempo de hora em hora",
+    "title_card": "Tempo de hora em hora",
+    "description": "Um cartão para mostrar as condições meteorológicas de hora em hora como uma barra.",
     "invalid_configuration": "Configuração Inválida"
+  },
+  "editor": {
+    "entity": "Entidade",
+    "name": "Nome (opcional)",
+    "hours_to_show": "Número de horas para mostrar"
   },
   "errors": {
     "missing_entity": "A entidade não existe na configuração",
-    "too_many_hours_requested": "Demasiadas horas solicitadas em num_hours. Deve ser menor que o número de horas disponíveis na entidade de meteo."
+    "too_many_hours_requested": "Demasiadas horas solicitadas em num_hours. Deve ser menor que o número de horas disponíveis na entidade de meteo.",
+    "daily_forecasts": "A entidade meteorológica selecionada parece fornecer previsões diárias. Considere mudar para uma entidade horária.",
+    "must_be_int": "Deve ser um número inteiro par maior ou igual a 2"
   },
   "conditions": {
     "clear": "Limpo",
@@ -13,7 +23,7 @@
     "fog": "Nevoeiro",
     "hail": "Granizo",
     "thunderstorm": "Trovoada",
-    "partlyCloudy": "Parcialmente nublado",
+    "partlyCloudy": "Pouco nublado",
     "heavyRain": "Chuva forte",
     "rain": "Chuva",
     "snow": "Neve",

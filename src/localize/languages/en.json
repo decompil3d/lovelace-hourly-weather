@@ -1,11 +1,21 @@
 {
   "common": {
     "version": "Version",
+    "title": "Hourly Weather",
+    "title_card": "Hourly Weather Card",
+    "description": "A card to render hourly weather conditions as a bar.",
     "invalid_configuration": "Invalid configuration"
+  },
+  "editor": {
+    "entity": "Entity (Required)",
+    "name": "Name (Optional)",
+    "hours_to_show": "Number of hours to show (Optional)"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",
-    "too_many_hours_requested": "Too many hours requested in num_hours. Must be <= number of hours in forecast entity."
+    "too_many_hours_requested": "Too many hours requested in num_hours. Must be <= number of hours in forecast entity.",
+    "daily_forecasts": "The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.",
+    "must_be_int": "Must be an even integer greater than or equal to 2"
   },
   "conditions": {
     "clear": "Clear",
