@@ -50,6 +50,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Array })
   temperatures: HourTemperature[] = [];
 
+  @property({ type: Boolean })
+  icons: boolean = false;
+
   private tips: Instance[] = [];
 
   render() {
@@ -63,8 +66,9 @@ export class WeatherBar extends LitElement {
       const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1]) };
       conditionBars.push(html`
         <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
-          <span class="condition-label">${label}</span>
-          <span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>
+          ${this.icons ?
+            html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>` :
+            html`<span class="condition-label">${label}</span>`}
         </div>
       `);
     }
