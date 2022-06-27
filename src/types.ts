@@ -13,6 +13,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   entity: string;
   num_hours?: number;
   name?: string;
+  icons?: boolean;
   test_gui?: boolean;
   tap_action?: ActionConfig;
   hold_action?: ActionConfig;

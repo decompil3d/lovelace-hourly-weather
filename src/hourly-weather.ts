@@ -114,7 +114,7 @@ export class HourlyWeatherCard extends LitElement {
         <div class="card-content">
           ${isForecastDaily ?
         this._showWarning(localize('errors.daily_forecasts')) : ''}
-          <weather-bar .conditions=${conditionList} .temperatures=${temperatures}></weather-bar>
+          <weather-bar .conditions=${conditionList} .temperatures=${temperatures} .icons=${!!this.config.icons}></weather-bar>
         </div>
       </ha-card>
     `;
