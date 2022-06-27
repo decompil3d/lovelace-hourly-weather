@@ -9,7 +9,8 @@
   "editor": {
     "entity": "Entidade",
     "name": "Nome (opcional)",
-    "hours_to_show": "Número de horas para mostrar"
+    "hours_to_show": "Número de horas para mostrar",
+    "icons": "Mostrar ícones em vez de rótulos de texto"
   },
   "errors": {
     "missing_entity": "A entidade não existe na configuração",

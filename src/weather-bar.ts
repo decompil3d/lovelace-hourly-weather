@@ -21,7 +21,25 @@ const LABELS = {
   'windy': localize('conditions.windy'),
   'windy-variant': localize('conditions.windy'),
   'exceptional': localize('conditions.clear')
-}
+};
+
+const ICONS = {
+  'clear-night': 'weather-night',
+  'cloudy': 'cloudy',
+  'fog': 'fog',
+  'hail': 'hail',
+  'lightning': 'lightning',
+  'lightning-rainy': 'lightning-rainy',
+  'partlycloudy': 'weather-partly-cloudy',
+  'pouring': 'pouring',
+  'rainy': 'rainy',
+  'snowy': 'snowy',
+  'snowy-rainy': 'snowy-rainy',
+  'sunny': 'sunny',
+  'windy': 'windy',
+  'windy-variant': 'windy-variant',
+  'exceptional': 'alert-outline'
+};
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -32,6 +50,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Array })
   temperatures: HourTemperature[] = [];
 
+  @property({ type: Boolean })
+  icons = false;
+
   private tips: Instance[] = [];
 
   render() {
@@ -39,10 +60,15 @@ export class WeatherBar extends LitElement {
     let gridStart = 1;
     for (const cond of this.conditions) {
       const label = LABELS[cond[0]];
+      let icon = ICONS[cond[0]];
+      if (icon === cond[0]) icon = 'mdi:weather-' + icon;
+      else icon = 'mdi:' + icon;
       const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1]) };
       conditionBars.push(html`
         <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
-          <span class="condition-label">${label}</span>
+          ${this.icons ?
+          html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>` :
+          html`<span class="condition-label">${label}</span>`}
         </div>
       `);
     }
@@ -70,7 +96,7 @@ export class WeatherBar extends LitElement {
     `;
   }
 
-  protected update(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+  protected update(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void {
     super.update(changedProperties);
 
     this.tips.forEach(t => t.destroy());
@@ -117,6 +143,14 @@ export class WeatherBar extends LitElement {
       text-shadow: 1px 1px 2px var(--primary-background-color);
       max-width: max(0px, calc((100% - 120px) * 999));
       overflow: hidden;
+    }
+    .condition-icon {
+      display: inline-block;
+      max-width: max(0px, calc((100% - 40px) * 999));
+      overflow: hidden;
+    }
+    .condition-icon > ha-icon {
+      filter: drop-shadow(1px 1px 3px var(--primary-background-color));
     }
     .bar > div:first-child {
       border-top-left-radius: 10px;
