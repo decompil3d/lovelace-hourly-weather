@@ -58,15 +58,16 @@ Otherwise, the integration may complain of a duplicate unique ID.
 
 ## Options
 
-| Name              | Type   | Requirement  | Description                                 | Default             |
-| ----------------- | ------ | ------------ | ------------------------------------------- | ------------------- |
-| type              | string | **Required** | `custom:hourly-weather`                     |                     |
-| entity            | string | **Required** | Home Assistant weather entity ID.           |                     |
-| name              | string | **Optional** | Card name                                   | `Hourly Weather`    |
-| num_hours         | number | **Optional** | Number of hours to show (even integer >= 2) | `12`                |
-| tap_action        | object | **Optional** | Action to take on tap                       | `action: more-info` |
-| hold_action       | object | **Optional** | Action to take on hold                      | `none`              |
-| double_tap_action | object | **Optional** | Action to take on double tap                | `none`              |
+| Name              | Type   | Requirement  | Description                                  | Default             |
+| ----------------- | ------ | ------------ | -------------------------------------------- | ------------------- |
+| type              | string | **Required** | `custom:hourly-weather`                      |                     |
+| entity            | string | **Required** | Home Assistant weather entity ID.            |                     |
+| name              | string | **Optional** | Card name                                    | `Hourly Weather`    |
+| icons             | bool   | **Optional** | Whether to show icons instead of text labels | false               |
+| num_hours         | number | **Optional** | Number of hours to show (even integer >= 2)  | `12`                |
+| tap_action        | object | **Optional** | Action to take on tap                        | `action: more-info` |
+| hold_action       | object | **Optional** | Action to take on hold                       | `none`              |
+| double_tap_action | object | **Optional** | Action to take on double tap                 | `none`              |
 
 ## Action Options
 
