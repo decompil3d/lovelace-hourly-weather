@@ -149,6 +149,9 @@ export class WeatherBar extends LitElement {
       max-width: max(0px, calc((100% - 40px) * 999));
       overflow: hidden;
     }
+    .condition-icon > ha-icon {
+      filter: drop-shadow(1px 1px 3px var(--primary-background-color));
+    }
     .bar > div:first-child {
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
