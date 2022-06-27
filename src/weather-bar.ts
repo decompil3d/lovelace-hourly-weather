@@ -144,6 +144,11 @@ export class WeatherBar extends LitElement {
       max-width: max(0px, calc((100% - 120px) * 999));
       overflow: hidden;
     }
+    .condition-icon {
+      display: inline-block;
+      max-width: max(0px, calc((100% - 40px) * 999));
+      overflow: hidden;
+    }
     .bar > div:first-child {
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
