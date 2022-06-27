@@ -9,7 +9,8 @@
   "editor": {
     "entity": "Encja",
     "name": "Nazwa (opcjonalnie)",
-    "hours_to_show": "Liczba godzin do wyświetlenia (opcjonalnie)"
+    "hours_to_show": "Liczba godzin do wyświetlenia (opcjonalnie)",
+    "icons": "Pokaż ikony zamiast etykiet tekstowych"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",

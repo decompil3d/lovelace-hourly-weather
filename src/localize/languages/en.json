@@ -9,7 +9,8 @@
   "editor": {
     "entity": "Entity (Required)",
     "name": "Name (Optional)",
-    "hours_to_show": "Number of hours to show (Optional)"
+    "hours_to_show": "Number of hours to show (Optional)",
+    "icons": "Show icons instead of text labels"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",

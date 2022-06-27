@@ -9,7 +9,8 @@
   "editor": {
     "entity": "Entität",
     "name": "Bezeichnung (optional)",
-    "hours_to_show": "Anzahl der anzuzeigenden Stunden (optional)"
+    "hours_to_show": "Anzahl der anzuzeigenden Stunden (optional)",
+    "icons": "Zeigen Sie Symbole anstelle von Textbeschriftungen an"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",

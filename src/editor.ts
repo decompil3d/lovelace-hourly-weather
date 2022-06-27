@@ -54,6 +54,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.num_hours ?? 12;
   }
 
+  get _icons(): boolean {
+    return this._config?.icons ?? false;
+  }
+
   protected render(): TemplateResult | void {
     if (!this.hass || !this._helpers) {
       return html``;
@@ -90,6 +94,13 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         .autoValidate=${true}
         validationMessage=${localize('errors.must_be_int')}
       ></mwc-textfield>
+      <mwc-formfield .label=${localize('editor.icons')}>
+        <mwc-switch
+          .checked=${this._icons === true}
+          .configValue=${'icons'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
     `;
   }
 

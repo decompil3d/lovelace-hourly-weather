@@ -3,6 +3,9 @@
     "version": "Versjon",
     "invalid_configuration": "Ikke gyldig konfiguration"
   },
+  "editor": {
+    "icons": "Vis ikoner i stedet for tekstetiketter"
+  },
   "errors": {
     "missing_entity": "entity mangler i konfigurasjonen",
     "too_many_hours_requested": "For mange timer forespurt i num_hours. Må være <= antall timer i prognoseenheten."
