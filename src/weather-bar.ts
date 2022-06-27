@@ -25,19 +25,19 @@ const LABELS = {
 
 const ICONS = {
   'clear-night': 'weather-night',
-  'cloudy',
-  'fog',
-  'hail',
-  'lightning',
-  'lightning-rainy',
+  'cloudy': 'cloudy',
+  'fog': 'fog',
+  'hail': 'hail',
+  'lightning': 'lightning',
+  'lightning-rainy': 'lightning-rainy',
   'partlycloudy': 'weather-partly-cloudy',
-  'pouring',
-  'rainy',
-  'snowy',
-  'snowy-rainy',
-  'sunny',
-  'windy',
-  'windy-variant',
+  'pouring': 'pouring',
+  'rainy': 'rainy',
+  'snowy': 'snowy',
+  'snowy-rainy': 'snowy-rainy',
+  'sunny': 'sunny',
+  'windy': 'windy',
+  'windy-variant': 'windy-variant',
   'exceptional': 'alert-outline'
 };
 
@@ -51,7 +51,7 @@ export class WeatherBar extends LitElement {
   temperatures: HourTemperature[] = [];
 
   @property({ type: Boolean })
-  icons: boolean = false;
+  icons = false;
 
   private tips: Instance[] = [];
 
@@ -67,8 +67,8 @@ export class WeatherBar extends LitElement {
       conditionBars.push(html`
         <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
           ${this.icons ?
-            html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>` :
-            html`<span class="condition-label">${label}</span>`}
+          html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>` :
+          html`<span class="condition-label">${label}</span>`}
         </div>
       `);
     }
@@ -96,7 +96,7 @@ export class WeatherBar extends LitElement {
     `;
   }
 
-  protected update(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+  protected update(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void {
     super.update(changedProperties);
 
     this.tips.forEach(t => t.destroy());
