@@ -65,6 +65,7 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | name              | string | **Optional** | Card name                                    | `Hourly Weather`    |
 | icons             | bool   | **Optional** | Whether to show icons instead of text labels | `false`             |
 | num_hours         | number | **Optional** | Number of hours to show (even integer >= 2)  | `12`                |
+| colors            | object | **Optional** | Set colors for all or some conditions        |                     |
 | tap_action        | object | **Optional** | Action to take on tap                        | `action: more-info` |
 | hold_action       | object | **Optional** | Action to take on hold                       | `none`              |
 | double_tap_action | object | **Optional** | Action to take on double tap                 | `none`              |
@@ -80,6 +81,28 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | service_data    | object | **Optional** | Service data to include (e.g. entity_id: media_player.bedroom) when action defined as call-service | `none`      |
 | haptic          | string | **Optional** | Haptic feedback _success, warning, failure, light, medium, heavy, selection_                       | `none`      |
 | repeat          | number | **Optional** | How often to repeat the `hold_action` in milliseconds.                                             | `none`      |
+
+## Color Options
+
+`colors` is specified as an object containing one or more of the keys listed below and values that are valid CSS colors. Invalid color values will cause an error.
+
+| key | default |
+| ----------------- | -------------- |
+| `clear-night` | `#000` |
+| `cloudy` | `#777` |
+| `fog` | same as `cloudy` |
+| `hail` | `#2b5174` |
+| `lightning` | same as `rainy` |
+| `lightning-rainy` | same as `rainy` |
+| `partlycloudy` | `#9e9e9e` |
+| `pouring` | same as `rainy` |
+| `rainy` | `#44739d` |
+| `snowy` | `#fff` |
+| `snowy-rainy` | same as `partlycloudy` |
+| `sunny` | `#90cbff` |
+| `windy` | same as `sunny` |
+| `windy-variant` | same as `sunny` |
+| `exceptional` | `#ff9d00` |
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/master
