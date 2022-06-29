@@ -86,6 +86,8 @@ Otherwise, the integration may complain of a duplicate unique ID.
 
 `colors` is specified as an object containing one or more of the keys listed below and values that are valid CSS colors. Invalid color values will cause an error.
 
+Some conditions will default to whatever the value is of some other condition. For example, `fog` will default to whatever `cloudy` is.
+
 | key | default |
 | ----------------- | -------------- |
 | `clear-night` | `#000` |
@@ -103,6 +105,15 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | `windy` | same as `sunny` |
 | `windy-variant` | same as `sunny` |
 | `exceptional` | `#ff9d00` |
+
+### Sample colors configuration
+
+```yaml
+colors:
+  sunny: '#bbccee' # note that hex colors must be quoted
+  snowy-rainy: rgba(255, 255, 255, 0.8) # rgba works (and hsla too)
+  exceptional: red # as do valid CSS color names
+```
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/master
