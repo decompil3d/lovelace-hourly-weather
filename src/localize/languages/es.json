@@ -1,0 +1,35 @@
+{
+  "common": {
+    "version": "Versión",
+    "title": "Tiempo por hora",
+    "title_card": "Tarjeta de Tiempo por hora",
+    "description": "Una tarjeta para mostrar las condiciones climáticas cada hora en una barra.",
+    "invalid_configuration": "Configuración inválida"
+  },
+  "editor": {
+    "entity": "Entidad (Requerida)",
+    "name": "Nombre (Opcional)",
+    "hours_to_show": "Número de horas a mostrar (Opcional)",
+    "icons": "Mostrar iconos en vez de texto"
+  },
+  "errors": {
+    "missing_entity": "falta la entidad en la configuración",
+    "too_many_hours_requested": "Demasiadas horas pedidas en num_hours. Debe ser <= que el número de horas en la entidad de pronóstico.",
+    "daily_forecasts": "La entidad seleccionada parece proveer pronósticos diarios. Considera cambiar a una entidad que provea pronósticos cada hora.",
+    "must_be_int": "Debe ser un entero mayor o igual a 2"
+  },
+  "conditions": {
+    "clear": "Despejado",
+    "cloudy": "Nublado",
+    "fog": "Niebla",
+    "hail": "Granizo",
+    "thunderstorm": "Tormenta electrica",
+    "partlyCloudy": "Parcialmente nublado",
+    "heavyRain": "Tormenta",
+    "rain": "Lluvia",
+    "snow": "Nieve",
+    "mixedPrecip": "Chaparrones dispersos",
+    "sunny": "Soleado",
+    "windy": "Ventoso"
+  }
+}
