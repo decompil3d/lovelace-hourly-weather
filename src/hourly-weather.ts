@@ -170,7 +170,7 @@ export class HourlyWeatherCard extends LitElement {
     const warnings: string[] = [];
     Object.entries(colorConfig).forEach(([k, v]) => {
       if (this.isValidColor(k, v))
-        validColors.set(k, v);
+        validColors.set(k as keyof ColorConfig, v);
       else
         warnings.push(`${k}: ${v}`);
     });
