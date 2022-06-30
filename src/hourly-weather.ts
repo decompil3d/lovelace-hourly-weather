@@ -19,6 +19,8 @@ import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
 import { WeatherBar } from './weather-bar';
+import { ColorConfig } from './types';
+import { ColorSettings } from './types';
 customElements.define('weather-bar', WeatherBar);
 
 /* eslint no-console: 0 */
@@ -101,6 +103,8 @@ export class HourlyWeatherCard extends LitElement {
     }));
     temperatures.length = numHours;
 
+    const colorSettings = this.getColorSettings(this.config.colors);
+
     return html`
       <ha-card
         .header=${this.config.name}
@@ -115,7 +119,13 @@ export class HourlyWeatherCard extends LitElement {
         <div class="card-content">
           ${isForecastDaily ?
         this._showWarning(localize('errors.daily_forecasts')) : ''}
-          <weather-bar .conditions=${conditionList} .temperatures=${temperatures} .icons=${!!this.config.icons}></weather-bar>
+          ${colorSettings.warnings.length ?
+            this._showWarning(localize('errors.invalid_colors') + colorSettings.warnings.join(', ')) : ''}
+          <weather-bar
+            .conditions=${conditionList}
+            .temperatures=${temperatures}
+            .icons=${!!this.config.icons}
+            .colors=${colorSettings.validColors}></weather-bar>
         </div>
       </ha-card>
     `;
@@ -151,6 +161,21 @@ export class HourlyWeatherCard extends LitElement {
       return formatted.replace(':00', '');
     }
     return formatted;
+  }
+
+  private getColorSettings(colorConfig: ColorConfig): ColorSettings {
+    const validColors: Map<keyof ColorConfig, string> = new Map();
+    const warnings: string[] = [];
+    Object.entries(colorConfig).forEach(([k, v]) => {
+      if (this.isValidColor(v))
+        validColors.set(k, v);
+      else
+        warnings.push(v);
+    });
+    return {
+      validColors,
+      warnings
+    };
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
