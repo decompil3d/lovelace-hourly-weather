@@ -117,7 +117,7 @@ export class HourlyWeatherCard extends LitElement {
           ${isForecastDaily ?
         this._showWarning(localize('errors.daily_forecasts')) : ''}
           ${colorSettings.warnings.length ?
-            this._showWarning(localize('errors.invalid_colors') + colorSettings.warnings.join(', ')) : ''}
+        this._showWarning(localize('errors.invalid_colors') + colorSettings.warnings.join(', ')) : ''}
           <weather-bar
             .conditions=${conditionList}
             .temperatures=${temperatures}
@@ -160,7 +160,12 @@ export class HourlyWeatherCard extends LitElement {
     return formatted;
   }
 
-  private getColorSettings(colorConfig: ColorConfig): ColorSettings {
+  private getColorSettings(colorConfig?: ColorConfig): ColorSettings {
+    if (!colorConfig) return {
+      validColors: void 0,
+      warnings: []
+    };
+
     const validColors: ColorMap = new Map();
     const warnings: string[] = [];
     Object.entries(colorConfig).forEach(([k, v]) => {
