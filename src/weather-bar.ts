@@ -4,6 +4,7 @@ import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { localize } from "./localize/localize";
 import type { ConditionSpan, HourTemperature } from "./types";
+import { ColorConfig } from "./types";
 
 const LABELS = {
   'clear-night': localize('conditions.clear'),
@@ -53,6 +54,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   icons = false;
 
+  @property({ type: Object })
+  colors: ColorConfig = null;
+
   private tips: Instance[] = [];
 
   render() {
@@ -88,8 +92,14 @@ export class WeatherBar extends LitElement {
       `);
     }
 
+    let colorStyles: string = null;
+    if (this.colors) {
+      colorStyles = this.getColorStyles(this.colors);
+    }
+
     return html`
       <div class="main">
+        ${colorStyles ?? null}
         <div class="bar">${conditionBars}</div>
         <div class="axes">${barBlocks}</div>
       </div>
