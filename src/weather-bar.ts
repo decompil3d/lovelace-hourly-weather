@@ -54,7 +54,7 @@ export class WeatherBar extends LitElement {
   icons = false;
 
   @property({ type: Object })
-  colors: ColorMap = null;
+  colors: ColorMap | null = null;
 
   private tips: Instance[] = [];
 
@@ -91,7 +91,7 @@ export class WeatherBar extends LitElement {
       `);
     }
 
-    let colorStyles: string = null;
+    let colorStyles: TemplateResult | null = null;
     if (this.colors) {
       colorStyles = this.getColorStyles(this.colors);
     }
@@ -116,7 +116,7 @@ export class WeatherBar extends LitElement {
     });
   }
 
-  private getColorStyles(colors: ColorMap): TemplateResult {
+  private getColorStyles(colors: ColorMap): TemplateResult | null {
     if (!colors || colors.size === 0) return null;
     const vars: string[] = [];
     for (const [key, color] of colors.entries()) {
@@ -124,7 +124,7 @@ export class WeatherBar extends LitElement {
     }
     return html`<style>
       .main {
-        ${vars.join(' ')}
+        ${unsafeCSS(vars.join(' '))}
       }
     </style>`;
   }

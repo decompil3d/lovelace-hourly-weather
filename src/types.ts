@@ -64,6 +64,6 @@ export interface HourTemperature {
 export type ColorMap = Map<keyof ColorConfig, string>
 
 export interface ColorSettings {
-  validColors: ColorMap,
+  validColors?: ColorMap,
   warnings: string[]
 }
