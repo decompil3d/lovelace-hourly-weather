@@ -3,8 +3,7 @@ import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { localize } from "./localize/localize";
-import type { ConditionSpan, HourTemperature } from "./types";
-import { ColorConfig } from "./types";
+import type { ColorMap, ConditionSpan, HourTemperature } from "./types";
 
 const LABELS = {
   'clear-night': localize('conditions.clear'),
@@ -55,7 +54,7 @@ export class WeatherBar extends LitElement {
   icons = false;
 
   @property({ type: Object })
-  colors: ColorConfig = null;
+  colors: ColorMap = null;
 
   private tips: Instance[] = [];
 
@@ -115,6 +114,19 @@ export class WeatherBar extends LitElement {
       appendTo: this.renderRoot.firstElementChild || void 0,
       touch: 'hold'
     });
+  }
+
+  private getColorStyles(colors: ColorMap): TemplateResult {
+    if (!colors || colors.size === 0) return null;
+    const vars: string[] = [];
+    for (const [key, color] of colors.entries()) {
+      vars.push(`--color-${key}: ${color};`);
+    }
+    return html`<style>
+      .main {
+        ${vars.join(' ')}
+      }
+    </style>`;
   }
 
   static styles = [unsafeCSS(tippyStyles), css`

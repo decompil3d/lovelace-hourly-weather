@@ -14,13 +14,11 @@ import {
   FrontendLocaleData,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 
-import type { ConditionSpan, ForecastHour, HourlyWeatherCardConfig, HourTemperature } from './types';
+import type { ColorConfig, ColorMap, ColorSettings, ConditionSpan, ForecastHour, HourlyWeatherCardConfig, HourTemperature } from './types';
 import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
 import { WeatherBar } from './weather-bar';
-import { ColorConfig } from './types';
-import { ColorSettings } from './types';
 customElements.define('weather-bar', WeatherBar);
 
 /* eslint no-console: 0 */
@@ -164,18 +162,23 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private getColorSettings(colorConfig: ColorConfig): ColorSettings {
-    const validColors: Map<keyof ColorConfig, string> = new Map();
+    const validColors: ColorMap = new Map();
     const warnings: string[] = [];
     Object.entries(colorConfig).forEach(([k, v]) => {
-      if (this.isValidColor(v))
+      if (this.isValidColor(k, v))
         validColors.set(k, v);
       else
-        warnings.push(v);
+        warnings.push(`${k}: ${v}`);
     });
     return {
       validColors,
       warnings
     };
+  }
+
+  private isValidColor(key: string, color: string): bool {
+    // TODO: key is valid
+    // TODO: color is valid
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
