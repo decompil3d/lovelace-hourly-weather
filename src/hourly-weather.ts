@@ -13,12 +13,14 @@ import {
   formatTime,
   FrontendLocaleData,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
+import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
 
 import type { ColorConfig, ColorMap, ColorSettings, ConditionSpan, ForecastHour, HourlyWeatherCardConfig, HourTemperature } from './types';
 import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
 import { WeatherBar } from './weather-bar';
+import { ICONS } from './conditions';
 customElements.define('weather-bar', WeatherBar);
 
 /* eslint no-console: 0 */
@@ -181,9 +183,17 @@ export class HourlyWeatherCard extends LitElement {
     };
   }
 
-  private isValidColor(key: string, color: string): bool {
-    // TODO: key is valid
-    // TODO: color is valid
+  private isValidColor(key: string, color: string): boolean {
+    if (!(key in ICONS)) {
+      return false;
+    }
+    if (!isValidColorName(color) ||
+      !isValidHSL(color) ||
+      !isValidRGB(color)) {
+      return false;
+    }
+
+    return true;
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
