@@ -9,6 +9,7 @@ import {
   handleAction,
   LovelaceCardEditor,
   getLovelace,
+  formatNumber,
   formatTime,
   FrontendLocaleData,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
@@ -96,7 +97,7 @@ export class HourlyWeatherCard extends LitElement {
     const conditionList = this.getConditionListFromForecast(forecast, numHours);
     const temperatures: HourTemperature[] = forecast.map(fh => ({
       hour: this.formatHour(new Date(fh.datetime), this.hass.locale),
-      temperature: fh.temperature
+      temperature: formatNumber(fh.temperature, this.hass.locale)
     }));
     temperatures.length = numHours;
 
