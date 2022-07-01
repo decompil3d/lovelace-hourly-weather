@@ -1,0 +1,35 @@
+{
+  "common": {
+    "version": "Version",
+    "title": "Prévisions météo par heure",
+    "title_card": "Prévisions météo par heure",
+    "description": "Une carte pour afficher les prévisions météo par heure sur une ligne.",
+    "invalid_configuration": "Configuration invalide"
+  },
+  "editor": {
+    "entity": "Entité (requis)",
+    "name": "Nom (facultatif)",
+    "hours_to_show": "Nombre d'heures à afficher (facultatif)",
+    "icons": "Afficher des icônes à la place du texte"
+  },
+  "errors": {
+    "missing_entity": "Entité manquante dans la configuration",
+    "too_many_hours_requested": "Le nombre d'heure à afficher ne peut pas être supérieur à ce que fournit l'entité.",
+    "daily_forecasts": "L'entité sélectionnée semble fournir des prévisions quotidiennes. Envisagez de passer à une entité fournissant des prévisions par heure.",
+    "must_be_int": "Doit être un nombre entier pair supérieur ou égal à 2"
+  },
+  "conditions": {
+    "clear": "Dégagé",
+    "cloudy": "Nuageux",
+    "fog": "Brouillard",
+    "hail": "Grêle",
+    "thunderstorm": "Orage",
+    "partlyCloudy": "Éclaircies",
+    "heavyRain": "Averses",
+    "rain": "Pluie",
+    "snow": "Neige",
+    "mixedPrecip": "Neigeux, pluvieux",
+    "sunny": "Ensoleillé",
+    "windy": "Venteux"
+  }
+}
