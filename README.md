@@ -96,7 +96,7 @@ Some conditions will default to whatever the value is of some other condition. F
 | `hail` | `#2b5174` |
 | `lightning` | same as `rainy` |
 | `lightning-rainy` | same as `rainy` |
-| `partlycloudy` | `#9e9e9e` |
+| `partlycloudy` | `#e6f3ff` |
 | `pouring` | same as `rainy` |
 | `rainy` | `#44739d` |
 | `snowy` | `#fff` |

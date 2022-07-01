@@ -137,7 +137,7 @@ export class WeatherBar extends LitElement {
       --color-hail: #2b5174;
       --color-lightning: var(--color-rainy);
       --color-lightning-rainy: var(--color-rainy);
-      --color-partlycloudy: #9e9e9e;
+      --color-partlycloudy: #e6f3ff;
       --color-pouring: var(--color-rainy);
       --color-rainy: #44739d;
       --color-snowy: white;
