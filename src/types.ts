@@ -39,5 +39,5 @@ export type ConditionSpan = [
 
 export interface HourTemperature {
   hour: string,
-  temperature: number
+  temperature: string
 }
