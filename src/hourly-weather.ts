@@ -187,9 +187,9 @@ export class HourlyWeatherCard extends LitElement {
     if (!(key in ICONS)) {
       return false;
     }
-    if (!isValidColorName(color) ||
-      !isValidHSL(color) ||
-      !isValidRGB(color)) {
+    if (!(isValidRGB(color) ||
+      isValidColorName(color) ||
+      isValidHSL(color))) {
       return false;
     }
 
