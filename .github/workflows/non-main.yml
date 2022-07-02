@@ -1,8 +1,8 @@
-name: 'Build'
+name: 'Build non-main'
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
   pull_request:
     branches:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Test build
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,7 +19,9 @@ jobs:
           cd /home/runner/work/lovelace-hourly-weather/lovelace-hourly-weather
           npm ci
           npm run build
-      - name: HACS Action
-        uses: "hacs/action@main"
+      - name: Save artifact
+        uses: actions/upload-artifact@v3
         with:
-          category: "plugin"
+          name: hourly-weather.js
+          retention-days: 5
+          path: /home/runner/work/lovelace-hourly-weather/lovelace-hourly-weather/dist/hourly-weather.js
