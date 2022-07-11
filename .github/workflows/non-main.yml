@@ -49,7 +49,7 @@ jobs:
         run: echo ::set-output name=current_branch::${GITHUB_REF#refs/*/}
 
       - name: Commit changes
-        uses: devops-infra/action-commit-push@0.9.0
+        uses: devops-infra/action-commit-push@v0.9.0
         with:
             github_token: '${{ secrets.GITHUB_TOKEN }}'
             commit_prefix: '[Auto] '
