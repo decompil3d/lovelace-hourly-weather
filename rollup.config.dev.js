@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
+import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
@@ -29,6 +30,11 @@ export default defineConfig({
         fs.readFileSync(path.join(__dirname, 'node_modules/tippy.js/dist/tippy.css'), 'utf8'))
     }),
     resolve(),
+    commonjs({
+      include: [
+        'node_modules/is-valid-css-color/**'
+      ]
+    }),
     typescript({
       tsconfigOverride: {
         compilerOptions: {

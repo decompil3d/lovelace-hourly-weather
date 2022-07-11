@@ -87,7 +87,7 @@ export class WeatherBar extends LitElement {
       vars.push(`--color-${key}: ${color};`);
     }
     return html`<style>
-      .main {
+      .main > .bar {
         ${unsafeCSS(vars.join(' '))}
       }
     </style>`;
