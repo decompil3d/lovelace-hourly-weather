@@ -25,3 +25,34 @@ jobs:
           name: hourly-weather.js
           retention-days: 5
           path: /home/runner/work/lovelace-hourly-weather/lovelace-hourly-weather/dist/hourly-weather.js
+  translate:
+    name: translate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install localization package
+        run: npm install -g i18n-auto-translation #-msnyder
+
+      - name: Translate files
+        id: translate
+        uses: msnyder-msft/i18n-auto-translation-action@v1.0.0
+        with:
+            provider: 'google-official'
+            subscriptionKey: '${{ secrets.TRANSLATOR_SUBSCRIPTION_KEY }}'
+            filePath: './src/localize/languages/en.json'
+            from: 'en'
+            to: 'de,es,fr,nb,pl,pt'
+            debug: false
+
+      - name: Get current branch name
+        id: branch_name
+        run: echo ::set-output name=current_branch::${GITHUB_REF#refs/*/}
+
+      - name: Commit changes
+        uses: devops-infra/action-commit-push@0.9.0
+        with:
+            github_token: '${{ secrets.GITHUB_TOKEN }}'
+            commit_prefix: '[Auto] '
+            commit_message: 'Adding updated localization files'
+            force: false
+            target_branch: ${{steps.vars.branch_name.current_branch}}
