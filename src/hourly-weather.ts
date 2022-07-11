@@ -17,7 +17,7 @@ import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
 
 import type { ColorConfig, ColorMap, ColorSettings, ConditionSpan, ForecastHour, HourlyWeatherCardConfig, HourTemperature } from './types';
 import { actionHandler } from './action-handler-directive';
-import { CARD_VERSION } from './const';
+import { version } from '../package.json';
 import { localize } from './localize/localize';
 import { WeatherBar } from './weather-bar';
 import { ICONS } from './conditions';
@@ -25,7 +25,7 @@ customElements.define('weather-bar', WeatherBar);
 
 /* eslint no-console: 0 */
 console.info(
-  `%c  HOURLY-WEATHER-CARD \n%c  ${localize('common.version')} ${CARD_VERSION}    `,
+  `%c  HOURLY-WEATHER-CARD \n%c  ${localize('common.version')} ${version}    `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
