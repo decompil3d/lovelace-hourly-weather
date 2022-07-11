@@ -16,7 +16,8 @@
     "missing_entity": "entity is missing in configuration",
     "too_many_hours_requested": "Too many hours requested in num_hours. Must be <= number of hours in forecast entity.",
     "daily_forecasts": "The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.",
-    "must_be_int": "Must be an even integer greater than or equal to 2"
+    "must_be_int": "Must be an even integer greater than or equal to 2",
+    "invalid_colors": "The following colors in your configuration are invalid:"
   },
   "conditions": {
     "clear": "Clear",

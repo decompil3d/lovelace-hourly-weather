@@ -15,7 +15,9 @@
   "errors": {
     "missing_entity": "encja nie istnieje",
     "too_many_hours_requested": "Liczba godzin nie może być większa od ilości godzin dostępnych w encji pogodowej.",
-    "daily_forecasts": "Wybrana encja dostarcza pogodę dniową, wybierz encję z pogodą godzinową."
+    "daily_forecasts": "Wybrana encja dostarcza pogodę dniową, wybierz encję z pogodą godzinową.",
+    "must_be_int": "Musi być parzystą liczbą całkowitą większą lub równą 2",
+    "invalid_colors": "Następujące kolory w Twojej konfiguracji są nieprawidłowe:"
   },
   "conditions": {
     "clear": "Bezchmurnie",

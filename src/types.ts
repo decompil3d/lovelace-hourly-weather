@@ -14,10 +14,29 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   num_hours?: number;
   name?: string;
   icons?: boolean;
+  colors?: ColorConfig;
   test_gui?: boolean;
   tap_action?: ActionConfig;
   hold_action?: ActionConfig;
   double_tap_action?: ActionConfig;
+}
+
+export interface ColorConfig {
+  'clear-night'?: string;
+  'cloudy'?: string;
+  'fog'?: string;
+  'hail'?: string;
+  'lightning'?: string;
+  'lightning-rainy'?: string;
+  'partlycloudy'?: string;
+  'pouring'?: string;
+  'rainy'?: string;
+  'snowy'?: string;
+  'snowy-rainy'?: string;
+  'sunny'?: string;
+  'windy'?: string;
+  'windy-variant'?: string;
+  'exceptional'?: string;
 }
 
 export interface ForecastHour {
@@ -40,4 +59,11 @@ export type ConditionSpan = [
 export interface HourTemperature {
   hour: string,
   temperature: string
+}
+
+export type ColorMap = Map<keyof ColorConfig, string>
+
+export interface ColorSettings {
+  validColors?: ColorMap,
+  warnings: string[]
 }

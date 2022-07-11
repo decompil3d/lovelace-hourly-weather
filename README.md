@@ -49,8 +49,8 @@ This card is focused on displaying hourly weather data. If you try selecting a w
 forecasts, it will show a warning. I've tested with the OpenWeatherMap integration using the `onecall_hourly` mode and
 that works very well.
 
-> ℹ️ NOTE: If your selected weather entity provides forecasts in increments of greater than one hour at a time, each segment
-> of the bar will be for one segment, not one hour.
+> ℹ️ NOTE: If your selected weather entity provides forecasts in increments of greater than one hour at a time, each
+> segment of the bar will be for one segment, not one hour.
 
 If you already use OpenWeatherMap for daily data, you can add a second integration of the same
 component for hourly -- just adjust the latitude or longitude a tiny bit (i.e. change the last decimal by 1).
@@ -65,6 +65,7 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | name              | string | **Optional** | Card name                                    | `Hourly Weather`    |
 | icons             | bool   | **Optional** | Whether to show icons instead of text labels | `false`             |
 | num_hours         | number | **Optional** | Number of hours to show (even integer >= 2)  | `12`                |
+| colors            | object | **Optional** | Set colors for all or some conditions        |                     |
 | tap_action        | object | **Optional** | Action to take on tap                        | `action: more-info` |
 | hold_action       | object | **Optional** | Action to take on hold                       | `none`              |
 | double_tap_action | object | **Optional** | Action to take on double tap                 | `none`              |
@@ -80,6 +81,41 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | service_data    | object | **Optional** | Service data to include (e.g. entity_id: media_player.bedroom) when action defined as call-service | `none`      |
 | haptic          | string | **Optional** | Haptic feedback _success, warning, failure, light, medium, heavy, selection_                       | `none`      |
 | repeat          | number | **Optional** | How often to repeat the `hold_action` in milliseconds.                                             | `none`      |
+
+## Color Options
+
+`colors` is specified as an object containing one or more of the keys listed below and values that are valid CSS
+colors. Invalid color values will be discarded and will trigger a warning.
+
+Some conditions will default to whatever the value is of some other condition. For example, `fog` will default to
+whatever `cloudy` is.
+
+| Key               | Default                |
+| ----------------- | ---------------------- |
+| `clear-night`     | `#000`                 |
+| `cloudy`          | `#777`                 |
+| `fog`             | same as `cloudy`       |
+| `hail`            | `#2b5174`              |
+| `lightning`       | same as `rainy`        |
+| `lightning-rainy` | same as `rainy`        |
+| `partlycloudy`    | `#b3dbff`              |
+| `pouring`         | same as `rainy`        |
+| `rainy`           | `#44739d`              |
+| `snowy`           | `#fff`                 |
+| `snowy-rainy`     | same as `partlycloudy` |
+| `sunny`           | `#90cbff`              |
+| `windy`           | same as `sunny`        |
+| `windy-variant`   | same as `sunny`        |
+| `exceptional`     | `#ff9d00`              |
+
+### Sample colors configuration
+
+```yaml
+colors:
+  sunny: '#bbccee' # note that hex colors must be quoted
+  snowy-rainy: rgba(255, 255, 255, 0.8) # rgba works (and hsla too)
+  exceptional: red # as do valid CSS color names
+```
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/master

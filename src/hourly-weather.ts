@@ -13,17 +13,19 @@ import {
   formatTime,
   FrontendLocaleData,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
+import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
 
-import type { ConditionSpan, ForecastHour, HourlyWeatherCardConfig, HourTemperature } from './types';
+import type { ColorConfig, ColorMap, ColorSettings, ConditionSpan, ForecastHour, HourlyWeatherCardConfig, HourTemperature } from './types';
 import { actionHandler } from './action-handler-directive';
-import { CARD_VERSION } from './const';
+import { version } from '../package.json';
 import { localize } from './localize/localize';
 import { WeatherBar } from './weather-bar';
+import { ICONS } from './conditions';
 customElements.define('weather-bar', WeatherBar);
 
 /* eslint no-console: 0 */
 console.info(
-  `%c  HOURLY-WEATHER-CARD \n%c  ${localize('common.version')} ${CARD_VERSION}    `,
+  `%c  HOURLY-WEATHER-CARD \n%c  ${localize('common.version')} ${version}    `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
@@ -101,6 +103,8 @@ export class HourlyWeatherCard extends LitElement {
     }));
     temperatures.length = numHours;
 
+    const colorSettings = this.getColorSettings(this.config.colors);
+
     return html`
       <ha-card
         .header=${this.config.name}
@@ -115,7 +119,13 @@ export class HourlyWeatherCard extends LitElement {
         <div class="card-content">
           ${isForecastDaily ?
         this._showWarning(localize('errors.daily_forecasts')) : ''}
-          <weather-bar .conditions=${conditionList} .temperatures=${temperatures} .icons=${!!this.config.icons}></weather-bar>
+          ${colorSettings.warnings.length ?
+        this._showWarning(localize('errors.invalid_colors') + colorSettings.warnings.join(', ')) : ''}
+          <weather-bar
+            .conditions=${conditionList}
+            .temperatures=${temperatures}
+            .icons=${!!this.config.icons}
+            .colors=${colorSettings.validColors}></weather-bar>
         </div>
       </ha-card>
     `;
@@ -151,6 +161,39 @@ export class HourlyWeatherCard extends LitElement {
       return formatted.replace(':00', '');
     }
     return formatted;
+  }
+
+  private getColorSettings(colorConfig?: ColorConfig): ColorSettings {
+    if (!colorConfig) return {
+      validColors: void 0,
+      warnings: []
+    };
+
+    const validColors: ColorMap = new Map();
+    const warnings: string[] = [];
+    Object.entries(colorConfig).forEach(([k, v]) => {
+      if (this.isValidColor(k, v))
+        validColors.set(k as keyof ColorConfig, v);
+      else
+        warnings.push(`${k}: ${v}`);
+    });
+    return {
+      validColors,
+      warnings
+    };
+  }
+
+  private isValidColor(key: string, color: string): boolean {
+    if (!(key in ICONS)) {
+      return false;
+    }
+    if (!(isValidRGB(color) ||
+      isValidColorName(color) ||
+      isValidHSL(color))) {
+      return false;
+    }
+
+    return true;
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {

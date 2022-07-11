@@ -1,6 +1,6 @@
 {
   "name": "lovelace-hourly-weather",
-  "version": "2.3.3",
+  "version": "3.0.0-beta.0",
   "description": "Hourly weather card for Home Assistant. Visualize upcoming weather conditions as a colored horizontal bar.",
   "keywords": [
     "home-assistant",
@@ -28,6 +28,7 @@
     "@material/mwc-textfield": "^0.26.1",
     "custom-card-helpers": "^1.7.2",
     "home-assistant-js-websocket": "^7.1.0",
+    "is-valid-css-color": "^2.0.3",
     "lit": "^2.2.7",
     "tippy.js": "^6.3.7"
   },

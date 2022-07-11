@@ -2,44 +2,8 @@ import { LitElement, html, css, TemplateResult, unsafeCSS, PropertyValueMap } fr
 import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
-import { localize } from "./localize/localize";
-import type { ConditionSpan, HourTemperature } from "./types";
-
-const LABELS = {
-  'clear-night': localize('conditions.clear'),
-  'cloudy': localize('conditions.cloudy'),
-  'fog': localize('conditions.fog'),
-  'hail': localize('conditions.hail'),
-  'lightning': localize('conditions.thunderstorm'),
-  'lightning-rainy': localize('conditions.thunderstorm'),
-  'partlycloudy': localize('conditions.partlyCloudy'),
-  'pouring': localize('conditions.heavyRain'),
-  'rainy': localize('conditions.rain'),
-  'snowy': localize('conditions.snow'),
-  'snowy-rainy': localize('conditions.mixedPrecip'),
-  'sunny': localize('conditions.sunny'),
-  'windy': localize('conditions.windy'),
-  'windy-variant': localize('conditions.windy'),
-  'exceptional': localize('conditions.clear')
-};
-
-const ICONS = {
-  'clear-night': 'weather-night',
-  'cloudy': 'cloudy',
-  'fog': 'fog',
-  'hail': 'hail',
-  'lightning': 'lightning',
-  'lightning-rainy': 'lightning-rainy',
-  'partlycloudy': 'weather-partly-cloudy',
-  'pouring': 'pouring',
-  'rainy': 'rainy',
-  'snowy': 'snowy',
-  'snowy-rainy': 'snowy-rainy',
-  'sunny': 'sunny',
-  'windy': 'windy',
-  'windy-variant': 'windy-variant',
-  'exceptional': 'alert-outline'
-};
+import { LABELS, ICONS } from "./conditions";
+import type { ColorMap, ConditionSpan, HourTemperature } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -52,6 +16,9 @@ export class WeatherBar extends LitElement {
 
   @property({ type: Boolean })
   icons = false;
+
+  @property({ type: Object })
+  colors: ColorMap | undefined = void 0;
 
   private tips: Instance[] = [];
 
@@ -88,8 +55,14 @@ export class WeatherBar extends LitElement {
       `);
     }
 
+    let colorStyles: TemplateResult | null = null;
+    if (this.colors) {
+      colorStyles = this.getColorStyles(this.colors);
+    }
+
     return html`
       <div class="main">
+        ${colorStyles ?? null}
         <div class="bar">${conditionBars}</div>
         <div class="axes">${barBlocks}</div>
       </div>
@@ -107,6 +80,19 @@ export class WeatherBar extends LitElement {
     });
   }
 
+  private getColorStyles(colors: ColorMap): TemplateResult | null {
+    if (!colors || colors.size === 0) return null;
+    const vars: string[] = [];
+    for (const [key, color] of colors.entries()) {
+      vars.push(`--color-${key}: ${color};`);
+    }
+    return html`<style>
+      .main > .bar {
+        ${unsafeCSS(vars.join(' '))}
+      }
+    </style>`;
+  }
+
   static styles = [unsafeCSS(tippyStyles), css`
     .main {
       --color-clear-night: #111;
@@ -115,7 +101,7 @@ export class WeatherBar extends LitElement {
       --color-hail: #2b5174;
       --color-lightning: var(--color-rainy);
       --color-lightning-rainy: var(--color-rainy);
-      --color-partlycloudy: #9e9e9e;
+      --color-partlycloudy: #b3dbff;
       --color-pouring: var(--color-rainy);
       --color-rainy: #44739d;
       --color-snowy: white;

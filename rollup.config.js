@@ -33,7 +33,11 @@ const plugins = [
       fs.readFileSync(path.join(__dirname, 'node_modules/tippy.js/dist/tippy.css'), 'utf8'))
   }),
   nodeResolve({}),
-  commonjs(),
+  commonjs({
+    include: [
+      'node_modules/is-valid-css-color/**'
+    ]
+  }),
   typescript(),
   json(),
   babel({
