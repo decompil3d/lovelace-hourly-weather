@@ -49,8 +49,8 @@ This card is focused on displaying hourly weather data. If you try selecting a w
 forecasts, it will show a warning. I've tested with the OpenWeatherMap integration using the `onecall_hourly` mode and
 that works very well.
 
-> ℹ️ NOTE: If your selected weather entity provides forecasts in increments of greater than one hour at a time, each segment
-> of the bar will be for one segment, not one hour.
+> ℹ️ NOTE: If your selected weather entity provides forecasts in increments of greater than one hour at a time, each
+> segment of the bar will be for one segment, not one hour.
 
 If you already use OpenWeatherMap for daily data, you can add a second integration of the same
 component for hourly -- just adjust the latitude or longitude a tiny bit (i.e. change the last decimal by 1).
@@ -84,27 +84,29 @@ Otherwise, the integration may complain of a duplicate unique ID.
 
 ## Color Options
 
-`colors` is specified as an object containing one or more of the keys listed below and values that are valid CSS colors. Invalid color values will cause an error.
+`colors` is specified as an object containing one or more of the keys listed below and values that are valid CSS
+colors. Invalid color values will be discarded and will trigger a warning.
 
-Some conditions will default to whatever the value is of some other condition. For example, `fog` will default to whatever `cloudy` is.
+Some conditions will default to whatever the value is of some other condition. For example, `fog` will default to
+whatever `cloudy` is.
 
-| key | default |
-| ----------------- | -------------- |
-| `clear-night` | `#000` |
-| `cloudy` | `#777` |
-| `fog` | same as `cloudy` |
-| `hail` | `#2b5174` |
-| `lightning` | same as `rainy` |
-| `lightning-rainy` | same as `rainy` |
-| `partlycloudy` | `#e6f3ff` |
-| `pouring` | same as `rainy` |
-| `rainy` | `#44739d` |
-| `snowy` | `#fff` |
-| `snowy-rainy` | same as `partlycloudy` |
-| `sunny` | `#90cbff` |
-| `windy` | same as `sunny` |
-| `windy-variant` | same as `sunny` |
-| `exceptional` | `#ff9d00` |
+| Key               | Default                |
+| ----------------- | ---------------------- |
+| `clear-night`     | `#000`                 |
+| `cloudy`          | `#777`                 |
+| `fog`             | same as `cloudy`       |
+| `hail`            | `#2b5174`              |
+| `lightning`       | same as `rainy`        |
+| `lightning-rainy` | same as `rainy`        |
+| `partlycloudy`    | `#b3dbff`              |
+| `pouring`         | same as `rainy`        |
+| `rainy`           | `#44739d`              |
+| `snowy`           | `#fff`                 |
+| `snowy-rainy`     | same as `partlycloudy` |
+| `sunny`           | `#90cbff`              |
+| `windy`           | same as `sunny`        |
+| `windy-variant`   | same as `sunny`        |
+| `exceptional`     | `#ff9d00`              |
 
 ### Sample colors configuration
 

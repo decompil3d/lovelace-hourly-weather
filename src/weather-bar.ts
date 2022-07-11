@@ -18,7 +18,7 @@ export class WeatherBar extends LitElement {
   icons = false;
 
   @property({ type: Object })
-  colors: ColorMap | null = null;
+  colors: ColorMap | undefined = void 0;
 
   private tips: Instance[] = [];
 
@@ -101,7 +101,7 @@ export class WeatherBar extends LitElement {
       --color-hail: #2b5174;
       --color-lightning: var(--color-rainy);
       --color-lightning-rainy: var(--color-rainy);
-      --color-partlycloudy: #e6f3ff;
+      --color-partlycloudy: #b3dbff;
       --color-pouring: var(--color-rainy);
       --color-rainy: #44739d;
       --color-snowy: white;
