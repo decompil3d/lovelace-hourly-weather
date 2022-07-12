@@ -33,4 +33,4 @@ jobs:
             commit_prefix: '[Auto] '
             commit_message: 'Adding updated localization files'
             force: false
-            target_branch: ${{GITHUB_HEAD_REF}}
+            target_branch: ${{ github.head_ref }}
