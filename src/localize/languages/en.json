@@ -17,7 +17,8 @@
     "too_many_hours_requested": "Too many hours requested in num_hours. Must be <= number of hours in forecast entity.",
     "daily_forecasts": "The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.",
     "must_be_int": "Must be an even integer greater than or equal to 2",
-    "invalid_colors": "The following colors in your configuration are invalid:"
+    "invalid_colors": "The following colors in your configuration are invalid:",
+    "num_hours_not_multiple": "The selected weather entity provides forecasts in {hoursPerSegment} hour intervals. Consider making num_hours a multiple of {hoursPerSegment}."
   },
   "conditions": {
     "clear": "Clear",
