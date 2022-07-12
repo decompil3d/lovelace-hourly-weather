@@ -16,7 +16,7 @@ jobs:
 
       - name: Translate files
         id: translate
-        uses: msnyder-msft/i18n-auto-translation-action@v1.0.0
+        uses: msnyder-msft/i18n-auto-translation-action@v1.0.1
         with:
             provider: 'google-official'
             subscriptionKey: '${{ secrets.TRANSLATOR_SUBSCRIPTION_KEY }}'
