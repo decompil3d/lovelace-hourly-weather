@@ -17,7 +17,8 @@
     "too_many_hours_requested": "Anzuzeigender Zeitraum kann nicht größer sein, als in der Wetter-Entität festgelegt.",
     "daily_forecasts": "Die gewählte Wetter-Entität scheint tägliche Vorhersagen zu liefern. Bitte eine Wetter-Entität mit stündlicher Vorhersage wählen.",
     "must_be_int": "Muss eine gerade ganze Zahl größer oder gleich 2 sein.",
-    "invalid_colors": "Die folgenden Farben in Ihrer Konfiguration sind ungültig:"
+    "invalid_colors": "Die folgenden Farben in Ihrer Konfiguration sind ungültig:",
+    "num_hours_not_multiple": "Die ausgewählte Wetterentität stellt Vorhersagen in {hoursPerSegment} Stundenintervallen bereit. Erwägen Sie, num_hours zu einem Vielfachen von {hoursPerSegment} zu machen."
   },
   "conditions": {
     "clear": "Klar",

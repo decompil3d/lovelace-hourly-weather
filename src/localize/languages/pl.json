@@ -17,7 +17,8 @@
     "too_many_hours_requested": "Liczba godzin nie może być większa od ilości godzin dostępnych w encji pogodowej.",
     "daily_forecasts": "Wybrana encja dostarcza pogodę dniową, wybierz encję z pogodą godzinową.",
     "must_be_int": "Musi być parzystą liczbą całkowitą większą lub równą 2",
-    "invalid_colors": "Następujące kolory w Twojej konfiguracji są nieprawidłowe:"
+    "invalid_colors": "Następujące kolory w Twojej konfiguracji są nieprawidłowe:",
+    "num_hours_not_multiple": "Wybrana jednostka pogody zapewnia prognozy w {hoursPerSegment} interwałach godzinowych. Zastanów się, czy liczba_godzin jest wielokrotnością {hoursPerSegment}."
   },
   "conditions": {
     "clear": "Bezchmurnie",

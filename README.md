@@ -50,7 +50,9 @@ forecasts, it will show a warning. I've tested with the OpenWeatherMap integrati
 that works very well.
 
 > ℹ️ NOTE: If your selected weather entity provides forecasts in increments of greater than one hour at a time, each
-> segment of the bar will be for one segment, not one hour.
+> segment of the bar will be for one segment, not one hour. The `num_hours` option will still refer to how many hours
+> to show, not how many segments. If you configure `num_hours` to not be a multiple of the hours per segment, the card
+> will show a warning.
 
 If you already use OpenWeatherMap for daily data, you can add a second integration of the same
 component for hourly -- just adjust the latitude or longitude a tiny bit (i.e. change the last decimal by 1).

@@ -17,7 +17,8 @@
     "too_many_hours_requested": "For mange timer forespurt i num_hours. Må være <= antall timer i prognoseenheten.",
     "daily_forecasts": "Den valgte værenheten ser ut til å gi daglige prognoser. Vurder å bytte til en timebasert enhet.",
     "must_be_int": "Må være et jevnt heltall større enn eller lik 2",
-    "invalid_colors": "Følgende farger i konfigurasjonen din er ugyldige:"
+    "invalid_colors": "Følgende farger i konfigurasjonen din er ugyldige:",
+    "num_hours_not_multiple": "Den valgte værenheten gir prognoser i {hoursPerSegment} timers intervaller. Vurder å gjøre num_hours til et multiplum av {hoursPerSegment}."
   },
   "conditions": {
     "clear": "Klar",

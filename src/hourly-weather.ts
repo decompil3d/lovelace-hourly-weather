@@ -15,7 +15,7 @@ import {
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
 
-import type { ColorConfig, ColorMap, ColorSettings, ConditionSpan, ForecastHour, HourlyWeatherCardConfig, HourTemperature } from './types';
+import type { ColorConfig, ColorMap, ColorSettings, ConditionSpan, ForecastSegment, HourlyWeatherCardConfig, HourTemperature } from './types';
 import { actionHandler } from './action-handler-directive';
 import { version } from '../package.json';
 import { localize } from './localize/localize';
@@ -88,20 +88,23 @@ export class HourlyWeatherCard extends LitElement {
   protected render(): TemplateResult | void {
     const entityId: string = this.config.entity;
     const state = this.hass.states[entityId];
-    const { forecast } = state.attributes as { forecast: ForecastHour[] };
+    const { forecast } = state.attributes as { forecast: ForecastSegment[] };
     const numHours = this.config.num_hours ?? 12;
 
-    if (numHours > forecast.length) {
+    const hoursPerSegment = this.determineHoursPerSegment(forecast);
+
+    if (numHours > forecast.length * hoursPerSegment) {
       return this._showError(localize('errors.too_many_hours_requested'));
     }
 
     const isForecastDaily = this.isForecastDaily(forecast);
-    const conditionList = this.getConditionListFromForecast(forecast, numHours);
-    const temperatures: HourTemperature[] = forecast.map(fh => ({
-      hour: this.formatHour(new Date(fh.datetime), this.hass.locale),
-      temperature: formatNumber(fh.temperature, this.hass.locale)
+    const conditionList = this.getConditionListFromForecast(forecast, numHours, hoursPerSegment);
+    const temperatures: HourTemperature[] = forecast.map(fs => ({
+      hour: this.formatHour(new Date(fs.datetime), this.hass.locale),
+      temperature: formatNumber(fs.temperature, this.hass.locale)
     }));
-    temperatures.length = numHours;
+    temperatures.length = Math.floor(numHours / hoursPerSegment);
+    const numHoursNotMultiple = numHours % hoursPerSegment !== 0;
 
     const colorSettings = this.getColorSettings(this.config.colors);
 
@@ -119,6 +122,9 @@ export class HourlyWeatherCard extends LitElement {
         <div class="card-content">
           ${isForecastDaily ?
         this._showWarning(localize('errors.daily_forecasts')) : ''}
+          ${numHoursNotMultiple ?
+        this._showWarning(localize('errors.num_hours_not_multiple')
+          .replace(/\{hoursPerSegment\}/g, formatNumber(hoursPerSegment, this.hass.locale))) : ''}
           ${colorSettings.warnings.length ?
         this._showWarning(localize('errors.invalid_colors') + colorSettings.warnings.join(', ')) : ''}
           <weather-bar
@@ -131,11 +137,18 @@ export class HourlyWeatherCard extends LitElement {
     `;
   }
 
-  private getConditionListFromForecast(forecast: ForecastHour[], numHours = 12): ConditionSpan[] {
+  private determineHoursPerSegment(forecast: ForecastSegment[]): number {
+    if (forecast.length < 2) return 1;
+    const [fs1, fs2] = forecast;
+    const delta = new Date(fs2.datetime).getTime() - new Date(fs1.datetime).getTime();
+    return Math.round(delta / 1000 / 3600);
+  }
+
+  private getConditionListFromForecast(forecast: ForecastSegment[], numHours = 12, hoursPerSegment = 1): ConditionSpan[] {
     let lastCond: string = forecast[0].condition;
     let j = 0;
     const res: ConditionSpan[] = [[lastCond, 1]];
-    for (let i = 1; i < numHours; i++) {
+    for (let i = 1; i * hoursPerSegment < numHours; i++) {
       const cond: string = forecast[i].condition;
       if (cond === lastCond) {
         res[j][1]++;
@@ -148,7 +161,7 @@ export class HourlyWeatherCard extends LitElement {
     return res;
   }
 
-  private isForecastDaily(forecast: ForecastHour[]): boolean {
+  private isForecastDaily(forecast: ForecastSegment[]): boolean {
     const dates = forecast.map(f => new Date(f.datetime).getDate());
     const uniqueDates = new Set(dates);
     return uniqueDates.size >= forecast.length - 1;

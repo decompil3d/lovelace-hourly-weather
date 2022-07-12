@@ -39,7 +39,7 @@ export interface ColorConfig {
   'exceptional'?: string;
 }
 
-export interface ForecastHour {
+export interface ForecastSegment {
   clouds: number; // 100
   condition: string; // "cloudy"
   datetime: string; // "2022-06-03T22:00:00+00:00"

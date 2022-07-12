@@ -17,7 +17,8 @@
     "too_many_hours_requested": "Demasiadas horas pedidas en num_hours. Debe ser <= que el número de horas en la entidad de pronóstico.",
     "daily_forecasts": "La entidad seleccionada parece proveer pronósticos diarios. Considera cambiar a una entidad que provea pronósticos cada hora.",
     "must_be_int": "Debe ser un entero mayor o igual a 2",
-    "invalid_colors": "Los siguientes colores en su configuración no son válidos:"
+    "invalid_colors": "Los siguientes colores en su configuración no son válidos:",
+    "num_hours_not_multiple": "La entidad meteorológica seleccionada proporciona pronósticos en intervalos de {hoursPerSegment} horas. Considere hacer que num_horas sea un múltiplo de {hoursPerSegment}."
   },
   "conditions": {
     "clear": "Despejado",

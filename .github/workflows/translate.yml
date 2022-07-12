@@ -1,8 +1,8 @@
 name: 'Translate strings'
 
 on:
-  pull_request:
-    branches:
+  push:
+    branches-ignore:
       - main
 
 jobs:

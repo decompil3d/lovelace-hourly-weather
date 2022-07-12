@@ -17,7 +17,8 @@
     "too_many_hours_requested": "Le nombre d'heure à afficher ne peut pas être supérieur à ce que fournit l'entité.",
     "daily_forecasts": "L'entité sélectionnée semble fournir des prévisions quotidiennes. Envisagez de passer à une entité fournissant des prévisions par heure.",
     "must_be_int": "Doit être un nombre entier pair supérieur ou égal à 2",
-    "invalid_colors": "Les couleurs suivantes dans votre configuration ne sont pas valides :"
+    "invalid_colors": "Les couleurs suivantes dans votre configuration ne sont pas valides :",
+    "num_hours_not_multiple": "L'entité météo sélectionnée fournit des prévisions à intervalles de {hoursPerSegment} heures. Envisagez de faire de num_hours un multiple de {hoursPerSegment}."
   },
   "conditions": {
     "clear": "Dégagé",
