@@ -1,0 +1,37 @@
+{
+  "common": {
+    "version": "Versione",
+    "title": "Previsione Meteo Oraria",
+    "title_card": "Scheda Meteo Oraria",
+    "description": "Una scheda per rappresentare le condizioni meteorologiche orarie come una barra.",
+    "invalid_configuration": "Configurazione Non Valida"
+  },
+  "editor": {
+    "entity": "Entità (Richiesta)",
+    "name": "Nome (Facoltativo)",
+    "hours_to_show": "Numero delle ore da mostrare (Facoltativo)",
+    "icons": "Mostra le icone invece delle etichette di testo"
+  },
+  "errors": {
+    "missing_entity": "entità mancante nella configurazione",
+    "too_many_hours_requested": "Troppe ore richieste in num_hours. Deve essere <= al numero di ore nell'entità previsione.",
+    "daily_forecasts": "L'entità meteo selezionata sembra fornire previsioni giornaliere. Prendi in considerazione il passaggio a un'entità oraria.",
+    "must_be_int": "Deve essere un numero intero pari, maggiore o uguale a 2",
+    "invalid_colors": "I seguenti colori nella tua configurazione non sono validi:",
+    "num_hours_not_multiple": "L'entità meteo selezionata fornisce previsioni a intervalli in {hoursPerSegment}. Considera di rendere num_hours un multiplo di {hoursPerSegment}."
+  },
+  "conditions": {
+    "clear": "Limpido",
+    "cloudy": "Nuvoloso",
+    "fog": "Nebbia",
+    "hail": "Grandine",
+    "thunderstorm": "Temporale",
+    "partlyCloudy": "Parzialmente Nuvoloso",
+    "heavyRain": "Acquazzone",
+    "rain": "Pioggia",
+    "snow": "Neve",
+    "mixedPrecip": "Precipitazioni Miste",
+    "sunny": "Soleggiato",
+    "windy": "Ventoso"
+  }
+}
