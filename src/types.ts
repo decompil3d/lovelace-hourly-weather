@@ -11,10 +11,10 @@ declare global {
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   type: string;
   entity: string;
-  num_hours?: number;
+  num_hours?: string;
   name?: string;
   icons?: boolean;
-  offset?: number;
+  offset?: string;
   colors?: ColorConfig;
   test_gui?: boolean;
   tap_action?: ActionConfig;

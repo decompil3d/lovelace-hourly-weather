@@ -50,12 +50,16 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.entity || '';
   }
 
-  get _numHours(): number {
-    return this._config?.num_hours ?? 12;
+  get _numHours(): string {
+    return this._config?.num_hours ?? '12';
   }
 
   get _icons(): boolean {
     return this._config?.icons ?? false;
+  }
+
+  get _offset(): string {
+    return this._config?.offset ?? '0';
   }
 
   protected render(): TemplateResult | void {
@@ -93,6 +97,16 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         .pattern=${"([1-9][0-9]*[02468])|([2468])"}
         .autoValidate=${true}
         validationMessage=${localize('errors.must_be_int')}
+      ></mwc-textfield>
+      <mwc-textfield
+      label=${localize('editor.offset')}
+        .value=${this._offset}
+        .configValue=${'offset'}
+        @input=${this._valueChanged}
+        .type=${'number'}
+        .min=${0}
+        .autoValidate=${true}
+        validationMessage=${localize('errors.must_be_positive_int')}
       ></mwc-textfield>
       <mwc-formfield .label=${localize('editor.icons')}>
         <mwc-switch

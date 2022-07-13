@@ -89,8 +89,8 @@ export class HourlyWeatherCard extends LitElement {
     const entityId: string = this.config.entity;
     const state = this.hass.states[entityId];
     const { forecast } = state.attributes as { forecast: ForecastSegment[] };
-    const numHours = this.config.num_hours ?? 12;
-    const offset = this.config.offset ?? 0;
+    const numHours = parseInt(this.config.num_hours ?? '12', 10);
+    const offset = parseInt(this.config.offset ?? '0', 10);
 
     const hoursPerSegment = this.determineHoursPerSegment(forecast);
 
@@ -145,7 +145,7 @@ export class HourlyWeatherCard extends LitElement {
     let lastCond: string = forecast[offset].condition;
     let j = 0;
     const res: ConditionSpan[] = [[lastCond, 1]];
-    for (let i = offset + 1; i * hoursPerSegment < numHours; i++) {
+    for (let i = offset + 1; i * hoursPerSegment < numHours + offset * hoursPerSegment; i++) {
       const cond: string = forecast[i].condition;
       if (cond === lastCond) {
         res[j][1]++;
@@ -160,7 +160,7 @@ export class HourlyWeatherCard extends LitElement {
 
   private getTemperatures(forecast: ForecastSegment[], numHours: number, hoursPerSegment: number, offset: number): HourTemperature[] {
     const temperatures: HourTemperature[] = [];
-    for (let i = offset; i < Math.floor(numHours / hoursPerSegment); i++) {
+    for (let i = offset; i < Math.floor(numHours / hoursPerSegment) + offset; i++) {
       const fs = forecast[i];
       temperatures.push({
         hour: this.formatHour(new Date(fs.datetime), this.hass.locale),
