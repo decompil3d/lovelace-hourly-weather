@@ -94,6 +94,9 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         .value=${this._numHours}
         .configValue=${'num_hours'}
         @input=${this._valueChanged}
+        .type=${'number'}
+        .min=${2}
+        .step=${2}
         .pattern=${"([1-9][0-9]*[02468])|([2468])"}
         .autoValidate=${true}
         validationMessage=${localize('errors.must_be_int')}
