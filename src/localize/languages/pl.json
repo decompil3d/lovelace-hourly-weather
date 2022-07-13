@@ -10,7 +10,8 @@
     "entity": "Encja",
     "name": "Nazwa (opcjonalnie)",
     "hours_to_show": "Liczba godzin do wyświetlenia (opcjonalnie)",
-    "icons": "Pokaż ikony zamiast etykiet tekstowych"
+    "icons": "Pokaż ikony zamiast etykiet tekstowych",
+    "offset": "Liczba segmentów prognozy, o które należy skompensować początek (opcjonalnie)"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",
@@ -18,7 +19,8 @@
     "daily_forecasts": "Wybrana encja dostarcza pogodę dniową, wybierz encję z pogodą godzinową.",
     "must_be_int": "Musi być parzystą liczbą całkowitą większą lub równą 2",
     "invalid_colors": "Następujące kolory w Twojej konfiguracji są nieprawidłowe:",
-    "num_hours_not_multiple": "Wybrana jednostka pogody zapewnia prognozy w {hoursPerSegment} interwałach godzinowych. Zastanów się, czy liczba_godzin jest wielokrotnością {hoursPerSegment}."
+    "num_hours_not_multiple": "Wybrana jednostka pogody zapewnia prognozy w {hoursPerSegment} interwałach godzinowych. Zastanów się, czy liczba_godzin jest wielokrotnością {hoursPerSegment}.",
+    "must_be_positive_int": "Musi być dodatnią liczbą całkowitą"
   },
   "conditions": {
     "clear": "Bezchmurnie",

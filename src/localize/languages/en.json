@@ -10,6 +10,7 @@
     "entity": "Entity (Required)",
     "name": "Name (Optional)",
     "hours_to_show": "Number of hours to show (Optional)",
+    "offset": "Number of forecast segments to offset start by (Optional)",
     "icons": "Show icons instead of text labels"
   },
   "errors": {
@@ -18,7 +19,8 @@
     "daily_forecasts": "The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.",
     "must_be_int": "Must be an even integer greater than or equal to 2",
     "invalid_colors": "The following colors in your configuration are invalid:",
-    "num_hours_not_multiple": "The selected weather entity provides forecasts in {hoursPerSegment} hour intervals. Consider making num_hours a multiple of {hoursPerSegment}."
+    "num_hours_not_multiple": "The selected weather entity provides forecasts in {hoursPerSegment} hour intervals. Consider making num_hours a multiple of {hoursPerSegment}.",
+    "must_be_positive_int": "Must be a positive integer"
   },
   "conditions": {
     "clear": "Clear",
