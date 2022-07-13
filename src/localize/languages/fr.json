@@ -10,7 +10,8 @@
     "entity": "Entité (requis)",
     "name": "Nom (facultatif)",
     "hours_to_show": "Nombre d'heures à afficher (facultatif)",
-    "icons": "Afficher des icônes à la place du texte"
+    "icons": "Afficher des icônes à la place du texte",
+    "offset": "Nombre de segments de prévision par lesquels décaler le début (facultatif)"
   },
   "errors": {
     "missing_entity": "Entité manquante dans la configuration",
@@ -18,7 +19,8 @@
     "daily_forecasts": "L'entité sélectionnée semble fournir des prévisions quotidiennes. Envisagez de passer à une entité fournissant des prévisions par heure.",
     "must_be_int": "Doit être un nombre entier pair supérieur ou égal à 2",
     "invalid_colors": "Les couleurs suivantes dans votre configuration ne sont pas valides :",
-    "num_hours_not_multiple": "L'entité météo sélectionnée fournit des prévisions à intervalles de {hoursPerSegment} heures. Envisagez de faire de num_hours un multiple de {hoursPerSegment}."
+    "num_hours_not_multiple": "L'entité météo sélectionnée fournit des prévisions à intervalles de {hoursPerSegment} heures. Envisagez de faire de num_hours un multiple de {hoursPerSegment}.",
+    "must_be_positive_int": "Doit être un entier positif"
   },
   "conditions": {
     "clear": "Dégagé",
