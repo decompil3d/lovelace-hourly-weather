@@ -11,7 +11,7 @@
     "name": "Bezeichnung (optional)",
     "hours_to_show": "Anzahl der anzuzeigenden Stunden (optional)",
     "icons": "Zeigen Sie Symbole anstelle von Textbeschriftungen an",
-    "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (Optional)"
+    "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (optional)"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",

@@ -11,7 +11,7 @@
     "name": "Nome (Facoltativo)",
     "hours_to_show": "Numero delle ore da mostrare (Facoltativo)",
     "icons": "Mostra le icone invece delle etichette di testo",
-    "offset": "Numero di segmenti di previsione di cui compensare l'inizio (facoltativo)"
+    "offset": "Numero di segmenti di previsione di cui compensare l'inizio (Facoltativo)"
   },
   "errors": {
     "missing_entity": "entità mancante nella configurazione",
