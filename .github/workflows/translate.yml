@@ -22,7 +22,7 @@ jobs:
             subscriptionKey: '${{ secrets.TRANSLATOR_SUBSCRIPTION_KEY }}'
             filePath: './src/localize/languages/en.json'
             from: 'en'
-            to: 'de,es,fr,nb,pl,pt'
+            to: 'de,es,fr,it,nb,pl,pt'
             debug: false
 
       - name: Get current branch name
