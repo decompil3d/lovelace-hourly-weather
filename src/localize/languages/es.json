@@ -9,17 +9,17 @@
   "editor": {
     "entity": "Entidad (Requerida)",
     "name": "Nombre (Opcional)",
-    "hours_to_show": "Número de horas a mostrar (Opcional)",
     "icons": "Mostrar iconos en vez de texto",
-    "offset": "Número de segmentos de pronóstico para compensar el inicio por (Opcional)"
+    "offset": "Número de segmentos de pronóstico para compensar el inicio por (Opcional)",
+    "segments_to_show": "Número de segmentos de pronóstico para mostrar (Opcional)"
   },
   "errors": {
     "missing_entity": "falta la entidad en la configuración",
-    "too_many_hours_requested": "Demasiadas horas pedidas en num_hours. Debe ser <= que el número de horas en la entidad de pronóstico.",
     "daily_forecasts": "La entidad seleccionada parece proveer pronósticos diarios. Considera cambiar a una entidad que provea pronósticos cada hora.",
     "must_be_int": "Debe ser un entero mayor o igual a 2",
     "invalid_colors": "Los siguientes colores en su configuración no son válidos:",
-    "must_be_positive_int": "Debe ser un entero positivo"
+    "must_be_positive_int": "Debe ser un entero positivo",
+    "too_many_segments_requested": "Se solicitaron demasiados segmentos de pronóstico en num_segments. Debe ser <= número de segmentos en la entidad de pronóstico."
   },
   "conditions": {
     "clear": "Despejado",

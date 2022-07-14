@@ -9,17 +9,17 @@
   "editor": {
     "entity": "Encja",
     "name": "Nazwa (opcjonalnie)",
-    "hours_to_show": "Liczba godzin do wyświetlenia (opcjonalnie)",
     "icons": "Pokaż ikony zamiast etykiet tekstowych",
-    "offset": "Liczba segmentów prognozy, o które należy skompensować początek (opcjonalnie)"
+    "offset": "Liczba segmentów prognozy, o które należy skompensować początek (opcjonalnie)",
+    "segments_to_show": "Liczba segmentów prognozy do wyświetlenia (opcjonalnie)"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",
-    "too_many_hours_requested": "Liczba godzin nie może być większa od ilości godzin dostępnych w encji pogodowej.",
     "daily_forecasts": "Wybrana encja dostarcza pogodę dniową, wybierz encję z pogodą godzinową.",
     "must_be_int": "Musi być parzystą liczbą całkowitą większą lub równą 2",
     "invalid_colors": "Następujące kolory w Twojej konfiguracji są nieprawidłowe:",
-    "must_be_positive_int": "Musi być dodatnią liczbą całkowitą"
+    "must_be_positive_int": "Musi być dodatnią liczbą całkowitą",
+    "too_many_segments_requested": "Zażądano zbyt wielu segmentów prognozy w num_segments. Musi wynosić <= liczba segmentów w elemencie prognozy."
   },
   "conditions": {
     "clear": "Bezchmurnie",

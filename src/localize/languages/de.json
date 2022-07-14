@@ -9,17 +9,17 @@
   "editor": {
     "entity": "Entität",
     "name": "Bezeichnung (optional)",
-    "hours_to_show": "Anzahl der anzuzeigenden Stunden (optional)",
     "icons": "Zeigen Sie Symbole anstelle von Textbeschriftungen an",
-    "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (optional)"
+    "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (optional)",
+    "segments_to_show": "Anzahl der anzuzeigenden Prognosesegmente (optional)"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",
-    "too_many_hours_requested": "Anzuzeigender Zeitraum kann nicht größer sein, als in der Wetter-Entität festgelegt.",
     "daily_forecasts": "Die gewählte Wetter-Entität scheint tägliche Vorhersagen zu liefern. Bitte eine Wetter-Entität mit stündlicher Vorhersage wählen.",
     "must_be_int": "Muss eine gerade ganze Zahl größer oder gleich 2 sein.",
     "invalid_colors": "Die folgenden Farben in Ihrer Konfiguration sind ungültig:",
-    "must_be_positive_int": "Muss eine positive Ganzzahl sein"
+    "must_be_positive_int": "Muss eine positive Ganzzahl sein",
+    "too_many_segments_requested": "Zu viele Prognosesegmente in num_segments angefordert. Muss <= Anzahl der Segmente in der Prognoseentität sein."
   },
   "conditions": {
     "clear": "Klar",
