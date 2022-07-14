@@ -19,7 +19,6 @@
     "daily_forecasts": "L'entità meteo selezionata sembra fornire previsioni giornaliere. Prendi in considerazione il passaggio a un'entità oraria.",
     "must_be_int": "Deve essere un numero intero pari, maggiore o uguale a 2",
     "invalid_colors": "I seguenti colori nella tua configurazione non sono validi:",
-    "num_hours_not_multiple": "L'entità meteo selezionata fornisce previsioni a intervalli in {hoursPerSegment}. Considera di rendere num_hours un multiplo di {hoursPerSegment}.",
     "must_be_positive_int": "Deve essere un numero intero positivo"
   },
   "conditions": {

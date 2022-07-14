@@ -19,7 +19,6 @@
     "daily_forecasts": "Den valgte værenheten ser ut til å gi daglige prognoser. Vurder å bytte til en timebasert enhet.",
     "must_be_int": "Må være et jevnt heltall større enn eller lik 2",
     "invalid_colors": "Følgende farger i konfigurasjonen din er ugyldige:",
-    "num_hours_not_multiple": "Den valgte værenheten gir prognoser i {hoursPerSegment} timers intervaller. Vurder å gjøre num_hours til et multiplum av {hoursPerSegment}.",
     "must_be_positive_int": "Må være et positivt heltall"
   },
   "conditions": {
