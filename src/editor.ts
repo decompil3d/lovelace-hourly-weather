@@ -50,8 +50,8 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.entity || '';
   }
 
-  get _numHours(): string {
-    return this._config?.num_hours ?? '12';
+  get _numSegments(): string {
+    return this._config?.num_segments ?? this._config?.num_hours ?? '12';
   }
 
   get _icons(): boolean {
@@ -90,9 +90,9 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         @input=${this._valueChanged}
       ></mwc-textfield>
       <mwc-textfield
-      label=${localize('editor.hours_to_show')}
-        .value=${this._numHours}
-        .configValue=${'num_hours'}
+      label=${localize('editor.segments_to_show')}
+        .value=${this._numSegments}
+        .configValue=${'num_segments'}
         @input=${this._valueChanged}
         .type=${'number'}
         .min=${2}
@@ -151,6 +151,12 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
           [target.configValue]: target.checked !== undefined ? target.checked : target.value,
         };
       }
+    }
+    if ('num_hours' in this._config && 'num_segments' in this._config) {
+      // Remove `num_hours` in favor of `num_segments`
+      const tmpConfig = { ...this._config };
+      delete tmpConfig.num_hours;
+      this._config = tmpConfig;
     }
     fireEvent(this, 'config-changed', { config: this._config });
   }

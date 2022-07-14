@@ -11,7 +11,9 @@ declare global {
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   type: string;
   entity: string;
+  /** @deprecated Use num_segments instead */
   num_hours?: string;
+  num_segments?: string;
   name?: string;
   icons?: boolean;
   offset?: string;
@@ -59,7 +61,7 @@ export type ConditionSpan = [
   span: number
 ]
 
-export interface HourTemperature {
+export interface SegmentTemperature {
   hour: string,
   temperature: string
 }

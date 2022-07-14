@@ -3,7 +3,7 @@ import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
-import type { ColorMap, ConditionSpan, HourTemperature } from "./types";
+import type { ColorMap, ConditionSpan, SegmentTemperature } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -12,7 +12,7 @@ export class WeatherBar extends LitElement {
   conditions: ConditionSpan[] = [];
 
   @property({ type: Array })
-  temperatures: HourTemperature[] = [];
+  temperatures: SegmentTemperature[] = [];
 
   @property({ type: Boolean })
   icons = false;

@@ -9,18 +9,17 @@
   "editor": {
     "entity": "Entidade",
     "name": "Nome (opcional)",
-    "hours_to_show": "Número de horas para mostrar",
     "icons": "Mostrar ícones em vez de rótulos de texto",
-    "offset": "Número de segmentos de previsão para começar a compensar (opcional)"
+    "offset": "Número de segmentos de previsão para começar a compensar (opcional)",
+    "segments_to_show": "Número de segmentos de previsão a serem exibidos (opcional)"
   },
   "errors": {
     "missing_entity": "A entidade não existe na configuração",
-    "too_many_hours_requested": "Demasiadas horas solicitadas em num_hours. Deve ser menor que o número de horas disponíveis na entidade de meteo.",
     "daily_forecasts": "A entidade meteorológica selecionada parece fornecer previsões diárias. Considere mudar para uma entidade horária.",
     "must_be_int": "Deve ser um número inteiro par maior ou igual a 2",
     "invalid_colors": "As seguintes cores em sua configuração são inválidas:",
-    "num_hours_not_multiple": "A entidade meteorológica selecionada fornece previsões em intervalos de {hoursPerSegment} horas. Considere tornar num_hours um múltiplo de {hoursPerSegment}.",
-    "must_be_positive_int": "Deve ser um número inteiro positivo"
+    "must_be_positive_int": "Deve ser um número inteiro positivo",
+    "too_many_segments_requested": "Muitos segmentos de previsão solicitados em num_segments. Deve ser <= número de segmentos na entidade de previsão."
   },
   "conditions": {
     "clear": "Limpo",
