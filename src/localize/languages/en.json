@@ -9,13 +9,13 @@
   "editor": {
     "entity": "Entity (Required)",
     "name": "Name (Optional)",
-    "hours_to_show": "Number of forecast segments to show (Optional)",
+    "segments_to_show": "Number of forecast segments to show (Optional)",
     "offset": "Number of forecast segments to offset start by (Optional)",
     "icons": "Show icons instead of text labels"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",
-    "too_many_hours_requested": "Too many forecast segments requested in num_segments. Must be <= number of segments in forecast entity.",
+    "too_many_segments_requested": "Too many forecast segments requested in num_segments. Must be <= number of segments in forecast entity.",
     "daily_forecasts": "The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.",
     "must_be_int": "Must be an even integer greater than or equal to 2",
     "invalid_colors": "The following colors in your configuration are invalid:",

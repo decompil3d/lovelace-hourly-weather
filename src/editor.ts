@@ -90,7 +90,7 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         @input=${this._valueChanged}
       ></mwc-textfield>
       <mwc-textfield
-      label=${localize('editor.hours_to_show')}
+      label=${localize('editor.segments_to_show')}
         .value=${this._numSegments}
         .configValue=${'num_segments'}
         @input=${this._valueChanged}

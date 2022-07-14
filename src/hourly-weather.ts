@@ -93,7 +93,7 @@ export class HourlyWeatherCard extends LitElement {
     const offset = parseInt(this.config.offset ?? '0', 10);
 
     if (numSegments > (forecast.length - offset)) {
-      return this._showError(localize('errors.too_many_hours_requested'));
+      return this._showError(localize('errors.too_many_segments_requested'));
     }
 
     const isForecastDaily = this.isForecastDaily(forecast);
