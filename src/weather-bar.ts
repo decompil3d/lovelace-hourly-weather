@@ -20,6 +20,12 @@ export class WeatherBar extends LitElement {
   @property({ type: Object })
   colors: ColorMap | undefined = void 0;
 
+  @property({ type: Boolean })
+  hide_hours = false;
+
+  @property({ type: Boolean })
+  hide_temperatures = false;
+
   private tips: Instance[] = [];
 
   render() {
@@ -48,8 +54,8 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-left"></div>
           <div class="bar-block-right"></div>
           <div class="bar-block-bottom">
-            <div class="hour">${hour}</div>
-            <div class="temperature">${temperature}&deg;</div>
+            <div class="hour">${this.hide_hours ? null : hour}</div>
+            <div class="temperature">${this.hide_temperatures ? null : html`${temperature}&deg;`}</div>
           </div>
         </div>
       `);

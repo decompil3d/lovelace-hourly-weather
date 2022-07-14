@@ -64,11 +64,13 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | ----------------- | ------ | ------------ | ------------------------------------------------ | ------------------- |
 | type              | string | **Required** | `custom:hourly-weather`                          |                     |
 | entity            | string | **Required** | Home Assistant weather entity ID.                |                     |
-| name              | string | **Optional** | Card name                                        | `Hourly Weather`    |
+| name              | string | **Optional** | Card name (set to `null` to hide)                | `Hourly Weather`    |
 | icons             | bool   | **Optional** | Whether to show icons instead of text labels     | `false`             |
 | num_hours         | number | **Optional** | Number of hours to show (even integer >= 2)      | `12`                |
 | offset            | number | **Optional** | Number of forecast segments to offset from start | `0`                 |
 | colors            | object | **Optional** | Set colors for all or some conditions            |                     |
+| hide_hours        | bool   | **Optional** | Whether to hide hour labels under the bar        | `false`             |
+| hide_temperatures | bool   | **Optional** | Whether to hide temeratures under the bar        | `false`             |
 | tap_action        | object | **Optional** | Action to take on tap                            | `action: more-info` |
 | hold_action       | object | **Optional** | Action to take on hold                           | `none`              |
 | double_tap_action | object | **Optional** | Action to take on double tap                     | `none`              |
