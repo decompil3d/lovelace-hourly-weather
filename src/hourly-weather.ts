@@ -15,7 +15,7 @@ import {
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
 
-import type { ColorConfig, ColorMap, ColorSettings, ConditionSpan, ForecastSegment, HourlyWeatherCardConfig, HourTemperature } from './types';
+import type { ColorConfig, ColorMap, ColorSettings, ConditionSpan, ForecastSegment, HourlyWeatherCardConfig, SegmentTemperature } from './types';
 import { actionHandler } from './action-handler-directive';
 import { version } from '../package.json';
 import { localize } from './localize/localize';
@@ -89,19 +89,16 @@ export class HourlyWeatherCard extends LitElement {
     const entityId: string = this.config.entity;
     const state = this.hass.states[entityId];
     const { forecast } = state.attributes as { forecast: ForecastSegment[] };
-    const numHours = parseInt(this.config.num_hours ?? '12', 10);
+    const numSegments = parseInt(this.config.num_segments ?? this.config.num_hours ?? '12', 10);
     const offset = parseInt(this.config.offset ?? '0', 10);
 
-    const hoursPerSegment = this.determineHoursPerSegment(forecast);
-
-    if (numHours > (forecast.length - offset) * hoursPerSegment) {
+    if (numSegments > (forecast.length - offset)) {
       return this._showError(localize('errors.too_many_hours_requested'));
     }
 
     const isForecastDaily = this.isForecastDaily(forecast);
-    const conditionList = this.getConditionListFromForecast(forecast, numHours, hoursPerSegment, offset);
-    const temperatures = this.getTemperatures(forecast, numHours, hoursPerSegment, offset);
-    const numHoursNotMultiple = numHours % hoursPerSegment !== 0;
+    const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
+    const temperatures = this.getTemperatures(forecast, numSegments, offset);
 
     const colorSettings = this.getColorSettings(this.config.colors);
 
@@ -119,9 +116,6 @@ export class HourlyWeatherCard extends LitElement {
         <div class="card-content">
           ${isForecastDaily ?
         this._showWarning(localize('errors.daily_forecasts')) : ''}
-          ${numHoursNotMultiple ?
-        this._showWarning(localize('errors.num_hours_not_multiple')
-          .replace(/\{hoursPerSegment\}/g, formatNumber(hoursPerSegment, this.hass.locale))) : ''}
           ${colorSettings.warnings.length ?
         this._showWarning(localize('errors.invalid_colors') + colorSettings.warnings.join(', ')) : ''}
           <weather-bar
@@ -136,18 +130,11 @@ export class HourlyWeatherCard extends LitElement {
     `;
   }
 
-  private determineHoursPerSegment(forecast: ForecastSegment[]): number {
-    if (forecast.length < 2) return 1;
-    const [fs1, fs2] = forecast;
-    const delta = new Date(fs2.datetime).getTime() - new Date(fs1.datetime).getTime();
-    return Math.round(delta / 1000 / 3600);
-  }
-
-  private getConditionListFromForecast(forecast: ForecastSegment[], numHours: number, hoursPerSegment: number, offset: number): ConditionSpan[] {
+  private getConditionListFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): ConditionSpan[] {
     let lastCond: string = forecast[offset].condition;
     let j = 0;
     const res: ConditionSpan[] = [[lastCond, 1]];
-    for (let i = offset + 1; i * hoursPerSegment < numHours + offset * hoursPerSegment; i++) {
+    for (let i = offset + 1; i < numSegments + offset; i++) {
       const cond: string = forecast[i].condition;
       if (cond === lastCond) {
         res[j][1]++;
@@ -160,9 +147,9 @@ export class HourlyWeatherCard extends LitElement {
     return res;
   }
 
-  private getTemperatures(forecast: ForecastSegment[], numHours: number, hoursPerSegment: number, offset: number): HourTemperature[] {
-    const temperatures: HourTemperature[] = [];
-    for (let i = offset; i < Math.floor(numHours / hoursPerSegment) + offset; i++) {
+  private getTemperatures(forecast: ForecastSegment[], numSegments: number, offset: number): SegmentTemperature[] {
+    const temperatures: SegmentTemperature[] = [];
+    for (let i = offset; i < numSegments + offset; i++) {
       const fs = forecast[i];
       temperatures.push({
         hour: this.formatHour(new Date(fs.datetime), this.hass.locale),

@@ -39,7 +39,7 @@ If you prefer YAML, here is a sample config:
 ```yaml
 type: custom:hourly-weather
 entity: weather.my_hourly_weather_entity
-num_hours: 18 # optional, defaults to 12
+num_segments: 18 # optional, defaults to 12
 name: Next 18 hours # optional, defaults to "Hourly Weather"
 ```
 
@@ -50,9 +50,7 @@ forecasts, it will show a warning. I've tested with the OpenWeatherMap integrati
 that works very well.
 
 > ℹ️ NOTE: If your selected weather entity provides forecasts in increments of greater than one hour at a time, each
-> segment of the bar will be for one segment, not one hour. The `num_hours` option will still refer to how many hours
-> to show, not how many segments. If you configure `num_hours` to not be a multiple of the hours per segment, the card
-> will show a warning.
+> segment of the bar will be for one segment, not one hour.
 
 If you already use OpenWeatherMap for daily data, you can add a second integration of the same
 component for hourly -- just adjust the latitude or longitude a tiny bit (i.e. change the last decimal by 1).
@@ -60,20 +58,21 @@ Otherwise, the integration may complain of a duplicate unique ID.
 
 ## Options
 
-| Name              | Type   | Requirement  | Description                                      | Default             |
-| ----------------- | ------ | ------------ | ------------------------------------------------ | ------------------- |
-| type              | string | **Required** | `custom:hourly-weather`                          |                     |
-| entity            | string | **Required** | Home Assistant weather entity ID.                |                     |
-| name              | string | **Optional** | Card name (set to `null` to hide)                | `Hourly Weather`    |
-| icons             | bool   | **Optional** | Whether to show icons instead of text labels     | `false`             |
-| num_hours         | number | **Optional** | Number of hours to show (even integer >= 2)      | `12`                |
-| offset            | number | **Optional** | Number of forecast segments to offset from start | `0`                 |
-| colors            | object | **Optional** | Set colors for all or some conditions            |                     |
-| hide_hours        | bool   | **Optional** | Whether to hide hour labels under the bar        | `false`             |
-| hide_temperatures | bool   | **Optional** | Whether to hide temeratures under the bar        | `false`             |
-| tap_action        | object | **Optional** | Action to take on tap                            | `action: more-info` |
-| hold_action       | object | **Optional** | Action to take on hold                           | `none`              |
-| double_tap_action | object | **Optional** | Action to take on double tap                     | `none`              |
+| Name              | Type   | Requirement  | Description                                             | Default             |
+| ----------------- | ------ | ------------ | ------------------------------------------------------- | ------------------- |
+| type              | string | **Required** | `custom:hourly-weather`                                 |                     |
+| entity            | string | **Required** | Home Assistant weather entity ID.                       |                     |
+| name              | string | **Optional** | Card name (set to `null` to hide)                       | `Hourly Weather`    |
+| icons             | bool   | **Optional** | Whether to show icons instead of text labels            | `false`             |
+| num_segments      | number | **Optional** | Number of forecast segments to show (even integer >= 2) | `12`                |
+| ~~num_hours~~     | number | **Optional** | _Deprecated:_ Use `num_segments` instead                | `12`                |
+| offset            | number | **Optional** | Number of forecast segments to offset from start        | `0`                 |
+| colors            | object | **Optional** | Set colors for all or some conditions                   |                     |
+| hide_hours        | bool   | **Optional** | Whether to hide hour labels under the bar               | `false`             |
+| hide_temperatures | bool   | **Optional** | Whether to hide temeratures under the bar               | `false`             |
+| tap_action        | object | **Optional** | Action to take on tap                                   | `action: more-info` |
+| hold_action       | object | **Optional** | Action to take on hold                                  | `none`              |
+| double_tap_action | object | **Optional** | Action to take on double tap                            | `none`              |
 
 ## Action Options
 
@@ -121,6 +120,14 @@ colors:
   snowy-rainy: rgba(255, 255, 255, 0.8) # rgba works (and hsla too)
   exceptional: red # as do valid CSS color names
 ```
+
+## Upgrades
+
+### Version 3 ➡️ 4
+
+In version 4.x, the `num_hours` option was deprecated in favor of `num_segments`. This simplifies the card and makes it
+clear that it operates on whatever size forecast segment your entity provides. The `num_hours` option still works, but
+`num_segments` takes precedence, if set. `num_hours` will be removed in a later major version of the card.
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/master
