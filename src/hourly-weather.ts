@@ -114,7 +114,7 @@ export class HourlyWeatherCard extends LitElement {
       hasDoubleClick: hasAction(this.config.double_tap_action),
     })}
         tabindex="0"
-        .label=${`Boilerplate: ${this.config.entity || 'No Entity Defined'}`}
+        .label=${`Hourly Weather: ${this.config.entity || 'No Entity Defined'}`}
       >
         <div class="card-content">
           ${isForecastDaily ?
@@ -128,7 +128,9 @@ export class HourlyWeatherCard extends LitElement {
             .conditions=${conditionList}
             .temperatures=${temperatures}
             .icons=${!!this.config.icons}
-            .colors=${colorSettings.validColors}></weather-bar>
+            .colors=${colorSettings.validColors}
+            .hide_hours=${!!this.config.hide_hours}
+            .hide_temperatures=${!!this.config.hide_temperatures}></weather-bar>
         </div>
       </ha-card>
     `;
