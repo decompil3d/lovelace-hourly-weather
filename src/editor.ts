@@ -62,6 +62,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.offset ?? '0';
   }
 
+  get _labelSpacing(): string {
+    return this._config?.label_spacing ?? '2';
+  }
+
   protected render(): TemplateResult | void {
     if (!this.hass || !this._helpers) {
       return html``;
@@ -110,6 +114,18 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         .min=${0}
         .autoValidate=${true}
         validationMessage=${localize('errors.must_be_positive_int')}
+      ></mwc-textfield>
+      <mwc-textfield
+      label=${localize('editor.label_spacing')}
+        .value=${this._labelSpacing}
+        .configValue=${'label_spacing'}
+        @input=${this._valueChanged}
+        .type=${'number'}
+        .min=${2}
+        .step=${2}
+        .pattern=${"([1-9][0-9]*[02468])|([2468])"}
+        .autoValidate=${true}
+        validationMessage=${localize('errors.must_be_int')}
       ></mwc-textfield>
       <mwc-formfield .label=${localize('editor.icons')}>
         <mwc-switch
