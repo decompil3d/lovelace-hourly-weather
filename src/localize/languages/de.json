@@ -11,7 +11,8 @@
     "name": "Bezeichnung (optional)",
     "icons": "Zeigen Sie Symbole anstelle von Textbeschriftungen an",
     "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (optional)",
-    "segments_to_show": "Anzahl der anzuzeigenden Prognosesegmente (optional)"
+    "segments_to_show": "Anzahl der anzuzeigenden Prognosesegmente (optional)",
+    "label_spacing": "Anzahl der Vorhersagesegmente für Raumzeit- und Temperaturbeschriftungen nach (optional)"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",
@@ -19,7 +20,8 @@
     "must_be_int": "Muss eine gerade ganze Zahl größer oder gleich 2 sein.",
     "invalid_colors": "Die folgenden Farben in Ihrer Konfiguration sind ungültig:",
     "must_be_positive_int": "Muss eine positive Ganzzahl sein",
-    "too_many_segments_requested": "Zu viele Prognosesegmente in num_segments angefordert. Muss <= Anzahl der Segmente in der Prognoseentität sein."
+    "too_many_segments_requested": "Zu viele Prognosesegmente in num_segments angefordert. Muss <= Anzahl der Segmente in der Prognoseentität sein.",
+    "label_spacing_positive_even_int": "label_spacing muss eine gerade ganze Zahl größer oder gleich 2 sein"
   },
   "conditions": {
     "clear": "Klar",

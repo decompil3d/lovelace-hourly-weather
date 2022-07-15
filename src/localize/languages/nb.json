@@ -11,7 +11,8 @@
     "entity": "Entitet (obligatorisk)",
     "name": "Navn (valgfritt)",
     "offset": "Antall prognosesegmenter å utligne start med (valgfritt)",
-    "segments_to_show": "Antall prognosesegmenter som skal vises (valgfritt)"
+    "segments_to_show": "Antall prognosesegmenter som skal vises (valgfritt)",
+    "label_spacing": "Antall prognosesegmenter til romtid og temperaturetiketter etter (valgfritt)"
   },
   "errors": {
     "missing_entity": "entity mangler i konfigurasjonen",
@@ -19,7 +20,8 @@
     "must_be_int": "Må være et jevnt heltall større enn eller lik 2",
     "invalid_colors": "Følgende farger i konfigurasjonen din er ugyldige:",
     "must_be_positive_int": "Må være et positivt heltall",
-    "too_many_segments_requested": "For mange prognosesegmenter er forespurt i num_segments. Må være <= antall segmenter i prognoseenheten."
+    "too_many_segments_requested": "For mange prognosesegmenter er forespurt i num_segments. Må være <= antall segmenter i prognoseenheten.",
+    "label_spacing_positive_even_int": "label_spacing må være et jevnt heltall større enn eller lik 2"
   },
   "conditions": {
     "clear": "Klar",

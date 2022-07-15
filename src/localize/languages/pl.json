@@ -11,7 +11,8 @@
     "name": "Nazwa (opcjonalnie)",
     "icons": "Pokaż ikony zamiast etykiet tekstowych",
     "offset": "Liczba segmentów prognozy, o które należy skompensować początek (opcjonalnie)",
-    "segments_to_show": "Liczba segmentów prognozy do wyświetlenia (opcjonalnie)"
+    "segments_to_show": "Liczba segmentów prognozy do wyświetlenia (opcjonalnie)",
+    "label_spacing": "Liczba segmentów prognozy do etykiet czasoprzestrzeni i temperatury według (opcjonalnie)"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",
@@ -19,7 +20,8 @@
     "must_be_int": "Musi być parzystą liczbą całkowitą większą lub równą 2",
     "invalid_colors": "Następujące kolory w Twojej konfiguracji są nieprawidłowe:",
     "must_be_positive_int": "Musi być dodatnią liczbą całkowitą",
-    "too_many_segments_requested": "Zażądano zbyt wielu segmentów prognozy w num_segments. Musi wynosić <= liczba segmentów w elemencie prognozy."
+    "too_many_segments_requested": "Zażądano zbyt wielu segmentów prognozy w num_segments. Musi wynosić <= liczba segmentów w elemencie prognozy.",
+    "label_spacing_positive_even_int": "odstęp_etykiety musi być parzystą liczbą całkowitą większą lub równą 2"
   },
   "conditions": {
     "clear": "Bezchmurnie",
