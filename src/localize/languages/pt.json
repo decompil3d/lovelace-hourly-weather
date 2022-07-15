@@ -11,7 +11,8 @@
     "name": "Nome (opcional)",
     "icons": "Mostrar ícones em vez de rótulos de texto",
     "offset": "Número de segmentos de previsão para começar a compensar (opcional)",
-    "segments_to_show": "Número de segmentos de previsão a serem exibidos (opcional)"
+    "segments_to_show": "Número de segmentos de previsão a serem exibidos (opcional)",
+    "label_spacing": "Número de segmentos de previsão para rótulos de tempo e temperatura de espaço por (opcional)"
   },
   "errors": {
     "missing_entity": "A entidade não existe na configuração",
@@ -19,7 +20,8 @@
     "must_be_int": "Deve ser um número inteiro par maior ou igual a 2",
     "invalid_colors": "As seguintes cores em sua configuração são inválidas:",
     "must_be_positive_int": "Deve ser um número inteiro positivo",
-    "too_many_segments_requested": "Muitos segmentos de previsão solicitados em num_segments. Deve ser <= número de segmentos na entidade de previsão."
+    "too_many_segments_requested": "Muitos segmentos de previsão solicitados em num_segments. Deve ser <= número de segmentos na entidade de previsão.",
+    "label_spacing_positive_even_int": "label_spacing deve ser um número inteiro par maior ou igual a 2"
   },
   "conditions": {
     "clear": "Limpo",

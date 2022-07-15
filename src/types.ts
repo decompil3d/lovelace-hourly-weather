@@ -12,14 +12,15 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   type: string;
   entity: string;
   /** @deprecated Use num_segments instead */
-  num_hours?: string;
-  num_segments?: string;
+  num_hours?: string; // number
+  num_segments?: string; // number
   name?: string;
   icons?: boolean;
-  offset?: string;
+  offset?: string; // number
   colors?: ColorConfig;
   hide_hours?: boolean;
   hide_temperatures?: boolean;
+  label_spacing?: string; // number
   test_gui?: boolean;
   tap_action?: ActionConfig;
   hold_action?: ActionConfig;

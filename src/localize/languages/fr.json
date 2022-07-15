@@ -11,7 +11,8 @@
     "name": "Nom (facultatif)",
     "icons": "Afficher des icônes à la place du texte",
     "offset": "Nombre de segments de prévision par lesquels décaler le début (facultatif)",
-    "segments_to_show": "Nombre de segments de prévision à afficher (facultatif)"
+    "segments_to_show": "Nombre de segments de prévision à afficher (facultatif)",
+    "label_spacing": "Nombre de segments de prévision dans les étiquettes d'espace-temps et de température par (facultatif)"
   },
   "errors": {
     "missing_entity": "Entité manquante dans la configuration",
@@ -19,7 +20,8 @@
     "must_be_int": "Doit être un nombre entier pair supérieur ou égal à 2",
     "invalid_colors": "Les couleurs suivantes dans votre configuration ne sont pas valides :",
     "must_be_positive_int": "Doit être un entier positif",
-    "too_many_segments_requested": "Trop de segments de prévision demandés dans num_segments. Doit être <= nombre de segments dans l'entité de prévision."
+    "too_many_segments_requested": "Trop de segments de prévision demandés dans num_segments. Doit être <= nombre de segments dans l'entité de prévision.",
+    "label_spacing_positive_even_int": "label_spacing doit être un entier pair supérieur ou égal à 2"
   },
   "conditions": {
     "clear": "Dégagé",

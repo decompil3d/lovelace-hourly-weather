@@ -65,6 +65,13 @@ export class HourlyWeatherCard extends LitElement {
       throw new Error(localize('errors.missing_entity'));
     }
 
+    if (config.label_spacing) {
+      const numLabelSpacing = parseInt(config.label_spacing, 10);
+      if (!Number.isNaN(numLabelSpacing) && (numLabelSpacing < 2 || numLabelSpacing % 2 !== 0)) {
+        throw new Error(localize('errors.label_spacing_positive_even_int'));
+      }
+    }
+
     if (config.test_gui) {
       getLovelace().setEditMode(true);
     }
@@ -91,6 +98,7 @@ export class HourlyWeatherCard extends LitElement {
     const { forecast } = state.attributes as { forecast: ForecastSegment[] };
     const numSegments = parseInt(this.config.num_segments ?? this.config.num_hours ?? '12', 10);
     const offset = parseInt(this.config.offset ?? '0', 10);
+    const labelSpacing = parseInt(this.config.label_spacing ?? '2', 10);
 
     if (numSegments > (forecast.length - offset)) {
       return this._showError(localize('errors.too_many_segments_requested'));
@@ -124,7 +132,8 @@ export class HourlyWeatherCard extends LitElement {
             .icons=${!!this.config.icons}
             .colors=${colorSettings.validColors}
             .hide_hours=${!!this.config.hide_hours}
-            .hide_temperatures=${!!this.config.hide_temperatures}></weather-bar>
+            .hide_temperatures=${!!this.config.hide_temperatures}
+            .label_spacing=${labelSpacing}></weather-bar>
         </div>
       </ha-card>
     `;

@@ -11,7 +11,8 @@
     "name": "Name (Optional)",
     "segments_to_show": "Number of forecast segments to show (Optional)",
     "offset": "Number of forecast segments to offset start by (Optional)",
-    "icons": "Show icons instead of text labels"
+    "icons": "Show icons instead of text labels",
+    "label_spacing": "Number of forecast segments to space time and temperature labels by (Optional)"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",
@@ -19,7 +20,8 @@
     "daily_forecasts": "The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.",
     "must_be_int": "Must be an even integer greater than or equal to 2",
     "invalid_colors": "The following colors in your configuration are invalid:",
-    "must_be_positive_int": "Must be a positive integer"
+    "must_be_positive_int": "Must be a positive integer",
+    "label_spacing_positive_even_int": "label_spacing must be an even integer greater than or equal to 2"
   },
   "conditions": {
     "clear": "Clear",

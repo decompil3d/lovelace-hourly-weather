@@ -11,7 +11,8 @@
     "name": "Nombre (Opcional)",
     "icons": "Mostrar iconos en vez de texto",
     "offset": "Número de segmentos de pronóstico para compensar el inicio por (Opcional)",
-    "segments_to_show": "Número de segmentos de pronóstico para mostrar (Opcional)"
+    "segments_to_show": "Número de segmentos de pronóstico para mostrar (Opcional)",
+    "label_spacing": "Número de segmentos de pronóstico para etiquetas de temperatura y tiempo espacial por (Opcional)"
   },
   "errors": {
     "missing_entity": "falta la entidad en la configuración",
@@ -19,7 +20,8 @@
     "must_be_int": "Debe ser un entero mayor o igual a 2",
     "invalid_colors": "Los siguientes colores en su configuración no son válidos:",
     "must_be_positive_int": "Debe ser un entero positivo",
-    "too_many_segments_requested": "Se solicitaron demasiados segmentos de pronóstico en num_segments. Debe ser <= número de segmentos en la entidad de pronóstico."
+    "too_many_segments_requested": "Se solicitaron demasiados segmentos de pronóstico en num_segments. Debe ser <= número de segmentos en la entidad de pronóstico.",
+    "label_spacing_positive_even_int": "label_spacing debe ser un entero par mayor o igual a 2"
   },
   "conditions": {
     "clear": "Despejado",

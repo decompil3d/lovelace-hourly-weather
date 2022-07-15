@@ -26,6 +26,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   hide_temperatures = false;
 
+  @property({ type: Number })
+  label_spacing = 2;
+
   private tips: Instance[] = [];
 
   render() {
@@ -48,14 +51,17 @@ export class WeatherBar extends LitElement {
 
     const barBlocks: TemplateResult[] = [];
     for (let i = 1; i < this.temperatures.length; i += 2) {
+      const skipLabel = (i - 1) % this.label_spacing !== 0;
+      const hideHours = this.hide_hours || skipLabel;
+      const hideTemperature = this.hide_temperatures || skipLabel;
       const { hour, temperature } = this.temperatures[i];
       barBlocks.push(html`
         <div class="bar-block">
           <div class="bar-block-left"></div>
           <div class="bar-block-right"></div>
           <div class="bar-block-bottom">
-            <div class="hour">${this.hide_hours ? null : hour}</div>
-            <div class="temperature">${this.hide_temperatures ? null : html`${temperature}&deg;`}</div>
+            <div class="hour">${hideHours ? null : hour}</div>
+            <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
           </div>
         </div>
       `);
@@ -230,6 +236,7 @@ export class WeatherBar extends LitElement {
     .hour {
       color: var(--secondary-text-color, gray);
       font-size: 0.9rem;
+      white-space: nowrap;
     }
     .temperature {
       font-size: 1.1rem;
