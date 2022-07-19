@@ -292,6 +292,9 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private async _showError(error: string): Promise<TemplateResult> {
+    // Without this next line, we get an error accessing `setConfig` on `errorCard`, likely due to a race condition in
+    // Home Assistant's lovelace logic. This line just triggers a stack unroll before we continue rendering. That deals
+    // with the race condition effectively, it seems.
     await new Promise(resolve => setTimeout(resolve, 0));
     const errorCard = document.createElement('hui-error-card');
     errorCard.setConfig({
