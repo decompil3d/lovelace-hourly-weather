@@ -75,6 +75,36 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | hold_action       | object | **Optional** | Action to take on hold                                    | `none`              |
 | double_tap_action | object | **Optional** | Action to take on double tap                              | `none`              |
 
+### Templating
+
+The following options allow Home Assistant Jinja templates as values:
+
+- `num_segments`
+- `offset`
+- `label_spacing`
+
+You may use any valid template expression that produces a string or number for each. For example, you can define offset
+based on the current time of day so that you see the next day's weather:
+
+```yaml
+name: Tomorrow
+num_segments: 24
+offset: |
+  {{ 24 - now().hour }}
+label_spacing: 4
+```
+
+Or maybe show the rest of today's weather:
+
+```yaml
+name: Today
+num_segments: |
+  {{ 24 - now().hour }}
+label_spacing: |
+  {% set segments = 24 - now().hour %}
+  {{ 4 if segments > 12 else 2 }}
+```
+
 ## Action Options
 
 | Name            | Type   | Requirement  | Description                                                                                        | Default     |

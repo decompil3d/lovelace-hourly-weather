@@ -73,3 +73,7 @@ export interface ColorSettings {
   validColors?: ColorMap,
   warnings: string[]
 }
+
+export interface RenderTemplateResult {
+  result: string
+}
