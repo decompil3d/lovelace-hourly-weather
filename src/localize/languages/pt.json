@@ -21,7 +21,8 @@
     "invalid_colors": "As seguintes cores em sua configuração são inválidas:",
     "must_be_positive_int": "Deve ser um número inteiro positivo",
     "too_many_segments_requested": "Muitos segmentos de previsão solicitados em num_segments. Deve ser <= número de segmentos na entidade de previsão.",
-    "label_spacing_positive_even_int": "label_spacing deve ser um número inteiro par maior ou igual a 2"
+    "label_spacing_positive_even_int": "label_spacing deve ser um número inteiro par maior ou igual a 2",
+    "offset_must_be_positive_int": "offset deve ser um número inteiro positivo"
   },
   "conditions": {
     "clear": "Limpo",

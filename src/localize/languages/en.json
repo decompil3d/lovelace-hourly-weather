@@ -21,7 +21,8 @@
     "must_be_int": "Must be an even integer greater than or equal to 2",
     "invalid_colors": "The following colors in your configuration are invalid:",
     "must_be_positive_int": "Must be a positive integer",
-    "label_spacing_positive_even_int": "label_spacing must be an even integer greater than or equal to 2"
+    "label_spacing_positive_even_int": "label_spacing must be an even integer greater than or equal to 2",
+    "offset_must_be_positive_int": "offset must be a positive integer"
   },
   "conditions": {
     "clear": "Clear",

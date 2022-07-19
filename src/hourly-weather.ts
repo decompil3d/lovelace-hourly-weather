@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LitElement, html, TemplateResult, css, PropertyValues, CSSResultGroup } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { until } from 'lit/directives/until.js'
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
@@ -15,7 +16,16 @@ import {
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
 
-import type { ColorConfig, ColorMap, ColorSettings, ConditionSpan, ForecastSegment, HourlyWeatherCardConfig, SegmentTemperature } from './types';
+import type {
+  ColorConfig,
+  ColorMap,
+  ColorSettings,
+  ConditionSpan,
+  ForecastSegment,
+  HourlyWeatherCardConfig,
+  RenderTemplateResult,
+  SegmentTemperature
+} from './types';
 import { actionHandler } from './action-handler-directive';
 import { version } from '../package.json';
 import { localize } from './localize/localize';
@@ -55,6 +65,8 @@ export class HourlyWeatherCard extends LitElement {
 
   @state() private config!: HourlyWeatherCardConfig;
 
+  @state() private renderedConfig!: Promise<HourlyWeatherCardConfig>;
+
   // https://lit.dev/docs/components/properties/#accessors-custom
   public setConfig(config: HourlyWeatherCardConfig): void {
     if (!config) {
@@ -80,6 +92,40 @@ export class HourlyWeatherCard extends LitElement {
       name: localize('common.title'),
       ...config,
     };
+
+    this.triggerConfigRender();
+  }
+
+  private triggerConfigRender(): void {
+    this.renderedConfig = this.renderConfig();
+  }
+
+  private async renderConfig(): Promise<HourlyWeatherCardConfig> {
+    const { config } = this;
+    if (!config) return config;
+    const r: HourlyWeatherCardConfig = {
+      ...config,
+      num_segments: await this.renderTemplate(config?.num_segments),
+      offset: await this.renderTemplate(config?.offset),
+      label_spacing: await this.renderTemplate(config?.label_spacing)
+    };
+
+    return r;
+  }
+
+  private async renderTemplate(raw: string | undefined): Promise<string | undefined> {
+    if (!raw) return raw; // not defined
+    if (typeof raw !== 'string') return raw; // not a template
+    if (!raw.includes('{{')) return raw; // not a template
+    return new Promise(resolve => {
+      this.hass.connection.subscribeMessage<RenderTemplateResult>(
+        msg => resolve(msg.result),
+        {
+          type: 'render_template',
+          template: raw
+        }
+      );
+    });
   }
 
   // https://lit.dev/docs/components/lifecycle/#reactive-update-cycle-performing
@@ -93,33 +139,52 @@ export class HourlyWeatherCard extends LitElement {
 
   // https://lit.dev/docs/components/rendering/
   protected render(): TemplateResult | void {
-    const entityId: string = this.config.entity;
+    // Block rendering until templates are rendered
+    return html`${until(this.renderCore(), html``)}`;
+  }
+
+  private async renderCore(): Promise<TemplateResult | void> {
+    const config = await this.renderedConfig;
+    const entityId: string = config.entity;
     const state = this.hass.states[entityId];
     const { forecast } = state.attributes as { forecast: ForecastSegment[] };
-    const numSegments = parseInt(this.config.num_segments ?? this.config.num_hours ?? '12', 10);
-    const offset = parseInt(this.config.offset ?? '0', 10);
-    const labelSpacing = parseInt(this.config.label_spacing ?? '2', 10);
+    const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
+    const offset = parseInt(config.offset ?? '0', 10);
+    const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
+
+    if (numSegments < 2) {
+      // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
+      return await this._showError(localize('errors.label_spacing_positive_even_int').replace('label_spacing', 'num_segments'));
+    }
+
+    if (offset < 0) {
+      return await this._showError(localize('errors.offset_must_be_positive_int'));
+    }
 
     if (numSegments > (forecast.length - offset)) {
-      return this._showError(localize('errors.too_many_segments_requested'));
+      return await this._showError(localize('errors.too_many_segments_requested'));
+    }
+
+    if (labelSpacing < 2 || labelSpacing % 2 !== 0) {
+      return await this._showError(localize('errors.label_spacing_positive_even_int'));
     }
 
     const isForecastDaily = this.isForecastDaily(forecast);
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset);
 
-    const colorSettings = this.getColorSettings(this.config.colors);
+    const colorSettings = this.getColorSettings(config.colors);
 
     return html`
       <ha-card
-        .header=${this.config.name}
+        .header=${config.name}
         @action=${this._handleAction}
         .actionHandler=${actionHandler({
-      hasHold: hasAction(this.config.hold_action),
-      hasDoubleClick: hasAction(this.config.double_tap_action),
+      hasHold: hasAction(config.hold_action),
+      hasDoubleClick: hasAction(config.double_tap_action),
     })}
         tabindex="0"
-        .label=${`Hourly Weather: ${this.config.entity || 'No Entity Defined'}`}
+        .label=${`Hourly Weather: ${config.entity || 'No Entity Defined'}`}
       >
         <div class="card-content">
           ${isForecastDaily ?
@@ -129,10 +194,10 @@ export class HourlyWeatherCard extends LitElement {
           <weather-bar
             .conditions=${conditionList}
             .temperatures=${temperatures}
-            .icons=${!!this.config.icons}
+            .icons=${!!config.icons}
             .colors=${colorSettings.validColors}
-            .hide_hours=${!!this.config.hide_hours}
-            .hide_temperatures=${!!this.config.hide_temperatures}
+            .hide_hours=${!!config.hide_hours}
+            .hide_temperatures=${!!config.hide_temperatures}
             .label_spacing=${labelSpacing}></weather-bar>
         </div>
       </ha-card>
@@ -226,7 +291,11 @@ export class HourlyWeatherCard extends LitElement {
     return html` <hui-warning>${warning}</hui-warning> `;
   }
 
-  private _showError(error: string): TemplateResult {
+  private async _showError(error: string): Promise<TemplateResult> {
+    // Without this next line, we get an error accessing `setConfig` on `errorCard`, likely due to a race condition in
+    // Home Assistant's lovelace logic. This line just triggers a stack unroll before we continue rendering. That deals
+    // with the race condition effectively, it seems.
+    await new Promise(resolve => setTimeout(resolve, 0));
     const errorCard = document.createElement('hui-error-card');
     errorCard.setConfig({
       type: 'error',

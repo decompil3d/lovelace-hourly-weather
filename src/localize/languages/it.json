@@ -21,7 +21,8 @@
     "invalid_colors": "I seguenti colori nella tua configurazione non sono validi:",
     "must_be_positive_int": "Deve essere un numero intero positivo",
     "too_many_segments_requested": "Troppi segmenti di previsione richiesti in num_segments. Deve essere <= numero di segmenti nell'entità di previsione.",
-    "label_spacing_positive_even_int": "label_spacing deve essere un numero intero pari maggiore o uguale a 2"
+    "label_spacing_positive_even_int": "label_spacing deve essere un numero intero pari maggiore o uguale a 2",
+    "offset_must_be_positive_int": "offset deve essere un numero intero positivo"
   },
   "conditions": {
     "clear": "Limpido",
