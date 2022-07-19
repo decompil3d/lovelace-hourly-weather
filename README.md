@@ -83,8 +83,8 @@ The following options allow Home Assistant Jinja templates as values:
 - `offset`
 - `label_spacing`
 
-You may use any valid template expression that produces a string or number for each. For example, you can define offset
-based on the current time of day so that you see the next day's weather:
+You may use any valid template expression that produces a string or number. For example, you can define offset based on
+the current time of day so that you see the next day's weather:
 
 ```yaml
 name: Tomorrow
