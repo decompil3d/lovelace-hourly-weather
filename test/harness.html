@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lovelace Hourly Weather</title>
+    <script src="mocks/hui-error-card.js"></script>
+    <script src="../dist/hourly-weather.js" type="module"></script>
+</head>
+<body>
+    <div id="wrapper"></div>
+    <script>
+        const w = document.getElementById('wrapper');
+        const h = document.createElement('hourly-weather');
+        const now = new Date();
+        now.setMinutes(0);
+        h.hass = {
+            states: {
+                'weather.mock': {
+                    attributes: {
+                        forecast: [{
+                            datetime: now.toISOString(),
+                            condition: 'cloudy',
+                            temperature: 61
+                        }, {
+                            datetime: (new Date(now.getTime() + 1000 * 60 * 60)).toISOString(),
+                            condition: 'sunny',
+                            temperature: 75
+                        }, {
+                            datetime: (new Date(now.getTime() + 1000 * 60 * 60 * 2)).toISOString(),
+                            condition: 'sunny',
+                            temperature: 80
+                        }]
+                    }
+                }
+            },
+            locale: {language: 'en', number_format: 'language', time_format: 'language'}
+        }
+        w.appendChild(h);
+        window.addEventListener('load', () => h.setConfig({
+            type: 'custom:hourly-weather',
+            entity: 'weather.mock',
+            num_segments: 3
+        }));
+    </script>
+</body>
+</html>
