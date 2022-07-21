@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lovelace Hourly Weather</title>
+  <style>
+    #wrapper {
+      max-width: 500px;
+      padding: 10px;
+      border: 1px solid black;
+    }
+  </style>
+  <script src="mocks/hui-error-card.js"></script>
+  <script src="mocks/hui-warning.js"></script>
+  <script src="mocks/ha-card.js"></script>
+  <script src="../../dist/hourly-weather.js" type="module"></script>
+</head>
+<body>
+  <div id="wrapper"></div>
+  <script>
+    const w = document.getElementById('wrapper');
+    const h = document.createElement('hourly-weather');
+    const now = new Date();
+    now.setMinutes(0);
+    h.hass = {
+      states: {
+        'weather.mock': {
+          attributes: {
+            forecast: [
+            {
+              "datetime": "2022-07-21T17:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1007,
+              "wind_speed": 4.67,
+              "wind_bearing": 255,
+              "condition": "cloudy",
+              "clouds": 60,
+              "temperature": 84
+            },
+            {
+              "datetime": "2022-07-21T18:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1007,
+              "wind_speed": 6.07,
+              "wind_bearing": 253,
+              "condition": "cloudy",
+              "clouds": 75,
+              "temperature": 85
+            },
+            {
+              "datetime": "2022-07-21T19:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1007,
+              "wind_speed": 6.16,
+              "wind_bearing": 258,
+              "condition": "cloudy",
+              "clouds": 60,
+              "temperature": 85
+            },
+            {
+              "datetime": "2022-07-21T20:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 1,
+              "pressure": 1007,
+              "wind_speed": 5.9,
+              "wind_bearing": 278,
+              "condition": "partlycloudy",
+              "clouds": 49,
+              "temperature": 84
+            },
+            {
+              "datetime": "2022-07-21T21:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 1,
+              "pressure": 1007,
+              "wind_speed": 5.78,
+              "wind_bearing": 297,
+              "condition": "partlycloudy",
+              "clouds": 34,
+              "temperature": 84
+            },
+            {
+              "datetime": "2022-07-21T22:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 1,
+              "pressure": 1008,
+              "wind_speed": 5.06,
+              "wind_bearing": 293,
+              "condition": "partlycloudy",
+              "clouds": 19,
+              "temperature": 83
+            },
+            {
+              "datetime": "2022-07-21T23:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 1,
+              "pressure": 1008,
+              "wind_speed": 6.39,
+              "wind_bearing": 304,
+              "condition": "sunny",
+              "clouds": 4,
+              "temperature": 79
+            },
+            {
+              "datetime": "2022-07-22T00:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1009,
+              "wind_speed": 5.68,
+              "wind_bearing": 302,
+              "condition": "sunny",
+              "clouds": 3,
+              "temperature": 75
+            },
+            {
+              "datetime": "2022-07-22T01:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1009,
+              "wind_speed": 3.95,
+              "wind_bearing": 290,
+              "condition": "sunny",
+              "clouds": 0,
+              "temperature": 70
+            },
+            {
+              "datetime": "2022-07-22T02:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1010,
+              "wind_speed": 3.75,
+              "wind_bearing": 285,
+              "condition": "sunny",
+              "clouds": 0,
+              "temperature": 67
+            },
+            {
+              "datetime": "2022-07-22T03:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1010,
+              "wind_speed": 3.61,
+              "wind_bearing": 285,
+              "condition": "sunny",
+              "clouds": 0,
+              "temperature": 65
+            },
+            {
+              "datetime": "2022-07-22T04:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1010,
+              "wind_speed": 3.59,
+              "wind_bearing": 283,
+              "condition": "clear-night",
+              "clouds": 0,
+              "temperature": 64
+            },
+            {
+              "datetime": "2022-07-22T05:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1011,
+              "wind_speed": 3.54,
+              "wind_bearing": 281,
+              "condition": "clear-night",
+              "clouds": 0,
+              "temperature": 63
+            },
+            {
+              "datetime": "2022-07-22T06:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1011,
+              "wind_speed": 3.51,
+              "wind_bearing": 283,
+              "condition": "clear-night",
+              "clouds": 0,
+              "temperature": 62
+            },
+            {
+              "datetime": "2022-07-22T07:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1012,
+              "wind_speed": 3.24,
+              "wind_bearing": 277,
+              "condition": "clear-night",
+              "clouds": 0,
+              "temperature": 61
+            },
+            {
+              "datetime": "2022-07-22T08:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1012,
+              "wind_speed": 3.59,
+              "wind_bearing": 274,
+              "condition": "partlycloudy",
+              "clouds": 22,
+              "temperature": 61
+            },
+            {
+              "datetime": "2022-07-22T09:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1012,
+              "wind_speed": 2.56,
+              "wind_bearing": 304,
+              "condition": "partlycloudy",
+              "clouds": 24,
+              "temperature": 60
+            },
+            {
+              "datetime": "2022-07-22T10:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 2.11,
+              "wind_bearing": 283,
+              "condition": "partlycloudy",
+              "clouds": 20,
+              "temperature": 60
+            },
+            {
+              "datetime": "2022-07-22T11:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 2.72,
+              "wind_bearing": 253,
+              "condition": "partlycloudy",
+              "clouds": 36,
+              "temperature": 62
+            },
+            {
+              "datetime": "2022-07-22T12:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 2.83,
+              "wind_bearing": 242,
+              "condition": "partlycloudy",
+              "clouds": 47,
+              "temperature": 64
+            },
+            {
+              "datetime": "2022-07-22T13:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1014,
+              "wind_speed": 3.21,
+              "wind_bearing": 239,
+              "condition": "cloudy",
+              "clouds": 100,
+              "temperature": 67
+            },
+            {
+              "datetime": "2022-07-22T14:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1015,
+              "wind_speed": 4.67,
+              "wind_bearing": 250,
+              "condition": "cloudy",
+              "clouds": 99,
+              "temperature": 71
+            },
+            {
+              "datetime": "2022-07-22T15:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 4,
+              "pressure": 1014,
+              "wind_speed": 4.93,
+              "wind_bearing": 251,
+              "condition": "cloudy",
+              "clouds": 99,
+              "temperature": 70
+            },
+            {
+              "datetime": "2022-07-22T16:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 2.7,
+              "wind_bearing": 271,
+              "condition": "cloudy",
+              "clouds": 99,
+              "temperature": 71
+            },
+            {
+              "datetime": "2022-07-22T17:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 3.98,
+              "wind_bearing": 244,
+              "condition": "cloudy",
+              "clouds": 100,
+              "temperature": 76
+            },
+            {
+              "datetime": "2022-07-22T18:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 5.37,
+              "wind_bearing": 249,
+              "condition": "cloudy",
+              "clouds": 100,
+              "temperature": 80
+            },
+            {
+              "datetime": "2022-07-22T19:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1012,
+              "wind_speed": 4.58,
+              "wind_bearing": 237,
+              "condition": "cloudy",
+              "clouds": 100,
+              "temperature": 81
+            },
+            {
+              "datetime": "2022-07-22T20:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 5.37,
+              "wind_bearing": 223,
+              "condition": "cloudy",
+              "clouds": 100,
+              "temperature": 80
+            },
+            {
+              "datetime": "2022-07-22T21:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 4.7,
+              "wind_bearing": 227,
+              "condition": "cloudy",
+              "clouds": 100,
+              "temperature": 80
+            },
+            {
+              "datetime": "2022-07-22T22:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 3.94,
+              "wind_bearing": 244,
+              "condition": "cloudy",
+              "clouds": 89,
+              "temperature": 80
+            },
+            {
+              "datetime": "2022-07-22T23:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 3.62,
+              "wind_bearing": 235,
+              "condition": "cloudy",
+              "clouds": 91,
+              "temperature": 79
+            },
+            {
+              "datetime": "2022-07-23T00:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1012,
+              "wind_speed": 3.24,
+              "wind_bearing": 222,
+              "condition": "cloudy",
+              "clouds": 93,
+              "temperature": 76
+            },
+            {
+              "datetime": "2022-07-23T01:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 27,
+              "pressure": 1012,
+              "wind_speed": 2.64,
+              "wind_bearing": 180,
+              "condition": "cloudy",
+              "clouds": 97,
+              "temperature": 72
+            },
+            {
+              "datetime": "2022-07-23T02:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 45,
+              "pressure": 1011,
+              "wind_speed": 2.91,
+              "wind_bearing": 150,
+              "condition": "cloudy",
+              "clouds": 98,
+              "temperature": 70
+            },
+            {
+              "datetime": "2022-07-23T03:00:00+00:00",
+              "precipitation": 0.63,
+              "precipitation_probability": 90,
+              "pressure": 1012,
+              "wind_speed": 3.19,
+              "wind_bearing": 158,
+              "condition": "rainy",
+              "clouds": 79,
+              "temperature": 68
+            },
+            {
+              "datetime": "2022-07-23T04:00:00+00:00",
+              "precipitation": 0.8,
+              "precipitation_probability": 95,
+              "pressure": 1012,
+              "wind_speed": 3.5,
+              "wind_bearing": 167,
+              "condition": "rainy",
+              "clouds": 61,
+              "temperature": 67
+            },
+            {
+              "datetime": "2022-07-23T05:00:00+00:00",
+              "precipitation": 1.83,
+              "precipitation_probability": 100,
+              "pressure": 1013,
+              "wind_speed": 4.95,
+              "wind_bearing": 204,
+              "condition": "rainy",
+              "clouds": 49,
+              "temperature": 66
+            },
+            {
+              "datetime": "2022-07-23T06:00:00+00:00",
+              "precipitation": 0.82,
+              "precipitation_probability": 100,
+              "pressure": 1012,
+              "wind_speed": 5.71,
+              "wind_bearing": 242,
+              "condition": "rainy",
+              "clouds": 57,
+              "temperature": 67
+            },
+            {
+              "datetime": "2022-07-23T07:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 22,
+              "pressure": 1011,
+              "wind_speed": 3.46,
+              "wind_bearing": 155,
+              "condition": "cloudy",
+              "clouds": 73,
+              "temperature": 65
+            },
+            {
+              "datetime": "2022-07-23T08:00:00+00:00",
+              "precipitation": 0.49,
+              "precipitation_probability": 60,
+              "pressure": 1012,
+              "wind_speed": 4.13,
+              "wind_bearing": 165,
+              "condition": "rainy",
+              "clouds": 45,
+              "temperature": 64
+            },
+            {
+              "datetime": "2022-07-23T09:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 52,
+              "pressure": 1011,
+              "wind_speed": 1.36,
+              "wind_bearing": 120,
+              "condition": "partlycloudy",
+              "clouds": 31,
+              "temperature": 64
+            },
+            {
+              "datetime": "2022-07-23T10:00:00+00:00",
+              "precipitation": 0.69,
+              "precipitation_probability": 60,
+              "pressure": 1012,
+              "wind_speed": 1.07,
+              "wind_bearing": 185,
+              "condition": "rainy",
+              "clouds": 23,
+              "temperature": 63
+            },
+            {
+              "datetime": "2022-07-23T11:00:00+00:00",
+              "precipitation": 0.47,
+              "precipitation_probability": 60,
+              "pressure": 1012,
+              "wind_speed": 2.39,
+              "wind_bearing": 166,
+              "condition": "rainy",
+              "clouds": 19,
+              "temperature": 64
+            },
+            {
+              "datetime": "2022-07-23T12:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 60,
+              "pressure": 1012,
+              "wind_speed": 2.62,
+              "wind_bearing": 191,
+              "condition": "partlycloudy",
+              "clouds": 19,
+              "temperature": 66
+            },
+            {
+              "datetime": "2022-07-23T13:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1013,
+              "wind_speed": 3.13,
+              "wind_bearing": 207,
+              "condition": "sunny",
+              "clouds": 7,
+              "temperature": 70
+            },
+            {
+              "datetime": "2022-07-23T14:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1012,
+              "wind_speed": 3.21,
+              "wind_bearing": 187,
+              "condition": "sunny",
+              "clouds": 7,
+              "temperature": 72
+            },
+            {
+              "datetime": "2022-07-23T15:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1012,
+              "wind_speed": 2.46,
+              "wind_bearing": 190,
+              "condition": "partlycloudy",
+              "clouds": 13,
+              "temperature": 75
+            },
+            {
+              "datetime": "2022-07-23T16:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1012,
+              "wind_speed": 2.36,
+              "wind_bearing": 179,
+              "condition": "partlycloudy",
+              "clouds": 33,
+              "temperature": 78
+            }
+            ]
+          }
+        }
+      },
+      locale: {language: 'en', number_format: 'language', time_format: 'language'}
+    }
+    w.appendChild(h);
+    window.hourlyWeather = h;
+    window.addEventListener('load', () => {
+        window.setHWConfig = config => h.setConfig(config);
+        window.setHWConfig({
+        type: 'custom:hourly-weather',
+        entity: 'weather.mock',
+        num_segments: 12
+      });
+      window.appReady = true;
+    });
+  </script>
+</body>
+</html>
