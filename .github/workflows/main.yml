@@ -16,6 +16,15 @@ jobs:
           cd /home/runner/work/lovelace-hourly-weather/lovelace-hourly-weather
           npm ci
           npm run build
+      - name: Run tests
+        uses: cypress-io/github-action@v4
+        with:
+          record: true
+          start: npm run test:server
+          wait-on: 'http://localhost:8000'
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: HACS Action
         uses: "hacs/action@main"
         with:

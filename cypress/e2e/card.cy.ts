@@ -1,15 +1,16 @@
-import { defaultConfig } from '../fixtures/test-utils';
-
-describe('basics', () => {
+describe('Card', () => {
   beforeEach(() => {
     cy.visit('harness.html');
     cy.window().should('have.property', 'appReady', true);
   });
-  it('renders an ha-card with appropriate title', () => {
-    cy.window().invoke('setHWConfig', {
-      ...defaultConfig,
+  it('shows appropriate title', () => {
+    cy.get('ha-card')
+      .shadow()
+      .find('h1')
+      .should('have.text', 'Hourly Weather');
+    cy.configure({
       name: 'Some custom name'
-    }).wait(1);
+    });
     cy.get('ha-card')
       .shadow()
       .find('h1')
