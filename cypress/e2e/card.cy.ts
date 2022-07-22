@@ -1,7 +1,6 @@
 describe('Card', () => {
   beforeEach(() => {
-    cy.visit('harness.html');
-    cy.window().should('have.property', 'appReady', true);
+    cy.visitHarness();
   });
   it('shows appropriate title', () => {
     cy.get('ha-card')

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /// <reference types="cypress" />
 
-import { HourlyWeatherCardConfig } from "../../src/types"
+import { ForecastSegment, HourlyWeatherCardConfig } from "../../src/types"
 import { defaultConfig } from "../fixtures/test-utils"
 
 // ***********************************************
@@ -30,17 +30,43 @@ import { defaultConfig } from "../fixtures/test-utils"
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('configure', (config: Partial<HourlyWeatherCardConfig>) => {
-  cy.window().invoke('setHWConfig', {
-    ...defaultConfig,
-    ...config
-  }).wait(1);
+Cypress.Commands.add('visitHarness', () => {
+  cy.visit('harness.html');
+  cy.window().should('have.property', 'appReady', true);
+});
+
+Cypress.Commands.add('configure', (config: Partial<HourlyWeatherCardConfig>, noDefaults?: boolean) => {
+  const cfg = noDefaults ? config : { ...defaultConfig, ...config };
+  cy.window().invoke('setHWConfig', cfg).wait(1);
+});
+
+interface WeatherEntity {
+  attributes: {
+    forecast: ForecastSegment[];
+  };
+}
+
+Cypress.Commands.add('addEntity', (entities: Record<string, WeatherEntity>) => {
+  cy.window().invoke('addHWEntity', entities).wait(1);
+});
+
+Cypress.Commands.add('slotAssignedNodes', { prevSubject: true }, (subject, name) => {
+  let slot: Cypress.JQueryWithSelector<HTMLSlotElement>;
+  if (name) {
+    slot = subject.find(`slot[name="${name}"]`) as Cypress.JQueryWithSelector<HTMLSlotElement>;
+  } else {
+    slot = subject.find('slot') as Cypress.JQueryWithSelector<HTMLSlotElement>;
+  }
+  return cy.wrap(slot.get(0).assignedNodes());
 });
 
 declare global {
   namespace Cypress {
     interface Chainable {
-      configure(config: Partial<HourlyWeatherCardConfig>): Chainable<void>;
+      visitHarness(): Chainable<Window>;
+      configure(config: Partial<HourlyWeatherCardConfig>, noDefaults?: boolean): Chainable<void>;
+      addEntity(entities: Record<string, WeatherEntity>): Chainable<void>;
+      slotAssignedNodes(name?: string): Chainable<Node[]>;
     }
   }
 }

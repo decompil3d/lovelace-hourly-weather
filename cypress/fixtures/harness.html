@@ -568,6 +568,13 @@
     window.hourlyWeather = h;
     window.addEventListener('load', () => {
         window.setHWConfig = config => h.setConfig(config);
+        window.addHWEntity = entity => h.hass = {
+          ...h.hass,
+          states: {
+            ...h.hass.states,
+            ...entity
+          }
+        }
         window.setHWConfig({
         type: 'custom:hourly-weather',
         entity: 'weather.mock',

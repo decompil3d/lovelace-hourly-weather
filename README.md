@@ -9,6 +9,8 @@ An hourly weather card for Home Assistant. Visualize upcoming weather conditions
 ![Project Maintenance][maintenance-shield]
 [![GitHub Activity][commits-shield]][commits]
 
+[![Lovelace Hourly Weather](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/o468vw/main&style=for-the-badge&logo=cypress)](https://dashboard.cypress.io/projects/o468vw/runs)
+
 [![Discord][discord-shield]][discord]
 [![Community Forum][forum-shield]][forum]
 
