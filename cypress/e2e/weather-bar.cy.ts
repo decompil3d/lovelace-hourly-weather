@@ -180,12 +180,12 @@ describe('Weather bar', () => {
     });
 
     const expectedHours = [
-      '11 AM',
-      '1 PM',
-      '3 PM',
-      '5 PM',
-      '7 PM',
-      '9 PM'
+      '6 PM',
+      '8 PM',
+      '10 PM',
+      '12 AM',
+      '2 AM',
+      '4 AM'
     ];
 
     it('shows hour labels on axes', () => {

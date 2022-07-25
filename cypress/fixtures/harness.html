@@ -567,15 +567,22 @@
     w.appendChild(h);
     window.hourlyWeather = h;
     window.addEventListener('load', () => {
-        window.setHWConfig = config => h.setConfig(config);
-        window.addHWEntity = entity => h.hass = {
-          ...h.hass,
-          states: {
-            ...h.hass.states,
-            ...entity
-          }
+      window.setHWConfig = config => h.setConfig(config);
+      window.addHWEntity = entity => h.hass = {
+        ...h.hass,
+        states: {
+          ...h.hass.states,
+          ...entity
         }
-        window.setHWConfig({
+      }
+      window.setHWLocale = locale => h.hass = {
+        ...h.hass,
+        locale: {
+          ...h.hass.locale,
+          ...locale
+        }
+      };
+      window.setHWConfig({
         type: 'custom:hourly-weather',
         entity: 'weather.mock',
         num_segments: 12

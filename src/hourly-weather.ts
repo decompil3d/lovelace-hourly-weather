@@ -134,6 +134,14 @@ export class HourlyWeatherCard extends LitElement {
       return false;
     }
 
+    if (changedProps.has('hass')) {
+      const oldHass = changedProps.get('hass') as HomeAssistant;
+      if (JSON.stringify(oldHass.locale) !== JSON.stringify(this.hass.locale)) {
+        // Locale changed, so we must re-render
+        return true;
+      }
+    }
+
     return hasConfigOrEntityChanged(this, changedProps, false);
   }
 

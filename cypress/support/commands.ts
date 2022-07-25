@@ -50,6 +50,16 @@ Cypress.Commands.add('addEntity', (entities: Record<string, WeatherEntity>) => {
   cy.window().invoke('addHWEntity', entities).wait(1);
 });
 
+interface HALocale {
+  language: string;
+  number_format: string;
+  time_format: string;
+}
+
+Cypress.Commands.add('setLocale', (locale: Partial<HALocale>) => {
+  cy.window().invoke('setHWLocale', locale).wait(1);
+});
+
 Cypress.Commands.add('slotAssignedNodes', { prevSubject: true }, (subject, name) => {
   let slot: Cypress.JQueryWithSelector<HTMLSlotElement>;
   if (name) {
@@ -66,6 +76,7 @@ declare global {
       visitHarness(): Chainable<Window>;
       configure(config: Partial<HourlyWeatherCardConfig>, noDefaults?: boolean): Chainable<void>;
       addEntity(entities: Record<string, WeatherEntity>): Chainable<void>;
+      setLocale(locale: Partial<HALocale>): Chainable<void>;
       slotAssignedNodes(name?: string): Chainable<Node[]>;
     }
   }

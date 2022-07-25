@@ -89,4 +89,27 @@ describe('Config', () => {
       .its('textContent')
       .should('eq', 'The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.');
   });
+  it('warns for invalid colors', () => {
+    cy.configure({
+      colors: {
+        cloudy: '#FF000011', // too many digits
+        partlycloudy: 'rgb(0, 255, 0, 0, 0)', // too many params
+        sunny: 'foo(240, 100%, 50%)', // wrong function
+        "clear-night": 'blahblah', // invalid color name
+        // @ts-expect-error This is a test, so we're intentionally passing the wrong thing
+        foobar: 'rgb(0, 255, 0)' // invalid condition
+      }
+    });
+    cy.get('hui-warning')
+      .shadow()
+      .slotAssignedNodes()
+      .should('have.length', 1)
+      .its(0)
+      .its('textContent')
+      .should('contain', 'cloudy: #FF000011')
+      .and('contain', 'partlycloudy: rgb(0, 255, 0, 0, 0)')
+      .and('contain', 'sunny: foo(240, 100%, 50%)')
+      .and('contain', 'clear-night: blahblah')
+      .and('contain', 'foobar: rgb(0, 255, 0)');
+  });
 });

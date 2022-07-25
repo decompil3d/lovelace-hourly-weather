@@ -69,9 +69,9 @@
     "build": "npm run lint && npm run rollup",
     "lint": "eslint src/*.ts",
     "rollup": "rollup -c",
-    "test:server": "http-server ./ -c-1 -p 8000",
-    "test:cypress": "cypress run",
+    "test:server": "http-server ./ -c-1 -p 8000 -s",
+    "test:cypress": "TZ=Etc/UTC cypress run",
     "test": "server-test test:server :8000 test:cypress",
-    "cypress": "server-test test:server :8000 'npx cypress open'"
+    "cypress": "server-test test:server :8000 'TZ=Etc/UTC npx cypress open'"
   }
 }
