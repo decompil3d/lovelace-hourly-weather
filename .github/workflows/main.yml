@@ -25,6 +25,7 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TZ: America/Los_Angeles # https://github.com/cypress-io/cypress/issues/1043
       - name: HACS Action
         uses: "hacs/action@main"
         with:
