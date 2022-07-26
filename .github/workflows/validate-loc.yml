@@ -43,26 +43,17 @@ jobs:
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
-          grep "^import \* as $LANGUAGE from './languages/$LANGUAGE.json';" src/localize/localize.ts
-          if [ $? -ne 0 ]; then
-            echo "src/localize/localize.ts does not import $LANGUAGE.json"
-            exit 1
-          fi
+          grep "^import \* as $LANGUAGE from './languages/$LANGUAGE.json';" src/localize/localize.ts || \
+            (echo "src/localize/localize.ts does not import $LANGUAGE.json" && exit 1)
       - name: Ensure .github/workflows/translate.yml updated
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
-          grep "to: '.*$LANGUAGE" .github/workflows/translate.yml
-          if [ $? -ne 0 ]; then
-            echo ".github/workflows/translate.yml missing entry for $LANGUAGE"
-            exit 1
-          fi
+          grep "to: '.*$LANGUAGE" .github/workflows/translate.yml || \
+            (echo ".github/workflows/translate.yml missing entry for $LANGUAGE" && exit 1)
       - name: Ensure cypress/e2e/localization.cy.ts updated
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
-          grep "^\s+$LANGUAGE: '" cypress/e2e/localization.cy.ts
-          if [ $? -ne 0 ]; then
-            echo "cypress/e2e/localization.cy.ts expectedTranslations missing entry for $LANGUAGE"
-            exit 1
-          fi
+          grep "^\s+$LANGUAGE: '" cypress/e2e/localization.cy.ts || \
+            (echo "cypress/e2e/localization.cy.ts expectedTranslations missing entry for $LANGUAGE" && exit 1)
