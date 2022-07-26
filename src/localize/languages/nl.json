@@ -1,0 +1,41 @@
+{
+  "common": {
+    "version": "Versie",
+    "title": "Weer per uur",
+    "title_card": "Weerkaart per uur",
+    "description": "Een kaart om de weersomstandigheden per uur weer te geven als een bar.",
+    "invalid_configuration": "Ongeldige configuratie"
+  },
+  "editor": {
+    "entity": "Entiteit (Verplicht)",
+    "name": "Naam: (Optioneel)",
+    "segments_to_show": "Aantal weer te geven prognosesegmenten (Optioneel)",
+    "offset": "Aantal prognosesegmenten om mee te compenseren (Optioneel)",
+    "icons": "Pictogrammen weergeven in plaats van tekstlabels",
+    "label_spacing": "Aantal prognosesegmenten naar ruimtetijd- en temperatuurlabels per (Optioneel)"
+  },
+  "errors": {
+    "missing_entity": "entity ontbreekt in configuratie",
+    "too_many_segments_requested": "Te veel prognosesegmenten aangevraagd in num_segments. Moet <= aantal segmenten in prognose-entiteit zijn.",
+    "daily_forecasts": "De geselecteerde weereenheid lijkt dagelijkse voorspellingen te geven. Overweeg om over te stappen naar een uurtarief.",
+    "must_be_int": "Moet een even geheel getal zijn groter dan of gelijk aan 2",
+    "invalid_colors": "De volgende kleuren in uw configuratie zijn ongeldig:",
+    "must_be_positive_int": "Moet een positief geheel getal zijn",
+    "label_spacing_positive_even_int": "label_spacing moet een even geheel getal zijn groter dan of gelijk aan 2",
+    "offset_must_be_positive_int": "offset moet een positief geheel getal zijn"
+  },
+  "conditions": {
+    "clear": "Duidelijk",
+    "cloudy": "Bewolkt",
+    "fog": "Mist",
+    "hail": "Hagel",
+    "thunderstorm": "Onweersbui",
+    "partlyCloudy": "Half bewolkt",
+    "heavyRain": "Zware regen",
+    "rain": "Regenen",
+    "snow": "Sneeuw",
+    "mixedPrecip": "Gemengde neerslag",
+    "sunny": "Zonnig",
+    "windy": "Winderig"
+  }
+}

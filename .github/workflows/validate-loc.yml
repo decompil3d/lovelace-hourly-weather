@@ -1,0 +1,65 @@
+name: Validate localization files
+on:
+  pull_request:
+    paths:
+      - 'src/localize/languages/*.json'
+jobs:
+  find-new-languages:
+    runs-on: ubuntu-latest
+    outputs:
+      languages: ${{ steps.get-languages.outputs.result }}
+    steps:
+      - name: Get new language(s) being added
+        id: get-languages
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pullInfo = context.issue;
+            pullInfo.pull_number = pullInfo.number;
+            delete pullInfo.number;
+            const files = await github.rest.pulls.listFiles(pullInfo);
+            const newLanguages = files.data.filter(file => {
+              if (!file.filename.startsWith('src/localize/languages/')) {
+                return false;
+              }
+              if (file.status !== 'added') {
+                return false;
+              }
+              return true;
+            });
+            const langCodes = newLanguages.map(l => l.filename.replace('src/localize/languages/', '').replace('.json', ''));
+            console.log('New languages added:', langCodes.join(', '));
+            return langCodes;
+  validate-added-languages:
+    needs: find-new-languages
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        language: ${{ fromJSON(needs.find-new-languages.outputs.languages) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Ensure src/localize/localize.ts imports new language
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          grep "^import \* as $LANGUAGE from './languages/$LANGUAGE.json';" src/localize/localize.ts || \
+            (echo "src/localize/localize.ts does not import $LANGUAGE.json" && exit 1)
+      - name: Ensure src/localize/localize.ts consumes new language
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          grep "^\s*$LANGUAGE," src/localize/localize.ts || \
+            (echo "src/localize/localize.ts does not consume $LANGUAGE in languages variable" && exit 1)
+      - name: Ensure .github/workflows/translate.yml updated
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          grep "to: '.*$LANGUAGE" .github/workflows/translate.yml || \
+            (echo ".github/workflows/translate.yml missing entry for $LANGUAGE" && exit 1)
+      - name: Ensure cypress/e2e/localization.cy.ts updated
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          grep "^\s*$LANGUAGE: '" cypress/e2e/localization.cy.ts || \
+            (echo "cypress/e2e/localization.cy.ts expectedTranslations missing entry for $LANGUAGE" && exit 1)
