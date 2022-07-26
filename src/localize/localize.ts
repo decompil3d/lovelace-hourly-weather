@@ -16,6 +16,7 @@ const languages: any = {
   fr,
   it,
   nb,
+  nl,
   pl,
   pt,
 };
