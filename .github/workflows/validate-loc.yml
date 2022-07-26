@@ -1,0 +1,64 @@
+on:
+  pull_request:
+    paths:
+      - 'src/localize/languages/*.json'
+jobs:
+  find-new-languages:
+    runs-on: ubuntu-latest
+    outputs:
+      languages: ${{ steps.get-languages.outputs.result }}
+    steps:
+      - name: Get new language(s) being added
+        id: get-languages
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pullInfo = context.issue;
+            pullInfo.pull_number = pullInfo.number;
+            delete pullInfo.number;
+            const files = github.rest.pulls.listFiles(pullInfo).data;
+            const newLanguages = files.filter(file => {
+              if (!file.filename.startWith('src/localize/languages/')) {
+                return false;
+              }
+              if (file.status !== 'added') {
+                return false;
+              }
+            });
+            return newLanguages.map(l => l.filename.replace('src/localize/languages/', '').replace('.json', ''));
+  validate-added-languages:
+    needs: find-new-languages
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        language: ${{ needs.find-new-languages.outputs.languages }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Ensure src/localize/localize.ts updated
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          grep "^import \* as $LANGUAGE from './languages/$LANGUAGE.json';" src/localize/localize.ts
+          if [ $? -ne 0 ]; then
+            echo "src/localize/localize.ts does not import $LANGUAGE.json"
+            exit 1
+          fi
+      - name: Ensure .github/workflows/translate.yml updated
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          grep "to: '.*$LANGUAGE" .github/workflows/translate.yml
+          if [ $? -ne 0 ]; then
+            echo ".github/workflows/translate.yml missing entry for $LANGUAGE"
+            exit 1
+          fi
+      - name: Ensure cypress/e2e/localization.cy.ts updated
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          grep "^\s+$LANGUAGE: '" cypress/e2e/localization.cy.ts
+          if [ $? -ne 0 ]; then
+            echo "cypress/e2e/localization.cy.ts expectedTranslations missing entry for $LANGUAGE"
+            exit 1
+          fi
