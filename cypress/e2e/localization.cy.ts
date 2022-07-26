@@ -18,6 +18,7 @@ describe('Localization', () => {
     fr: 'Nuageux',
     it: 'Nuvoloso',
     nb: 'Skyet',
+    nl: 'Bewolkt',
     pl: 'Pochmurnie',
     pt: 'Nublado'
   }

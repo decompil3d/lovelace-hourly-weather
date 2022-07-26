@@ -7,15 +7,15 @@
     "invalid_configuration": "Ongeldige configuratie"
   },
   "editor": {
-    "entity": "Entiteit (verplicht)",
+    "entity": "Entiteit (Verplicht)",
     "name": "Naam: (Optioneel)",
-    "segments_to_show": "Aantal weer te geven prognosesegmenten (optioneel)",
-    "offset": "Aantal prognosesegmenten om mee te compenseren (optioneel)",
+    "segments_to_show": "Aantal weer te geven prognosesegmenten (Optioneel)",
+    "offset": "Aantal prognosesegmenten om mee te compenseren (Optioneel)",
     "icons": "Pictogrammen weergeven in plaats van tekstlabels",
-    "label_spacing": "Aantal prognosesegmenten naar ruimtetijd- en temperatuurlabels per (optioneel)"
+    "label_spacing": "Aantal prognosesegmenten naar ruimtetijd- en temperatuurlabels per (Optioneel)"
   },
   "errors": {
-    "missing_entity": "entiteit ontbreekt in configuratie",
+    "missing_entity": "entity ontbreekt in configuratie",
     "too_many_segments_requested": "Te veel prognosesegmenten aangevraagd in num_segments. Moet <= aantal segmenten in prognose-entiteit zijn.",
     "daily_forecasts": "De geselecteerde weereenheid lijkt dagelijkse voorspellingen te geven. Overweeg om over te stappen naar een uurtarief.",
     "must_be_int": "Moet een even geheel getal zijn groter dan of gelijk aan 2",
