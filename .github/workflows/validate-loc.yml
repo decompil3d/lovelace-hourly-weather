@@ -18,7 +18,7 @@ jobs:
             delete pullInfo.number;
             const files = await github.rest.pulls.listFiles(pullInfo);
             const newLanguages = files.data.filter(file => {
-              if (!file.filename.startWith('src/localize/languages/')) {
+              if (!file.filename.startsWith('src/localize/languages/')) {
                 return false;
               }
               if (file.status !== 'added') {
