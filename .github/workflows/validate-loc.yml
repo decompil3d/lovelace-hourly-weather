@@ -39,12 +39,18 @@ jobs:
         language: ${{ fromJSON(needs.find-new-languages.outputs.languages) }}
     steps:
       - uses: actions/checkout@v3
-      - name: Ensure src/localize/localize.ts updated
+      - name: Ensure src/localize/localize.ts imports new language
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
           grep "^import \* as $LANGUAGE from './languages/$LANGUAGE.json';" src/localize/localize.ts || \
             (echo "src/localize/localize.ts does not import $LANGUAGE.json" && exit 1)
+      - name: Ensure src/localize/localize.ts consumes new language
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          grep "^\s+$LANGUAGE," src/localize/localize.ts || \
+            (echo "src/localize/localize.ts does not consume $LANGUAGE in languages variable" && exit 1)
       - name: Ensure .github/workflows/translate.yml updated
         env:
           LANGUAGE: ${{ matrix.language }}
