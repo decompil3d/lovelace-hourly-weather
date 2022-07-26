@@ -1,3 +1,4 @@
+name: Validate localization files
 on:
   pull_request:
     paths:
@@ -18,14 +19,18 @@ jobs:
             delete pullInfo.number;
             const files = await github.rest.pulls.listFiles(pullInfo);
             const newLanguages = files.data.filter(file => {
+              console.log('filename:', file.filename);
               if (!file.filename.startsWith('src/localize/languages/')) {
                 return false;
               }
+              console.log('status:', file.status);
               if (file.status !== 'added') {
                 return false;
               }
             });
-            return newLanguages.map(l => l.filename.replace('src/localize/languages/', '').replace('.json', ''));
+            const langCodes = newLanguages.map(l => l.filename.replace('src/localize/languages/', '').replace('.json', ''));
+            console.log('New languages added:', langCodes.join(', '));
+            return langCodes;
   validate-added-languages:
     needs: find-new-languages
     runs-on: ubuntu-latest
