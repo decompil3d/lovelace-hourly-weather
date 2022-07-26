@@ -49,7 +49,7 @@ jobs:
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
-          grep "^\s+$LANGUAGE," src/localize/localize.ts || \
+          grep "^\s*$LANGUAGE," src/localize/localize.ts || \
             (echo "src/localize/localize.ts does not consume $LANGUAGE in languages variable" && exit 1)
       - name: Ensure .github/workflows/translate.yml updated
         env:
@@ -61,5 +61,5 @@ jobs:
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
-          grep "^\s+$LANGUAGE: '" cypress/e2e/localization.cy.ts || \
+          grep "^\s*$LANGUAGE: '" cypress/e2e/localization.cy.ts || \
             (echo "cypress/e2e/localization.cy.ts expectedTranslations missing entry for $LANGUAGE" && exit 1)
