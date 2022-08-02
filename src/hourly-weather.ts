@@ -145,6 +145,14 @@ export class HourlyWeatherCard extends LitElement {
     return hasConfigOrEntityChanged(this, changedProps, false);
   }
 
+  protected updated(): void {
+    // Update local storage if no selected language is specified
+    if (!window.localStorage.getItem('selectedLanguage')) {
+      // Don't mess with `selectedLanguage` since that might have unintended consequences
+      window.localStorage.setItem('haServerLanguage', this.hass.locale.language);
+    }
+  }
+
   // https://lit.dev/docs/components/rendering/
   protected render(): TemplateResult | void {
     // Block rendering until templates are rendered
