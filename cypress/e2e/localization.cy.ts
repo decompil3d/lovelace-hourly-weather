@@ -11,6 +11,19 @@ describe('Localization', () => {
       .first()
       .should('have.text', 'Cloudy');
   });
+  it('uses HA server language if no user language is selected', () => {
+    cy.visitHarness();
+    cy.window().then(win => {
+      win.localStorage.setItem('haServerLanguage', 'de');
+      win.localStorage.removeItem('selectedLanguage');
+    });
+    cy.reload();
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.bar > div > span.condition-label')
+      .first()
+      .should('have.text', 'Bewölkt');
+  });
   const expectedTranslations = {
     de: 'Bewölkt',
     en: 'Cloudy',
