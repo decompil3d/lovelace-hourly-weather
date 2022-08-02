@@ -28,7 +28,7 @@ jobs:
       - name: Run tests
         uses: cypress-io/github-action@v4
         with:
-          record: true
+          record: ${{ github.actor != 'dependabot[bot]' }}
           start: npm run test:server
           wait-on: 'http://localhost:8000'
         env:
