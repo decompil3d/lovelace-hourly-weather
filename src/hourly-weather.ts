@@ -136,7 +136,7 @@ export class HourlyWeatherCard extends LitElement {
 
     if (changedProps.has('hass')) {
       const oldHass = changedProps.get('hass') as HomeAssistant;
-      if (JSON.stringify(oldHass.locale) !== JSON.stringify(this.hass.locale)) {
+      if (oldHass && this.hass && JSON.stringify(oldHass.locale) !== JSON.stringify(this.hass.locale)) {
         // Locale changed, so we must re-render
         return true;
       }
