@@ -147,7 +147,7 @@ export class HourlyWeatherCard extends LitElement {
 
   protected updated(): void {
     // Update local storage if no selected language is specified
-    if (!window.localStorage.getItem('selectedLanguage')) {
+    if (this.hass?.locale?.language && !window.localStorage.getItem('selectedLanguage')) {
       // Don't mess with `selectedLanguage` since that might have unintended consequences
       window.localStorage.setItem('haServerLanguage', this.hass.locale.language);
     }
