@@ -67,6 +67,8 @@ export class HourlyWeatherCard extends LitElement {
 
   @state() private renderedConfig!: Promise<HourlyWeatherCardConfig>;
 
+  private configRenderPending = false;
+
   // https://lit.dev/docs/components/properties/#accessors-custom
   public setConfig(config: HourlyWeatherCardConfig): void {
     if (!config) {
@@ -97,6 +99,11 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private triggerConfigRender(): void {
+    if (!this.hass?.connection) {
+      // HASS connection not ready yet, so wait until it is
+      this.configRenderPending = true;
+      return;
+    }
     this.renderedConfig = this.renderConfig();
   }
 
@@ -151,6 +158,11 @@ export class HourlyWeatherCard extends LitElement {
       // Don't mess with `selectedLanguage` since that might have unintended consequences
       window.localStorage.setItem('haServerLanguage', this.hass.locale.language);
     }
+
+    if (this.hass?.connection && this.configRenderPending) {
+      this.configRenderPending = false;
+      this.triggerConfigRender();
+    }
   }
 
   // https://lit.dev/docs/components/rendering/
@@ -161,6 +173,11 @@ export class HourlyWeatherCard extends LitElement {
 
   private async renderCore(): Promise<TemplateResult | void> {
     const config = await this.renderedConfig;
+
+    if (!config) {
+      return;
+    }
+
     const entityId: string = config.entity;
     const state = this.hass.states[entityId];
     const { forecast } = state.attributes as { forecast: ForecastSegment[] };
