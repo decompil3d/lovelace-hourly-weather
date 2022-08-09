@@ -26,6 +26,11 @@
     const now = new Date();
     now.setMinutes(0);
     h.hass = {
+      connection: {
+        subscribeMessage: (/** @type {(msg: string) => void} */ cb, /** @type {{template: string}} */ { template }) => {
+          cb(template.replace(/\{\{\s*/, '').replace(/\s*\}\}/, ''));
+        },
+      },
       states: {
         'weather.mock': {
           attributes: {
