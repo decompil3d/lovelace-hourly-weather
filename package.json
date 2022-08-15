@@ -22,7 +22,7 @@
     "@material/mwc-list": "^0.26.1",
     "@material/mwc-menu": "^0.27.0",
     "@material/mwc-notched-outline": "^0.26.1",
-    "@material/mwc-ripple": "^0.26.1",
+    "@material/mwc-ripple": "^0.27.0",
     "@material/mwc-select": "^0.27.0",
     "@material/mwc-switch": "^0.27.0",
     "@material/mwc-textfield": "^0.26.1",
