@@ -11,11 +11,7 @@ An hourly weather card for Home Assistant. Visualize upcoming weather conditions
 
 [![Lovelace Hourly Weather](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/o468vw/main&style=for-the-badge&logo=cypress)](https://dashboard.cypress.io/projects/o468vw/runs)
 
-[![Discord][discord-shield]][discord]
-[![Community Forum][forum-shield]][forum]
-
 ![Screenshot of Hourly Weather card](hourly-weather.png)
-_Can you tell that I live in Seattle?_ 😭
 
 ## Installation
 
@@ -165,10 +161,6 @@ clear that it operates on whatever size forecast segment your entity provides. T
 [commits-shield]: https://img.shields.io/github/commit-activity/y/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/master
 [devcontainer]: https://code.visualstudio.com/docs/remote/containers
-[discord]: https://discord.gg/5e9yvq
-[discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
-[forum]: https://community.home-assistant.io/c/projects/frontend
 [license-shield]: https://img.shields.io/github/license/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2022.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
