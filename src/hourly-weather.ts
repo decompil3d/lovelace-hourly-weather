@@ -23,19 +23,23 @@ import type {
   ConditionSpan,
   ForecastSegment,
   HourlyWeatherCardConfig,
+  LocalizerLastSettings,
   RenderTemplateResult,
   SegmentTemperature
 } from './types';
 import { actionHandler } from './action-handler-directive';
 import { version } from '../package.json';
-import { localize } from './localize/localize';
+import { getLocalizer } from './localize/localize';
 import { WeatherBar } from './weather-bar';
-import { ICONS } from './conditions';
+import { ICONS, LABELS } from './conditions';
 customElements.define('weather-bar', WeatherBar);
+
+// Naive localizer is used before we can get at card configuration data
+const naiveLocalizer = getLocalizer(void 0, void 0);
 
 /* eslint no-console: 0 */
 console.info(
-  `%c  HOURLY-WEATHER-CARD \n%c  ${localize('common.version')} ${version}    `,
+  `%c  HOURLY-WEATHER-CARD \n%c  ${naiveLocalizer('common.version')} ${version}    `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
@@ -44,8 +48,8 @@ console.info(
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
   type: 'hourly-weather',
-  name: localize('common.title_card'),
-  description: localize('common.description'),
+  name: naiveLocalizer('common.title_card'),
+  description: naiveLocalizer('common.description'),
 });
 
 @customElement('hourly-weather')
@@ -69,20 +73,54 @@ export class HourlyWeatherCard extends LitElement {
 
   private configRenderPending = false;
 
+  private localizer?: ReturnType<typeof getLocalizer> = void 0;
+  private localizerLastSettings: LocalizerLastSettings = {
+    configuredLanguage: void 0,
+    haServerLanguage: void 0
+  };
+
+  private _labels = LABELS;
+  private labelsLocalized = false;
+
+  private localize(string: string, search = '', replace = ''): string {
+    if (!this.localizer ||
+        this.localizerSettingsChanged) {
+      this.localizer = getLocalizer(this.config?.language, this.hass?.locale?.language);
+      this.localizerLastSettings.configuredLanguage = this.config?.language;
+      this.localizerLastSettings.haServerLanguage = this.hass?.locale?.language;
+      this.labelsLocalized = false;
+    }
+
+    return this.localizer(string, search, replace);
+  }
+
+  private get localizerSettingsChanged() {
+    return this.localizerLastSettings.configuredLanguage !== this.config?.language ||
+      this.localizerLastSettings.haServerLanguage !== this.hass?.locale?.language;
+  }
+
+  private get labels() {
+    if (!this.labelsLocalized || this.localizerSettingsChanged) {
+      this._labels = Object.fromEntries(Object.entries(LABELS).map(([key, msg]) => [key, this.localize(msg)])) as typeof LABELS;
+      this.labelsLocalized = true;
+    }
+    return this._labels;
+  }
+
   // https://lit.dev/docs/components/properties/#accessors-custom
   public setConfig(config: HourlyWeatherCardConfig): void {
     if (!config) {
-      throw new Error(localize('common.invalid_configuration'));
+      throw new Error(this.localize('common.invalid_configuration'));
     }
 
     if (!config.entity) {
-      throw new Error(localize('errors.missing_entity'));
+      throw new Error(this.localize('errors.missing_entity'));
     }
 
     if (config.label_spacing) {
       const numLabelSpacing = parseInt(config.label_spacing, 10);
       if (!Number.isNaN(numLabelSpacing) && (numLabelSpacing < 2 || numLabelSpacing % 2 !== 0)) {
-        throw new Error(localize('errors.label_spacing_positive_even_int'));
+        throw new Error(this.localize('errors.label_spacing_positive_even_int'));
       }
     }
 
@@ -91,7 +129,7 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     this.config = {
-      name: localize('common.title'),
+      name: this.localize('common.title'),
       ...config,
     };
 
@@ -153,12 +191,6 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   protected updated(): void {
-    // Update local storage if no selected language is specified
-    if (this.hass?.locale?.language && !window.localStorage.getItem('selectedLanguage')) {
-      // Don't mess with `selectedLanguage` since that might have unintended consequences
-      window.localStorage.setItem('haServerLanguage', this.hass.locale.language);
-    }
-
     if (this.hass?.connection && this.configRenderPending) {
       this.configRenderPending = false;
       this.triggerConfigRender();
@@ -187,19 +219,19 @@ export class HourlyWeatherCard extends LitElement {
 
     if (numSegments < 2) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
-      return await this._showError(localize('errors.label_spacing_positive_even_int').replace('label_spacing', 'num_segments'));
+      return await this._showError(this.localize('errors.label_spacing_positive_even_int', 'label_spacing', 'num_segments'));
     }
 
     if (offset < 0) {
-      return await this._showError(localize('errors.offset_must_be_positive_int'));
+      return await this._showError(this.localize('errors.offset_must_be_positive_int'));
     }
 
     if (numSegments > (forecast.length - offset)) {
-      return await this._showError(localize('errors.too_many_segments_requested'));
+      return await this._showError(this.localize('errors.too_many_segments_requested'));
     }
 
     if (labelSpacing < 2 || labelSpacing % 2 !== 0) {
-      return await this._showError(localize('errors.label_spacing_positive_even_int'));
+      return await this._showError(this.localize('errors.label_spacing_positive_even_int'));
     }
 
     const isForecastDaily = this.isForecastDaily(forecast);
@@ -221,9 +253,10 @@ export class HourlyWeatherCard extends LitElement {
       >
         <div class="card-content">
           ${isForecastDaily ?
-        this._showWarning(localize('errors.daily_forecasts')) : ''}
+        this._showWarning(this.localize('errors.daily_forecasts')) : ''}
           ${colorSettings.warnings.length ?
-        this._showWarning(localize('errors.invalid_colors') + colorSettings.warnings.join(', ')) : ''}
+        this._showWarning(this.localize('errors.invalid_colors') + colorSettings.warnings.join(', ')) : ''}
+          <!-- @ts-ignore -->
           <weather-bar
             .conditions=${conditionList}
             .temperatures=${temperatures}
@@ -231,7 +264,8 @@ export class HourlyWeatherCard extends LitElement {
             .colors=${colorSettings.validColors}
             .hide_hours=${!!config.hide_hours}
             .hide_temperatures=${!!config.hide_temperatures}
-            .label_spacing=${labelSpacing}></weather-bar>
+            .label_spacing=${labelSpacing}
+            .labels=${this.labels}></weather-bar>
         </div>
       </ha-card>
     `;

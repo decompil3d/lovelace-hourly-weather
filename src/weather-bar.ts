@@ -17,7 +17,7 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   icons = false;
 
-  @property({ type: Object })
+  @property({ attribute: false })
   colors: ColorMap | undefined = void 0;
 
   @property({ type: Boolean })
@@ -29,13 +29,16 @@ export class WeatherBar extends LitElement {
   @property({ type: Number })
   label_spacing = 2;
 
+  @property({ type: Object })
+  labels = LABELS;
+
   private tips: Instance[] = [];
 
   render() {
     const conditionBars: TemplateResult[] = [];
     let gridStart = 1;
     for (const cond of this.conditions) {
-      const label = LABELS[cond[0]];
+      const label = this.labels[cond[0]];
       let icon = ICONS[cond[0]];
       if (icon === cond[0]) icon = 'mdi:weather-' + icon;
       else icon = 'mdi:' + icon;

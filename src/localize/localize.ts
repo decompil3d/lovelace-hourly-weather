@@ -21,21 +21,26 @@ const languages: any = {
   pt,
 };
 
-export function localize(string: string, search = '', replace = ''): string {
-  const lang = (localStorage.getItem('selectedLanguage') || localStorage.getItem('haServerLanguage') || 'en').replace(/['"]+/g, '').replace('-', '_');
+export function getLocalizer(configuredLanguage: string | undefined, haServerLanguage: string | undefined) {
+  return function localize(string: string, search = '', replace = ''): string {
+    const lang = (configuredLanguage ||
+                  localStorage.getItem('selectedLanguage') ||
+                  haServerLanguage ||
+                  'en').replace(/['"]+/g, '').replace('-', '_');
 
-  let translated: string;
+    let translated: string;
 
-  try {
-    translated = string.split('.').reduce((o, i) => o[i], languages[lang]);
-  } catch (e) {
-    translated = string.split('.').reduce((o, i) => o[i], languages['en']);
-  }
+    try {
+      translated = string.split('.').reduce((o, i) => o[i], languages[lang]);
+    } catch (e) {
+      translated = string.split('.').reduce((o, i) => o[i], languages['en']);
+    }
 
-  if (translated === undefined) translated = string.split('.').reduce((o, i) => o[i], languages['en']);
+    if (translated === undefined) translated = string.split('.').reduce((o, i) => o[i], languages['en']);
 
-  if (search !== '' && replace !== '') {
-    translated = translated.replace(search, replace);
-  }
-  return translated;
+    if (search !== '' && replace !== '') {
+      translated = translated.replace(search, replace);
+    }
+    return translated;
+  };
 }

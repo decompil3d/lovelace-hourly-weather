@@ -9,7 +9,7 @@ import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
 import { switchDefinition } from '../elements/switch';
 import { textfieldDefinition } from '../elements/textfield';
-import { localize } from './localize/localize';
+import { getLocalizer } from './localize/localize';
 
 @customElement('hourly-weather-editor')
 export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
@@ -72,6 +72,7 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     }
 
     const entities = Object.keys(this.hass.states).filter(e => e.startsWith('weather.'));
+    const localize = getLocalizer(this._config?.language, this.hass?.locale?.language);
 
     return html`
       <mwc-select

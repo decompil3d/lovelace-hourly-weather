@@ -72,6 +72,7 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | tap_action        | object | **Optional** | Action to take on tap                                     | `action: more-info` |
 | hold_action       | object | **Optional** | Action to take on hold                                    | `none`              |
 | double_tap_action | object | **Optional** | Action to take on double tap                              | `none`              |
+| language          | string | **Optional** | Language to use for card (overrides HA & user settings)   |                     |
 
 ### Templating
 

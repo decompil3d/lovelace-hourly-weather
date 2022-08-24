@@ -1,21 +1,19 @@
-import { localize } from "./localize/localize";
-
 export const LABELS = {
-  'clear-night': localize('conditions.clear'),
-  'cloudy': localize('conditions.cloudy'),
-  'fog': localize('conditions.fog'),
-  'hail': localize('conditions.hail'),
-  'lightning': localize('conditions.thunderstorm'),
-  'lightning-rainy': localize('conditions.thunderstorm'),
-  'partlycloudy': localize('conditions.partlyCloudy'),
-  'pouring': localize('conditions.heavyRain'),
-  'rainy': localize('conditions.rain'),
-  'snowy': localize('conditions.snow'),
-  'snowy-rainy': localize('conditions.mixedPrecip'),
-  'sunny': localize('conditions.sunny'),
-  'windy': localize('conditions.windy'),
-  'windy-variant': localize('conditions.windy'),
-  'exceptional': localize('conditions.clear')
+  'clear-night': 'conditions.clear',
+  'cloudy': 'conditions.cloudy',
+  'fog': 'conditions.fog',
+  'hail': 'conditions.hail',
+  'lightning': 'conditions.thunderstorm',
+  'lightning-rainy': 'conditions.thunderstorm',
+  'partlycloudy': 'conditions.partlyCloudy',
+  'pouring': 'conditions.heavyRain',
+  'rainy': 'conditions.rain',
+  'snowy': 'conditions.snow',
+  'snowy-rainy': 'conditions.mixedPrecip',
+  'sunny': 'conditions.sunny',
+  'windy': 'conditions.windy',
+  'windy-variant': 'conditions.windy',
+  'exceptional': 'conditions.clear'
 };
 export const ICONS = {
   'clear-night': 'weather-night',

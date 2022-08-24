@@ -14,15 +14,32 @@ describe('Localization', () => {
   it('uses HA server language if no user language is selected', () => {
     cy.visitHarness();
     cy.window().then(win => {
-      win.localStorage.setItem('haServerLanguage', 'de');
       win.localStorage.removeItem('selectedLanguage');
     });
     cy.reload();
+    cy.setLocale({
+      language: 'de'
+    });
     cy.get('weather-bar')
       .shadow()
       .find('div.bar > div > span.condition-label')
       .first()
       .should('have.text', 'Bewölkt');
+  });
+  it('prioritizes using configured language', () => {
+    cy.visitHarness();
+    cy.window().then(win => {
+      win.localStorage.removeItem('selectedLanguage');
+    });
+    cy.reload();
+    cy.configure({
+      language: 'es'
+    });
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.bar > div > span.condition-label')
+      .first()
+      .should('have.text', 'Nublado');
   });
   const expectedTranslations = {
     de: 'Bewölkt',

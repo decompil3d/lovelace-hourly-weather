@@ -7,7 +7,6 @@ declare global {
   }
 }
 
-// TODO Add your configuration elements here for type-checking
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   type: string;
   entity: string;
@@ -25,6 +24,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   tap_action?: ActionConfig;
   hold_action?: ActionConfig;
   double_tap_action?: ActionConfig;
+  language?: string;
 }
 
 export interface ColorConfig {
@@ -76,4 +76,9 @@ export interface ColorSettings {
 
 export interface RenderTemplateResult {
   result: string
+}
+
+export interface LocalizerLastSettings {
+  configuredLanguage: string | undefined,
+  haServerLanguage: string | undefined
 }
