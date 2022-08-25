@@ -20,7 +20,7 @@ const languages: any = {
   nl,
   pl,
   pt,
-  pt_BR
+  pt_BR,
 };
 
 export function getLocalizer(configuredLanguage: string | undefined, haServerLanguage: string | undefined) {
