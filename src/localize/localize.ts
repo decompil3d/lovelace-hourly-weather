@@ -7,6 +7,7 @@ import * as nb from './languages/nb.json';
 import * as nl from './languages/nl.json';
 import * as pl from './languages/pl.json';
 import * as pt from './languages/pt.json';
+import * as pt_BR from './languages/pt-BR.json';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const languages: any = {
@@ -19,6 +20,7 @@ const languages: any = {
   nl,
   pl,
   pt,
+  pt_BR
 };
 
 export function getLocalizer(configuredLanguage: string | undefined, haServerLanguage: string | undefined) {
