@@ -81,5 +81,5 @@ jobs:
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
-          grep "^\s*$LANGUAGE: '" cypress/e2e/localization.cy.ts || \
+          grep "^\s*'?$LANGUAGE'?: '" cypress/e2e/localization.cy.ts || \
             (echo "cypress/e2e/localization.cy.ts expectedTranslations missing entry for $LANGUAGE" && exit 1)
