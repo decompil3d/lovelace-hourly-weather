@@ -43,14 +43,16 @@ jobs:
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
-          grep "^import \* as $LANGUAGE from './languages/$LANGUAGE.json';" src/localize/localize.ts || \
+          export NORMALIZED_LANG=${LANGUAGE/-/_}
+          grep "^import \* as $NORMALIZED_LANG from './languages/$LANGUAGE.json';" src/localize/localize.ts || \
             (echo "src/localize/localize.ts does not import $LANGUAGE.json" && exit 1)
       - name: Ensure src/localize/localize.ts consumes new language
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
-          grep "^\s*$LANGUAGE," src/localize/localize.ts || \
-            (echo "src/localize/localize.ts does not consume $LANGUAGE in languages variable" && exit 1)
+          export NORMALIZED_LANG=${LANGUAGE/-/_}
+          grep "^\s*$NORMALIZED_LANG," src/localize/localize.ts || \
+            (echo "src/localize/localize.ts does not consume $NORMALIZED_LANG in languages variable" && exit 1)
       - name: Check if language needs to be in translation workflow
         id: needs-translate-yml
         env:
