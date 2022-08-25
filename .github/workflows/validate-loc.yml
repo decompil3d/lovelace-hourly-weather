@@ -51,7 +51,25 @@ jobs:
         run: |
           grep "^\s*$LANGUAGE," src/localize/localize.ts || \
             (echo "src/localize/localize.ts does not consume $LANGUAGE in languages variable" && exit 1)
+      - name: Check if language needs to be in translation workflow
+        id: needs-translate-yml
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          if [[ $LANGUAGE == *"-"* ]];
+          then
+            # See supported language list at https://cloud.google.com/translate/docs/languages
+            if [[ $LANGUAGE == "zh-TW" || $LANGUAGE == "zh-CN" ]];
+            then
+              echo "::set-output name=result::true";
+            else
+              echo "::set-output name=result::false";
+            fi;
+          else
+            echo "::set-output name=result::true";
+          fi
       - name: Ensure .github/workflows/translate.yml updated
+        if: ${{ steps.needs-translate-yml.outputs.result == 'true' }}
         env:
           LANGUAGE: ${{ matrix.language }}
         run: |
