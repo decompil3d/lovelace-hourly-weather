@@ -50,7 +50,8 @@ describe('Localization', () => {
     nb: 'Skyet',
     nl: 'Bewolkt',
     pl: 'Pochmurnie',
-    pt: 'Nublado'
+    pt: 'Nublado',
+    'pt-BR': 'Nublado'
   }
   Object.entries(expectedTranslations).forEach(([lang, expectedString]) => {
     it(`uses correct translation for ${lang}`, () => {
