@@ -152,7 +152,8 @@ export class HourlyWeatherCard extends LitElement {
       ...config,
       num_segments: await this.renderTemplate(config?.num_segments),
       offset: await this.renderTemplate(config?.offset),
-      label_spacing: await this.renderTemplate(config?.label_spacing)
+      label_spacing: await this.renderTemplate(config?.label_spacing),
+      name: await this.renderTemplate(config?.name)
     };
 
     return r;

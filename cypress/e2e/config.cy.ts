@@ -112,4 +112,13 @@ describe('Config', () => {
       .and('contain', 'clear-night: blahblah')
       .and('contain', 'foobar: rgb(0, 255, 0)');
   });
+  it('supports templated name', () => {
+    cy.configure({
+      name: '{{ 3 + 4 }}'
+    });
+    cy.get('ha-card')
+      .shadow()
+      .find('h1')
+      .should('have.text', 'TEMPLATE:3 + 4');
+  });
 });

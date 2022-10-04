@@ -28,7 +28,7 @@
     h.hass = {
       connection: {
         subscribeMessage: (/** @type {(msg: string) => void} */ cb, /** @type {{template: string}} */ { template }) => {
-          cb(template.replace(/\{\{\s*/, '').replace(/\s*\}\}/, ''));
+          cb({ result: 'TEMPLATE:' + template.replace(/\{\{\s*/, '').replace(/\s*\}\}/, '') });
         },
       },
       states: {
