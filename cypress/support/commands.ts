@@ -30,8 +30,16 @@ import { defaultConfig } from "../fixtures/test-utils"
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('visitHarness', () => {
-  cy.visit('harness.html');
+Cypress.Commands.add('visitHarness', (windowStubFn) => {
+  let visitOpts: Partial<Cypress.VisitOptions> | undefined = void 0;
+  if (windowStubFn) {
+    visitOpts = {
+      onLoad(win) {
+        windowStubFn(win);
+      }
+    };
+  }
+  cy.visit('harness.html', visitOpts);
   cy.window().should('have.property', 'appReady', true);
 });
 
@@ -73,7 +81,7 @@ Cypress.Commands.add('slotAssignedNodes', { prevSubject: true }, (subject, name)
 declare global {
   namespace Cypress {
     interface Chainable {
-      visitHarness(): Chainable<Window>;
+      visitHarness(windowStubFn?: (win: Cypress.AUTWindow) => void): Chainable<Window>;
       configure(config: Partial<HourlyWeatherCardConfig>, noDefaults?: boolean): Chainable<void>;
       addEntity(entities: Record<string, WeatherEntity>): Chainable<void>;
       setLocale(locale: Partial<HALocale>): Chainable<void>;
