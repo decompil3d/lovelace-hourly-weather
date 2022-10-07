@@ -228,6 +228,19 @@ describe('Weather bar', () => {
           cy.wrap(el).should('have.text', expectedTemperatures[i] + '°');
         });
     });
+    it('respects offset when specified config', () => {
+      cy.configure({
+        offset: '2',
+        num_segments: '10'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.temperature')
+        .should('have.length', 5)
+        .each((el, i) => {
+          cy.wrap(el).should('have.text', expectedTemperatures[i + 1] + '°');
+        });
+    });
     it('hides temperatures when specified in config', () => {
       cy.configure({
         hide_temperatures: true

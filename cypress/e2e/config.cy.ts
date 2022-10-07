@@ -114,84 +114,86 @@ describe('Config', () => {
       .and('contain', 'clear-night: blahblah')
       .and('contain', 'foobar: rgb(0, 255, 0)');
   });
-  it('supports templated name', () => {
-    cy.configure({
-      name: '{{ 3 + 4 }}'
-    });
-    cy.get('ha-card')
-      .shadow()
-      .find('h1')
-      .should('have.text', 'TEMPLATE:3 + 4');
-  });
-  it('supports templated num_segments', () => {
-    cy.visitHarness(win => {
-      // @ts-expect-error accessing hourlyWeather global
-      cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
-        result: 10
+  describe('Templates', () => {
+    it('supports templated name', () => {
+      cy.configure({
+        name: '{{ name_template }}'
       });
+      cy.get('ha-card')
+        .shadow()
+        .find('h1')
+        .should('have.text', 'TEMPLATE:name_template');
     });
-    cy.configure({
-      num_segments: '{{ 3 + 5 }}'
-    });
-    cy.get('weather-bar')
-      .shadow()
-      .find('div.axes > div.bar-block')
-      .should('have.length', 5);
-    cy.window()
-      .then(win => {
+    it('supports templated num_segments', () => {
+      cy.visitHarness(win => {
         // @ts-expect-error accessing hourlyWeather global
-        const stub: Sinon.SinonStub = win.hourlyWeather.hass.connection.subscribeMessage;
-        expect(stub).has.been.called;
-        expect(stub.lastCall.lastArg.template).eqls('{{ 3 + 5 }}');
+        cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
+          result: 10
+        });
       });
-  });
-  it('supports templated label_spacing', () => {
-    cy.visitHarness(win => {
-      // @ts-expect-error accessing hourlyWeather global
-      cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
-        result: 4
+      cy.configure({
+        num_segments: '{{ num_segments_template }}'
       });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block')
+        .should('have.length', 5);
+      cy.window()
+        .then(win => {
+          // @ts-expect-error accessing hourlyWeather global
+          const stub: Sinon.SinonStub = win.hourlyWeather.hass.connection.subscribeMessage;
+          expect(stub).has.been.called;
+          expect(stub.lastCall.lastArg.template).eqls('{{ num_segments_template }}');
+        });
     });
-    cy.configure({
-      label_spacing: '{{ 3 + 6 }}'
-    });
-    cy.get('weather-bar')
-      .shadow()
-      .find('div.axes > div.bar-block div.hour:not(:empty)')
-      .should('have.length', 3);
-    cy.get('weather-bar')
-      .shadow()
-      .find('div.axes > div.bar-block div.temperature:not(:empty)')
-      .should('have.length', 3);
-    cy.window()
-      .then(win => {
+    it('supports templated label_spacing', () => {
+      cy.visitHarness(win => {
         // @ts-expect-error accessing hourlyWeather global
-        const stub: Sinon.SinonStub = win.hourlyWeather.hass.connection.subscribeMessage;
-        expect(stub).has.been.called;
-        expect(stub.lastCall.lastArg.template).eqls('{{ 3 + 6 }}');
+        cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
+          result: 4
+        });
       });
-  });
-  it('supports templated offset', () => {
-    cy.visitHarness(win => {
-      // @ts-expect-error accessing hourlyWeather global
-      cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
-        result: 2
+      cy.configure({
+        label_spacing: '{{ label_spacing_template }}'
       });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.hour:not(:empty)')
+        .should('have.length', 3);
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.temperature:not(:empty)')
+        .should('have.length', 3);
+      cy.window()
+        .then(win => {
+          // @ts-expect-error accessing hourlyWeather global
+          const stub: Sinon.SinonStub = win.hourlyWeather.hass.connection.subscribeMessage;
+          expect(stub).has.been.called;
+          expect(stub.lastCall.lastArg.template).eqls('{{ label_spacing_template }}');
+        });
     });
-    cy.configure({
-      offset: '{{ 3 + 7 }}'
-    });
-    cy.get('weather-bar')
-      .shadow()
-      .find('div.axes > div.bar-block div.temperature')
-      .first()
-      .should('have.text', '84°');
-    cy.window()
-      .then(win => {
+    it('supports templated offset', () => {
+      cy.visitHarness(win => {
         // @ts-expect-error accessing hourlyWeather global
-        const stub: Sinon.SinonStub = win.hourlyWeather.hass.connection.subscribeMessage;
-        expect(stub).has.been.called;
-        expect(stub.lastCall.lastArg.template).eqls('{{ 3 + 7 }}');
+        cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
+          result: 2
+        });
       });
-  });
+      cy.configure({
+        offset: '{{ offset_template }}'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.temperature')
+        .first()
+        .should('have.text', '84°');
+      cy.window()
+        .then(win => {
+          // @ts-expect-error accessing hourlyWeather global
+          const stub: Sinon.SinonStub = win.hourlyWeather.hass.connection.subscribeMessage;
+          expect(stub).has.been.called;
+          expect(stub.lastCall.lastArg.template).eqls('{{ offset_template }}');
+        });
+      });
+    });
 });
