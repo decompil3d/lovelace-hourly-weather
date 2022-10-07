@@ -117,12 +117,12 @@ describe('Config', () => {
   describe('Templates', () => {
     it('supports templated name', () => {
       cy.configure({
-        name: '{{ 3 + 4 }}'
+        name: '{{ name_template }}'
       });
       cy.get('ha-card')
         .shadow()
         .find('h1')
-        .should('have.text', 'TEMPLATE:3 + 4');
+        .should('have.text', 'TEMPLATE:name_template');
     });
     it('supports templated num_segments', () => {
       cy.visitHarness(win => {
@@ -132,7 +132,7 @@ describe('Config', () => {
         });
       });
       cy.configure({
-        num_segments: '{{ 3 + 5 }}'
+        num_segments: '{{ num_segments_template }}'
       });
       cy.get('weather-bar')
         .shadow()
@@ -143,7 +143,7 @@ describe('Config', () => {
           // @ts-expect-error accessing hourlyWeather global
           const stub: Sinon.SinonStub = win.hourlyWeather.hass.connection.subscribeMessage;
           expect(stub).has.been.called;
-          expect(stub.lastCall.lastArg.template).eqls('{{ 3 + 5 }}');
+          expect(stub.lastCall.lastArg.template).eqls('{{ num_segments_template }}');
         });
     });
     it('supports templated label_spacing', () => {
@@ -154,7 +154,7 @@ describe('Config', () => {
         });
       });
       cy.configure({
-        label_spacing: '{{ 3 + 6 }}'
+        label_spacing: '{{ label_spacing_template }}'
       });
       cy.get('weather-bar')
         .shadow()
@@ -169,7 +169,7 @@ describe('Config', () => {
           // @ts-expect-error accessing hourlyWeather global
           const stub: Sinon.SinonStub = win.hourlyWeather.hass.connection.subscribeMessage;
           expect(stub).has.been.called;
-          expect(stub.lastCall.lastArg.template).eqls('{{ 3 + 6 }}');
+          expect(stub.lastCall.lastArg.template).eqls('{{ label_spacing_template }}');
         });
     });
     it('supports templated offset', () => {
@@ -180,7 +180,7 @@ describe('Config', () => {
         });
       });
       cy.configure({
-        offset: '{{ 3 + 7 }}'
+        offset: '{{ offset_template }}'
       });
       cy.get('weather-bar')
         .shadow()
@@ -192,7 +192,7 @@ describe('Config', () => {
           // @ts-expect-error accessing hourlyWeather global
           const stub: Sinon.SinonStub = win.hourlyWeather.hass.connection.subscribeMessage;
           expect(stub).has.been.called;
-          expect(stub.lastCall.lastArg.template).eqls('{{ 3 + 7 }}');
+          expect(stub.lastCall.lastArg.template).eqls('{{ offset_template }}');
         });
       });
     });
