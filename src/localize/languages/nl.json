@@ -22,7 +22,9 @@
     "invalid_colors": "De volgende kleuren in uw configuratie zijn ongeldig:",
     "must_be_positive_int": "Moet een positief geheel getal zijn",
     "label_spacing_positive_even_int": "label_spacing moet een even geheel getal zijn groter dan of gelijk aan 2",
-    "offset_must_be_positive_int": "offset moet een positief geheel getal zijn"
+    "offset_must_be_positive_int": "offset moet een positief geheel getal zijn",
+    "forecast_not_available": "Prognose niet beschikbaar",
+    "check_entity": "Controleer de geconfigureerde prognose-entiteit."
   },
   "conditions": {
     "clear": "Duidelijk",
