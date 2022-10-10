@@ -22,7 +22,9 @@
     "must_be_positive_int": "Muss eine positive Ganzzahl sein",
     "too_many_segments_requested": "Zu viele Prognosesegmente in num_segments angefordert. Muss <= Anzahl der Segmente in der Prognoseentität sein.",
     "label_spacing_positive_even_int": "label_spacing muss eine gerade ganze Zahl größer oder gleich 2 sein",
-    "offset_must_be_positive_int": "offset muss eine positive Ganzzahl sein"
+    "offset_must_be_positive_int": "offset muss eine positive Ganzzahl sein",
+    "forecast_not_available": "Prognose nicht verfügbar",
+    "check_entity": "Überprüfen Sie die konfigurierte Prognoseentität."
   },
   "conditions": {
     "clear": "Klar",

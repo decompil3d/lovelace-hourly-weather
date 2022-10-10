@@ -217,6 +217,7 @@ export class HourlyWeatherCard extends LitElement {
     const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
     const offset = parseInt(config.offset ?? '0', 10);
     const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
+    const forecastNotAvailable = !forecast || !forecast.length;
 
     if (numSegments < 2) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
@@ -227,12 +228,31 @@ export class HourlyWeatherCard extends LitElement {
       return await this._showError(this.localize('errors.offset_must_be_positive_int'));
     }
 
-    if (numSegments > (forecast.length - offset)) {
+    if (!forecastNotAvailable && numSegments > (forecast.length - offset)) {
       return await this._showError(this.localize('errors.too_many_segments_requested'));
     }
 
     if (labelSpacing < 2 || labelSpacing % 2 !== 0) {
       return await this._showError(this.localize('errors.label_spacing_positive_even_int'));
+    }
+
+    if (forecastNotAvailable) {
+      return html`
+        <ha-card
+          .header=${config.name}
+          @action=${this._handleAction}
+          .actionHandler=${actionHandler({
+        hasHold: hasAction(config.hold_action),
+        hasDoubleClick: hasAction(config.double_tap_action),
+      })}
+          tabindex="0"
+          .label=${`Hourly Weather: ${config.entity || 'No Entity Defined'}`}
+        >
+          <div class="card-content">
+            <h3>${ this.localize('errors.forecast_not_available') }</h3>
+            <p>${ this.localize('errors.check_entity') }</p>
+          </div>
+        </ha-card>`;
     }
 
     const isForecastDaily = this.isForecastDaily(forecast);

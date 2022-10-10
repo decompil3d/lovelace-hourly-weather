@@ -22,7 +22,9 @@
     "must_be_positive_int": "Musi być dodatnią liczbą całkowitą",
     "too_many_segments_requested": "Zażądano zbyt wielu segmentów prognozy w num_segments. Musi wynosić <= liczba segmentów w elemencie prognozy.",
     "label_spacing_positive_even_int": "label_spacing musi być parzystą liczbą całkowitą większą lub równą 2",
-    "offset_must_be_positive_int": "offset musi być dodatnią liczbą całkowitą"
+    "offset_must_be_positive_int": "offset musi być dodatnią liczbą całkowitą",
+    "forecast_not_available": "Prognoza niedostępna",
+    "check_entity": "Sprawdź skonfigurowaną encję prognozy."
   },
   "conditions": {
     "clear": "Bezchmurnie",
