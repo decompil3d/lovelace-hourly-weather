@@ -30,7 +30,7 @@ export class WeatherBar extends LitElement {
   hide_temperatures = false;
 
   @property({ type: Boolean })
-  show_wind = true;
+  show_wind = false;
 
   @property({ type: Number })
   label_spacing = 2;
