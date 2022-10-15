@@ -266,5 +266,44 @@ describe('Weather bar', () => {
         .find('div.axes > div.bar-block div.temperature:not(:empty)')
         .should('have.length', 3);
     });
+    it('does not show wind speed/direction by default', () => {
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 6)
+        .each((el) => {
+          cy.wrap(el).should('be.empty');
+        });
+    });
+
+    const expectedWindSpeeds = [
+      6,
+      6,
+      5,
+      6,
+      4,
+      4
+    ];
+    const expectedWindDirections = [
+      'WSW',
+      'W',
+      'WNW',
+      'WNW',
+      'WNW',
+      'WNW'
+    ];
+
+    it('shows wind speed/direction if specified in config', () => {
+      cy.configure({
+        show_wind: true
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 6)
+        .each((el, i) => {
+          cy.wrap(el).should('have.text', `${expectedWindSpeeds[i]} mph${expectedWindDirections[i]}`);
+        });
+    });
   });
 });
