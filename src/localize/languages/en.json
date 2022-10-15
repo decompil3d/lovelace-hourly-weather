@@ -40,5 +40,23 @@
     "mixedPrecip": "Mixed precip",
     "sunny": "Sunny",
     "windy": "Windy"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNE",
+    "ne": "NE",
+    "ene": "ENE",
+    "e": "E",
+    "ese": "ESE",
+    "se": "SE",
+    "sse": "SSE",
+    "s": "S",
+    "ssw": "SSW",
+    "sw": "SW",
+    "wsw": "WSW",
+    "w": "W",
+    "wnw": "WNW",
+    "nw": "NW",
+    "nnw": "NNW"
   }
 }

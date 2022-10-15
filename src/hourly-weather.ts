@@ -33,6 +33,7 @@ import { version } from '../package.json';
 import { getLocalizer } from './localize/localize';
 import { WeatherBar } from './weather-bar';
 import { ICONS, LABELS } from './conditions';
+import { DIRECTIONS } from './directions';
 customElements.define('weather-bar', WeatherBar);
 
 // Naive localizer is used before we can get at card configuration data
@@ -83,6 +84,9 @@ export class HourlyWeatherCard extends LitElement {
   private _labels = LABELS;
   private labelsLocalized = false;
 
+  private _directions = Object.keys(DIRECTIONS);
+  private directionsLocalized = false;
+
   private localize(string: string, search = '', replace = ''): string {
     if (!this.localizer ||
         this.localizerSettingsChanged) {
@@ -106,6 +110,14 @@ export class HourlyWeatherCard extends LitElement {
       this.labelsLocalized = true;
     }
     return this._labels;
+  }
+
+  private get directions(): Array<string> {
+    if (!this.directionsLocalized || this.localizerSettingsChanged) {
+      this._directions = Object.values(DIRECTIONS).map((msg) => this.localize(msg));
+      this.directionsLocalized = true;
+    }
+    return this._directions;
   }
 
   // https://lit.dev/docs/components/properties/#accessors-custom
@@ -346,8 +358,7 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private formatWindDir(degrees: number): string {
-    const directions = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'];
-    return directions[Math.floor((degrees+11.25)/22.5)];
+    return this.directions[Math.floor((degrees+11.25)/22.5)];
   }
 
   private isForecastDaily(forecast: ForecastSegment[]): boolean {
