@@ -94,6 +94,7 @@ export class HourlyWeatherCard extends LitElement {
       this.localizerLastSettings.configuredLanguage = this.config?.language;
       this.localizerLastSettings.haServerLanguage = this.hass?.locale?.language;
       this.labelsLocalized = false;
+      this.directionsLocalized = false;
     }
 
     return this.localizer(string, search, replace);
