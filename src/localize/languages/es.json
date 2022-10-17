@@ -39,5 +39,23 @@
     "mixedPrecip": "Chaparrones dispersos",
     "sunny": "Soleado",
     "windy": "Ventoso"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNE",
+    "ne": "NE",
+    "ene": "ENE",
+    "e": "E",
+    "ese": "ESE",
+    "se": "SE",
+    "sse": "SSE",
+    "s": "S",
+    "ssw": "SSO",
+    "sw": "SO",
+    "wsw": "OSO",
+    "w": "O",
+    "wnw": "ONO",
+    "nw": "NO",
+    "nnw": "NNO"
   }
 }

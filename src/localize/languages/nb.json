@@ -39,5 +39,23 @@
     "mixedPrecip": "Blandet nedbør",
     "sunny": "Solfylt",
     "windy": "Vindfullt"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNØ",
+    "ne": "NE",
+    "ene": "ØNØ",
+    "e": "Ø",
+    "ese": "ØSØ",
+    "se": "SØ",
+    "sse": "SSØ",
+    "s": "S",
+    "ssw": "SSV",
+    "sw": "SV",
+    "wsw": "VSV",
+    "w": "V",
+    "wnw": "VNV",
+    "nw": "NV",
+    "nnw": "NNV"
   }
 }

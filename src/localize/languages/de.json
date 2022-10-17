@@ -39,5 +39,23 @@
     "mixedPrecip": "Gemischter Niederschlag",
     "sunny": "Sonnig",
     "windy": "Windig"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNO",
+    "ne": "NO",
+    "ene": "ONO",
+    "e": "O",
+    "ese": "OSO",
+    "se": "SO",
+    "sse": "SSO",
+    "s": "S",
+    "ssw": "SSW",
+    "sw": "SW",
+    "wsw": "WSW",
+    "w": "W",
+    "wnw": "WNW",
+    "nw": "NW",
+    "nnw": "NNW"
   }
 }

@@ -39,5 +39,23 @@
     "mixedPrecip": "Gemengde neerslag",
     "sunny": "Zonnig",
     "windy": "Winderig"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNO",
+    "ne": "NO",
+    "ene": "ONO",
+    "e": "O",
+    "ese": "OZO",
+    "se": "ZO",
+    "sse": "ZZO",
+    "s": "Z",
+    "ssw": "ZZW",
+    "sw": "ZW",
+    "wsw": "WZW",
+    "w": "W",
+    "wnw": "WNW",
+    "nw": "NW",
+    "nnw": "NNW"
   }
 }
