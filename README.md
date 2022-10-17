@@ -69,6 +69,7 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | colors            | object | **Optional** | Set colors for all or some conditions                     |                     |
 | hide_hours        | bool   | **Optional** | Whether to hide hour labels under the bar                 | `false`             |
 | hide_temperatures | bool   | **Optional** | Whether to hide temeratures under the bar                 | `false`             |
+| show_wind         | bool   | **Optional** | Whether to show wind speed and direction under the bar    | `false`             |
 | tap_action        | object | **Optional** | Action to take on tap                                     | `action: more-info` |
 | hold_action       | object | **Optional** | Action to take on hold                                    | `none`              |
 | double_tap_action | object | **Optional** | Action to take on double tap                              | `none`              |

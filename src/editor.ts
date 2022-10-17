@@ -58,6 +58,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.icons ?? false;
   }
 
+  get _show_wind(): boolean {
+    return this._config?.show_wind ?? false;
+  }
+
   get _offset(): string {
     return this._config?.offset ?? '0';
   }
@@ -132,6 +136,13 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         <mwc-switch
           .checked=${this._icons === true}
           .configValue=${'icons'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${localize('editor.show_wind')}>
+        <mwc-switch
+          .checked=${this._show_wind === true}
+          .configValue=${'show_wind'}
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>

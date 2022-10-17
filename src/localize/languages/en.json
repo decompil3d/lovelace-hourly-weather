@@ -12,7 +12,8 @@
     "segments_to_show": "Number of forecast segments to show (Optional)",
     "offset": "Number of forecast segments to offset start by (Optional)",
     "icons": "Show icons instead of text labels",
-    "label_spacing": "Number of forecast segments to space time and temperature labels by (Optional)"
+    "label_spacing": "Number of forecast segments to space time and temperature labels by (Optional)",
+    "show_wind": "Show wind speed and direction"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",
@@ -39,5 +40,23 @@
     "mixedPrecip": "Mixed precip",
     "sunny": "Sunny",
     "windy": "Windy"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNE",
+    "ne": "NE",
+    "ene": "ENE",
+    "e": "E",
+    "ese": "ESE",
+    "se": "SE",
+    "sse": "SSE",
+    "s": "S",
+    "ssw": "SSW",
+    "sw": "SW",
+    "wsw": "WSW",
+    "w": "W",
+    "wnw": "WNW",
+    "nw": "NW",
+    "nnw": "NNW"
   }
 }

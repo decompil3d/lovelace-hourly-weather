@@ -25,13 +25,15 @@ import type {
   HourlyWeatherCardConfig,
   LocalizerLastSettings,
   RenderTemplateResult,
-  SegmentTemperature
+  SegmentTemperature,
+  SegmentWind,
 } from './types';
 import { actionHandler } from './action-handler-directive';
 import { version } from '../package.json';
 import { getLocalizer } from './localize/localize';
 import { WeatherBar } from './weather-bar';
 import { ICONS, LABELS } from './conditions';
+import { DIRECTIONS } from './directions';
 customElements.define('weather-bar', WeatherBar);
 
 // Naive localizer is used before we can get at card configuration data
@@ -82,6 +84,9 @@ export class HourlyWeatherCard extends LitElement {
   private _labels = LABELS;
   private labelsLocalized = false;
 
+  private _directions = Object.keys(DIRECTIONS);
+  private directionsLocalized = false;
+
   private localize(string: string, search = '', replace = ''): string {
     if (!this.localizer ||
         this.localizerSettingsChanged) {
@@ -89,6 +94,7 @@ export class HourlyWeatherCard extends LitElement {
       this.localizerLastSettings.configuredLanguage = this.config?.language;
       this.localizerLastSettings.haServerLanguage = this.hass?.locale?.language;
       this.labelsLocalized = false;
+      this.directionsLocalized = false;
     }
 
     return this.localizer(string, search, replace);
@@ -105,6 +111,14 @@ export class HourlyWeatherCard extends LitElement {
       this.labelsLocalized = true;
     }
     return this._labels;
+  }
+
+  private get directions(): Array<string> {
+    if (!this.directionsLocalized || this.localizerSettingsChanged) {
+      this._directions = Object.values(DIRECTIONS).map((msg) => this.localize(msg));
+      this.directionsLocalized = true;
+    }
+    return this._directions;
   }
 
   // https://lit.dev/docs/components/properties/#accessors-custom
@@ -214,6 +228,7 @@ export class HourlyWeatherCard extends LitElement {
     const entityId: string = config.entity;
     const state = this.hass.states[entityId];
     const { forecast } = state.attributes as { forecast: ForecastSegment[] };
+    const windSpeedUnit = state.attributes.wind_speed_unit ?? '';
     const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
     const offset = parseInt(config.offset ?? '0', 10);
     const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
@@ -258,6 +273,7 @@ export class HourlyWeatherCard extends LitElement {
     const isForecastDaily = this.isForecastDaily(forecast);
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset);
+    const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit);
 
     const colorSettings = this.getColorSettings(config.colors);
 
@@ -281,10 +297,12 @@ export class HourlyWeatherCard extends LitElement {
           <weather-bar
             .conditions=${conditionList}
             .temperatures=${temperatures}
+            .wind=${wind}
             .icons=${!!config.icons}
             .colors=${colorSettings.validColors}
             .hide_hours=${!!config.hide_hours}
             .hide_temperatures=${!!config.hide_temperatures}
+            .show_wind=${!!config.show_wind}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
         </div>
@@ -319,6 +337,29 @@ export class HourlyWeatherCard extends LitElement {
       })
     }
     return temperatures;
+  }
+
+  private getWind(forecast: ForecastSegment[], numSegments: number, offset: number, speedUnit: string): SegmentWind[] {
+    const wind: SegmentWind[] = [];
+    for (let i = offset; i < numSegments + offset; i++) {
+      const fs = forecast[i];
+      let speed = '-';
+      let dir = '';
+      if (fs.wind_speed > 0) {
+        speed = `${Math.round(fs.wind_speed)} ${speedUnit}`.trim();
+        dir = this.formatWindDir(fs.wind_bearing);
+      }
+      wind.push({
+        hour: this.formatHour(new Date(fs.datetime), this.hass.locale),
+        windSpeed: speed,
+        windDirection: dir
+      })
+    }
+    return wind;
+  }
+
+  private formatWindDir(degrees: number): string {
+    return this.directions[Math.floor((degrees+11.25)/22.5)];
   }
 
   private isForecastDaily(forecast: ForecastSegment[]): boolean {

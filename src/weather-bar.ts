@@ -3,7 +3,7 @@ import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
-import type { ColorMap, ConditionSpan, SegmentTemperature } from "./types";
+import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -13,6 +13,9 @@ export class WeatherBar extends LitElement {
 
   @property({ type: Array })
   temperatures: SegmentTemperature[] = [];
+
+  @property({ type: Array })
+  wind: SegmentWind[] = [];
 
   @property({ type: Boolean })
   icons = false;
@@ -25,6 +28,9 @@ export class WeatherBar extends LitElement {
 
   @property({ type: Boolean })
   hide_temperatures = false;
+
+  @property({ type: Boolean })
+  show_wind = false;
 
   @property({ type: Number })
   label_spacing = 2;
@@ -57,7 +63,9 @@ export class WeatherBar extends LitElement {
       const skipLabel = (i - 1) % this.label_spacing !== 0;
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
+      const showWind = this.show_wind && !skipLabel;
       const { hour, temperature } = this.temperatures[i];
+      const { windSpeed, windDirection } = this.wind[i];
       barBlocks.push(html`
         <div class="bar-block">
           <div class="bar-block-left"></div>
@@ -65,6 +73,7 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-bottom">
             <div class="hour">${hideHours ? null : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
+            <div class="wind">${showWind ? html`${windSpeed}<br>${windDirection}` : null }</div>
           </div>
         </div>
       `);
@@ -243,6 +252,11 @@ export class WeatherBar extends LitElement {
     }
     .temperature {
       font-size: 1.1rem;
+    }
+    .wind {
+      font-size: 0.9rem;
+      line-height: 1.1rem;
+      padding-top: 0.1rem;
     }
   `];
 }
