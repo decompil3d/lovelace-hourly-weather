@@ -305,5 +305,41 @@ describe('Weather bar', () => {
           cy.wrap(el).should('have.text', `${expectedWindSpeeds[i]} mph${expectedWindDirections[i]}`);
         });
     });
+
+    it('does not show precipitation by default', () => {
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.precipitation')
+        .should('have.length', 6)
+        .each((el) => {
+          cy.wrap(el).should('be.empty');
+        });
+    });
+
+    const expectedPrecipitation = [
+      0.35,
+      1.3,
+      0,
+      0,
+      0,
+      0,
+    ];
+
+    it('shows precipitation if specified in config', () => {
+      cy.configure({
+        show_precipitation: true
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.precipitation')
+        .should('have.length', 6)
+        .each((el, i) => {
+          if (expectedPrecipitation[i] === 0) {
+            cy.wrap(el).should('be.empty');
+          } else {
+            cy.wrap(el).should('have.text', `${expectedPrecipitation[i]} in`);
+          }
+        });
+    });
   });
 });

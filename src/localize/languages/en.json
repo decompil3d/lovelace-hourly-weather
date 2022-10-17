@@ -13,7 +13,8 @@
     "offset": "Number of forecast segments to offset start by (Optional)",
     "icons": "Show icons instead of text labels",
     "label_spacing": "Number of forecast segments to space time and temperature labels by (Optional)",
-    "show_wind": "Show wind speed and direction"
+    "show_wind": "Show wind speed and direction",
+    "show_precipitation": "Show precipitation (rain) amount"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",

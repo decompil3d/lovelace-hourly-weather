@@ -27,6 +27,7 @@ import type {
   RenderTemplateResult,
   SegmentTemperature,
   SegmentWind,
+  SegmentPrecipitation,
 } from './types';
 import { actionHandler } from './action-handler-directive';
 import { version } from '../package.json';
@@ -229,6 +230,7 @@ export class HourlyWeatherCard extends LitElement {
     const state = this.hass.states[entityId];
     const { forecast } = state.attributes as { forecast: ForecastSegment[] };
     const windSpeedUnit = state.attributes.wind_speed_unit ?? '';
+    const precipitationUnit = state.attributes.precipitation_unit ?? '';
     const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
     const offset = parseInt(config.offset ?? '0', 10);
     const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
@@ -274,6 +276,7 @@ export class HourlyWeatherCard extends LitElement {
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit);
+    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit);
 
     const colorSettings = this.getColorSettings(config.colors);
 
@@ -298,11 +301,13 @@ export class HourlyWeatherCard extends LitElement {
             .conditions=${conditionList}
             .temperatures=${temperatures}
             .wind=${wind}
+            .precipitation=${precipitation}
             .icons=${!!config.icons}
             .colors=${colorSettings.validColors}
             .hide_hours=${!!config.hide_hours}
             .hide_temperatures=${!!config.hide_temperatures}
             .show_wind=${!!config.show_wind}
+            .show_precipitation=${!!config.show_precipitation}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
         </div>
@@ -337,6 +342,22 @@ export class HourlyWeatherCard extends LitElement {
       })
     }
     return temperatures;
+  }
+
+  private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string): SegmentPrecipitation[] {
+    const precipitation: SegmentPrecipitation[] = [];
+    for (let i = offset; i < numSegments + offset; i++) {
+      const fs = forecast[i];
+      let amount = '';
+      if (fs.precipitation > 0) {
+        amount = `${formatNumber(fs.precipitation, this.hass.locale)} ${unit}`.trim();
+      }
+      precipitation.push({
+        hour: this.formatHour(new Date(fs.datetime), this.hass.locale),
+        precipitationAmount: amount
+      })
+    }
+    return precipitation;
   }
 
   private getWind(forecast: ForecastSegment[], numSegments: number, offset: number, speedUnit: string): SegmentWind[] {
