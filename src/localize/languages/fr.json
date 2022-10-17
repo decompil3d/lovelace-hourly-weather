@@ -12,7 +12,8 @@
     "icons": "Afficher des icônes à la place du texte",
     "offset": "Nombre de segments de prévision par lesquels décaler le début (facultatif)",
     "segments_to_show": "Nombre de segments de prévision à afficher (facultatif)",
-    "label_spacing": "Nombre de segments de prévision dans les étiquettes d'espace-temps et de température par (facultatif)"
+    "label_spacing": "Nombre de segments de prévision dans les étiquettes d'espace-temps et de température par (facultatif)",
+    "show_wind": "Afficher la vitesse et la direction du vent"
   },
   "errors": {
     "missing_entity": "Entité manquante dans la configuration",

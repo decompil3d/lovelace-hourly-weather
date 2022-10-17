@@ -12,7 +12,8 @@
     "icons": "Zeigen Sie Symbole anstelle von Textbeschriftungen an",
     "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (optional)",
     "segments_to_show": "Anzahl der anzuzeigenden Prognosesegmente (optional)",
-    "label_spacing": "Anzahl der Vorhersagesegmente für Raumzeit- und Temperaturbeschriftungen nach (optional)"
+    "label_spacing": "Anzahl der Vorhersagesegmente für Raumzeit- und Temperaturbeschriftungen nach (optional)",
+    "show_wind": "Zeigt Windgeschwindigkeit und -richtung an"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",

@@ -12,7 +12,8 @@
     "segments_to_show": "Aantal weer te geven prognosesegmenten (Optioneel)",
     "offset": "Aantal prognosesegmenten om mee te compenseren (Optioneel)",
     "icons": "Pictogrammen weergeven in plaats van tekstlabels",
-    "label_spacing": "Aantal prognosesegmenten naar ruimtetijd- en temperatuurlabels per (Optioneel)"
+    "label_spacing": "Aantal prognosesegmenten naar ruimtetijd- en temperatuurlabels per (Optioneel)",
+    "show_wind": "Toon windsnelheid en richting"
   },
   "errors": {
     "missing_entity": "entity ontbreekt in configuratie",
