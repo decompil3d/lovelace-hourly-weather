@@ -12,7 +12,8 @@
     "icons": "Mostrar iconos en vez de texto",
     "offset": "Número de segmentos de pronóstico para compensar el inicio por (Opcional)",
     "segments_to_show": "Número de segmentos de pronóstico para mostrar (Opcional)",
-    "label_spacing": "Número de segmentos de pronóstico para etiquetas de temperatura y tiempo espacial por (Opcional)"
+    "label_spacing": "Número de segmentos de pronóstico para etiquetas de temperatura y tiempo espacial por (Opcional)",
+    "show_wind": "Mostrar la velocidad y dirección del viento"
   },
   "errors": {
     "missing_entity": "falta la entidad en la configuración",
@@ -39,5 +40,23 @@
     "mixedPrecip": "Chaparrones dispersos",
     "sunny": "Soleado",
     "windy": "Ventoso"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNE",
+    "ne": "NE",
+    "ene": "ENE",
+    "e": "E",
+    "ese": "ESE",
+    "se": "SE",
+    "sse": "SSE",
+    "s": "S",
+    "ssw": "SSO",
+    "sw": "SO",
+    "wsw": "OSO",
+    "w": "O",
+    "wnw": "ONO",
+    "nw": "NO",
+    "nnw": "NNO"
   }
 }

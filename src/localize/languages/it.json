@@ -12,7 +12,8 @@
     "icons": "Mostra le icone invece delle etichette di testo",
     "offset": "Numero di segmenti di previsione di cui compensare l'inizio (Facoltativo)",
     "segments_to_show": "Numero di segmenti di previsione da mostrare (facoltativo)",
-    "label_spacing": "Numero di segmenti di previsione per spazio etichette tempo e temperatura per (facoltativo)"
+    "label_spacing": "Numero di segmenti di previsione per spazio etichette tempo e temperatura per (facoltativo)",
+    "show_wind": "Mostra la velocità e la direzione del vento"
   },
   "errors": {
     "missing_entity": "entità mancante nella configurazione",
@@ -39,5 +40,23 @@
     "mixedPrecip": "Precipitazioni Miste",
     "sunny": "Soleggiato",
     "windy": "Ventoso"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNE",
+    "ne": "NE",
+    "ene": "ENE",
+    "e": "E",
+    "ese": "ESE",
+    "se": "SE",
+    "sse": "SSE",
+    "s": "S",
+    "ssw": "SSO",
+    "sw": "SO",
+    "wsw": "OSO",
+    "w": "O",
+    "wnw": "ONO",
+    "nw": "NO",
+    "nnw": "NNO"
   }
 }

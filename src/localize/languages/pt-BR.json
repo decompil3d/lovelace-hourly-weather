@@ -12,7 +12,8 @@
     "segments_to_show": "Número de segmentos de previsão a serem exibidos (opcional)",
     "offset": "Número de segmentos de previsão para começar a compensar (opcional)",
     "icons": "Mostrar ícones em vez de rótulos de texto",
-    "label_spacing": "Número de segmentos de previsão para rótulos de tempo e temperatura de espaço por (opcional)"
+    "label_spacing": "Número de segmentos de previsão para rótulos de tempo e temperatura de espaço por (opcional)",
+    "show_wind": "Mostrar velocidade e direção do vento"
   },
   "errors": {
     "missing_entity": "entidade está faltando na configuração",
@@ -39,5 +40,23 @@
     "mixedPrecip": "Precipitação mista",
     "sunny": "Ensolarado",
     "windy": "Ventania"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNE",
+    "ne": "NE",
+    "ene": "ENE",
+    "e": "E",
+    "ese": "ESE",
+    "se": "SE",
+    "sse": "SSE",
+    "s": "S",
+    "ssw": "SSO",
+    "sw": "SO",
+    "wsw": "OSO",
+    "w": "O",
+    "wnw": "ONO",
+    "nw": "NO",
+    "nnw": "NNO"
   }
 }

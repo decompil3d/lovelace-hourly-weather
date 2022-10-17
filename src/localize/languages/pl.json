@@ -12,7 +12,8 @@
     "icons": "Pokaż ikony zamiast etykiet tekstowych",
     "offset": "Liczba segmentów prognozy, o które należy skompensować początek (opcjonalnie)",
     "segments_to_show": "Liczba segmentów prognozy do wyświetlenia (opcjonalnie)",
-    "label_spacing": "Liczba segmentów prognozy do etykiet czasoprzestrzeni i temperatury według (opcjonalnie)"
+    "label_spacing": "Liczba segmentów prognozy do etykiet czasoprzestrzeni i temperatury według (opcjonalnie)",
+    "show_wind": "Pokaż prędkość i kierunek wiatru"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",
@@ -39,5 +40,23 @@
     "mixedPrecip": "Mieszane opady",
     "sunny": "Słonecznie",
     "windy": "Wietrznie"
+  },
+  "direction": {
+    "n": "P",
+    "nne": "PPW",
+    "ne": "PW",
+    "ene": "WPW",
+    "e": "W",
+    "ese": "WPdW",
+    "se": "PdW",
+    "sse": "PdPdW",
+    "s": "Pd",
+    "ssw": "PdPdZ",
+    "sw": "PdZ",
+    "wsw": "ZPdZ",
+    "w": "Z",
+    "wnw": "ZPZ",
+    "nw": "PZ",
+    "nnw": "PPZ"
   }
 }
