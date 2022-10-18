@@ -82,7 +82,7 @@ export class WeatherBar extends LitElement {
             <div class="hour">${hideHours ? null : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
             <div class="wind">${showWind ? html`${windSpeed}<br>${windDirection}` : null }</div>
-            <div class="precipitation">${showPrecipitation ? html`${precipitationAmount}` : null }</div>
+            <div class="precipitation">${showPrecipitationAmounts ? html`${precipitationAmount}` : null }</div>
           </div>
         </div>
       `);
