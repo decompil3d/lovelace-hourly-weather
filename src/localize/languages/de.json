@@ -13,7 +13,8 @@
     "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (optional)",
     "segments_to_show": "Anzahl der anzuzeigenden Prognosesegmente (optional)",
     "label_spacing": "Anzahl der Vorhersagesegmente für Raumzeit- und Temperaturbeschriftungen nach (optional)",
-    "show_wind": "Zeigt Windgeschwindigkeit und -richtung an"
+    "show_wind": "Zeigt Windgeschwindigkeit und -richtung an",
+    "show_precipitation_amounts": "Niederschlagsmenge anzeigen"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",

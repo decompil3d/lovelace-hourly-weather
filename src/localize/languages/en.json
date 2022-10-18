@@ -14,7 +14,7 @@
     "icons": "Show icons instead of text labels",
     "label_spacing": "Number of forecast segments to space time and temperature labels by (Optional)",
     "show_wind": "Show wind speed and direction",
-    "show_precipitation_amounts": "Show precipitation (rain) amount"
+    "show_precipitation_amounts": "Show precipitation amount"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",
