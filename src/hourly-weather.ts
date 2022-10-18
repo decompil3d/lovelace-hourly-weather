@@ -307,7 +307,7 @@ export class HourlyWeatherCard extends LitElement {
             .hide_hours=${!!config.hide_hours}
             .hide_temperatures=${!!config.hide_temperatures}
             .show_wind=${!!config.show_wind}
-            .show_precipitation=${!!config.show_precipitation}
+            .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
         </div>

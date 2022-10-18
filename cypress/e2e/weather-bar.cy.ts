@@ -327,7 +327,7 @@ describe('Weather bar', () => {
 
     it('shows precipitation if specified in config', () => {
       cy.configure({
-        show_precipitation: true
+        show_precipitation_amounts: true
       });
       cy.get('weather-bar')
         .shadow()
