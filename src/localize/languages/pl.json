@@ -13,7 +13,8 @@
     "offset": "Liczba segmentów prognozy, o które należy skompensować początek (opcjonalnie)",
     "segments_to_show": "Liczba segmentów prognozy do wyświetlenia (opcjonalnie)",
     "label_spacing": "Liczba segmentów prognozy do etykiet czasoprzestrzeni i temperatury według (opcjonalnie)",
-    "show_wind": "Pokaż prędkość i kierunek wiatru"
+    "show_wind": "Pokaż prędkość i kierunek wiatru",
+    "show_precipitation_amounts": "Pokaż ilość opadów"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",
