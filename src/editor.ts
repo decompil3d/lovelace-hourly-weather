@@ -62,12 +62,12 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.show_wind ?? false;
   }
 
-  get _show_wind_speed(): boolean {
-    return this._config?.show_wind_speed ?? false;
+  get _hide_wind_speed(): boolean {
+    return this._config?.hide_wind_speed ?? false;
   }
 
-  get _show_wind_direction(): boolean {
-    return this._config?.show_wind_direction ?? false;
+  get _hide_wind_direction(): boolean {
+    return this._config?.hide_wind_direction ?? false;
   }
 
   get _show_precipitation_amounts(): boolean {
@@ -158,17 +158,17 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>
-      <mwc-formfield .label=${localize('editor.show_wind_speed')}>
+      <mwc-formfield .label=${localize('editor.hide_wind_speed')}>
         <mwc-switch
-          .checked=${this._show_wind_speed === true}
-          .configValue=${'show_wind_speed'}
+          .checked=${this._hide_wind_speed === true}
+          .configValue=${'hide_wind_speed'}
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>
-      <mwc-formfield .label=${localize('editor.show_wind_direction')}>
+      <mwc-formfield .label=${localize('editor.hide_wind_direction')}>
         <mwc-switch
-          .checked=${this._show_wind_direction === true}
-          .configValue=${'show_wind_direction'}
+          .checked=${this._hide_wind_direction === true}
+          .configValue=${'hide_wind_direction'}
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>

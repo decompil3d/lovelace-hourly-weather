@@ -14,8 +14,8 @@
     "segments_to_show": "Anzahl der anzuzeigenden Prognosesegmente (optional)",
     "label_spacing": "Anzahl der Vorhersagesegmente für Raumzeit- und Temperaturbeschriftungen nach (optional)",
     "show_wind": "Zeigt Windgeschwindigkeit und -richtung an",
-    "show_wind_speed": "Zeigt Windgeschwindigkeit und -richtung an",
-    "show_wind_direction": "Zeigt Windgeschwindigkeit und -richtung an",
+    "hide_wind_speed": "Blendet die Windgeschwindigkeit aus",
+    "hide_wind_direction": "Blendet die Windrichtung aus",
     "show_precipitation_amounts": "Niederschlagsmenge anzeigen"
   },
   "errors": {

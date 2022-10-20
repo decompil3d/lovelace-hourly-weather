@@ -14,8 +14,8 @@
     "segments_to_show": "Antall prognosesegmenter som skal vises (valgfritt)",
     "label_spacing": "Antall prognosesegmenter til romtid og temperaturetiketter etter (valgfritt)",
     "show_wind": "Vis vindhastighet og retning",
-    "show_wind_speed": "Vis vindhastighet",
-    "show_wind_direction": "Vis retning",
+    "hide_wind_speed": "Skjul vindhastighet",
+    "hide_wind_direction": "Skjul vindretningen",
     "show_precipitation_amounts": "Vis nedbørsmengde"
   },
   "errors": {

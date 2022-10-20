@@ -14,8 +14,8 @@
     "segments_to_show": "Liczba segmentów prognozy do wyświetlenia (opcjonalnie)",
     "label_spacing": "Liczba segmentów prognozy do etykiet czasoprzestrzeni i temperatury według (opcjonalnie)",
     "show_wind": "Pokaż prędkość i kierunek wiatru",
-    "show_wind_speed": "Pokaż prędkość wiatru",
-    "show_wind_direction": "Pokaż kierunek wiatru",
+    "hide_wind_speed": "Ukryj prędkość wiatru",
+    "hide_wind_direction": "Ukryj kierunek wiatru",
     "show_precipitation_amounts": "Pokaż ilość opadów"
   },
   "errors": {
