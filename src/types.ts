@@ -20,6 +20,8 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   hide_hours?: boolean;
   hide_temperatures?: boolean;
   show_wind?: boolean;
+  show_wind_speed?: boolean;
+  show_wind_direction?: boolean;
   show_precipitation_amounts?: boolean;
   label_spacing?: string; // number
   test_gui?: boolean;

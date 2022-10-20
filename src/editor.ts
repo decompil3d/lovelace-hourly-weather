@@ -62,6 +62,14 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.show_wind ?? false;
   }
 
+  get _show_wind_speed(): boolean {
+    return this._config?.show_wind_speed ?? false;
+  }
+
+  get _show_wind_direction(): boolean {
+    return this._config?.show_wind_direction ?? false;
+  }
+
   get _show_precipitation_amounts(): boolean {
     return this._config?.show_precipitation_amounts ?? false;
   }
@@ -147,6 +155,20 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         <mwc-switch
           .checked=${this._show_wind === true}
           .configValue=${'show_wind'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${localize('editor.show_wind_speed')}>
+        <mwc-switch
+          .checked=${this._show_wind_speed === true}
+          .configValue=${'show_wind_speed'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${localize('editor.show_wind_direction')}>
+        <mwc-switch
+          .checked=${this._show_wind_direction === true}
+          .configValue=${'show_wind_direction'}
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>

@@ -36,6 +36,12 @@ export class WeatherBar extends LitElement {
   show_wind = false;
 
   @property({ type: Boolean })
+  show_wind_speed = true;
+
+  @property({ type: Boolean })
+  show_wind_direction = true;
+
+  @property({ type: Boolean })
   show_precipitation_amounts = false;
 
   @property({ type: Number })
@@ -69,7 +75,8 @@ export class WeatherBar extends LitElement {
       const skipLabel = (i - 1) % this.label_spacing !== 0;
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
-      const showWind = this.show_wind && !skipLabel;
+      const showWindSpeed = this.show_wind && this.show_wind_speed && !skipLabel;
+      const showWindDirection = this.show_wind && this.show_wind_direction && !skipLabel;
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const { hour, temperature } = this.temperatures[i];
       const { windSpeed, windDirection } = this.wind[i];
@@ -81,7 +88,13 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-bottom">
             <div class="hour">${hideHours ? null : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
-            <div class="wind">${showWind ? html`${windSpeed}<br>${windDirection}` : null }</div>
+            <div class="wind">${showWindSpeed && showWindDirection 
+              ? html`${windSpeed}<br>${windDirection}` 
+              : showWindSpeed
+                ? html`${windSpeed}` 
+                : showWindDirection 
+                  ? html`${windDirection}` 
+                  : null }</div>
             <div class="precipitation">${showPrecipitationAmounts ? html`${precipitationAmount}` : null }</div>
           </div>
         </div>

@@ -306,6 +306,36 @@ describe('Weather bar', () => {
         });
     });
 
+    it('shows wind speed if specified in config', () => {
+      cy.configure({
+        show_wind: true,
+        show_wind_speed: true,
+        show_wind_direction: false
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 6)
+        .each((el, i) => {
+          cy.wrap(el).should('have.text', `${expectedWindSpeeds[i]} mph`);
+        });
+    });
+
+    it('shows wind direction if specified in config', () => {
+      cy.configure({
+        show_wind: true,
+        show_wind_speed: false,
+        show_wind_direction: true
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 6)
+        .each((el, i) => {
+          cy.wrap(el).should('have.text', `${expectedWindDirections[i]}`);
+        });
+    });
+
     it('does not show precipitation by default', () => {
       cy.get('weather-bar')
         .shadow()
