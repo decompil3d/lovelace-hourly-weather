@@ -69,9 +69,7 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | colors                     | object | **Optional** | Set colors for all or some conditions                     |                     |
 | hide_hours                 | bool   | **Optional** | Whether to hide hour labels under the bar                 | `false`             |
 | hide_temperatures          | bool   | **Optional** | Whether to hide temeratures under the bar                 | `false`             |
-| show_wind                  | bool   | **Optional** | Whether to show wind speed and direction under the bar    | `false`             |
-| hide_wind_speed            | bool   | **Optional** | Whether to show wind speed under the bar                  | `false`             |
-| hide_wind_direction        | bool   | **Optional** | Whether to show wind direction under the bar              | `false`             |
+| show_wind                  | string | **Optional** | Whether to show wind speed and/or direction under the bar | `false`             |
 | show_precipitation_amounts | bool   | **Optional** | Whether to show precipitation (rain) amount under the bar | `false`             |
 | tap_action                 | object | **Optional** | Action to take on tap                                     | `action: more-info` |
 | hold_action                | object | **Optional** | Action to take on hold                                    | `none`              |
@@ -154,6 +152,15 @@ colors:
   snowy-rainy: rgba(255, 255, 255, 0.8) # rgba works (and hsla too)
   exceptional: red # as do valid CSS color names
 ```
+
+### Wind Options
+
+`show_wind` can be one of the following values:
+
+- `false` Don't show wind speed/direction (default)
+- `true` Show both wind speed and direction
+- `speed` Only show wind speed
+- `direction` Only show wind direction
 
 ## Upgrades
 

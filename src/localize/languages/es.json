@@ -14,8 +14,6 @@
     "segments_to_show": "Número de segmentos de pronóstico para mostrar (Opcional)",
     "label_spacing": "Número de segmentos de pronóstico para etiquetas de temperatura y tiempo espacial por (Opcional)",
     "show_wind": "Mostrar la velocidad y dirección del viento",
-    "hide_wind_speed": "Ocultar la velocidad del viento",
-    "hide_wind_direction": "Ocultar la dirección del viento",
     "show_precipitation_amounts": "Mostrar cantidad de precipitación"
   },
   "errors": {

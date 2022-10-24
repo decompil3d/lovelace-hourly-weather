@@ -295,7 +295,7 @@ describe('Weather bar', () => {
 
     it('shows wind speed/direction if specified in config', () => {
       cy.configure({
-        show_wind: true
+        show_wind: 'true'
       });
       cy.get('weather-bar')
         .shadow()
@@ -308,9 +308,7 @@ describe('Weather bar', () => {
 
     it('shows wind speed if specified in config', () => {
       cy.configure({
-        show_wind: true,
-        hide_wind_speed: false,
-        hide_wind_direction: true
+        show_wind: 'speed'
       });
       cy.get('weather-bar')
         .shadow()
@@ -323,9 +321,7 @@ describe('Weather bar', () => {
 
     it('shows wind direction if specified in config', () => {
       cy.configure({
-        show_wind: true,
-        hide_wind_speed: true,
-        hide_wind_direction: false
+        show_wind: 'direction'
       });
       cy.get('weather-bar')
         .shadow()

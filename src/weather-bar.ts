@@ -3,7 +3,7 @@ import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
-import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation } from "./types";
+import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -32,14 +32,8 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   hide_temperatures = false;
 
-  @property({ type: Boolean })
-  show_wind = false;
-
-  @property({ type: Boolean })
-  hide_wind_speed = false;
-
-  @property({ type: Boolean })
-  hide_wind_direction = false;
+  @property({ type: String })
+  show_wind : WindType = 'false';
 
   @property({ type: Boolean })
   show_precipitation_amounts = false;
@@ -75,8 +69,8 @@ export class WeatherBar extends LitElement {
       const skipLabel = (i - 1) % this.label_spacing !== 0;
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
-      const showWindSpeed = this.show_wind && !this.hide_wind_speed && !skipLabel;
-      const showWindDirection = this.show_wind && !this.hide_wind_direction && !skipLabel;
+      const showWindSpeed = (this.show_wind == 'true' || this.show_wind == 'speed') && !skipLabel;
+      const showWindDirection = (this.show_wind == 'true' || this.show_wind == 'direction') && !skipLabel;
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const { hour, temperature } = this.temperatures[i];
       const { windSpeed, windDirection } = this.wind[i];
