@@ -117,6 +117,8 @@ export class HourlyWeatherCard extends LitElement {
   private get directions(): Array<string> {
     if (!this.directionsLocalized || this.localizerSettingsChanged) {
       this._directions = Object.values(DIRECTIONS).map((msg) => this.localize(msg));
+      // Add North to the end for values approaching 360 degrees.
+      this._directions.push(this._directions[0]);
       this.directionsLocalized = true;
     }
     return this._directions;
