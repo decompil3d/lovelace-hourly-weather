@@ -14,7 +14,8 @@
     "icons": "Pictogrammen weergeven in plaats van tekstlabels",
     "label_spacing": "Aantal prognosesegmenten naar ruimtetijd- en temperatuurlabels per (Optioneel)",
     "show_wind": "Toon windsnelheid en richting",
-    "show_precipitation_amounts": "Toon hoeveelheid neerslag"
+    "show_precipitation_amounts": "Toon hoeveelheid neerslag",
+    "neither": "Geen van beide\n\nBeide\n\nAlleen snelheid\n\nAlleen richting"
   },
   "errors": {
     "missing_entity": "entity ontbreekt in configuratie",

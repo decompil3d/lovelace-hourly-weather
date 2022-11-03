@@ -14,7 +14,8 @@
     "segments_to_show": "Número de segmentos de previsão a serem exibidos (opcional)",
     "label_spacing": "Número de segmentos de previsão para rótulos de tempo e temperatura de espaço por (opcional)",
     "show_wind": "Mostrar velocidade e direção do vento",
-    "show_precipitation_amounts": "Mostrar quantidade de precipitação"
+    "show_precipitation_amounts": "Mostrar quantidade de precipitação",
+    "neither": "Nenhum\n\nAmbos\n\nApenas velocidade\n\nApenas direção"
   },
   "errors": {
     "missing_entity": "A entidade não existe na configuração",

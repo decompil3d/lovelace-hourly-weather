@@ -14,7 +14,11 @@
     "segments_to_show": "Liczba segmentów prognozy do wyświetlenia (opcjonalnie)",
     "label_spacing": "Liczba segmentów prognozy do etykiet czasoprzestrzeni i temperatury według (opcjonalnie)",
     "show_wind": "Pokaż prędkość i kierunek wiatru",
-    "show_precipitation_amounts": "Pokaż ilość opadów"
+    "show_precipitation_amounts": "Pokaż ilość opadów",
+    "neither": "Żaden",
+    "both": "Obie",
+    "speed_only": "Tylko prędkość",
+    "direction_only": "Tylko kierunek"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",
