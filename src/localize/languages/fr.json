@@ -14,7 +14,11 @@
     "segments_to_show": "Nombre de segments de prévision à afficher (facultatif)",
     "label_spacing": "Segments d'espacement entre les étiquettes d'heure et de température (facultatif)",
     "show_wind": "Afficher la vitesse et la direction du vent",
-    "show_precipitation_amounts": "Afficher la quantité de précipitations"
+    "show_precipitation_amounts": "Afficher la quantité de précipitations",
+    "neither": "Ni",
+    "both": "Tous les deux",
+    "speed_only": "Vitesse uniquement",
+    "direction_only": "Sens uniquement"
   },
   "errors": {
     "missing_entity": "Entité manquante dans la configuration",
