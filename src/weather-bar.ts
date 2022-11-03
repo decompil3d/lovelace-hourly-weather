@@ -74,6 +74,12 @@ export class WeatherBar extends LitElement {
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const { hour, temperature } = this.temperatures[i];
       const { windSpeed, windDirection } = this.wind[i];
+
+      const wind: TemplateResult[] = [];
+      if (showWindSpeed) wind.push(html`${windSpeed}`);
+      if (showWindSpeed && showWindDirection) wind.push(html`<br>`);
+      if (showWindDirection) wind.push(html`${windDirection}`);
+
       const { precipitationAmount } = this.precipitation[i];
       barBlocks.push(html`
         <div class="bar-block">
