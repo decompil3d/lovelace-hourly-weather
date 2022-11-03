@@ -33,7 +33,7 @@ export class WeatherBar extends LitElement {
   hide_temperatures = false;
 
   @property({ type: String })
-  show_wind : WindType = 'false';
+  show_wind: WindType = 'false';
 
   @property({ type: Boolean })
   show_precipitation_amounts = false;
