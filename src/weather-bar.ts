@@ -69,8 +69,8 @@ export class WeatherBar extends LitElement {
       const skipLabel = (i - 1) % this.label_spacing !== 0;
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
-      const showWindSpeed = (this.show_wind == 'true' || this.show_wind == 'speed') && !skipLabel;
-      const showWindDirection = (this.show_wind == 'true' || this.show_wind == 'direction') && !skipLabel;
+      const showWindSpeed = (this.show_wind === 'true' || this.show_wind === 'speed') && !skipLabel;
+      const showWindDirection = (this.show_wind === 'true' || this.show_wind === 'direction') && !skipLabel;
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const { hour, temperature } = this.temperatures[i];
       const { windSpeed, windDirection } = this.wind[i];
