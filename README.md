@@ -56,25 +56,25 @@ Otherwise, the integration may complain of a duplicate unique ID.
 
 ## Options
 
-| Name                         | Type   | Requirement  | Description                                               | Default             |
-| ---------------------------- | ------ | ------------ | --------------------------------------------------------- | ------------------- |
-| `type`                       | string | **Required** | `custom:hourly-weather`                                   |                     |
-| `entity`                     | string | **Required** | Home Assistant weather entity ID.                         |                     |
-| `name`                       | string | **Optional** | Card name (set to `null` to hide)                         | `Hourly Weather`    |
-| `icons`                      | bool   | **Optional** | Whether to show icons instead of text labels              | `false`             |
-| `num_segments`               | number | **Optional** | Number of forecast segments to show (even integer >= 2)   | `12`                |
-| ~~`num_hours`~~              | number | **Optional** | _Deprecated:_ Use `num_segments` instead                  | `12`                |
-| `offset`                     | number | **Optional** | Number of forecast segments to offset from start          | `0`                 |
-| `label_spacing`              | number | **Optional** | Space between time/temperature labels (even integer >= 2) | `2`                 |
-| `colors`                     | object | **Optional** | Set colors for all or some conditions                     |                     |
-| `hide_hours`                 | bool   | **Optional** | Whether to hide hour labels under the bar                 | `false`             |
-| `hide_temperatures`          | bool   | **Optional** | Whether to hide temeratures under the bar                 | `false`             |
-| `show_wind`                  | bool   | **Optional** | Whether to show wind speed and/or direction under the bar | `false`             |
-| `show_precipitation_amounts` | bool   | **Optional** | Whether to show precipitation (rain) amount under the bar | `false`             |
-| `tap_action`                 | object | **Optional** | Action to take on tap                                     | `action: more-info` |
-| `hold_action`                | object | **Optional** | Action to take on hold                                    | `none`              |
-| `double_tap_action`          | object | **Optional** | Action to take on double tap                              | `none`              |
-| `language`                   | string | **Optional** | Language to use for card (overrides HA & user settings)   |                     |
+| Name                         | Type             | Requirement  | Description                                               | Default             |
+|------------------------------|------------------|--------------|-----------------------------------------------------------|---------------------|
+| `type`                       | string           | **Required** | `custom:hourly-weather`                                   |                     |
+| `entity`                     | string           | **Required** | Home Assistant weather entity ID.                         |                     |
+| `name`                       | string           | **Optional** | Card name (set to `null` to hide)                         | `Hourly Weather`    |
+| `icons`                      | bool             | **Optional** | Whether to show icons instead of text labels              | `false`             |
+| `num_segments`               | number           | **Optional** | Number of forecast segments to show (even integer >= 2)   | `12`                |
+| ~~`num_hours`~~              | number           | **Optional** | _Deprecated:_ Use `num_segments` instead                  | `12`                |
+| `offset`                     | number           | **Optional** | Number of forecast segments to offset from start          | `0`                 |
+| `label_spacing`              | number           | **Optional** | Space between time/temperature labels (even integer >= 2) | `2`                 |
+| `colors`                     | [object][color]  | **Optional** | Set colors for all or some conditions                     |                     |
+| `hide_hours`                 | bool             | **Optional** | Whether to hide hour labels under the bar                 | `false`             |
+| `hide_temperatures`          | bool             | **Optional** | Whether to hide temperatures under the bar                | `false`             |
+| `show_wind`                  | [string][wind]   | **Optional** | Whether to show wind speed and/or direction under the bar | `'false'`           |
+| `show_precipitation_amounts` | bool             | **Optional** | Whether to show precipitation (rain) amount under the bar | `false`             |
+| `tap_action`                 | [object][action] | **Optional** | Action to take on tap                                     | `action: more-info` |
+| `hold_action`                | [object][action] | **Optional** | Action to take on hold                                    | `none`              |
+| `double_tap_action`          | [object][action] | **Optional** | Action to take on double tap                              | `none`              |
+| `language`                   | string           | **Optional** | Language to use for card (overrides HA & user settings)   |                     |
 
 ### Templating
 
@@ -110,7 +110,7 @@ label_spacing: |
 ## Action Options
 
 | Name              | Type   | Requirement  | Description                                                                                        | Default     |
-| ----------------- | ------ | ------------ | -------------------------------------------------------------------------------------------------- | ----------- |
+|-------------------|--------|--------------|----------------------------------------------------------------------------------------------------|-------------|
 | `action`          | string | **Required** | Action to perform (more-info, toggle, call-service, navigate url, none)                            | `more-info` |
 | `navigation_path` | string | **Optional** | Path to navigate to (e.g. /lovelace/0/) when action defined as navigate                            | `none`      |
 | `url`             | string | **Optional** | URL to open on click when action is url. The URL will open in a new tab                            | `none`      |
@@ -128,7 +128,7 @@ Some conditions will default to whatever the value is of some other condition. F
 whatever `cloudy` is.
 
 | Key               | Default                |
-| ----------------- | ---------------------- |
+|-------------------|------------------------|
 | `clear-night`     | `#000`                 |
 | `cloudy`          | `#777`                 |
 | `fog`             | same as `cloudy`       |
@@ -178,3 +178,7 @@ clear that it operates on whatever size forecast segment your entity provides. T
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2022.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [releases]: https://github.com/decompil3d/lovelace-hourly-weather/releases
+
+[color]: #color-options
+[wind]: #wind-options
+[action]: #action-options

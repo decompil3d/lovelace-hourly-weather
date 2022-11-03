@@ -153,10 +153,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         @closed=${(ev) => ev.stopPropagation()}
       >
         <mwc-list-item></mwc-list-item>
-        <mwc-list-item value="false">False</mwc-list-item>
-        <mwc-list-item value="true">True</mwc-list-item>
-        <mwc-list-item value="speed">Speed Only</mwc-list-item>
-        <mwc-list-item value="direction">Direction Only</mwc-list-item>
+        <mwc-list-item value="false">${localize('editor.neither')}</mwc-list-item>
+        <mwc-list-item value="true">${localize('editor.both')}</mwc-list-item>
+        <mwc-list-item value="speed">${localize('editor.speed_only')}</mwc-list-item>
+        <mwc-list-item value="direction">${localize('editor.direction_only')}</mwc-list-item>
       </mwc-select>
       <mwc-formfield .label=${localize('editor.show_precipitation_amounts')}>
         <mwc-switch
