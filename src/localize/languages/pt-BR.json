@@ -14,7 +14,11 @@
     "icons": "Mostrar ícones em vez de rótulos de texto",
     "label_spacing": "Número de segmentos de previsão para rótulos de tempo e temperatura de espaço por (opcional)",
     "show_wind": "Mostrar velocidade e direção do vento",
-    "show_precipitation_amounts": "Mostrar quantidade de precipitação"
+    "show_precipitation_amounts": "Mostrar quantidade de precipitação",
+    "neither": "Nenhum",
+    "both": "Ambos",
+    "speed_only": "Apenas velocidade",
+    "direction_only": "Apenas direção"
   },
   "errors": {
     "missing_entity": "entidade está faltando na configuração",
