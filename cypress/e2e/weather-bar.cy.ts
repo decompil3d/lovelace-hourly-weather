@@ -288,7 +288,7 @@ describe('Weather bar', () => {
       'WSW',
       'W',
       'WNW',
-      'WNW',
+      'N',
       'WNW',
       'WNW'
     ];
