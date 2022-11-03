@@ -3,7 +3,7 @@ import { LitElement, html, TemplateResult, css, CSSResultGroup } from 'lit';
 import { HomeAssistant, fireEvent, LovelaceCardEditor } from 'custom-card-helpers';
 
 import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
-import { HourlyWeatherCardConfig } from './types';
+import { HourlyWeatherCardConfig, WindType } from './types';
 import { customElement, property, state } from 'lit/decorators.js';
 import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
@@ -58,8 +58,8 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.icons ?? false;
   }
 
-  get _show_wind(): boolean {
-    return this._config?.show_wind ?? false;
+  get _show_wind(): WindType {
+    return this._config?.show_wind ?? 'false';
   }
 
   get _show_precipitation_amounts(): boolean {
@@ -143,13 +143,21 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>
-      <mwc-formfield .label=${localize('editor.show_wind')}>
-        <mwc-switch
-          .checked=${this._show_wind === true}
-          .configValue=${'show_wind'}
-          @change=${this._valueChanged}
-        ></mwc-switch>
-      </mwc-formfield>
+      <mwc-select
+        naturalMenuWidth
+        fixedMenuPosition
+        label=${localize('editor.show_wind')}
+        .configValue=${'show_wind'}
+        .value=${this._show_wind}
+        @selected=${this._valueChanged}
+        @closed=${(ev) => ev.stopPropagation()}
+      >
+        <mwc-list-item></mwc-list-item>
+        <mwc-list-item value="false">${localize('editor.neither')}</mwc-list-item>
+        <mwc-list-item value="true">${localize('editor.both')}</mwc-list-item>
+        <mwc-list-item value="speed">${localize('editor.speed_only')}</mwc-list-item>
+        <mwc-list-item value="direction">${localize('editor.direction_only')}</mwc-list-item>
+      </mwc-select>
       <mwc-formfield .label=${localize('editor.show_precipitation_amounts')}>
         <mwc-switch
           .checked=${this._show_precipitation_amounts === true}

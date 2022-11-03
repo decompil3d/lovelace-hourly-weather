@@ -3,7 +3,7 @@ import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
-import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation } from "./types";
+import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -32,8 +32,8 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   hide_temperatures = false;
 
-  @property({ type: Boolean })
-  show_wind = false;
+  @property({ type: String })
+  show_wind: WindType = 'false';
 
   @property({ type: Boolean })
   show_precipitation_amounts = false;
@@ -69,10 +69,17 @@ export class WeatherBar extends LitElement {
       const skipLabel = (i - 1) % this.label_spacing !== 0;
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
-      const showWind = this.show_wind && !skipLabel;
+      const showWindSpeed = (this.show_wind === 'true' || this.show_wind === 'speed') && !skipLabel;
+      const showWindDirection = (this.show_wind === 'true' || this.show_wind === 'direction') && !skipLabel;
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const { hour, temperature } = this.temperatures[i];
       const { windSpeed, windDirection } = this.wind[i];
+
+      const wind: TemplateResult[] = [];
+      if (showWindSpeed) wind.push(html`${windSpeed}`);
+      if (showWindSpeed && showWindDirection) wind.push(html`<br>`);
+      if (showWindDirection) wind.push(html`${windDirection}`);
+
       const { precipitationAmount } = this.precipitation[i];
       barBlocks.push(html`
         <div class="bar-block">
@@ -81,7 +88,7 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-bottom">
             <div class="hour">${hideHours ? null : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
-            <div class="wind">${showWind ? html`${windSpeed}<br>${windDirection}` : null }</div>
+            <div class="wind">${wind}</div>
             <div class="precipitation">${showPrecipitationAmounts ? html`${precipitationAmount}` : null }</div>
           </div>
         </div>

@@ -295,7 +295,7 @@ describe('Weather bar', () => {
 
     it('shows wind speed/direction if specified in config', () => {
       cy.configure({
-        show_wind: true
+        show_wind: 'true'
       });
       cy.get('weather-bar')
         .shadow()
@@ -303,6 +303,32 @@ describe('Weather bar', () => {
         .should('have.length', 6)
         .each((el, i) => {
           cy.wrap(el).should('have.text', `${expectedWindSpeeds[i]} mph${expectedWindDirections[i]}`);
+        });
+    });
+
+    it('shows wind speed if specified in config', () => {
+      cy.configure({
+        show_wind: 'speed'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 6)
+        .each((el, i) => {
+          cy.wrap(el).should('have.text', `${expectedWindSpeeds[i]} mph`);
+        });
+    });
+
+    it('shows wind direction if specified in config', () => {
+      cy.configure({
+        show_wind: 'direction'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 6)
+        .each((el, i) => {
+          cy.wrap(el).should('have.text', `${expectedWindDirections[i]}`);
         });
     });
 
