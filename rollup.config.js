@@ -14,6 +14,7 @@ import { ignoreSelectFiles } from './elements/ignore/select';
 import { ignoreSwitchFiles } from './elements/ignore/switch';
 
 const dev = process.env.ROLLUP_WATCH;
+if (dev) console.log('Development build');
 
 const serveopts = {
   contentBase: ['./dist'],
@@ -42,6 +43,7 @@ const plugins = [
   json(),
   babel({
     exclude: 'node_modules/**',
+    babelHelpers: 'bundled'
   }),
   dev && serve(serveopts),
   !dev && terser(),

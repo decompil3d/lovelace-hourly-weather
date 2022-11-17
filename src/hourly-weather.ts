@@ -375,7 +375,9 @@ export class HourlyWeatherCard extends LitElement {
       wind.push({
         hour: this.formatHour(new Date(fs.datetime), this.hass.locale),
         windSpeed: speed,
-        windDirection: dir
+        windSpeedRawMS: this.getWindSpeedMS(fs.wind_speed, speedUnit),
+        windDirection: dir,
+        windDirectionRaw: fs.wind_bearing
       })
     }
     return wind;
@@ -383,6 +385,22 @@ export class HourlyWeatherCard extends LitElement {
 
   private formatWindDir(degrees: number): string {
     return this.directions[Math.floor((degrees+11.25)/22.5)];
+  }
+
+  private getWindSpeedMS(speed: number, unit: string): number {
+    switch (unit) {
+      case 'm/s':
+        return speed;
+      case 'mph':
+        return speed * 0.44704;
+      case 'km/h':
+        return speed * 0.27777777777778;
+      case 'ft/s':
+        return speed * 0.3048;
+      case 'kt':
+        return speed * 0.51444444444444;
+    }
+    return -1;
   }
 
   private isForecastDaily(forecast: ForecastSegment[]): boolean {
