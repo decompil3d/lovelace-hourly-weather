@@ -18,7 +18,8 @@
     "neither": "Ingen",
     "both": "Både",
     "speed_only": "Kun hastighet",
-    "direction_only": "Kun retning"
+    "direction_only": "Kun retning",
+    "barb": "Som vindmothak"
   },
   "errors": {
     "missing_entity": "entity mangler i konfigurasjonen",

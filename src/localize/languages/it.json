@@ -18,7 +18,8 @@
     "neither": "Né",
     "both": "Tutti e due",
     "speed_only": "Solo velocità",
-    "direction_only": "Solo direzione"
+    "direction_only": "Solo direzione",
+    "barb": "Come una punta di vento"
   },
   "errors": {
     "missing_entity": "entità mancante nella configurazione",

@@ -18,7 +18,8 @@
     "neither": "Weder",
     "both": "Beide",
     "speed_only": "Nur Geschwindigkeit",
-    "direction_only": "Nur Richtung"
+    "direction_only": "Nur Richtung",
+    "barb": "Als Windbarbe"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",
