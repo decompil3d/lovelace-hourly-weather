@@ -18,7 +18,8 @@
     "neither": "Ni",
     "both": "Tous les deux",
     "speed_only": "Vitesse uniquement",
-    "direction_only": "Sens uniquement"
+    "direction_only": "Sens uniquement",
+    "barb": "Comme barbillon de vent"
   },
   "errors": {
     "missing_entity": "Entité manquante dans la configuration",

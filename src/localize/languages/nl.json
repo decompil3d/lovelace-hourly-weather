@@ -18,7 +18,8 @@
     "neither": "Geen van beide",
     "both": "Beide",
     "speed_only": "Alleen snelheid",
-    "direction_only": "Alleen richting"
+    "direction_only": "Alleen richting",
+    "barb": "Als windhaak"
   },
   "errors": {
     "missing_entity": "entity ontbreekt in configuratie",

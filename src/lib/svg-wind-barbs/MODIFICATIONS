@@ -1,0 +1,7 @@
+This library code is based on the open-source work at https://github.com/qulle/svg-wind-barbs licensed under the BSD
+2-clause license. It has been modified to fit the needs of this project. Specifically:
+
+- The source was refactored into Typescript
+- The exported function now returns a bare SVG `path` rather than a fully-formed SVG with `style` tag
+- Fills and strokes are fully handled in CSS classes rather than hard-coded
+- SVG strings are returned as Lit HTML template results rather than raw strings

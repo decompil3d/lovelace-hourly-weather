@@ -18,7 +18,8 @@
     "neither": "Żaden",
     "both": "Obie",
     "speed_only": "Tylko prędkość",
-    "direction_only": "Tylko kierunek"
+    "direction_only": "Tylko kierunek",
+    "barb": "Jak kolce wiatru"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",

@@ -18,7 +18,8 @@
     "neither": "Nenhum",
     "both": "Ambos",
     "speed_only": "Apenas velocidade",
-    "direction_only": "Apenas direção"
+    "direction_only": "Apenas direção",
+    "barb": "Como farpa de vento"
   },
   "errors": {
     "missing_entity": "A entidade não existe na configuração",

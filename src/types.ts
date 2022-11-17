@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-export type WindType = 'true' | 'false' | 'speed' | 'direction';
+export type WindType = 'true' | 'false' | 'speed' | 'direction' | 'barb';
 
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   type: string;
@@ -21,7 +21,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   colors?: ColorConfig;
   hide_hours?: boolean;
   hide_temperatures?: boolean;
-  show_wind?: WindType; // 'true' | 'false' | 'speed' | 'direction'
+  show_wind?: WindType; // 'true' | 'false' | 'speed' | 'direction' | 'barb'
   show_precipitation_amounts?: boolean;
   label_spacing?: string; // number
   test_gui?: boolean;
@@ -74,7 +74,9 @@ export interface SegmentTemperature {
 export interface SegmentWind {
   hour: string,
   windSpeed: string,
-  windDirection: string
+  windSpeedRawMS: number,
+  windDirection: string,
+  windDirectionRaw: number
 }
 
 export interface SegmentPrecipitation {

@@ -292,6 +292,14 @@ describe('Weather bar', () => {
       'WNW',
       'WNW'
     ];
+    const expectedWindBearings = [
+      253,
+      278,
+      293,
+      359,
+      285,
+      283
+    ];
 
     it('shows wind speed/direction if specified in config', () => {
       cy.configure({
@@ -329,6 +337,21 @@ describe('Weather bar', () => {
         .should('have.length', 6)
         .each((el, i) => {
           cy.wrap(el).should('have.text', `${expectedWindDirections[i]}`);
+        });
+    });
+
+    it('shows wind barbs if specified in config', () => {
+      cy.configure({
+        show_wind: 'barb'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind span')
+        .should('have.length', 6)
+        .each((el, i) => {
+          cy.wrap(el).should('have.attr', 'title', `${expectedWindSpeeds[i]} mph ${expectedWindDirections[i]}`)
+            .find('svg').should('exist')
+            .and('have.attr', 'style', `transform:rotate(${expectedWindBearings[i]}deg);`);
         });
     });
 

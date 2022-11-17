@@ -18,7 +18,8 @@
     "neither": "Neither",
     "both": "Both",
     "speed_only": "Speed only",
-    "direction_only": "Direction only"
+    "direction_only": "Direction only",
+    "barb": "As wind barb"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",

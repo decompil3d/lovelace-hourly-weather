@@ -157,6 +157,7 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         <mwc-list-item value="true">${localize('editor.both')}</mwc-list-item>
         <mwc-list-item value="speed">${localize('editor.speed_only')}</mwc-list-item>
         <mwc-list-item value="direction">${localize('editor.direction_only')}</mwc-list-item>
+        <mwc-list-item value="barb">${localize('editor.barb')}</mwc-list-item>
       </mwc-select>
       <mwc-formfield .label=${localize('editor.show_precipitation_amounts')}>
         <mwc-switch

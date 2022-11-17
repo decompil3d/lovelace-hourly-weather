@@ -3,6 +3,7 @@ import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
+import { getWindBarbSVG } from "./lib/svg-wind-barbs";
 import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
@@ -71,14 +72,18 @@ export class WeatherBar extends LitElement {
       const hideTemperature = this.hide_temperatures || skipLabel;
       const showWindSpeed = (this.show_wind === 'true' || this.show_wind === 'speed') && !skipLabel;
       const showWindDirection = (this.show_wind === 'true' || this.show_wind === 'direction') && !skipLabel;
+      const showWindBarb = this.show_wind === 'barb' && !skipLabel;
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const { hour, temperature } = this.temperatures[i];
-      const { windSpeed, windDirection } = this.wind[i];
+      const { windSpeed, windSpeedRawMS, windDirection, windDirectionRaw } = this.wind[i];
 
       const wind: TemplateResult[] = [];
       if (showWindSpeed) wind.push(html`${windSpeed}`);
       if (showWindSpeed && showWindDirection) wind.push(html`<br>`);
       if (showWindDirection) wind.push(html`${windDirection}`);
+      if (showWindBarb) wind.push(html`<span title=${`${windSpeed} ${windDirection}`}>
+          ${this.getWindBarb(windSpeedRawMS, windDirectionRaw)}
+        </span>`);
 
       const { precipitationAmount } = this.precipitation[i];
       barBlocks.push(html`
@@ -131,6 +136,15 @@ export class WeatherBar extends LitElement {
         ${unsafeCSS(vars.join(' '))}
       }
     </style>`;
+  }
+
+  private getWindBarb(speed: number, direction: number): TemplateResult {
+    const svgStyles = {
+      transform: `rotate(${direction}deg)`
+    };
+    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="70 40 120 120" class="barb" style=${styleMap(svgStyles)}>
+      ${getWindBarbSVG(speed)}
+    </svg>`;
   }
 
   static styles = [unsafeCSS(tippyStyles), css`
@@ -274,6 +288,23 @@ export class WeatherBar extends LitElement {
       font-size: 0.9rem;
       line-height: 1.1rem;
       padding-top: 0.1rem;
+    }
+    .barb {
+      transform-box: fill-box;
+      transform-origin: center;
+      height: 3rem;
+    }
+    .svg-wb, .svg-wb-fill {
+      fill: var(--primary-text-color, black);
+    }
+    .svg-wb, .svg-wb-stroke {
+      stroke: var(--primary-text-color, black);
+    }
+    .svg-wb {
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10;
     }
   `];
 }

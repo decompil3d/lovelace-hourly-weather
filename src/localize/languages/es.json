@@ -18,7 +18,8 @@
     "neither": "Ninguno de los dos",
     "both": "Ambas cosas",
     "speed_only": "Solo velocidad",
-    "direction_only": "Solo dirección"
+    "direction_only": "Solo dirección",
+    "barb": "Como púa de viento"
   },
   "errors": {
     "missing_entity": "falta la entidad en la configuración",
