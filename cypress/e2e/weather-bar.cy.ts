@@ -89,6 +89,39 @@ describe('Weather bar', () => {
         expect(cs.backgroundColor).to.eq(expectedCustomColors[i]);
       });
   });
+
+  const expectedCustomObjectColors = [
+    { bg: 'rgb(18, 52, 86)', fg: 'rgb(0, 0, 0)' },
+    { bg: 'rgb(179, 219, 255)', fg: 'rgb(123, 45, 6)' },
+    { bg: 'rgb(0, 255, 0)', fg: 'rgb(255, 0, 255)' },
+    { bg: 'rgb(50, 205, 50)', fg: 'rgb(0, 0, 0)' }
+  ];
+
+  it('uses custom colors when specified as color objects', () => {
+    cy.configure({
+      colors: {
+        cloudy: {
+          background: '#123456'
+        },
+        partlycloudy: {
+          foreground: 'rgb(123, 45, 6)'
+        },
+        sunny: {
+          background: 'hsl(120, 100%, 50%)',
+          foreground: 'magenta'
+        },
+        "clear-night": 'limegreen'
+      }
+    });
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.bar > div')
+      .each((el, i) => {
+        const cs = window.getComputedStyle(el.get(0));
+        expect(cs.backgroundColor).to.eq(expectedCustomObjectColors[i].bg);
+        expect(cs.color).to.eq(expectedCustomObjectColors[i].fg);
+      });
+  });
   describe('Labels', () => {
     it('shows text descriptions on condition blocks', () => {
       cy.get('weather-bar')

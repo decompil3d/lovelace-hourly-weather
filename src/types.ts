@@ -31,22 +31,29 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   language?: string;
 }
 
+export interface ColorObject {
+  foreground?: string;
+  background?: string;
+}
+
+export type ColorDefinition = string | ColorObject;
+
 export interface ColorConfig {
-  'clear-night'?: string;
-  'cloudy'?: string;
-  'fog'?: string;
-  'hail'?: string;
-  'lightning'?: string;
-  'lightning-rainy'?: string;
-  'partlycloudy'?: string;
-  'pouring'?: string;
-  'rainy'?: string;
-  'snowy'?: string;
-  'snowy-rainy'?: string;
-  'sunny'?: string;
-  'windy'?: string;
-  'windy-variant'?: string;
-  'exceptional'?: string;
+  'clear-night'?: ColorDefinition;
+  'cloudy'?: ColorDefinition;
+  'fog'?: ColorDefinition;
+  'hail'?: ColorDefinition;
+  'lightning'?: ColorDefinition;
+  'lightning-rainy'?: ColorDefinition;
+  'partlycloudy'?: ColorDefinition;
+  'pouring'?: ColorDefinition;
+  'rainy'?: ColorDefinition;
+  'snowy'?: ColorDefinition;
+  'snowy-rainy'?: ColorDefinition;
+  'sunny'?: ColorDefinition;
+  'windy'?: ColorDefinition;
+  'windy-variant'?: ColorDefinition;
+  'exceptional'?: ColorDefinition;
 }
 
 export interface ForecastSegment {
@@ -84,7 +91,7 @@ export interface SegmentPrecipitation {
   precipitationAmount: string
 }
 
-export type ColorMap = Map<keyof ColorConfig, string>
+export type ColorMap = Map<keyof ColorConfig, ColorObject>
 
 export interface ColorSettings {
   validColors?: ColorMap,

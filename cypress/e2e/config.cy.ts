@@ -98,8 +98,22 @@ describe('Config', () => {
         partlycloudy: 'rgb(0, 255, 0, 0, 0)', // too many params
         sunny: 'foo(240, 100%, 50%)', // wrong function
         "clear-night": 'blahblah', // invalid color name
-        // @ts-expect-error This is a test, so we're intentionally passing the wrong thing
-        foobar: 'rgb(0, 255, 0)' // invalid condition
+        foobar: 'rgb(0, 255, 0)', // invalid condition
+        windy: {}, // empty object
+        rainy: {
+          // @ts-expect-error This is a test, so we're intentionally passing the wrong thing
+          blah: 'blue'
+        },
+        fog: {
+          background: 'blahblah' // invalid color name
+        },
+        exceptional: {
+          foreground: '#12345678' // too many digits
+        },
+        hail: {
+          background: 'foo(240, 100%, 50%)', // wrong function
+          foreground: 'rgb(0, 255, 0, 0)' // too many params
+        }
       }
     });
     cy.get('hui-warning')
@@ -108,11 +122,16 @@ describe('Config', () => {
       .should('have.length', 1)
       .its(0)
       .its('textContent')
-      .should('contain', 'cloudy: #FF000011')
-      .and('contain', 'partlycloudy: rgb(0, 255, 0, 0, 0)')
-      .and('contain', 'sunny: foo(240, 100%, 50%)')
-      .and('contain', 'clear-night: blahblah')
-      .and('contain', 'foobar: rgb(0, 255, 0)');
+      .should('contain', 'cloudy: "#FF000011"')
+      .and('contain', 'partlycloudy: "rgb(0, 255, 0, 0, 0)"')
+      .and('contain', 'sunny: "foo(240, 100%, 50%)"')
+      .and('contain', 'clear-night: "blahblah"')
+      .and('contain', 'foobar: "rgb(0, 255, 0)"')
+      .and('contain', 'windy: {}')
+      .and('contain', 'rainy: {\n  "blah": "blue"\n}')
+      .and('contain', 'fog: {\n  "background": "blahblah"\n}')
+      .and('contain', 'exceptional: {\n  "foreground": "#12345678"\n}')
+      .and('contain', 'hail: {\n  "background": "foo(240, 100%, 50%)",\n  "foreground": "rgb(0, 255, 0, 0)"\n}');
   });
   describe('Templates', () => {
     it('supports templated name', () => {

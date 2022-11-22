@@ -129,7 +129,10 @@ export class WeatherBar extends LitElement {
     if (!colors || colors.size === 0) return null;
     const vars: string[] = [];
     for (const [key, color] of colors.entries()) {
-      vars.push(`--color-${key}: ${color};`);
+      if (color.background)
+        vars.push(`--color-${key}: ${color.background};`);
+      if (color.foreground)
+      vars.push(`--color-${key}-foreground: ${color.foreground};`);
     }
     return html`<style>
       .main > .bar {
@@ -202,48 +205,63 @@ export class WeatherBar extends LitElement {
     }
     .clear-night {
       background-color: var(--color-clear-night);
+      color: var(--color-clear-night-foreground, var(--primary-text-color));
     }
     .cloudy {
       background-color: var(--color-cloudy);
+      color: var(--color-cloudy-foreground, var(--primary-text-color));
     }
     .fog {
       background-color: var(--color-fog);
+      color: var(--color-fog-foreground, var(--primary-text-color));
     }
     .hail {
       background-color: var(--color-hail);
+      color: var(--color-hail-foreground, var(--primary-text-color));
     }
     .lightning {
       background-color: var(--color-lightning);
+      color: var(--color-lightning-foreground, var(--primary-text-color));
     }
     .lightning-rainy {
       background-color: var(--color-lightning-rainy);
+      color: var(--color-lightning-rainy-foreground, var(--primary-text-color));
     }
     .partlycloudy {
       background-color: var(--color-partlycloudy);
+      color: var(--color-partlycloudy-foreground, var(--primary-text-color));
     }
     .pouring {
       background-color: var(--color-pouring);
+      color: var(--color-pouring-foreground, var(--primary-text-color));
     }
     .rainy {
       background-color: var(--color-rainy);
+      color: var(--color-rainy-foreground, var(--primary-text-color));
     }
     .snowy {
       background-color: var(--color-snowy);
+      color: var(--color-snowy-foreground, var(--primary-text-color));
     }
     .snowy-rainy {
       background-color: var(--color-snowy-rainy);
+      color: var(--color-snowy-rainy-foreground, var(--primary-text-color));
     }
     .sunny {
       background-color: var(--color-sunny);
+      color: var(--color-sunny-foreground, var(--primary-text-color));
     }
     .windy {
       background-color: var(--color-windy);
+      color: var(--color-windy-foreground, var(--primary-text-color));
     }
     .windy-variant {
       background-color: var(--color-windy-variant);
+      color: var(--color-windy-variant-foreground, var(--primary-text-color));
     }
     .exceptional {
       background-color: var(--color-exceptional);
+      color: var(--color-exceptional-foreground, var(--primary-text-color));
     }
     .axes {
       display: grid;

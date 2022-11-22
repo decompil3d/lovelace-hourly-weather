@@ -18,7 +18,9 @@ import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
 
 import type {
   ColorConfig,
+  ColorDefinition,
   ColorMap,
+  ColorObject,
   ColorSettings,
   ConditionSpan,
   ForecastSegment,
@@ -297,7 +299,7 @@ export class HourlyWeatherCard extends LitElement {
           ${isForecastDaily ?
         this._showWarning(this.localize('errors.daily_forecasts')) : ''}
           ${colorSettings.warnings.length ?
-        this._showWarning(this.localize('errors.invalid_colors') + colorSettings.warnings.join(', ')) : ''}
+        this._showWarning(this.localize('errors.invalid_colors') + ' ' + colorSettings.warnings.join(', ')) : ''}
           <!-- @ts-ignore -->
           <weather-bar
             .conditions=${conditionList}
@@ -427,10 +429,10 @@ export class HourlyWeatherCard extends LitElement {
     const validColors: ColorMap = new Map();
     const warnings: string[] = [];
     Object.entries(colorConfig).forEach(([k, v]) => {
-      if (this.isValidColor(k, v))
-        validColors.set(k as keyof ColorConfig, v);
+      if (this.isValidColorDefinition(k, v))
+        validColors.set(k as keyof ColorConfig, HourlyWeatherCard.toColorObject(v));
       else
-        warnings.push(`${k}: ${v}`);
+        warnings.push(`${k}: ${JSON.stringify(v, null, 2)}`);
     });
     return {
       validColors,
@@ -438,10 +440,22 @@ export class HourlyWeatherCard extends LitElement {
     };
   }
 
-  private isValidColor(key: string, color: string): boolean {
+  private isValidColorDefinition(key: string, color: ColorDefinition): boolean {
     if (!(key in ICONS)) {
       return false;
     }
+    if (typeof color === 'string') {
+      if (!HourlyWeatherCard.isValidColor(color)) return false;
+    } else {
+      if (!color.background && !color.foreground) return false;
+      if (color.background && !HourlyWeatherCard.isValidColor(color.background)) return false;
+      if (color.foreground && !HourlyWeatherCard.isValidColor(color.foreground)) return false;
+    }
+
+    return true;
+  }
+
+  private static isValidColor(color: string): boolean {
     if (!(isValidRGB(color) ||
       isValidColorName(color) ||
       isValidHSL(color))) {
@@ -449,6 +463,15 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     return true;
+  }
+
+  private static toColorObject(color: string | ColorObject): ColorObject {
+    if (typeof color === 'string') {
+      return {
+        background: color
+      };
+    }
+    return color;
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
