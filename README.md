@@ -122,7 +122,19 @@ label_spacing: |
 ## Color Options
 
 `colors` is specified as an object containing one or more of the keys listed below and values that are valid CSS
-colors. Invalid color values will be discarded and will trigger a warning.
+colors or objects of foreground and/or background valid CSS colors. Invalid color values will be discarded and will
+trigger a warning.
+
+### Color value format
+
+Colors may be specified as a valid CSS color string or as an object with one or more of the following fields, each
+containing a valid CSS color string:
+
+- `foreground`: The color of the condition label text or icon
+- `background`: The color of the bar background during that span
+
+If color is specified as a plain string, it will be used for background. Foreground color defaults to the primary text
+color in your Home Assistant theme.
 
 Some conditions will default to whatever the value is of some other condition. For example, `fog` will default to
 whatever `cloudy` is.
@@ -152,6 +164,9 @@ colors:
   sunny: '#bbccee' # note that hex colors must be quoted
   snowy-rainy: rgba(255, 255, 255, 0.8) # rgba works (and hsla too)
   exceptional: red # as do valid CSS color names
+  windy:
+    background: lightgray
+    foreground: '#000'
 ```
 
 ### Wind Options
