@@ -103,6 +103,16 @@ describe('Config', () => {
         rainy: {
           // @ts-expect-error This is a test, so we're intentionally passing the wrong thing
           blah: 'blue'
+        },
+        fog: {
+          background: 'blahblah' // invalid color name
+        },
+        exceptional: {
+          foreground: '#12345678' // too many digits
+        },
+        hail: {
+          background: 'foo(240, 100%, 50%)', // wrong function
+          foreground: 'rgb(0, 255, 0, 0)' // too many params
         }
       }
     });
@@ -118,7 +128,10 @@ describe('Config', () => {
       .and('contain', 'clear-night: "blahblah"')
       .and('contain', 'foobar: "rgb(0, 255, 0)"')
       .and('contain', 'windy: {}')
-      .and('contain', 'rainy: {\n  "blah": "blue"\n}');
+      .and('contain', 'rainy: {\n  "blah": "blue"\n}')
+      .and('contain', 'fog: {\n  "background": "blahblah"\n}')
+      .and('contain', 'exceptional: {\n  "foreground": "#12345678"\n}')
+      .and('contain', 'hail: {\n  "background": "foo(240, 100%, 50%)",\n  "foreground": "rgb(0, 255, 0, 0)"\n}');
   });
   describe('Templates', () => {
     it('supports templated name', () => {
