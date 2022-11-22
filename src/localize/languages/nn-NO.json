@@ -1,0 +1,68 @@
+{
+  "common": {
+    "version": "Versjon",
+    "invalid_configuration": "Ikkje gyldeg konfiguasjon",
+    "title": "Timelig vær",
+    "title_card": "Timevis værkort",
+    "description": "Eit kort for å gjengje verforhold kvar time som ein bar."
+  },
+  "editor": {
+    "icons": "Vis ikon i staden for tekstetikettar",
+    "entity": "Entitet (obligatorisk)",
+    "name": "Namn (valfritt)",
+    "offset": "Antall prognosesegment å utligne start med (valfritt)",
+    "segments_to_show": "Antall prognosesegment som skal synast (valfritt)",
+    "label_spacing": "Antall prognosesegment til romtid og temperaturetikettar etter (valfritt)",
+    "show_wind": "Vis vindhastigheit og retning",
+    "show_precipitation_amounts": "Vis nedbørsmengde",
+    "neither": "Ingen",
+    "both": "Både",
+    "speed_only": "Kun hastigheit",
+    "direction_only": "Kun retning",
+    "barb": "Som vindmothak"
+  },
+  "errors": {
+    "missing_entity": "entity manglar i konfigurasjonen",
+    "daily_forecasts": "Den valde vereininga ser ut til å gje daglege prognoser. Vurder å byte til ein timebasert eining.",
+    "must_be_int": "Må være et jevnt heiltal større enn eller lik 2",
+    "invalid_colors": "Følgande fargar i konfigurasjonen din er ugyldege:",
+    "must_be_positive_int": "Må vere eit positivt heiltal",
+    "too_many_segments_requested": "For mange prognosesegment er førespurt i num_segments. Må vere <= antall segment i prognoseeininga.",
+    "label_spacing_positive_even_int": "label_spacing må vere eit jemnt heiltal større enn eller lik 2",
+    "offset_must_be_positive_int": "offset må vere eit positivt heiltal",
+    "forecast_not_available": "Vervarsel er ikkje tilgjengeleg",
+    "check_entity": "Sjekk den konfigurerte prognoseeininga."
+  },
+  "conditions": {
+    "clear": "Klart",
+    "cloudy": "Skya",
+    "fog": "Tåke",
+    "hail": "Hagl",
+    "thunderstorm": "Tordenvær",
+    "partlyCloudy": "Delvis skya",
+    "heavyRain": "Mykje regn",
+    "rain": "Regn",
+    "snow": "Snø",
+    "mixedPrecip": "Blanda nedbør",
+    "sunny": "Sol",
+    "windy": "Vindfullt"
+  },
+  "direction": {
+    "n": "N",
+    "nne": "NNØ",
+    "ne": "NE",
+    "ene": "ØNØ",
+    "e": "Ø",
+    "ese": "ØSØ",
+    "se": "SØ",
+    "sse": "SSØ",
+    "s": "S",
+    "ssw": "SSV",
+    "sw": "SV",
+    "wsw": "VSV",
+    "w": "V",
+    "wnw": "VNV",
+    "nw": "NV",
+    "nnw": "NNV"
+  }
+}
