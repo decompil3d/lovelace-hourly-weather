@@ -400,6 +400,7 @@ export class HourlyWeatherCard extends LitElement {
       case 'ft/s':
         return speed * 0.3048;
       case 'kt':
+      case 'kn':
         return speed * 0.51444444444444;
     }
     return -1;
