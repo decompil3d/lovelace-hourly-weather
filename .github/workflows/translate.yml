@@ -25,6 +25,11 @@ jobs:
             to: 'de,es,fr,it,nb,nl,pl,pt'
             debug: false
 
+      - name: Copy new strings to sub-locales
+        uses: ./.github/actions/copy-to-sub-locales
+        with:
+          mappings: pt=>pt-BR,nb=>nn-NO
+
       - name: Get current branch name
         id: branch_name
         run: echo ::set-output name=current_branch::${GITHUB_REF#refs/*/}

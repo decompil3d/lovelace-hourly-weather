@@ -1,0 +1,9 @@
+name: 'Copy translations to sub-locales'
+description: 'Copy new translated strings from a root locale (e.g. `pt`) to sub-locales (e.g. `pt-BR`)'
+inputs:
+  mappings:
+    description: Mappings of locales to sub-locales in the form `locale=>sub-locale,...`
+    required: true
+runs:
+  using: 'node16'
+  main: 'index.js'
