@@ -1,0 +1,16 @@
+{
+  "name": "copy-to-sub-locales",
+  "version": "1.0.0",
+  "description": "Copy translations to sub-locales",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonathan Keslin <github@jonathankeslin.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "deep-object-diff": "^1.1.9",
+    "just-extend": "^6.1.1"
+  }
+}
