@@ -17,7 +17,7 @@ jobs:
           npm ci
           npm run build
       - name: Run tests
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v5
         with:
           record: false
           start: npm run test:server
