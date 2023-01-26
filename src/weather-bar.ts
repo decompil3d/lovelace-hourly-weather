@@ -81,9 +81,11 @@ export class WeatherBar extends LitElement {
       if (showWindSpeed) wind.push(html`${windSpeed}`);
       if (showWindSpeed && showWindDirection) wind.push(html`<br>`);
       if (showWindDirection) wind.push(html`${windDirection}`);
-      if (showWindBarb) wind.push(html`<span title=${`${windSpeed} ${windDirection}`}>
+      if (showWindBarb && typeof windDirectionRaw === 'number') {
+        wind.push(html`<span title=${`${windSpeed} ${windDirection}`}>
           ${this.getWindBarb(windSpeedRawMS, windDirectionRaw)}
         </span>`);
+      }
 
       const { precipitationAmount } = this.precipitation[i];
       barBlocks.push(html`

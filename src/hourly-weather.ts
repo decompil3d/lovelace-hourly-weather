@@ -257,6 +257,10 @@ export class HourlyWeatherCard extends LitElement {
       return await this._showError(this.localize('errors.label_spacing_positive_even_int'));
     }
 
+    if (config.show_wind === 'barb' && typeof forecast[0].wind_bearing === 'string') {
+      return await this._showError(this.localize('errors.no_wind_barbs_with_string_bearing'));
+    }
+
     if (forecastNotAvailable) {
       return html`
         <ha-card
@@ -385,8 +389,15 @@ export class HourlyWeatherCard extends LitElement {
     return wind;
   }
 
-  private formatWindDir(degrees: number): string {
-    return this.directions[Math.floor((degrees+11.25)/22.5)];
+  private formatWindDir(degreesOrBearing: number | string): string {
+    if (typeof degreesOrBearing === 'string') {
+      const lowerBearing = degreesOrBearing.toLowerCase();
+      if (lowerBearing in DIRECTIONS) {
+        return this.localize(DIRECTIONS[lowerBearing]);
+      }
+      return degreesOrBearing;
+    }
+    return this.directions[Math.floor((degreesOrBearing + 11.25) / 22.5)];
   }
 
   private getWindSpeedMS(speed: number, unit: string): number {
