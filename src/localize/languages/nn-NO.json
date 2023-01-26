@@ -31,7 +31,8 @@
     "label_spacing_positive_even_int": "label_spacing må vere eit jemnt heiltal større enn eller lik 2",
     "offset_must_be_positive_int": "offset må vere eit positivt heiltal",
     "forecast_not_available": "Vervarsel er ikkje tilgjengeleg",
-    "check_entity": "Sjekk den konfigurerte prognoseeininga."
+    "check_entity": "Sjekk den konfigurerte prognoseeininga.",
+    "no_wind_barbs_with_string_bearing": "Vindmottak støttes ikke når værenheter bruker kardinalretninger for vindføring."
   },
   "conditions": {
     "clear": "Klart",
