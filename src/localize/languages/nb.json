@@ -31,7 +31,8 @@
     "label_spacing_positive_even_int": "label_spacing må være et jevnt heltall større enn eller lik 2",
     "offset_must_be_positive_int": "offset må være et positivt heltall",
     "forecast_not_available": "Værvarsel er ikke tilgjengelig",
-    "check_entity": "Sjekk den konfigurerte prognoseenheten."
+    "check_entity": "Sjekk den konfigurerte prognoseenheten.",
+    "no_wind_barbs_with_string_bearing": "Vindmottak støttes ikke når værenheter bruker kardinalretninger for vindføring."
   },
   "conditions": {
     "clear": "Klar",

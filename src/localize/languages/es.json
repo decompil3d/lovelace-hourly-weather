@@ -31,7 +31,8 @@
     "label_spacing_positive_even_int": "label_spacing debe ser un entero par mayor o igual a 2",
     "offset_must_be_positive_int": "offset debe ser un número entero positivo",
     "forecast_not_available": "Pronóstico no disponible",
-    "check_entity": "Verifique la entidad de pronóstico configurada."
+    "check_entity": "Verifique la entidad de pronóstico configurada.",
+    "no_wind_barbs_with_string_bearing": "Las púas de viento no son compatibles cuando la entidad meteorológica utiliza direcciones cardinales para la dirección del viento."
   },
   "conditions": {
     "clear": "Despejado",

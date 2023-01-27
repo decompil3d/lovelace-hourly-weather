@@ -31,7 +31,8 @@
     "label_spacing_positive_even_int": "label_spacing deve ser um número inteiro par maior ou igual a 2",
     "offset_must_be_positive_int": "offset deve ser um número inteiro positivo",
     "forecast_not_available": "Previsão não disponível",
-    "check_entity": "Verifique a entidade de previsão configurada."
+    "check_entity": "Verifique a entidade de previsão configurada.",
+    "no_wind_barbs_with_string_bearing": "Farpas de vento não são suportadas quando a entidade meteorológica usa direções cardeais para direção do vento."
   },
   "conditions": {
     "clear": "Limpo",

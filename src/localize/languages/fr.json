@@ -31,7 +31,8 @@
     "label_spacing_positive_even_int": "label_spacing doit être un entier pair supérieur ou égal à 2",
     "offset_must_be_positive_int": "offset doit être un entier positif",
     "forecast_not_available": "Prévision non disponible",
-    "check_entity": "Vérifiez l'entité de prévision configurée."
+    "check_entity": "Vérifiez l'entité de prévision configurée.",
+    "no_wind_barbs_with_string_bearing": "Les barbes de vent ne sont pas prises en charge lorsque l'entité météo utilise des directions cardinales pour le relèvement du vent."
   },
   "conditions": {
     "clear": "Dégagé",

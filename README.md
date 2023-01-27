@@ -177,6 +177,10 @@ colors:
 - `true` Show both wind speed and direction
 - `speed` Only show wind speed
 - `direction` Only show wind direction
+- `barb` Show wind direction as a wind barb arrow
+
+> Note: If your weather entity uses cardinal directions (e.g. 'N', 'SW', etc.) rather than numeric degrees for
+> `wind_bearing`, the `barb` option is not supported and will result in an error.
 
 ## Upgrades
 

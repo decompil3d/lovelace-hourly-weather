@@ -31,7 +31,8 @@
     "label_spacing_positive_even_int": "label_spacing must be an even integer greater than or equal to 2",
     "offset_must_be_positive_int": "offset must be a positive integer",
     "forecast_not_available": "Forecast not available",
-    "check_entity": "Check the configured forecast entity."
+    "check_entity": "Check the configured forecast entity.",
+    "no_wind_barbs_with_string_bearing": "Wind barbs are not supported when weather entity uses cardinal directions for wind bearing."
   },
   "conditions": {
     "clear": "Clear",

@@ -73,7 +73,7 @@
     "rollup": "rollup -c",
     "test:server": "http-server ./ -c-1 -p 8000 -s",
     "test:cypress": "TZ=Etc/UTC cypress run",
-    "test": "server-test test:server :8000 test:cypress",
-    "cypress": "server-test test:server :8000 'TZ=Etc/UTC npx cypress open'"
+    "test": "server-test test:server http://127.0.0.1:8000 test:cypress",
+    "cypress": "server-test test:server http://127.0.0.1:8000 'TZ=Etc/UTC npx cypress open'"
   }
 }

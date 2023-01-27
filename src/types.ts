@@ -64,7 +64,7 @@ export interface ForecastSegment {
   precipitation_probability: number; // 85
   pressure: number; // 1007
   temperature: number; // 61
-  wind_bearing: number; // 153
+  wind_bearing: number | string; // 153 | 'SSW'
   wind_speed: number; // 3.06
 }
 
@@ -83,7 +83,7 @@ export interface SegmentWind {
   windSpeed: string,
   windSpeedRawMS: number,
   windDirection: string,
-  windDirectionRaw: number
+  windDirectionRaw: number | string
 }
 
 export interface SegmentPrecipitation {
