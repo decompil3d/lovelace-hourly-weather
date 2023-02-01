@@ -15,6 +15,7 @@
     "label_spacing": "Number of forecast segments to space time and temperature labels by (Optional)",
     "show_wind": "Show wind speed and direction",
     "show_precipitation_amounts": "Show precipitation amount",
+    "show_precipitation_probability": "Show precipitation probability",
     "neither": "Neither",
     "both": "Both",
     "speed_only": "Speed only",
@@ -65,5 +66,8 @@
     "wnw": "WNW",
     "nw": "NW",
     "nnw": "NNW"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}% chance of precipitation"
   }
 }

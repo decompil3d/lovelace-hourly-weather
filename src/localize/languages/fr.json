@@ -19,7 +19,8 @@
     "both": "Tous les deux",
     "speed_only": "Vitesse uniquement",
     "direction_only": "Sens uniquement",
-    "barb": "Comme barbillon de vent"
+    "barb": "Comme barbillon de vent",
+    "show_precipitation_probability": "Afficher la probabilité de précipitation"
   },
   "errors": {
     "missing_entity": "Entité manquante dans la configuration",
@@ -65,5 +66,8 @@
     "wnw": "ONO",
     "nw": "NO",
     "nnw": "NNO"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}% probabilité de précipitations"
   }
 }

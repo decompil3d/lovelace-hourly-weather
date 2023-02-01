@@ -66,6 +66,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.show_precipitation_amounts ?? false;
   }
 
+  get _show_precipitation_probability(): boolean {
+    return this._config?.show_precipitation_probability ?? false;
+  }
+
   get _offset(): string {
     return this._config?.offset ?? '0';
   }
@@ -163,6 +167,13 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         <mwc-switch
           .checked=${this._show_precipitation_amounts === true}
           .configValue=${'show_precipitation_amounts'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${localize('editor.show_precipitation_probability')}>
+        <mwc-switch
+          .checked=${this._show_precipitation_probability === true}
+          .configValue=${'show_precipitation_probability'}
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>

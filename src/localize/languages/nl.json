@@ -19,7 +19,8 @@
     "both": "Beide",
     "speed_only": "Alleen snelheid",
     "direction_only": "Alleen richting (tekst)",
-    "barb": "Alleen richting (pijl)"
+    "barb": "Alleen richting (pijl)",
+    "show_precipitation_probability": "Neerslagkans weergeven"
   },
   "errors": {
     "missing_entity": "entiteit ontbreekt in configuratie",
@@ -65,5 +66,8 @@
     "wnw": "WNW",
     "nw": "NW",
     "nnw": "NNW"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}% kans op neerslag"
   }
 }

@@ -39,6 +39,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   show_precipitation_amounts = false;
 
+  @property({ type: Boolean })
+  show_precipitation_probability = false;
+
   @property({ type: Number })
   label_spacing = 2;
 
@@ -74,6 +77,7 @@ export class WeatherBar extends LitElement {
       const showWindDirection = (this.show_wind === 'true' || this.show_wind === 'direction') && !skipLabel;
       const showWindBarb = this.show_wind === 'barb' && !skipLabel;
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
+      const showPrecipitationProbability = this.show_precipitation_probability && !skipLabel;
       const { hour, temperature } = this.temperatures[i];
       const { windSpeed, windSpeedRawMS, windDirection, windDirectionRaw } = this.wind[i];
 
@@ -87,7 +91,13 @@ export class WeatherBar extends LitElement {
         </span>`);
       }
 
-      const { precipitationAmount } = this.precipitation[i];
+      const { precipitationAmount, precipitationProbability, precipitationProbabilityText } = this.precipitation[i];
+      const precipitation: TemplateResult[] = [];
+      if (showPrecipitationAmounts) precipitation.push(html`${precipitationAmount}`);
+      if (showPrecipitationAmounts && showPrecipitationProbability) precipitation.push(html`<br>`);
+      if (showPrecipitationProbability) precipitation.push(
+        html`<span title=${precipitationProbabilityText}>${precipitationProbability}</span>`);
+
       barBlocks.push(html`
         <div class="bar-block">
           <div class="bar-block-left"></div>
@@ -96,7 +106,7 @@ export class WeatherBar extends LitElement {
             <div class="hour">${hideHours ? null : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
             <div class="wind">${wind}</div>
-            <div class="precipitation">${showPrecipitationAmounts ? html`${precipitationAmount}` : null }</div>
+            <div class="precipitation">${precipitation}</div>
           </div>
         </div>
       `);
