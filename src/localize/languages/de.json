@@ -19,7 +19,8 @@
     "both": "Beide",
     "speed_only": "Nur Geschwindigkeit",
     "direction_only": "Nur Richtung",
-    "barb": "Als Windbarbe"
+    "barb": "Als Windbarbe",
+    "show_precipitation_probability": "Niederschlagswahrscheinlichkeit anzeigen"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",
@@ -65,5 +66,8 @@
     "wnw": "WNW",
     "nw": "NW",
     "nnw": "NNW"
+  },
+  "card": {
+    "chance_of_precipitation": "{0} % Niederschlagswahrscheinlichkeit"
   }
 }

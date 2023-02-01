@@ -19,7 +19,8 @@
     "both": "Obie",
     "speed_only": "Tylko prędkość",
     "direction_only": "Tylko kierunek",
-    "barb": "Jak kolce wiatru"
+    "barb": "Jak kolce wiatru",
+    "show_precipitation_probability": "Pokaż prawdopodobieństwo opadów"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",
@@ -65,5 +66,8 @@
     "wnw": "ZPZ",
     "nw": "PZ",
     "nnw": "PPZ"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}% szans na opady"
   }
 }

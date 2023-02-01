@@ -19,7 +19,8 @@
     "both": "Ambos",
     "speed_only": "Apenas velocidade",
     "direction_only": "Apenas direção",
-    "barb": "Como farpa de vento"
+    "barb": "Como farpa de vento",
+    "show_precipitation_probability": "Mostrar probabilidade de precipitação"
   },
   "errors": {
     "missing_entity": "A entidade não existe na configuração",
@@ -65,5 +66,8 @@
     "wnw": "ONO",
     "nw": "NO",
     "nnw": "NNO"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}% de chance de chuva"
   }
 }

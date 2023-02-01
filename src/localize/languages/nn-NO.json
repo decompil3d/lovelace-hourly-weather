@@ -19,7 +19,8 @@
     "both": "Både",
     "speed_only": "Kun hastigheit",
     "direction_only": "Kun retning",
-    "barb": "Som vindmothak"
+    "barb": "Som vindmothak",
+    "show_precipitation_probability": "Vis nedbørssannsynlighet"
   },
   "errors": {
     "missing_entity": "entity manglar i konfigurasjonen",
@@ -65,5 +66,8 @@
     "wnw": "VNV",
     "nw": "NV",
     "nnw": "NNV"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}% sjanse for nedbør"
   }
 }
