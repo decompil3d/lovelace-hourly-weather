@@ -710,5 +710,33 @@ describe('Weather bar', () => {
           }
         });
     });
+
+    const expectedPrecipitationProbability = [
+      75,
+      100,
+      15,
+      0,
+      5,
+      0,
+    ];
+
+    it('shows precipitation probability if specified in config', () => {
+      cy.configure({
+        show_precipitation_probability: true
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.precipitation')
+        .should('have.length', 6)
+        .each((el, i) => {
+          if (expectedPrecipitationProbability[i] === 0) {
+            cy.wrap(el.text()).should('be.empty');
+          } else {
+            cy.wrap(el).should('have.text', `${expectedPrecipitationProbability[i]}%`)
+              .find('span')
+              .should('have.attr', 'title', `${expectedPrecipitationProbability[i]}% chance of precipitation`);
+          }
+        });
+    });
   });
 });

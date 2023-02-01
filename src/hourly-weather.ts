@@ -316,6 +316,7 @@ export class HourlyWeatherCard extends LitElement {
             .hide_temperatures=${!!config.hide_temperatures}
             .show_wind=${config.show_wind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
+            .show_precipitation_probability=${!!config.show_precipitation_probability}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
         </div>
@@ -360,9 +361,17 @@ export class HourlyWeatherCard extends LitElement {
       if (fs.precipitation > 0) {
         amount = `${formatNumber(fs.precipitation, this.hass.locale)} ${unit}`.trim();
       }
+      let probability = '';
+      let probabilityText = '';
+      if (fs.precipitation_probability > 0) {
+        probability = `${formatNumber(fs.precipitation_probability, this.hass.locale)}%`.trim();
+        probabilityText = this.localize('card.chance_of_precipitation', '{0}', String(fs.precipitation_probability));
+      }
       precipitation.push({
         hour: this.formatHour(new Date(fs.datetime), this.hass.locale),
-        precipitationAmount: amount
+        precipitationAmount: amount,
+        precipitationProbability: probability,
+        precipitationProbabilityText: probabilityText
       })
     }
     return precipitation;

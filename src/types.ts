@@ -23,6 +23,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   hide_temperatures?: boolean;
   show_wind?: WindType; // 'true' | 'false' | 'speed' | 'direction' | 'barb'
   show_precipitation_amounts?: boolean;
+  show_precipitation_probability?: boolean;
   label_spacing?: string; // number
   test_gui?: boolean;
   tap_action?: ActionConfig;
@@ -88,7 +89,9 @@ export interface SegmentWind {
 
 export interface SegmentPrecipitation {
   hour: string,
-  precipitationAmount: string
+  precipitationAmount: string,
+  precipitationProbability: string,
+  precipitationProbabilityText: string
 }
 
 export type ColorMap = Map<keyof ColorConfig, ColorObject>
