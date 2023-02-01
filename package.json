@@ -1,6 +1,6 @@
 {
   "name": "lovelace-hourly-weather",
-  "version": "4.9.4",
+  "version": "4.10.0",
   "description": "Hourly weather card for Home Assistant. Visualize upcoming weather conditions as a colored horizontal bar.",
   "keywords": [
     "home-assistant",
