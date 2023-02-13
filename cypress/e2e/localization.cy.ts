@@ -46,6 +46,7 @@ describe('Localization', () => {
     en: 'Cloudy',
     es: 'Nublado',
     fr: 'Nuageux',
+    hu: 'Felhős',
     it: 'Nuvoloso',
     nb: 'Skyet',
     nl: 'Bewolkt',

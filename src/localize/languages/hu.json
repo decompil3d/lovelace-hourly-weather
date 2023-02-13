@@ -1,0 +1,73 @@
+{
+  "common": {
+    "version": "Verzió",
+    "title": "Óránkénti időjárás",
+    "title_card": "Óránkénti időjárás kártya",
+    "description": "Egy kártya, amely az óránkénti időjárási viszonyokat egy sávban jeleníti meg",
+    "invalid_configuration": "Érvénytelen konfiguráció"
+  },
+  "editor": {
+    "entity": "Entitás (Kötelező)",
+    "name": "Név (Opcionális)",
+    "segments_to_show": "Megjelenítendő előrejelzési órák száma (Opcionális)",
+    "offset": "Az előrejelzett órák kezdő értékének eltolása (Opcionális)",
+    "icons": "Ikonok megjelenítése szövegek helyett",
+    "label_spacing": "Az idő- és hőmérsékleti címkékhez tartozó előrejelzési órák időköze (Opcionális)",
+    "show_wind": "Szélsebesség és irány megjelenítése",
+    "show_precipitation_amounts": "Csapadékmennyiség megjelenítése",
+    "show_precipitation_probability": "Csapadék valószínűségének megjelenítése",
+    "neither": "Egyik sem",
+    "both": "Mindkettő",
+    "speed_only": "Sebesség",
+    "direction_only": "Irány",
+    "barb": "Irány nyílként"
+  },
+  "errors": {
+    "missing_entity": "az entitás hiányzik a konfigurációból",
+    "too_many_segments_requested": "Túl sok előrejelzési órát adtak meg a num_segments-ben. <= az előrejelző egységben lévő órák száma.",
+    "daily_forecasts": "Úgy tűnik, hogy a kiválasztott időjárási egység napi előrejelzéseket ad. Fontolja meg a váltást egy óránkénti egységre.",
+    "must_be_int": "Páros egész számnak kell lennie, amely nagyobb vagy egyenlő 2-nél.",
+    "invalid_colors": "A konfigurációdban a következő színek érvénytelenek:",
+    "must_be_positive_int": "Pozitív egész szám kell legyen",
+    "label_spacing_positive_even_int": "a label_spacing-nek egy páros egész számnak kell lennie, amely nagyobb vagy egyenlő 2-nél.",
+    "offset_must_be_positive_int": "az eltolásnak pozitív egész számnak kell lennie",
+    "forecast_not_available": "Előrejelzés nem elérhető",
+    "check_entity": "Ellenőrizze a beállított előrejelző egységet.",
+    "no_wind_barbs_with_string_bearing": "A szélsávok nem támogatottak, ha az időjárási egység kardinális irányokat használ a szél irányítására."
+  },
+  "conditions": {
+    "clear": "Tiszta",
+    "cloudy": "Felhős",
+    "fog": "Ködös",
+    "hail": "Jégeső",
+    "thunderstorm": "Vihar",
+    "partlyCloudy": "Részben felhős",
+    "heavyRain": "Heves eső",
+    "rain": "Esős",
+    "snow": "Havazás",
+    "mixedPrecip": "Havas eső",
+    "sunny": "Napos",
+    "windy": "Szeles"
+  },
+  "direction": {
+    "n": "É",
+    "nne": "ÉÉK",
+    "ne": "ÉK",
+    "ene": "KÉK",
+    "e": "K",
+    "ese": "KDK",
+    "se": "DK",
+    "sse": "DDK",
+    "s": "D",
+    "ssw": "DDNy",
+    "sw": "DNy",
+    "wsw": "NyDNy",
+    "w": "Ny",
+    "wnw": "NyÉNy",
+    "nw": "ÉNy",
+    "nnw": "ÉÉNy"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}% a csapadék valószínűsége"
+  }
+}
