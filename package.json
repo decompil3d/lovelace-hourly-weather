@@ -56,7 +56,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.34.1",
     "rollup-plugin-visualizer": "^5.9.0",
-    "start-server-and-test": "^1.15.3",
+    "start-server-and-test": "^2.0.0",
     "typescript": "^4.9.5"
   },
   "resolutions": {
