@@ -29,7 +29,7 @@
     "custom-card-helpers": "^1.7.2",
     "home-assistant-js-websocket": "^8.0.1",
     "is-valid-css-color": "^2.0.3",
-    "lit": "^2.6.1",
+    "lit": "^2.7.1",
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {
