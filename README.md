@@ -74,10 +74,13 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | `show_wind`                      | [string][wind]   | **Optional** | Whether to show wind speed and/or direction under the bar      | `'false'`           |
 | `show_precipitation_amounts`     | bool             | **Optional** | Whether to show precipitation (rain) amount under the bar      | `false`             |
 | `show_precipitation_probability` | bool             | **Optional** | Whether to show precipitation (rain) probability under the bar | `false`             |
+| `show_date`                      | [string][dates]  | **Optional** | Whether to show date under the bar                             | `'false'`           |
 | `tap_action`                     | [object][action] | **Optional** | Action to take on tap                                          | `action: more-info` |
 | `hold_action`                    | [object][action] | **Optional** | Action to take on hold                                         | `none`              |
 | `double_tap_action`              | [object][action] | **Optional** | Action to take on double tap                                   | `none`              |
 | `language`                       | string           | **Optional** | Language to use for card (overrides HA & user settings)        |                     |
+
+> Note that some of the more advanced options are not available in the card editor UI and must be configured via YAML.
 
 ### Templating
 
@@ -185,6 +188,14 @@ colors:
 > Note: If your weather entity uses cardinal directions (e.g. 'N', 'SW', etc.) rather than numeric degrees for
 > `wind_bearing`, the `barb` option is not supported and will result in an error.
 
+### Date Options
+
+`show_date` can be one of the following values:
+
+- `false` Don't show date (default)
+- `boundary` Show date at the boundary between days
+- `all` Always show date
+
 ## Upgrades
 
 ### Version 3 ➡️ 4
@@ -203,4 +214,5 @@ clear that it operates on whatever size forecast segment your entity provides. T
 
 [color]: #color-options
 [wind]: #wind-options
+[dates]: #date-options
 [action]: #action-options

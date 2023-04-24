@@ -13,6 +13,7 @@ import {
   formatNumber,
   formatTime,
   FrontendLocaleData,
+  formatDateShort,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
 
@@ -317,6 +318,7 @@ export class HourlyWeatherCard extends LitElement {
             .show_wind=${config.show_wind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}
+            .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
         </div>
@@ -345,8 +347,10 @@ export class HourlyWeatherCard extends LitElement {
     const temperatures: SegmentTemperature[] = [];
     for (let i = offset; i < numSegments + offset; i++) {
       const fs = forecast[i];
+      const dt = new Date(fs.datetime)
       temperatures.push({
-        hour: this.formatHour(new Date(fs.datetime), this.hass.locale),
+        date: formatDateShort(dt, this.hass.locale),
+        hour: this.formatHour(dt, this.hass.locale),
         temperature: formatNumber(fs.temperature, this.hass.locale)
       })
     }
