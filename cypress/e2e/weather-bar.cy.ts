@@ -243,6 +243,65 @@ describe('Weather bar', () => {
         });
     });
 
+    it('does not show date labels on axes by default', () => {
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.date:not(:empty)')
+        .should('have.length', 0);
+    });
+
+    const expectedDates = [
+      'Jul 21',
+      'Jul 22',
+      'Jul 22',
+      'Jul 22',
+      'Jul 22',
+      'Jul 23'
+    ];
+
+    it('shows all date labels on axes when specified in config', () => {
+      cy.configure({
+        show_date: 'all',
+        label_spacing: '6',
+        num_segments: '32'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.date:not(:empty)')
+        .should('have.length', 6)
+        .each((el, i) => {
+          cy.wrap(el).should('have.text', expectedDates[i]);
+        });
+    });
+
+    const expectedBoundaryDates = [
+      'Jul 21',
+      'Jul 22',
+      null,
+      null,
+      null,
+      'Jul 23'
+    ];
+
+    it('shows date labels on day boundaries when specified in config', () => {
+      cy.configure({
+        show_date: 'boundary',
+        label_spacing: '6',
+        num_segments: '32'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.date:not(:empty)')
+        .should('have.length', 6)
+        .each((el, i) => {
+          if (expectedBoundaryDates[i]) {
+            cy.wrap(el).should('have.text', expectedBoundaryDates[i]);
+          } else {
+            cy.wrap(el).should('contain.html', '&nbsp;');
+          }
+        });
+    });
+
     const expectedTemperatures = [
       85,
       84,

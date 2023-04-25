@@ -4,7 +4,7 @@ import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
-import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType } from "./types";
+import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -42,6 +42,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   show_precipitation_probability = false;
 
+  @property({ type: Boolean })
+  show_date: ShowDateType = 'false';
+
   @property({ type: Number })
   label_spacing = 2;
 
@@ -69,6 +72,7 @@ export class WeatherBar extends LitElement {
     }
 
     const barBlocks: TemplateResult[] = [];
+    let lastDate: string | null = null;
     for (let i = 1; i < this.temperatures.length; i += 2) {
       const skipLabel = (i - 1) % this.label_spacing !== 0;
       const hideHours = this.hide_hours || skipLabel;
@@ -78,7 +82,19 @@ export class WeatherBar extends LitElement {
       const showWindBarb = this.show_wind === 'barb' && !skipLabel;
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const showPrecipitationProbability = this.show_precipitation_probability && !skipLabel;
-      const { hour, temperature } = this.temperatures[i];
+      const { hour, date, temperature } = this.temperatures[i];
+      let renderedDate: string | TemplateResult | null = null;
+      if (!skipLabel && this.show_date && this.show_date !== 'false') {
+        if (this.show_date === 'all') renderedDate = date;
+        else if (this.show_date === 'boundary') {
+          if (lastDate !== date) {
+            renderedDate = date;
+            lastDate = date;
+          } else {
+            renderedDate = html`&nbsp;`;
+          }
+        }
+      }
       const { windSpeed, windSpeedRawMS, windDirection, windDirectionRaw } = this.wind[i];
 
       const wind: TemplateResult[] = [];
@@ -103,6 +119,7 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-left"></div>
           <div class="bar-block-right"></div>
           <div class="bar-block-bottom">
+            <div class="date">${renderedDate}</div>
             <div class="hour">${hideHours ? null : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
             <div class="wind">${wind}</div>
@@ -305,7 +322,7 @@ export class WeatherBar extends LitElement {
       grid-area: bottom;
       padding-top: 5px;
     }
-    .hour {
+    .date, .hour {
       color: var(--secondary-text-color, gray);
       font-size: 0.9rem;
       white-space: nowrap;

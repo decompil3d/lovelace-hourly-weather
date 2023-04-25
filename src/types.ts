@@ -8,6 +8,7 @@ declare global {
 }
 
 export type WindType = 'true' | 'false' | 'speed' | 'direction' | 'barb';
+export type ShowDateType = 'false' | 'boundary' | 'all';
 
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   type: string;
@@ -24,6 +25,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   show_wind?: WindType; // 'true' | 'false' | 'speed' | 'direction' | 'barb'
   show_precipitation_amounts?: boolean;
   show_precipitation_probability?: boolean;
+  show_date?: ShowDateType; // 'false' | 'boundary' | 'all'
   label_spacing?: string; // number
   test_gui?: boolean;
   tap_action?: ActionConfig;
@@ -76,6 +78,7 @@ export type ConditionSpan = [
 
 export interface SegmentTemperature {
   hour: string,
+  date: string,
   temperature: string
 }
 
