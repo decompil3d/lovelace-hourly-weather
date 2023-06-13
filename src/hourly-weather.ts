@@ -258,8 +258,7 @@ export class HourlyWeatherCard extends LitElement {
       return await this._showError(this.localize('errors.label_spacing_positive_even_int'));
     }
 
-    if ((config.show_wind === 'barb' || (Array.isArray(config.show_wind) && config.show_wind.includes('barb'))) &&
-      typeof forecast[0].wind_bearing === 'string') {
+    if (config.show_wind?.includes('barb') && typeof forecast[0].wind_bearing === 'string') {
       return await this._showError(this.localize('errors.no_wind_barbs_with_string_bearing'));
     }
 

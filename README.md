@@ -185,9 +185,9 @@ colors:
 - `speed` Only show wind speed
 - `direction` Only show wind direction
 - `barb` Show wind direction as a wind barb arrow
-
-You may also set `show_wind` to a list containing one or more of `speed`, `direction`, or `barb` to show multiple.
-Order does not matter -- the barb will always show on top, followed by speed and then direction.
+- `barb-and-direction` Show wind direction as a wind barb arrow and also show textual direction
+- `barb-and-speed` Show wind direction as a wind barb arrow and also show speed
+- `barb-speed-and-direction` Show wind direction as a wind barb arrow and also show speed and textual direction
 
 > Note: If your weather entity uses cardinal directions (e.g. 'N', 'SW', etc.) rather than numeric degrees for
 > `wind_bearing`, the `barb` option is not supported and will result in an error.

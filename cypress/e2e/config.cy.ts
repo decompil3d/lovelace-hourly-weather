@@ -207,7 +207,7 @@ describe('Config', () => {
     cy.configure({
       entity: 'weather.wind_bearing_string',
       num_segments: '6',
-      show_wind: ['speed', 'barb']
+      show_wind: 'barb-and-speed'
     });
 
     cy.get('hui-error-card')

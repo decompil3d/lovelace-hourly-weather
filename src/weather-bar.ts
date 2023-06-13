@@ -36,8 +36,7 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   hide_bar = false;
 
-  // Lit's default attribute converter will just JSON parse the attribute string, so Array here works for String too
-  @property({ type: Array })
+  @property({ type: String })
   show_wind: WindType = 'false';
 
   @property({ type: Boolean })
@@ -77,15 +76,15 @@ export class WeatherBar extends LitElement {
       }
     }
 
+    const windCfg = this.show_wind ?? '';
     const barBlocks: TemplateResult[] = [];
-    const windCfg = Array.isArray(this.show_wind) ? this.show_wind : [this.show_wind];
     let lastDate: string | null = null;
     for (let i = 1; i < this.temperatures.length; i += 2) {
       const skipLabel = (i - 1) % this.label_spacing !== 0;
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
-      const showWindSpeed = (windCfg.includes('true') || windCfg.includes('speed')) && !skipLabel;
-      const showWindDirection = (windCfg.includes('true') || windCfg.includes('direction')) && !skipLabel;
+      const showWindSpeed = (windCfg === 'true' || windCfg.includes('speed')) && !skipLabel;
+      const showWindDirection = (windCfg === 'true' || windCfg.includes('direction')) && !skipLabel;
       const showWindBarb = windCfg.includes('barb') && !skipLabel;
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const showPrecipitationProbability = this.show_precipitation_probability && !skipLabel;

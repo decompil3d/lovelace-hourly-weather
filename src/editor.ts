@@ -157,11 +157,14 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         @closed=${(ev) => ev.stopPropagation()}
       >
         <mwc-list-item></mwc-list-item>
-        <mwc-list-item value="false">${localize('editor.neither')}</mwc-list-item>
-        <mwc-list-item value="true">${localize('editor.both')}</mwc-list-item>
+        <mwc-list-item value="false">${localize('editor.none')}</mwc-list-item>
+        <mwc-list-item value="true">${localize('editor.speed_and_direction')}</mwc-list-item>
         <mwc-list-item value="speed">${localize('editor.speed_only')}</mwc-list-item>
         <mwc-list-item value="direction">${localize('editor.direction_only')}</mwc-list-item>
         <mwc-list-item value="barb">${localize('editor.barb')}</mwc-list-item>
+        <mwc-list-item value="barb-and-speed">${localize('editor.barb_and_speed')}</mwc-list-item>
+        <mwc-list-item value="barb-and-direction">${localize('editor.barb_and_direction')}</mwc-list-item>
+        <mwc-list-item value="barb-speed-and-direction">${localize('editor.barb_speed_and_direction')}</mwc-list-item>
       </mwc-select>
       <mwc-formfield .label=${localize('editor.show_precipitation_amounts')}>
         <mwc-switch

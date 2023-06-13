@@ -16,11 +16,14 @@
     "show_wind": "Show wind speed and direction",
     "show_precipitation_amounts": "Show precipitation amount",
     "show_precipitation_probability": "Show precipitation probability",
-    "neither": "Neither",
-    "both": "Both",
+    "none": "None",
+    "speed_and_direction": "Speed and direction",
     "speed_only": "Speed only",
     "direction_only": "Direction only",
-    "barb": "As wind barb"
+    "barb": "As wind barb",
+    "barb_and_speed": "As wind barb and speed",
+    "barb_and_direction": "As wind barb and direction",
+    "barb_speed_and_direction": "As wind barb, speed, and direction"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",

@@ -7,8 +7,7 @@ declare global {
   }
 }
 
-type WindElement = 'speed' | 'direction' | 'barb';
-export type WindType = 'true' | 'false' | WindElement | WindElement[];
+export type WindType = 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction';
 export type ShowDateType = 'false' | 'boundary' | 'all';
 
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
@@ -24,7 +23,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   hide_bar?: boolean;
   hide_hours?: boolean;
   hide_temperatures?: boolean;
-  show_wind?: WindType; // 'true' | 'false' | 'speed' | 'direction' | 'barb' | Array<'speed' | 'direction' | 'barb'>
+  show_wind?: WindType; // 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction'
   show_precipitation_amounts?: boolean;
   show_precipitation_probability?: boolean;
   show_date?: ShowDateType; // 'false' | 'boundary' | 'all'

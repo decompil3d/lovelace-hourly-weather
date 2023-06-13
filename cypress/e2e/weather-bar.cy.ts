@@ -441,19 +441,6 @@ describe('Weather bar', () => {
         });
     });
 
-    it('shows wind speed and direction if specified in config as a list', () => {
-      cy.configure({
-        show_wind: ['speed', 'direction']
-      });
-      cy.get('weather-bar')
-        .shadow()
-        .find('div.axes > div.bar-block div.wind')
-        .should('have.length', 6)
-        .each((el, i) => {
-          cy.wrap(el).should('have.text', `${expectedWindSpeeds[i]} mph${expectedWindDirections[i]}`);
-        });
-    });
-
     it('shows wind barbs if specified in config', () => {
       cy.configure({
         show_wind: 'barb'
@@ -471,7 +458,7 @@ describe('Weather bar', () => {
 
     it('shows wind barbs along with speed if specified in config', () => {
       cy.configure({
-        show_wind: ['barb', 'speed']
+        show_wind: 'barb-and-speed'
       });
       cy.get('weather-bar')
         .shadow()
@@ -488,9 +475,28 @@ describe('Weather bar', () => {
         });
     });
 
+    it('shows wind barbs along with direction if specified in config', () => {
+      cy.configure({
+        show_wind: 'barb-and-direction'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 6)
+        .each((el, i) => {
+          cy.wrap(el).should('contain.text', `${expectedWindDirections[i]}`);
+        })
+        .find('span')
+        .each((el, i) => {
+          cy.wrap(el).should('have.attr', 'title', `${expectedWindSpeeds[i]} mph ${expectedWindDirections[i]}`)
+            .find('svg').should('exist')
+            .and('have.attr', 'style', `transform:rotate(${expectedWindBearings[i]}deg);`);
+        });
+    });
+
     it('shows wind barbs along with speed and direction if specified in config', () => {
       cy.configure({
-        show_wind: ['barb', 'speed', 'direction']
+        show_wind: 'barb-speed-and-direction'
       });
       cy.get('weather-bar')
         .shadow()
