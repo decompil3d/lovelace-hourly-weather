@@ -128,6 +128,93 @@ describe('Config', () => {
       .find('p')
       .should('have.text', 'Wind barbs are not supported when weather entity uses cardinal directions for wind bearing.');
   });
+  it('errors for wind barbs when entity uses cardinal directions for wind bearing and bars are shown with speed', () => {
+    cy.addEntity({
+      'weather.wind_bearing_string': {
+        attributes: {
+          forecast: [
+            {
+              "datetime": "2022-07-21T17:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1007,
+              "wind_speed": 4.67,
+              "wind_bearing": 'WSW',
+              "condition": "cloudy",
+              "clouds": 60,
+              "temperature": 84
+            },
+            {
+              "datetime": "2022-07-21T18:00:00+00:00",
+              "precipitation": 0.35,
+              "precipitation_probability": 0,
+              "pressure": 1007,
+              "wind_speed": 6.07,
+              "wind_bearing": 'WSW',
+              "condition": "cloudy",
+              "clouds": 75,
+              "temperature": 85
+            },
+            {
+              "datetime": "2022-07-21T19:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1007,
+              "wind_speed": 6.16,
+              "wind_bearing": 'W',
+              "condition": "cloudy",
+              "clouds": 60,
+              "temperature": 85
+            },
+            {
+              "datetime": "2022-07-21T20:00:00+00:00",
+              "precipitation": 1.3,
+              "precipitation_probability": 1,
+              "pressure": 1007,
+              "wind_speed": 5.9,
+              "wind_bearing": 'W',
+              "condition": "partlycloudy",
+              "clouds": 49,
+              "temperature": 84
+            },
+            {
+              "datetime": "2022-07-21T21:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 1,
+              "pressure": 1007,
+              "wind_speed": 5.78,
+              "wind_bearing": 'WNW',
+              "condition": "partlycloudy",
+              "clouds": 34,
+              "temperature": 84
+            },
+            {
+              "datetime": "2022-07-21T22:00:00+00:00",
+              "precipitation": 0,
+              "precipitation_probability": 1,
+              "pressure": 1008,
+              "wind_speed": 5.06,
+              "wind_bearing": 'WNW',
+              "condition": "partlycloudy",
+              "clouds": 19,
+              "temperature": 83
+            }
+          ]
+        }
+      }
+    });
+
+    cy.configure({
+      entity: 'weather.wind_bearing_string',
+      num_segments: '6',
+      show_wind: ['speed', 'barb']
+    });
+
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', 'Wind barbs are not supported when weather entity uses cardinal directions for wind bearing.');
+  });
   it('warns for daily forecasts', () => {
     cy.addEntity({
       'weather.daily': {
