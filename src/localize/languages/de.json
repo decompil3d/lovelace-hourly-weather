@@ -15,12 +15,15 @@
     "label_spacing": "Anzahl der Vorhersagesegmente für Raumzeit- und Temperaturbeschriftungen nach (optional)",
     "show_wind": "Zeigt Windgeschwindigkeit und -richtung an",
     "show_precipitation_amounts": "Niederschlagsmenge anzeigen",
-    "neither": "Weder",
-    "both": "Beide",
     "speed_only": "Nur Geschwindigkeit",
     "direction_only": "Nur Richtung",
     "barb": "Als Windbarbe",
-    "show_precipitation_probability": "Niederschlagswahrscheinlichkeit anzeigen"
+    "show_precipitation_probability": "Niederschlagswahrscheinlichkeit anzeigen",
+    "none": "Keiner",
+    "speed_and_direction": "Geschwindigkeit und Richtung",
+    "barb_and_speed": "Als Windwiderhaken und Geschwindigkeit",
+    "barb_and_direction": "Als Windwiderhaken und Richtung",
+    "barb_speed_and_direction": "Als Windwiderstand, Geschwindigkeit und Richtung"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",

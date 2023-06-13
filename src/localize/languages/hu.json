@@ -16,11 +16,14 @@
     "show_wind": "Szélsebesség és irány megjelenítése",
     "show_precipitation_amounts": "Csapadékmennyiség megjelenítése",
     "show_precipitation_probability": "Csapadék valószínűségének megjelenítése",
-    "neither": "Egyik sem",
-    "both": "Mindkettő",
     "speed_only": "Sebesség",
     "direction_only": "Irány",
-    "barb": "Irány nyílként"
+    "barb": "Irány nyílként",
+    "none": "Egyik sem",
+    "speed_and_direction": "Sebesség és irány",
+    "barb_and_speed": "Szélfogóként és sebességként",
+    "barb_and_direction": "Szellőként és irányként",
+    "barb_speed_and_direction": "Szélfogként, sebességként és irányként"
   },
   "errors": {
     "missing_entity": "az entitás hiányzik a konfigurációból",

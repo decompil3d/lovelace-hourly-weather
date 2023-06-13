@@ -15,12 +15,15 @@
     "label_spacing": "Antall prognosesegmenter til romtid og temperaturetiketter etter (valgfritt)",
     "show_wind": "Vis vindhastighet og retning",
     "show_precipitation_amounts": "Vis nedbørsmengde",
-    "neither": "Ingen",
-    "both": "Både",
     "speed_only": "Kun hastighet",
     "direction_only": "Kun retning",
     "barb": "Som vindmothak",
-    "show_precipitation_probability": "Vis nedbørssannsynlighet"
+    "show_precipitation_probability": "Vis nedbørssannsynlighet",
+    "none": "Ingen",
+    "speed_and_direction": "Fart og retning",
+    "barb_and_speed": "Som vindmottak og fart",
+    "barb_and_direction": "Som vindmottak og retning",
+    "barb_speed_and_direction": "Som vindmothak, hastighet og retning"
   },
   "errors": {
     "missing_entity": "entity mangler i konfigurasjonen",

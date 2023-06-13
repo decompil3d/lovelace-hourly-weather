@@ -15,12 +15,15 @@
     "label_spacing": "Segments d'espacement entre les étiquettes d'heure et de température (facultatif)",
     "show_wind": "Afficher la vitesse et la direction du vent",
     "show_precipitation_amounts": "Afficher la quantité de précipitations",
-    "neither": "Ni",
-    "both": "Tous les deux",
     "speed_only": "Vitesse uniquement",
     "direction_only": "Sens uniquement",
     "barb": "Comme barbillon de vent",
-    "show_precipitation_probability": "Afficher la probabilité de précipitation"
+    "show_precipitation_probability": "Afficher la probabilité de précipitation",
+    "none": "Aucun",
+    "speed_and_direction": "Vitesse et orientation",
+    "barb_and_speed": "Comme barbe de vent et vitesse",
+    "barb_and_direction": "Comme barbillon de vent et direction",
+    "barb_speed_and_direction": "Comme barbillon de vent, vitesse et direction"
   },
   "errors": {
     "missing_entity": "Entité manquante dans la configuration",
