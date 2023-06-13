@@ -33,6 +33,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   hide_temperatures = false;
 
+  @property({ type: Boolean })
+  hide_bar = false;
+
   @property({ type: String })
   show_wind: WindType = 'false';
 
@@ -56,30 +59,33 @@ export class WeatherBar extends LitElement {
   render() {
     const conditionBars: TemplateResult[] = [];
     let gridStart = 1;
-    for (const cond of this.conditions) {
-      const label = this.labels[cond[0]];
-      let icon = ICONS[cond[0]];
-      if (icon === cond[0]) icon = 'mdi:weather-' + icon;
-      else icon = 'mdi:' + icon;
-      const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1]) };
-      conditionBars.push(html`
-        <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
-          ${this.icons ?
-          html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>` :
-          html`<span class="condition-label">${label}</span>`}
-        </div>
-      `);
+    if (!this.hide_bar) {
+      for (const cond of this.conditions) {
+        const label = this.labels[cond[0]];
+        let icon = ICONS[cond[0]];
+        if (icon === cond[0]) icon = 'mdi:weather-' + icon;
+        else icon = 'mdi:' + icon;
+        const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1]) };
+        conditionBars.push(html`
+          <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
+            ${this.icons ?
+            html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>` :
+            html`<span class="condition-label">${label}</span>`}
+          </div>
+        `);
+      }
     }
 
+    const windCfg = this.show_wind ?? '';
     const barBlocks: TemplateResult[] = [];
     let lastDate: string | null = null;
     for (let i = 1; i < this.temperatures.length; i += 2) {
       const skipLabel = (i - 1) % this.label_spacing !== 0;
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
-      const showWindSpeed = (this.show_wind === 'true' || this.show_wind === 'speed') && !skipLabel;
-      const showWindDirection = (this.show_wind === 'true' || this.show_wind === 'direction') && !skipLabel;
-      const showWindBarb = this.show_wind === 'barb' && !skipLabel;
+      const showWindSpeed = (windCfg === 'true' || windCfg.includes('speed')) && !skipLabel;
+      const showWindDirection = (windCfg === 'true' || windCfg.includes('direction')) && !skipLabel;
+      const showWindBarb = windCfg.includes('barb') && !skipLabel;
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const showPrecipitationProbability = this.show_precipitation_probability && !skipLabel;
       const { hour, date, temperature } = this.temperatures[i];
@@ -98,14 +104,15 @@ export class WeatherBar extends LitElement {
       const { windSpeed, windSpeedRawMS, windDirection, windDirectionRaw } = this.wind[i];
 
       const wind: TemplateResult[] = [];
-      if (showWindSpeed) wind.push(html`${windSpeed}`);
-      if (showWindSpeed && showWindDirection) wind.push(html`<br>`);
-      if (showWindDirection) wind.push(html`${windDirection}`);
       if (showWindBarb && typeof windDirectionRaw === 'number') {
         wind.push(html`<span title=${`${windSpeed} ${windDirection}`}>
           ${this.getWindBarb(windSpeedRawMS, windDirectionRaw)}
         </span>`);
+        if (showWindSpeed || showWindDirection) wind.push(html`<br>`);
       }
+      if (showWindSpeed) wind.push(html`${windSpeed}`);
+      if (showWindSpeed && showWindDirection) wind.push(html`<br>`);
+      if (showWindDirection) wind.push(html`${windDirection}`);
 
       const { precipitationAmount, precipitationProbability, precipitationProbabilityText } = this.precipitation[i];
       const precipitation: TemplateResult[] = [];
@@ -137,7 +144,7 @@ export class WeatherBar extends LitElement {
     return html`
       <div class="main">
         ${colorStyles ?? null}
-        <div class="bar">${conditionBars}</div>
+        ${this.hide_bar ? null : html`<div class="bar">${conditionBars}</div>`}
         <div class="axes">${barBlocks}</div>
       </div>
     `;

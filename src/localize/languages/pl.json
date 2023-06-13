@@ -15,12 +15,15 @@
     "label_spacing": "Liczba segmentów prognozy do etykiet czasoprzestrzeni i temperatury według (opcjonalnie)",
     "show_wind": "Pokaż prędkość i kierunek wiatru",
     "show_precipitation_amounts": "Pokaż ilość opadów",
-    "neither": "Żaden",
-    "both": "Obie",
     "speed_only": "Tylko prędkość",
     "direction_only": "Tylko kierunek",
     "barb": "Jak kolce wiatru",
-    "show_precipitation_probability": "Pokaż prawdopodobieństwo opadów"
+    "show_precipitation_probability": "Pokaż prawdopodobieństwo opadów",
+    "none": "Nic",
+    "speed_and_direction": "Szybkość i kierunek",
+    "barb_and_speed": "Jak kolce wiatru i prędkość",
+    "barb_and_direction": "Jako zadzior i kierunek wiatru",
+    "barb_speed_and_direction": "Jak kolce wiatru, prędkość i kierunek"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",

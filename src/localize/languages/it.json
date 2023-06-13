@@ -15,12 +15,15 @@
     "label_spacing": "Numero di segmenti di previsione per spazio etichette tempo e temperatura per (facoltativo)",
     "show_wind": "Mostra la velocità e la direzione del vento",
     "show_precipitation_amounts": "Mostra la quantità di precipitazioni",
-    "neither": "Né",
-    "both": "Tutti e due",
     "speed_only": "Solo velocità",
     "direction_only": "Solo direzione",
     "barb": "Come una punta di vento",
-    "show_precipitation_probability": "Mostra la probabilità di precipitazioni"
+    "show_precipitation_probability": "Mostra la probabilità di precipitazioni",
+    "none": "Nessuno",
+    "speed_and_direction": "Velocità e direzione",
+    "barb_and_speed": "Come il vento tagliente e la velocità",
+    "barb_and_direction": "Come il vento e la direzione",
+    "barb_speed_and_direction": "Come la punta del vento, la velocità e la direzione"
   },
   "errors": {
     "missing_entity": "entità mancante nella configurazione",

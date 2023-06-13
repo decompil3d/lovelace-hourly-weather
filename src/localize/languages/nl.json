@@ -15,12 +15,15 @@
     "label_spacing": "Aantal prognosesegmenten naar ruimtetijd- en temperatuurlabels per (Optioneel)",
     "show_wind": "Toon windsnelheid en richting",
     "show_precipitation_amounts": "Toon hoeveelheid neerslag",
-    "neither": "Geen van beide",
-    "both": "Beide",
     "speed_only": "Alleen snelheid",
     "direction_only": "Alleen richting (tekst)",
     "barb": "Alleen richting (pijl)",
-    "show_precipitation_probability": "Neerslagkans weergeven"
+    "show_precipitation_probability": "Neerslagkans weergeven",
+    "none": "Geen",
+    "speed_and_direction": "Snelheid en richting",
+    "barb_and_speed": "Zoals wind weerhaak en snelheid",
+    "barb_and_direction": "Als windhaak en richting",
+    "barb_speed_and_direction": "Zoals wind weerhaak, snelheid en richting"
   },
   "errors": {
     "missing_entity": "entiteit ontbreekt in configuratie",
