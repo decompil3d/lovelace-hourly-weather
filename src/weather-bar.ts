@@ -45,7 +45,7 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   show_precipitation_probability = false;
 
-  @property({ type: Boolean })
+  @property({ type: String })
   show_date: ShowDateType = 'false';
 
   @property({ type: Number })
