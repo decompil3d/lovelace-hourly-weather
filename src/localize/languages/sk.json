@@ -1,0 +1,76 @@
+{
+  "common": {
+    "version": "Verzia",
+    "title": "Hodinové počasie",
+    "title_card": "Hodinové Weather Card",
+    "description": "Karta na vykreslenie hodinových poveternostných podmienok ako pruh.",
+    "invalid_configuration": "Neplatná konfigurácia"
+  },
+  "editor": {
+    "entity": "Entita (požadovaná)",
+    "name": "Názov (voliteľné)",
+    "segments_to_show": "Počet segmentov prognózy, ktoré sa majú zobraziť (voliteľné)",
+    "offset": "Počet segmentov prognózy, o ktoré sa má začať kompenzácia (voliteľné)",
+    "icons": "Zobrazovať ikony namiesto textových štítkov",
+    "label_spacing": "Počet segmentov predpovede na štítky časopriestoru a teploty podľa (voliteľné)",
+    "show_wind": "Zobraziť rýchlosť a smer vetra",
+    "show_precipitation_amounts": "Zobraziť množstvo zrážok",
+    "show_precipitation_probability": "Zobraziť pravdepodobnosť zrážok",
+    "none": "Nič",
+    "speed_and_direction": "Rýchlosť a smer",
+    "speed_only": "Len rýchlosť",
+    "direction_only": "Len smer",
+    "barb": "Ako veterný osteň",
+    "barb_and_speed": "Ako veterný osteň a rýchlosť",
+    "barb_and_direction": "Ako veterný osteň a smer",
+    "barb_speed_and_direction": "Ako veterný osteň, rýchlosť a smer"
+  },
+  "errors": {
+    "missing_entity": "v konfigurácii chýba entita",
+    "too_many_segments_requested": "Príliš veľa segmentov prognózy požadovaných v num_segments. Musí byť <= počet segmentov v entite prognózy.",
+    "daily_forecasts": "Zdá sa, že vybratá entita počasia poskytuje denné predpovede. Zvážte prechod na hodinovú entitu.",
+    "must_be_int": "Musí byť párne celé číslo väčšie alebo rovné 2",
+    "invalid_colors": "Nasledujúce farby vo vašej konfigurácii sú neplatné:",
+    "must_be_positive_int": "Musí to byť kladné celé číslo",
+    "label_spacing_positive_even_int": "label_spacing musí byť párne celé číslo väčšie alebo rovné 2",
+    "offset_must_be_positive_int": "offset musí byť kladné celé číslo",
+    "forecast_not_available": "Predpoveď nie je k dispozícii",
+    "check_entity": "Skontrolujte nakonfigurovanú entitu predpovede.",
+    "no_wind_barbs_with_string_bearing": "Veterné ostne nie sú podporované, keď entita počasia používa hlavné smery pre smer vetra."
+  },
+  "conditions": {
+    "clear": "Čisté",
+    "cloudy": "Zamračené",
+    "fog": "Hmla",
+    "hail": "Ľadovec",
+    "thunderstorm": "Búrka",
+    "partlyCloudy": "Čiastočne zamračené",
+    "heavyRain": "Hustý dážď",
+    "rain": "Dážď",
+    "snow": "Sneh",
+    "mixedPrecip": "Zmiešené",
+    "sunny": "Slnečno",
+    "windy": "Veterno"
+  },
+  "direction": {
+    "n": "S",
+    "nne": "SSV",
+    "ne": "SV",
+    "ene": "VSV",
+    "e": "V",
+    "ese": "VJV",
+    "se": "JV",
+    "sse": "JJV",
+    "s": "J",
+    "ssw": "JJZ",
+    "sw": "JZ",
+    "wsw": "ZJZ",
+    "w": "Z",
+    "wnw": "ZSZ",
+    "nw": "SZ",
+    "nnw": "SSZ"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}% možnosť zrážok"
+  }
+}

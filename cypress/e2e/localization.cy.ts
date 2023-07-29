@@ -53,7 +53,8 @@ describe('Localization', () => {
     pl: 'Pochmurnie',
     pt: 'Nublado',
     'pt-BR': 'Nublado',
-    'nn-NO': 'Skya'
+    'nn-NO': 'Skya',
+    sk: 'Zamračené'
   }
   Object.entries(expectedTranslations).forEach(([lang, expectedString]) => {
     it(`uses correct translation for ${lang}`, () => {
