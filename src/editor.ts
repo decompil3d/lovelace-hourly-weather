@@ -112,11 +112,11 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         .configValue=${'num_segments'}
         @input=${this._valueChanged}
         .type=${'number'}
-        .min=${2}
-        .step=${2}
-        .pattern=${"([1-9][0-9]*[02468])|([2468])"}
+        .min=${1}
+        .step=${1}
+        .pattern=${"[1-9][0-9]*"}
         .autoValidate=${true}
-        validationMessage=${localize('errors.must_be_int')}
+        validationMessage=${localize('errors.must_be_positive_int')}
       ></mwc-textfield>
       <mwc-textfield
       label=${localize('editor.offset')}
@@ -134,11 +134,11 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         .configValue=${'label_spacing'}
         @input=${this._valueChanged}
         .type=${'number'}
-        .min=${2}
-        .step=${2}
-        .pattern=${"([1-9][0-9]*[02468])|([2468])"}
+        .min=${1}
+        .step=${1}
+        .pattern=${"[1-9][0-9]*"}
         .autoValidate=${true}
-        validationMessage=${localize('errors.must_be_int')}
+        validationMessage=${localize('errors.must_be_positive_int')}
       ></mwc-textfield>
       <mwc-formfield .label=${localize('editor.icons')}>
         <mwc-switch

@@ -139,8 +139,8 @@ export class HourlyWeatherCard extends LitElement {
 
     if (config.label_spacing) {
       const numLabelSpacing = parseInt(config.label_spacing, 10);
-      if (!Number.isNaN(numLabelSpacing) && (numLabelSpacing < 2 || numLabelSpacing % 2 !== 0)) {
-        throw new Error(this.localize('errors.label_spacing_positive_even_int'));
+      if (!Number.isNaN(numLabelSpacing) && (numLabelSpacing < 1)) {
+        throw new Error(this.localize('errors.must_be_positive_int'));
       }
     }
 
@@ -241,9 +241,9 @@ export class HourlyWeatherCard extends LitElement {
     const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
     const forecastNotAvailable = !forecast || !forecast.length;
 
-    if (numSegments < 2) {
+    if (numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
-      return await this._showError(this.localize('errors.label_spacing_positive_even_int', 'label_spacing', 'num_segments'));
+      return await this._showError(this.localize('errors.must_be_positive_int', 'label_spacing', 'num_segments'));
     }
 
     if (offset < 0) {
@@ -254,8 +254,8 @@ export class HourlyWeatherCard extends LitElement {
       return await this._showError(this.localize('errors.too_many_segments_requested'));
     }
 
-    if (labelSpacing < 2 || labelSpacing % 2 !== 0) {
-      return await this._showError(this.localize('errors.label_spacing_positive_even_int'));
+    if (labelSpacing < 1) {
+      return await this._showError(this.localize('errors.must_be_positive_int'));
     }
 
     if (config.show_wind?.includes('barb') && typeof forecast[0].wind_bearing === 'string') {
