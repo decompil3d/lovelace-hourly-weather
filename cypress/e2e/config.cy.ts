@@ -4,14 +4,14 @@ describe('Config', () => {
   beforeEach(() => {
     cy.visitHarness();
   });
-  it('errors for num_segments < 2', () => {
+  it('errors for num_segments < 1', () => {
     cy.configure({
-      num_segments: '1'
+      num_segments: '0'
     });
     cy.get('hui-error-card')
       .shadow()
       .find('p')
-      .should('have.text', 'num_segments must be an even integer greater than or equal to 2');
+      .should('have.text', 'Must be a positive integer');
   });
   it('errors for offset < 0', () => {
     cy.configure({
@@ -330,7 +330,7 @@ describe('Config', () => {
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block')
-        .should('have.length', 5);
+        .should('have.length', 10);
       cy.window()
         .then(win => {
           // @ts-expect-error accessing hourlyWeather global
@@ -379,7 +379,7 @@ describe('Config', () => {
         .shadow()
         .find('div.axes > div.bar-block div.temperature')
         .first()
-        .should('have.text', '84°');
+        .should('have.text', '85°');
       cy.window()
         .then(win => {
           // @ts-expect-error accessing hourlyWeather global

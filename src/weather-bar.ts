@@ -65,7 +65,7 @@ export class WeatherBar extends LitElement {
         let icon = ICONS[cond[0]];
         if (icon === cond[0]) icon = 'mdi:weather-' + icon;
         else icon = 'mdi:' + icon;
-        const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1]*2) };
+        const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1] * 2) };
         conditionBars.push(html`
           <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
             ${this.icons ?

@@ -10,7 +10,7 @@ describe('Internationalization', () => {
       .shadow()
       .find('div.axes > div.bar-block div.hour')
       .first()
-      .should('have.text', '6 PM');
+      .should('have.text', '5 PM');
   });
 
   it('formats times correctly for 24 hour', () => {
@@ -24,7 +24,7 @@ describe('Internationalization', () => {
       .shadow()
       .find('div.axes > div.bar-block div.hour')
       .first()
-      .should('have.text', '18:00');
+      .should('have.text', '17:00');
   });
 
   it('defaults to 12 hour for en', () => {
@@ -38,7 +38,7 @@ describe('Internationalization', () => {
       .shadow()
       .find('div.axes > div.bar-block div.hour')
       .first()
-      .should('have.text', '6 PM');
+      .should('have.text', '5 PM');
   });
 
   it('defaults to 24 hour for fr', () => {
@@ -52,7 +52,7 @@ describe('Internationalization', () => {
       .shadow()
       .find('div.axes > div.bar-block div.hour')
       .first()
-      .should('have.text', '18:00');
+      .should('have.text', '17:00');
   });
 
   describe('Number formatting', () => {
@@ -145,7 +145,7 @@ describe('Internationalization', () => {
         .shadow()
         .find('div.axes > div.bar-block div.temperature')
         .first()
-        .should('have.text', '85.5°');
+        .should('have.text', '84.2°');
     });
     it('uses comma as decimal separator when specified as decimal_comma', () => {
       cy.setLocale({
@@ -155,7 +155,7 @@ describe('Internationalization', () => {
         .shadow()
         .find('div.axes > div.bar-block div.temperature')
         .first()
-        .should('have.text', '85,5°');
+        .should('have.text', '84,2°');
     });
     it('uses comma as decimal separator when specified as space_comma', () => {
       cy.setLocale({
@@ -165,7 +165,7 @@ describe('Internationalization', () => {
         .shadow()
         .find('div.axes > div.bar-block div.temperature')
         .first()
-        .should('have.text', '85,5°');
+        .should('have.text', '84,2°');
     });
   });
 });

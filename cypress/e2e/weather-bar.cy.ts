@@ -222,25 +222,22 @@ describe('Weather bar', () => {
     });
 
     const expectedHours = [
-      '6 PM',
-      '8 PM',
-      '10 PM',
-      '12 AM',
-      '2 AM',
-      '4 AM'
+      '5 PM',
+      '7 PM',
+      '9 PM',
+      '11 PM',
+      '1 AM',
+      '3 AM'
     ];
 
     it('shows hour labels on axes', () => {
-      cy.configure({
-        offset: '1'
-      });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.hour')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('have.text', expectedHours[i/2]);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', expectedHours[i / 2]);
           }
         });
     });
@@ -318,31 +315,28 @@ describe('Weather bar', () => {
     });
 
     const expectedTemperatures = [
+      84,
       85,
       84,
-      83,
-      75,
-      67,
-      64
+      79,
+      70,
+      65
     ];
 
     it('shows temperature labels on axes', () => {
-      cy.configure({
-        offset: '1'
-      });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.temperature')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('have.text', expectedTemperatures[i/2] + '°');
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', expectedTemperatures[i / 2] + '°');
           }
         });
     });
     it('respects offset when specified config', () => {
       cy.configure({
-        offset: '3',
+        offset: '2',
         num_segments: '10'
       });
       cy.get('weather-bar')
@@ -350,8 +344,8 @@ describe('Weather bar', () => {
         .find('div.axes > div.bar-block div.temperature')
         .should('have.length', 10)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('have.text', expectedTemperatures[i/2 + 1] + '°');
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', expectedTemperatures[i / 2 + 1] + '°');
           }
         });
     });
@@ -391,82 +385,78 @@ describe('Weather bar', () => {
     });
 
     const expectedWindSpeeds = [
-      6,
-      6,
       5,
+      6,
+      6,
       6,
       4,
       4
     ];
     const expectedWindDirections = [
       'WSW',
-      'W',
+      'WSW',
       'WNW',
-      'N',
+      'NW',
       'WNW',
       'WNW'
     ];
     const expectedWindBearings = [
-      253,
-      278,
-      293,
-      359,
-      285,
-      283
+      255,
+      258,
+      297,
+      304,
+      290,
+      285
     ];
 
     it('shows wind speed/direction if specified in config', () => {
       cy.configure({
-        show_wind: 'true',
-        offset: '1',
+        show_wind: 'true'
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.wind')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('have.text', `${expectedWindSpeeds[i/2]} mph${expectedWindDirections[i/2]}`);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', `${expectedWindSpeeds[i / 2]} mph${expectedWindDirections[i / 2]}`);
           }
         });
     });
 
     it('shows wind speed if specified in config', () => {
       cy.configure({
-        show_wind: 'speed',
-        offset: '1',
+        show_wind: 'speed'
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.wind')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('have.text', `${expectedWindSpeeds[i/2]} mph`);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', `${expectedWindSpeeds[i / 2]} mph`);
           }
         });
     });
 
     it('shows wind direction if specified in config', () => {
       cy.configure({
-        show_wind: 'direction',
-        offset: '1',
+        show_wind: 'direction'
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.wind')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('have.text', `${expectedWindDirections[i/2]}`);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', `${expectedWindDirections[i / 2]}`);
           }
         });
     });
 
     it('shows wind barbs if specified in config', () => {
       cy.configure({
-        show_wind: 'barb',
-        offset: '1',
+        show_wind: 'barb'
       });
       cy.get('weather-bar')
         .shadow()
@@ -481,16 +471,15 @@ describe('Weather bar', () => {
 
     it('shows wind barbs along with speed if specified in config', () => {
       cy.configure({
-        show_wind: 'barb-and-speed',
-        offset: '1',
+        show_wind: 'barb-and-speed'
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.wind')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('contain.text', `${expectedWindSpeeds[i/2]}`);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('contain.text', `${expectedWindSpeeds[i / 2]}`);
           }
         })
         .find('span')
@@ -503,16 +492,15 @@ describe('Weather bar', () => {
 
     it('shows wind barbs along with direction if specified in config', () => {
       cy.configure({
-        show_wind: 'barb-and-direction',
-        offset: '1',
+        show_wind: 'barb-and-direction'
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.wind')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('contain.text', `${expectedWindDirections[i/2]}`);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('contain.text', `${expectedWindDirections[i / 2]}`);
           }
         })
         .find('span')
@@ -525,16 +513,15 @@ describe('Weather bar', () => {
 
     it('shows wind barbs along with speed and direction if specified in config', () => {
       cy.configure({
-        show_wind: 'barb-speed-and-direction',
-        offset: '1',
+        show_wind: 'barb-speed-and-direction'
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.wind')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('contain.text', `${expectedWindSpeeds[i/2]} mph${expectedWindDirections[i/2]}`);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('contain.text', `${expectedWindSpeeds[i / 2]} mph${expectedWindDirections[i / 2]}`);
           }
         })
         .find('span')
@@ -566,8 +553,8 @@ describe('Weather bar', () => {
                 "precipitation": 0.35,
                 "precipitation_probability": 0,
                 "pressure": 1007,
-                "wind_speed": 6.07,
-                "wind_bearing": 'WSW',
+                "wind_speed": 6.16,
+                "wind_bearing": 'W',
                 "condition": "cloudy",
                 "clouds": 75,
                 "temperature": 85
@@ -577,8 +564,8 @@ describe('Weather bar', () => {
                 "precipitation": 0,
                 "precipitation_probability": 0,
                 "pressure": 1007,
-                "wind_speed": 6.16,
-                "wind_bearing": 'W',
+                "wind_speed": 6.07,
+                "wind_bearing": 'WSW',
                 "condition": "cloudy",
                 "clouds": 60,
                 "temperature": 85
@@ -635,8 +622,7 @@ describe('Weather bar', () => {
       cy.configure({
         entity: 'weather.wind_bearing_string',
         num_segments: '6',
-        show_wind: 'direction',
-        offset: '1'
+        show_wind: 'direction'
       });
 
       cy.get('weather-bar')
@@ -644,8 +630,8 @@ describe('Weather bar', () => {
         .find('div.axes > div.bar-block div.wind')
         .should('have.length', 6)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('have.text', `${expectedWindDirections[i/2]}`);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', `${expectedWindDirections[i / 2]}`);
           }
         });
     });
@@ -741,8 +727,7 @@ describe('Weather bar', () => {
         entity: 'weather.wind_bearing_string',
         num_segments: '6',
         show_wind: 'direction',
-        language: 'nl',
-        offset: '1'
+        language: 'nl'
       });
 
       const expectedDutchWindDirections = [
@@ -756,8 +741,8 @@ describe('Weather bar', () => {
         .find('div.axes > div.bar-block div.wind')
         .should('have.length', 6)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('have.text', `${expectedDutchWindDirections[i/2]}`);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', `${expectedDutchWindDirections[i / 2]}`);
           }
         });
     });
@@ -853,8 +838,7 @@ describe('Weather bar', () => {
         entity: 'weather.wind_bearing_string',
         num_segments: '6',
         show_wind: 'direction',
-        language: 'nl',
-        offset: '1'
+        language: 'nl'
       });
 
       const expectedFakeWindDirections = [
@@ -868,8 +852,8 @@ describe('Weather bar', () => {
         .find('div.axes > div.bar-block div.wind')
         .should('have.length', 6)
         .each((el, i) => {
-          if (i%2 == 0) {
-            cy.wrap(el).should('have.text', `${expectedFakeWindDirections[i/2]}`);
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', `${expectedFakeWindDirections[i / 2]}`);
           }
         });
     });
@@ -895,19 +879,18 @@ describe('Weather bar', () => {
 
     it('shows precipitation if specified in config', () => {
       cy.configure({
-        show_precipitation_amounts: true,
-        offset: '1'
+        show_precipitation_amounts: true
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.precipitation')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            if (expectedPrecipitation[i/2] === 0) {
+          if (i % 2 === 0) {
+            if (expectedPrecipitation[i / 2] === 0) {
               cy.wrap(el).should('be.empty');
             } else {
-              cy.wrap(el).should('have.text', `${expectedPrecipitation[i/2]} in`);
+              cy.wrap(el).should('have.text', `${expectedPrecipitation[i / 2]} in`);
             }
           }
         });
@@ -924,21 +907,20 @@ describe('Weather bar', () => {
 
     it('shows precipitation probability if specified in config', () => {
       cy.configure({
-        show_precipitation_probability: true,
-        offset: '1',
+        show_precipitation_probability: true
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.precipitation')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i%2 == 0) {
-            if (expectedPrecipitationProbability[i/2] === 0) {
+          if (i % 2 === 0) {
+            if (expectedPrecipitationProbability[i / 2] === 0) {
               cy.wrap(el.text()).should('be.empty');
             } else {
-              cy.wrap(el).should('have.text', `${expectedPrecipitationProbability[i/2]}%`)
+              cy.wrap(el).should('have.text', `${expectedPrecipitationProbability[i / 2]}%`)
                 .find('span')
-                .should('have.attr', 'title', `${expectedPrecipitationProbability[i/2]}% chance of precipitation`);
+                .should('have.attr', 'title', `${expectedPrecipitationProbability[i / 2]}% chance of precipitation`);
             }
           }
         });
