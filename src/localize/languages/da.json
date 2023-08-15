@@ -1,0 +1,77 @@
+{
+    "common": {
+      "version": "Version",
+      "title": "Time Vejr",
+      "title_card": "Time Vejr Kort",
+      "description": "Et kort som viser vejret hver time som en linje.",
+      "invalid_configuration": "Ugyldig konfiguration"
+    },
+    "editor": {
+      "entity": "Entitet (Påkrævet)",
+      "name": "Navn (Valgfri)",
+      "segments_to_show": "Antal udsigtssegmenter der skal vises (Valgfri)",
+      "offset": "Antal udsigtssegmenter starten skal forskydes (Valgfri)",
+      "icons": "Vis ikoner i stedet for tekst",
+      "label_spacing": "Antal segmenter imellem tid og temperatur labels (Valgfri)",
+      "show_wind": "Vis vindhastighed og retning",
+      "show_precipitation_amounts": "Vis nedbørsmængde",
+      "show_precipitation_probability": "Vis nedbørssandsynlighed",
+      "none": "Ingen",
+      "speed_and_direction": "Hastighed og retning",
+      "speed_only": "Kun hastighed",
+      "direction_only": "Kun retning",
+      "barb": "Som vindrose",
+      "barb_and_speed": "Som vindrose og hastighed",
+      "barb_and_direction": "Som vindrose og retning",
+      "barb_speed_and_direction": "Som vindrose, hastighed, og retning"
+    },
+    "errors": {
+      "missing_entity": "entitet mangler i konfiguration",
+      "too_many_segments_requested": "For mange segmenter forespurgt i num_segments. Skal være mindre eller lig antal segmenter i vejrudsigtsentiteten.",
+      "daily_forecasts": "Den valgte vejrudsigtsentitet ser ud til at have daglige vejrudsigter. Overvej at skifte til en med timeudsigter.",
+      "must_be_int": "Skal være et heltal størrere end eller lig 2",
+      "invalid_colors": "Føglende farver i din konfiguration er ugyldige:",
+      "must_be_positive_int": "Skal være et positivt heltal",
+      "label_spacing_positive_even_int": "label_spacing skal være et lige heltal størrere end eller lig 2",
+      "offset_must_be_positive_int": "offset skal være et positivt heltal",
+      "forecast_not_available": "Vejrudsigt ikke tilgængelig",
+      "check_entity": "Kontroller den definerede vejrudsigtsentitet.",
+      "no_wind_barbs_with_string_bearing": "Vindrose understøttes ikke, når vejrudsigtsentitet bruger kompasretninger for vindretning."
+    },
+    "conditions": {
+      "clear": "Klart",
+      "cloudy": "Skyet",
+      "fog": "Tåge",
+      "hail": "Hagl",
+      "thunderstorm": "Torden",
+      "partlyCloudy": "Delvist overskyet",
+      "heavyRain": "Kraftig regn",
+      "rain": "Regn",
+      "snow": "Sne",
+      "mixedPrecip": "Blandet nedbør",
+      "sunny": "Sol",
+      "windy": "Blæsende"
+    },
+    "direction": {
+      "n": "N",
+      "nne": "NNØ",
+      "ne": "NØ",
+      "ene": "ØNØ",
+      "e": "Ø",
+      "ese": "ØSØ",
+      "se": "SØ",
+      "sse": "SSØ",
+      "s": "S",
+      "ssw": "SSV",
+      "sw": "SV",
+      "wsw": "VSV",
+      "w": "V",
+      "wnw": "VNV",
+      "nw": "NV",
+      "nnw": "NNV"
+    },
+    "card": {
+      "chance_of_precipitation": "{0}% risiko for nedbør"
+    }
+  }
+  
