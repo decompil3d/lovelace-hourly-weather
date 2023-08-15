@@ -42,6 +42,7 @@ describe('Localization', () => {
       .should('have.text', 'Nublado');
   });
   const expectedTranslations = {
+    da: 'Skyet',
     de: 'Bewölkt',
     en: 'Cloudy',
     es: 'Nublado',
