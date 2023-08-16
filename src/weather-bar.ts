@@ -65,7 +65,7 @@ export class WeatherBar extends LitElement {
         let icon = ICONS[cond[0]];
         if (icon === cond[0]) icon = 'mdi:weather-' + icon;
         else icon = 'mdi:' + icon;
-        const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1]) };
+        const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1] * 2) };
         conditionBars.push(html`
           <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
             ${this.icons ?
@@ -79,8 +79,8 @@ export class WeatherBar extends LitElement {
     const windCfg = this.show_wind ?? '';
     const barBlocks: TemplateResult[] = [];
     let lastDate: string | null = null;
-    for (let i = 1; i < this.temperatures.length; i += 2) {
-      const skipLabel = (i - 1) % this.label_spacing !== 0;
+    for (let i = 0; i < this.temperatures.length; i += 1) {
+      const skipLabel = i % (this.label_spacing) !== 0;
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
       const showWindSpeed = (windCfg === 'true' || windCfg.includes('speed')) && !skipLabel;
@@ -316,13 +316,10 @@ export class WeatherBar extends LitElement {
     .bar-block-left {
       grid-area: left;
       border: 1px solid var(--divider-color, lightgray);
-      border-width: 0 1px;
+      border-width: 0 1px 0 0;
     }
     .bar-block-right {
       grid-area: right;
-    }
-    .bar-block:last-child .bar-block-right {
-      border-right: 1px solid var(--divider-color, lightgray);
     }
     .bar-block-bottom {
       text-align: center;
