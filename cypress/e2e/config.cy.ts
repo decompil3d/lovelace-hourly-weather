@@ -11,7 +11,7 @@ describe('Config', () => {
     cy.get('hui-error-card')
       .shadow()
       .find('p')
-      .should('have.text', 'Must be a positive integer');
+      .should('have.text', 'num_segments must be a positive integer');
   });
   it('errors for offset < 0', () => {
     cy.configure({
