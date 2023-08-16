@@ -32,7 +32,6 @@
     "invalid_colors": "Følgende farger i konfigurasjonen din er ugyldige:",
     "must_be_positive_int": "Må være et positivt heltall",
     "too_many_segments_requested": "For mange prognosesegmenter er forespurt i num_segments. Må være <= antall segmenter i prognoseenheten.",
-    "label_spacing_positive_even_int": "label_spacing må være et jevnt heltall større enn eller lik 2",
     "offset_must_be_positive_int": "offset må være et positivt heltall",
     "forecast_not_available": "Værvarsel er ikke tilgjengelig",
     "check_entity": "Sjekk den konfigurerte prognoseenheten.",

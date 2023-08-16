@@ -32,7 +32,6 @@
     "must_be_int": "Musí byť párne celé číslo väčšie alebo rovné 2",
     "invalid_colors": "Nasledujúce farby vo vašej konfigurácii sú neplatné:",
     "must_be_positive_int": "Musí to byť kladné celé číslo",
-    "label_spacing_positive_even_int": "label_spacing musí byť párne celé číslo väčšie alebo rovné 2",
     "offset_must_be_positive_int": "offset musí byť kladné celé číslo",
     "forecast_not_available": "Predpoveď nie je k dispozícii",
     "check_entity": "Skontrolujte nakonfigurovanú entitu predpovede.",

@@ -34,7 +34,6 @@
     "invalid_colors": "Følgande fargar i konfigurasjonen din er ugyldege:",
     "must_be_positive_int": "Må vere eit positivt heiltal",
     "too_many_segments_requested": "For mange prognosesegment er førespurt i num_segments. Må vere <= antall segment i prognoseeininga.",
-    "label_spacing_positive_even_int": "label_spacing må vere eit jemnt heiltal større enn eller lik 2",
     "offset_must_be_positive_int": "offset må vere eit positivt heiltal",
     "forecast_not_available": "Vervarsel er ikkje tilgjengeleg",
     "check_entity": "Sjekk den konfigurerte prognoseeininga.",

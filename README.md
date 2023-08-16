@@ -64,10 +64,10 @@ Otherwise, the integration may complain of a duplicate unique ID.
 | `entity`                         | string           | **Required** | Home Assistant weather entity ID.                              |                     |
 | `name`                           | string           | **Optional** | Card name (set to `null` to hide)                              | `Hourly Weather`    |
 | `icons`                          | bool             | **Optional** | Whether to show icons instead of text labels                   | `false`             |
-| `num_segments`                   | number           | **Optional** | Number of forecast segments to show (even integer >= 2)        | `12`                |
+| `num_segments`                   | number           | **Optional** | Number of forecast segments to show (integer >= 1)             | `12`                |
 | ~~`num_hours`~~                  | number           | **Optional** | _Deprecated:_ Use `num_segments` instead                       | `12`                |
 | `offset`                         | number           | **Optional** | Number of forecast segments to offset from start               | `0`                 |
-| `label_spacing`                  | number           | **Optional** | Space between time/temperature labels (even integer >= 2)      | `2`                 |
+| `label_spacing`                  | number           | **Optional** | Space between time/temperature labels (integer >= 1)           | `2`                 |
 | `colors`                         | [object][color]  | **Optional** | Set colors for all or some conditions                          |                     |
 | `hide_hours`                     | bool             | **Optional** | Whether to hide hour labels under the bar                      | `false`             |
 | `hide_temperatures`              | bool             | **Optional** | Whether to hide temperatures under the bar                     | `false`             |
@@ -207,6 +207,14 @@ colors:
 In version 4.x, the `num_hours` option was deprecated in favor of `num_segments`. This simplifies the card and makes it
 clear that it operates on whatever size forecast segment your entity provides. The `num_hours` option still works, but
 `num_segments` takes precedence, if set. `num_hours` will be removed in a later major version of the card.
+
+### Version 4 ➡️ 5
+
+In version 5.x, the DOM structure of the weather bar and its labels was changed to allow for odd-numbered segment
+counts and label spacing. Labels now appear centered with the segment they are representing, and the first label shown
+on the bar represents the first segment of data where in prior versions labels would begin at the second segment. This
+change may cause some custom CSS to break. If you have custom CSS, you may need to adjust it to account for the new
+structure.
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/master

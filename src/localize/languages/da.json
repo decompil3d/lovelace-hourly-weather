@@ -32,7 +32,6 @@
       "must_be_int": "Skal være et heltal størrere end eller lig 2",
       "invalid_colors": "Føglende farver i din konfiguration er ugyldige:",
       "must_be_positive_int": "Skal være et positivt heltal",
-      "label_spacing_positive_even_int": "label_spacing skal være et lige heltal størrere end eller lig 2",
       "offset_must_be_positive_int": "offset skal være et positivt heltal",
       "forecast_not_available": "Vejrudsigt ikke tilgængelig",
       "check_entity": "Kontroller den definerede vejrudsigtsentitet.",

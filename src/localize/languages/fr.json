@@ -32,7 +32,6 @@
     "invalid_colors": "Les couleurs suivantes dans votre configuration ne sont pas valides :",
     "must_be_positive_int": "Doit être un entier positif",
     "too_many_segments_requested": "Trop de segments de prévision demandés dans num_segments. Doit être <= au nombre de segments de l'entité de prévision.",
-    "label_spacing_positive_even_int": "label_spacing doit être un entier pair supérieur ou égal à 2",
     "offset_must_be_positive_int": "offset doit être un entier positif",
     "forecast_not_available": "Prévision non disponible",
     "check_entity": "Vérifiez l'entité de prévision configurée.",

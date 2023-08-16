@@ -243,7 +243,7 @@ export class HourlyWeatherCard extends LitElement {
 
     if (numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
-      return await this._showError(this.localize('errors.must_be_positive_int', 'label_spacing', 'num_segments'));
+      return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'num_segments'));
     }
 
     if (offset < 0) {
@@ -255,7 +255,8 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     if (labelSpacing < 1) {
-      return await this._showError(this.localize('errors.must_be_positive_int'));
+      // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
+      return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
     }
 
     if (config.show_wind?.includes('barb') && typeof forecast[0].wind_bearing === 'string') {
