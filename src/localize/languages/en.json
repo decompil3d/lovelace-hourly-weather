@@ -49,7 +49,8 @@
     "snow": "Snow",
     "mixedPrecip": "Mixed precip",
     "sunny": "Sunny",
-    "windy": "Windy"
+    "windy": "Windy",
+    "noData": "No data"
   },
   "direction": {
     "n": "N",

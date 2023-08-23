@@ -51,6 +51,12 @@ export class WeatherBar extends LitElement {
   @property({ type: Number })
   label_spacing = 2;
 
+  @property({ type: Number })
+  num_empty_segments_leading = 0;
+
+  @property({ type: Number })
+  num_empty_segments_trailing = 0;
+
   @property({ type: Object })
   labels = LABELS;
 
@@ -58,8 +64,16 @@ export class WeatherBar extends LitElement {
 
   render() {
     const conditionBars: TemplateResult[] = [];
+    const emptyLabel = this.labels['empty'];
     let gridStart = 1;
     if (!this.hide_bar) {
+      if (this.num_empty_segments_leading > 0) {
+        const barStylesEmpty: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += this.num_empty_segments_leading * 2) };
+        conditionBars.push(html`
+          <div class="empty" style=${styleMap(barStylesEmpty)} data-tippy-content=${emptyLabel}></div>
+        `);
+      }
+
       for (const cond of this.conditions) {
         const label = this.labels[cond[0]];
         let icon = ICONS[cond[0]];
@@ -74,11 +88,35 @@ export class WeatherBar extends LitElement {
           </div>
         `);
       }
+
+      if (this.num_empty_segments_trailing > 0) {
+        const barStylesEmpty: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += this.num_empty_segments_trailing * 2) };
+        conditionBars.push(html`
+          <div class="empty" style=${styleMap(barStylesEmpty)} data-tippy-content=${emptyLabel}></div>
+        `);
+      }
     }
 
     const windCfg = this.show_wind ?? '';
     const barBlocks: TemplateResult[] = [];
     let lastDate: string | null = null;
+
+    for (let i = 0; i < this.num_empty_segments_leading; i += 1) {
+      barBlocks.push(html`
+        <div class="bar-block">
+          <div class="bar-block-left bar-block-empty"></div>
+          <div class="bar-block-right bar-block-empty"></div>
+          <div class="bar-block-bottom bar-block-empty">
+            <div class="date"></div>
+            <div class="hour"></div>
+            <div class="temperature"></div>
+            <div class="wind"></div>
+            <div class="precipitation"></div>
+          </div>
+        </div>
+      `);
+    }
+
     for (let i = 0; i < this.temperatures.length; i += 1) {
       const skipLabel = i % (this.label_spacing) !== 0;
       const hideHours = this.hide_hours || skipLabel;
@@ -131,6 +169,22 @@ export class WeatherBar extends LitElement {
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
             <div class="wind">${wind}</div>
             <div class="precipitation">${precipitation}</div>
+          </div>
+        </div>
+      `);
+    }
+
+    for (let i = 0; i < this.num_empty_segments_trailing; i += 1) {
+      barBlocks.push(html`
+        <div class="bar-block">
+          <div class="bar-block-left bar-block-empty"></div>
+          <div class="bar-block-right bar-block-empty"></div>
+          <div class="bar-block-bottom bar-block-empty">
+            <div class="date"></div>
+            <div class="hour"></div>
+            <div class="temperature"></div>
+            <div class="wind"></div>
+            <div class="precipitation"></div>
           </div>
         </div>
       `);
@@ -203,6 +257,8 @@ export class WeatherBar extends LitElement {
       --color-windy: var(--color-sunny);
       --color-windy-variant: var(--color-sunny);
       --color-exceptional: #ff9d00;
+      --color-empty: #aaaaaa;
+      --color-empty-foreground: #dddddd;
     }
     .bar {
       height: 30px;
@@ -299,6 +355,11 @@ export class WeatherBar extends LitElement {
       background-color: var(--color-exceptional);
       color: var(--color-exceptional-foreground, var(--primary-text-color));
     }
+    .empty {
+      background-color: var(--color-empty);
+      background-image: repeating-linear-gradient(135deg, var(--color-empty) 0px, var(--color-empty) 2px, var(--color-empty-foreground, var(--color-empty)) 4px, var(--color-empty-foreground, var(--color-empty)) 6px, var(--color-empty) 8px);
+      color: var(--color-empty-foreground, var(--primary-text-color));
+    }
     .axes {
       display: grid;
       grid-auto-flow: column;
@@ -325,6 +386,9 @@ export class WeatherBar extends LitElement {
       text-align: center;
       grid-area: bottom;
       padding-top: 5px;
+    }
+    .bar-block-empty {
+      border-width: 0px;
     }
     .date, .hour {
       color: var(--secondary-text-color, gray);

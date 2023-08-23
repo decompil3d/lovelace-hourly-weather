@@ -124,9 +124,6 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         .configValue=${'offset'}
         @input=${this._valueChanged}
         .type=${'number'}
-        .min=${0}
-        .autoValidate=${true}
-        validationMessage=${localize('errors.must_be_positive_int')}
       ></mwc-textfield>
       <mwc-textfield
       label=${localize('editor.label_spacing')}

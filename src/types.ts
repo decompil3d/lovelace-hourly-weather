@@ -58,6 +58,7 @@ export interface ColorConfig {
   'windy'?: ColorDefinition;
   'windy-variant'?: ColorDefinition;
   'exceptional'?: ColorDefinition;
+  'empty'?: ColorDefinition;
 }
 
 export interface ForecastSegment {

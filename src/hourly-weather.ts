@@ -238,20 +238,18 @@ export class HourlyWeatherCard extends LitElement {
     const precipitationUnit = state.attributes.precipitation_unit ?? '';
     const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
     const offset = parseInt(config.offset ?? '0', 10);
+    const numEmptySegmentsLeading = Math.min(numSegments, Math.max(0, -offset));
     const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
     const forecastNotAvailable = !forecast || !forecast.length;
+
+    // Adjust numSegments to only load the required number after the empty segments
+    const offsetAdjusted = Math.max(0, offset);
+    const numSegmentsAdjusted = Math.max(0,Math.min(numSegments - numEmptySegmentsLeading, forecast.length - offsetAdjusted));
+    const numEmptySegmentsTrailing = numSegments - (numSegmentsAdjusted + numEmptySegmentsLeading);
 
     if (numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'num_segments'));
-    }
-
-    if (offset < 0) {
-      return await this._showError(this.localize('errors.offset_must_be_positive_int'));
-    }
-
-    if (!forecastNotAvailable && numSegments > (forecast.length - offset)) {
-      return await this._showError(this.localize('errors.too_many_segments_requested'));
     }
 
     if (labelSpacing < 1) {
@@ -283,10 +281,10 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     const isForecastDaily = this.isForecastDaily(forecast);
-    const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
-    const temperatures = this.getTemperatures(forecast, numSegments, offset);
-    const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit);
-    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit);
+    const conditionList = this.getConditionListFromForecast(forecast, numSegmentsAdjusted, offsetAdjusted);
+    const temperatures = this.getTemperatures(forecast, numSegmentsAdjusted, offsetAdjusted);
+    const wind = this.getWind(forecast, numSegmentsAdjusted, offsetAdjusted, windSpeedUnit);
+    const precipitation = this.getPrecipitation(forecast, numSegmentsAdjusted, offsetAdjusted, precipitationUnit);
 
     const colorSettings = this.getColorSettings(config.colors);
 
@@ -322,6 +320,8 @@ export class HourlyWeatherCard extends LitElement {
             .show_precipitation_probability=${!!config.show_precipitation_probability}
             .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
+            .num_empty_segments_leading=${numEmptySegmentsLeading}
+            .num_empty_segments_trailing=${numEmptySegmentsTrailing}
             .labels=${this.labels}></weather-bar>
         </div>
       </ha-card>
@@ -329,6 +329,9 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private getConditionListFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): ConditionSpan[] {
+    if (numSegments < 1) {
+      return [];
+    }
     let lastCond: string = forecast[offset].condition;
     let j = 0;
     const res: ConditionSpan[] = [[lastCond, 1]];
@@ -346,6 +349,9 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private getTemperatures(forecast: ForecastSegment[], numSegments: number, offset: number): SegmentTemperature[] {
+    if (numSegments < 1) {
+      return [];
+    }
     const temperatures: SegmentTemperature[] = [];
     for (let i = offset; i < numSegments + offset; i++) {
       const fs = forecast[i];
@@ -360,6 +366,9 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string): SegmentPrecipitation[] {
+    if (numSegments < 1) {
+      return [];
+    }
     const precipitation: SegmentPrecipitation[] = [];
     for (let i = offset; i < numSegments + offset; i++) {
       const fs = forecast[i];
@@ -384,6 +393,9 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private getWind(forecast: ForecastSegment[], numSegments: number, offset: number, speedUnit: string): SegmentWind[] {
+    if (numSegments < 1) {
+      return [];
+    }
     const wind: SegmentWind[] = [];
     for (let i = offset; i < numSegments + offset; i++) {
       const fs = forecast[i];
