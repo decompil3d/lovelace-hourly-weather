@@ -101,22 +101,8 @@ export class WeatherBar extends LitElement {
     const barBlocks: TemplateResult[] = [];
     let lastDate: string | null = null;
 
-    for (let i = 0; i < this.num_empty_segments_leading; i += 1) {
-      barBlocks.push(html`
-        <div class="bar-block">
-          <div class="bar-block-left bar-block-empty"></div>
-          <div class="bar-block-right bar-block-empty"></div>
-          <div class="bar-block-bottom bar-block-empty">
-            <div class="date"></div>
-            <div class="hour"></div>
-            <div class="temperature"></div>
-            <div class="wind"></div>
-            <div class="precipitation"></div>
-          </div>
-        </div>
-      `);
-    }
-
+    barBlocks.push(...this.renderEmptySegmentBarBlocks(this.num_empty_segments_leading));
+    
     for (let i = 0; i < this.temperatures.length; i += 1) {
       const skipLabel = i % (this.label_spacing) !== 0;
       const hideHours = this.hide_hours || skipLabel;
@@ -159,37 +145,19 @@ export class WeatherBar extends LitElement {
       if (showPrecipitationProbability) precipitation.push(
         html`<span title=${precipitationProbabilityText}>${precipitationProbability}</span>`);
 
-      barBlocks.push(html`
-        <div class="bar-block">
-          <div class="bar-block-left"></div>
-          <div class="bar-block-right"></div>
-          <div class="bar-block-bottom">
-            <div class="date">${renderedDate}</div>
-            <div class="hour">${hideHours ? null : hour}</div>
-            <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
-            <div class="wind">${wind}</div>
-            <div class="precipitation">${precipitation}</div>
-          </div>
-        </div>
-      `);
+      barBlocks.push(
+        this.renderBarBlock(
+          renderedDate, 
+          hideHours ? null : hour, 
+          hideTemperature ? null : html`${temperature}&deg;`,
+          wind,
+          precipitation
+          )
+      );
     }
-
-    for (let i = 0; i < this.num_empty_segments_trailing; i += 1) {
-      barBlocks.push(html`
-        <div class="bar-block">
-          <div class="bar-block-left bar-block-empty"></div>
-          <div class="bar-block-right bar-block-empty"></div>
-          <div class="bar-block-bottom bar-block-empty">
-            <div class="date"></div>
-            <div class="hour"></div>
-            <div class="temperature"></div>
-            <div class="wind"></div>
-            <div class="precipitation"></div>
-          </div>
-        </div>
-      `);
-    }
-
+    
+    barBlocks.push(...this.renderEmptySegmentBarBlocks(this.num_empty_segments_trailing));
+    
     let colorStyles: TemplateResult | null = null;
     if (this.colors) {
       colorStyles = this.getColorStyles(this.colors);
@@ -238,6 +206,37 @@ export class WeatherBar extends LitElement {
     return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="70 40 120 120" class="barb" style=${styleMap(svgStyles)}>
       ${getWindBarbSVG(speed)}
     </svg>`;
+  }
+
+  private renderBarBlock(date: string | TemplateResult | TemplateResult[] | null, 
+    hour: string | TemplateResult | TemplateResult[] | null,
+    temperature: string | TemplateResult | TemplateResult[] | null,
+    wind: string | TemplateResult | TemplateResult[] | null,
+    precipitation: string | TemplateResult | TemplateResult[] | null,
+    emptyBlock: boolean = false
+    ) : TemplateResult {
+      const emptyBlockClass : string = emptyBlock ? ' bar-block-empty' : '';
+      return html`
+      <div class="bar-block">
+        <div class="bar-block-left${emptyBlockClass}"></div>
+        <div class="bar-block-right${emptyBlockClass}"></div>
+        <div class="bar-block-bottom${emptyBlockClass}">
+          <div class="date">${date}</div>
+          <div class="hour">${hour}</div>
+          <div class="temperature">${temperature}</div>
+          <div class="wind">${wind}</div>
+          <div class="precipitation">${precipitation}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderEmptySegmentBarBlocks(count: number): TemplateResult[] {
+    const result: TemplateResult[] = [];
+    for (let i = 0; i < count; i += 1) {
+      result.push(this.renderBarBlock(null, null, null, null, null, true));
+    }
+    return result;
   }
 
   static styles = [unsafeCSS(tippyStyles), css`
