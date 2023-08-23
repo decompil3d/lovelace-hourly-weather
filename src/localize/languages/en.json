@@ -23,7 +23,8 @@
     "barb": "As wind barb",
     "barb_and_speed": "As wind barb and speed",
     "barb_and_direction": "As wind barb and direction",
-    "barb_speed_and_direction": "As wind barb, speed, and direction"
+    "barb_speed_and_direction": "As wind barb, speed, and direction",
+    "show_current_weather": "Show current weather"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",
