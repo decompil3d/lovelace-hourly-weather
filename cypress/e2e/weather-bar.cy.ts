@@ -926,4 +926,143 @@ describe('Weather bar', () => {
         });
     });
   });
+  describe('Empty segments', () => {
+    const expectedTemperatures = [
+      84,
+      85,
+      84,
+      79,
+      70,
+      65
+    ];
+    it('shows empty segments at the beginning if offset < 0', () => {
+      cy.configure({
+        offset: '-1'
+      });
+      
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.bar > div:first-child')
+        .should('have.css', 'grid-column-start', '1')
+        .should('have.css', 'grid-column-end', '3')
+        .should('have.attr', 'data-tippy-content', 'No data')
+        .should('have.class', 'empty');
+    });
+    it('aligns forecast segments correctly if offset < 0', () => {
+      cy.configure({
+        offset: '-1'
+      });
+      
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.temperature')
+        .should('have.length', 12)
+        .each((el, i) => {
+          if (i % 2 === 1) {
+            cy.wrap(el).should('have.text', expectedTemperatures[(i - 1) / 2] + '°');
+          }
+        });
+    });
+
+    it('fills the entire bar if offset < -num_segments', () => {
+      cy.configure({
+        offset: '-20'
+      });
+      
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.bar > div')
+        .should('have.length', 1)
+        .should('have.css', 'grid-column-start', '1')
+        .should('have.css', 'grid-column-end', '25')
+        .should('have.attr', 'data-tippy-content', 'No data')
+        .should('have.class', 'empty');
+    });
+
+
+    it('shows empty segments at the end if (offset + num_segments) > available data', () => {
+      cy.configure({
+        offset: '40'
+      });
+      
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.bar > div:last-child')
+        .should('have.css', 'grid-column-start', '17')
+        .should('have.css', 'grid-column-end', '25')
+        .should('have.attr', 'data-tippy-content', 'No data')
+        .should('have.class', 'empty');
+    });
+
+    it('fills the entire bar if offset > available forecast data', () => {
+      cy.configure({
+        offset: '50'
+      });
+      
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.bar > div')
+        .should('have.length', 1)
+        .should('have.css', 'grid-column-start', '1')
+        .should('have.css', 'grid-column-end', '25')
+        .should('have.attr', 'data-tippy-content', 'No data')
+        .should('have.class', 'empty');
+    });
+    it('hides axes for empty segment at start', () => {
+      cy.configure({
+        offset: '-1'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block > div.bar-block-left, div.axes > div.bar-block > div.bar-block-right')
+        .should('have.length', 24)
+        .each((el, i) => {
+          if (i < 2) {
+            cy.wrap(el).should('have.class', 'bar-block-empty');
+          } else {
+            cy.wrap(el).should('not.have.class', 'bar-block-empty');
+          }
+        });
+    });
+    it('hides axes for empty segment at end', () => {
+      cy.configure({
+        offset: '40'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block > div.bar-block-left, div.axes > div.bar-block > div.bar-block-right')
+        .should('have.length', 24)
+        .each((el, i) => {
+          if (i >= 16) {
+            cy.wrap(el).should('have.class', 'bar-block-empty');
+          } else {
+            cy.wrap(el).should('not.have.class', 'bar-block-empty');
+          }
+        });
+    });
+    it('hides axes for empty segment filling the entire bar (offset < num_segments)', () => {
+      cy.configure({
+        offset: '-20'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block > div.bar-block-left, div.axes > div.bar-block > div.bar-block-right')
+        .should('have.length', 24)
+        .each((el) => {
+          cy.wrap(el).should('have.class', 'bar-block-empty');
+        });
+    });
+    it('hides axes for empty segment filling the entire bar (offset > available data)', () => {
+      cy.configure({
+        offset: '50'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block > div.bar-block-left, div.axes > div.bar-block > div.bar-block-right')
+        .should('have.length', 24)
+        .each((el) => {
+          cy.wrap(el).should('have.class', 'bar-block-empty');
+        });
+    });
+  });
 });
