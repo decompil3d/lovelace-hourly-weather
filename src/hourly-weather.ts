@@ -242,11 +242,6 @@ export class HourlyWeatherCard extends LitElement {
     const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
     const forecastNotAvailable = !forecast || !forecast.length;
 
-    // Adjust numSegments to only load the required number after the empty segments
-    const offsetAdjusted = Math.max(0, offset);
-    const numSegmentsAdjusted = Math.max(0,Math.min(numSegments - numEmptySegmentsLeading, forecast.length - offsetAdjusted));
-    const numEmptySegmentsTrailing = numSegments - (numSegmentsAdjusted + numEmptySegmentsLeading);
-
     if (numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'num_segments'));
@@ -279,6 +274,11 @@ export class HourlyWeatherCard extends LitElement {
           </div>
         </ha-card>`;
     }
+
+    // Adjust numSegments to only load the required number after the empty segments
+    const offsetAdjusted = Math.max(0, offset);
+    const numSegmentsAdjusted = Math.max(0,Math.min(numSegments - numEmptySegmentsLeading, forecast.length - offsetAdjusted));
+    const numEmptySegmentsTrailing = numSegments - (numSegmentsAdjusted + numEmptySegmentsLeading);
 
     const isForecastDaily = this.isForecastDaily(forecast);
     const conditionList = this.getConditionListFromForecast(forecast, numSegmentsAdjusted, offsetAdjusted);
