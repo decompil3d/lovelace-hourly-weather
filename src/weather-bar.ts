@@ -320,6 +320,8 @@ export class WeatherBar extends LitElement {
     }
     .bar-block-right {
       grid-area: right;
+      border: 1px solid var(--divider-color, lightgray);
+      border-width: 0 0 0 1px;
     }
     .bar-block-bottom {
       text-align: center;
