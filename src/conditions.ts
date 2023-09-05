@@ -13,7 +13,8 @@ export const LABELS = {
   'sunny': 'conditions.sunny',
   'windy': 'conditions.windy',
   'windy-variant': 'conditions.windy',
-  'exceptional': 'conditions.clear'
+  'exceptional': 'conditions.clear',
+  'empty': 'conditions.noData'
 };
 export const ICONS = {
   'clear-night': 'weather-night',

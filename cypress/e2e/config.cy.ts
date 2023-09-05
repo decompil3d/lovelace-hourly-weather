@@ -13,34 +13,6 @@ describe('Config', () => {
       .find('p')
       .should('have.text', 'num_segments must be a positive integer');
   });
-  it('errors for offset < 0', () => {
-    cy.configure({
-      offset: '-1'
-    });
-    cy.get('hui-error-card')
-      .shadow()
-      .find('p')
-      .should('have.text', 'offset must be a positive integer');
-  });
-  it('errors for num_segments > forecast length', () => {
-    cy.configure({
-      num_segments: '50'
-    });
-    cy.get('hui-error-card')
-      .shadow()
-      .find('p')
-      .should('have.text', 'Too many forecast segments requested in num_segments. Must be <= number of segments in forecast entity.');
-  });
-  it('errors for num_segments > forecast length - offset', () => {
-    cy.configure({
-      num_segments: '12',
-      offset: '50'
-    });
-    cy.get('hui-error-card')
-      .shadow()
-      .find('p')
-      .should('have.text', 'Too many forecast segments requested in num_segments. Must be <= number of segments in forecast entity.');
-  });
   it('errors for wind barbs when entity uses cardinal directions for wind bearing', () => {
     cy.addEntity({
       'weather.wind_bearing_string': {

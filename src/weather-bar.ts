@@ -51,6 +51,12 @@ export class WeatherBar extends LitElement {
   @property({ type: Number })
   label_spacing = 2;
 
+  @property({ type: Number })
+  num_empty_segments_leading = 0;
+
+  @property({ type: Number })
+  num_empty_segments_trailing = 0;
+
   @property({ type: Object })
   labels = LABELS;
 
@@ -58,8 +64,16 @@ export class WeatherBar extends LitElement {
 
   render() {
     const conditionBars: TemplateResult[] = [];
+    const emptyLabel = this.labels['empty'];
     let gridStart = 1;
     if (!this.hide_bar) {
+      if (this.num_empty_segments_leading > 0) {
+        const barStylesEmpty: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += this.num_empty_segments_leading * 2) };
+        conditionBars.push(html`
+          <div class="empty" style=${styleMap(barStylesEmpty)} data-tippy-content=${emptyLabel}></div>
+        `);
+      }
+
       for (const cond of this.conditions) {
         const label = this.labels[cond[0]];
         let icon = ICONS[cond[0]];
@@ -74,11 +88,21 @@ export class WeatherBar extends LitElement {
           </div>
         `);
       }
+
+      if (this.num_empty_segments_trailing > 0) {
+        const barStylesEmpty: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += this.num_empty_segments_trailing * 2) };
+        conditionBars.push(html`
+          <div class="empty" style=${styleMap(barStylesEmpty)} data-tippy-content=${emptyLabel}></div>
+        `);
+      }
     }
 
     const windCfg = this.show_wind ?? '';
     const barBlocks: TemplateResult[] = [];
     let lastDate: string | null = null;
+
+    barBlocks.push(...this.renderEmptySegmentBarBlocks(this.num_empty_segments_leading));
+    
     for (let i = 0; i < this.temperatures.length; i += 1) {
       const skipLabel = i % (this.label_spacing) !== 0;
       const hideHours = this.hide_hours || skipLabel;
@@ -121,21 +145,19 @@ export class WeatherBar extends LitElement {
       if (showPrecipitationProbability) precipitation.push(
         html`<span title=${precipitationProbabilityText}>${precipitationProbability}</span>`);
 
-      barBlocks.push(html`
-        <div class="bar-block">
-          <div class="bar-block-left"></div>
-          <div class="bar-block-right"></div>
-          <div class="bar-block-bottom">
-            <div class="date">${renderedDate}</div>
-            <div class="hour">${hideHours ? null : hour}</div>
-            <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
-            <div class="wind">${wind}</div>
-            <div class="precipitation">${precipitation}</div>
-          </div>
-        </div>
-      `);
+      barBlocks.push(
+        this.renderBarBlock(
+          renderedDate, 
+          hideHours ? null : hour, 
+          hideTemperature ? null : html`${temperature}&deg;`,
+          wind,
+          precipitation
+          )
+      );
     }
-
+    
+    barBlocks.push(...this.renderEmptySegmentBarBlocks(this.num_empty_segments_trailing));
+    
     let colorStyles: TemplateResult | null = null;
     if (this.colors) {
       colorStyles = this.getColorStyles(this.colors);
@@ -186,6 +208,37 @@ export class WeatherBar extends LitElement {
     </svg>`;
   }
 
+  private renderBarBlock(date: string | TemplateResult | TemplateResult[] | null, 
+    hour: string | TemplateResult | TemplateResult[] | null,
+    temperature: string | TemplateResult | TemplateResult[] | null,
+    wind: string | TemplateResult | TemplateResult[] | null,
+    precipitation: string | TemplateResult | TemplateResult[] | null,
+    emptyBlock: boolean = false
+    ) : TemplateResult {
+      const emptyBlockClass : string = emptyBlock ? ' bar-block-empty' : '';
+      return html`
+      <div class="bar-block">
+        <div class="bar-block-left${emptyBlockClass}"></div>
+        <div class="bar-block-right${emptyBlockClass}"></div>
+        <div class="bar-block-bottom${emptyBlockClass}">
+          <div class="date">${date}</div>
+          <div class="hour">${hour}</div>
+          <div class="temperature">${temperature}</div>
+          <div class="wind">${wind}</div>
+          <div class="precipitation">${precipitation}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderEmptySegmentBarBlocks(count: number): TemplateResult[] {
+    const result: TemplateResult[] = [];
+    for (let i = 0; i < count; i += 1) {
+      result.push(this.renderBarBlock(null, null, null, null, null, true));
+    }
+    return result;
+  }
+
   static styles = [unsafeCSS(tippyStyles), css`
     .main {
       --color-clear-night: #111;
@@ -203,6 +256,8 @@ export class WeatherBar extends LitElement {
       --color-windy: var(--color-sunny);
       --color-windy-variant: var(--color-sunny);
       --color-exceptional: #ff9d00;
+      --color-empty: #aaaaaa;
+      --color-empty-foreground: #dddddd;
     }
     .bar {
       height: 30px;
@@ -299,6 +354,11 @@ export class WeatherBar extends LitElement {
       background-color: var(--color-exceptional);
       color: var(--color-exceptional-foreground, var(--primary-text-color));
     }
+    .empty {
+      background-color: var(--color-empty);
+      background-image: repeating-linear-gradient(135deg, var(--color-empty) 0px, var(--color-empty) 2px, var(--color-empty-foreground, var(--color-empty)) 4px, var(--color-empty-foreground, var(--color-empty)) 6px, var(--color-empty) 8px);
+      color: var(--color-empty-foreground, var(--primary-text-color));
+    }
     .axes {
       display: grid;
       grid-auto-flow: column;
@@ -327,6 +387,9 @@ export class WeatherBar extends LitElement {
       text-align: center;
       grid-area: bottom;
       padding-top: 5px;
+    }
+    .bar-block-empty {
+      border-width: 0px;
     }
     .date, .hour {
       color: var(--secondary-text-color, gray);
