@@ -58,6 +58,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.icons ?? false;
   }
 
+  get _show_current(): boolean {
+    return this._config?.show_current ?? false;
+  }
+
   get _show_wind(): WindType {
     return this._config?.show_wind ?? 'false';
   }
@@ -177,6 +181,13 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         <mwc-switch
           .checked=${this._show_precipitation_probability === true}
           .configValue=${'show_precipitation_probability'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${localize('editor.show_current_weather')}>
+        <mwc-switch
+          .checked=${this._show_current === true}
+          .configValue=${'show_current'}
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>

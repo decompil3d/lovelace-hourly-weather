@@ -20,6 +20,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   icons?: boolean;
   offset?: string; // number
   colors?: ColorConfig;
+  show_current?: boolean;
   hide_bar?: boolean;
   hide_hours?: boolean;
   hide_temperatures?: boolean;

@@ -233,7 +233,19 @@ export class HourlyWeatherCard extends LitElement {
 
     const entityId: string = config.entity;
     const state = this.hass.states[entityId];
-    const { forecast } = state.attributes as { forecast: ForecastSegment[] };
+    const forecast_only = state.attributes.forecast as ForecastSegment[];
+    const current: ForecastSegment = {
+      clouds: state.attributes.clouds, // 100
+      condition: state.state as string, // "cloudy"
+      datetime: state.last_updated, // "2022-06-03T22:00:00+00:00"
+      precipitation: state.attributes.precipitation, // 0
+      precipitation_probability: state.attributes.precipitation_probability, // 85
+      pressure: state.attributes.pressure, // 1007
+      temperature: state.attributes.temperature, // 61
+      wind_bearing: state.attributes.wind_bearing, // 153 | 'SSW'
+      wind_speed: state.attributes.wind_speed, // 3.06
+    };
+    const forecast = config.show_current === true ? [current, ...forecast_only] : forecast_only;
     const windSpeedUnit = state.attributes.wind_speed_unit ?? '';
     const precipitationUnit = state.attributes.precipitation_unit ?? '';
     const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
