@@ -27,7 +27,6 @@
   },
   "errors": {
     "missing_entity": "Entité manquante dans la configuration",
-    "daily_forecasts": "L'entité sélectionnée semble fournir des prévisions quotidiennes. Envisagez de passer à une entité fournissant des prévisions par heure.",
     "must_be_int": "Doit être un nombre entier pair supérieur ou égal à 2",
     "invalid_colors": "Les couleurs suivantes dans votre configuration ne sont pas valides :",
     "must_be_positive_int": "Doit être un entier positif",

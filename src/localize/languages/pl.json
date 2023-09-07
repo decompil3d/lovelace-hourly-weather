@@ -27,7 +27,6 @@
   },
   "errors": {
     "missing_entity": "encja nie istnieje",
-    "daily_forecasts": "Wybrana encja dostarcza pogodę dniową, wybierz encję z pogodą godzinową.",
     "must_be_int": "Musi być parzystą liczbą całkowitą większą lub równą 2",
     "invalid_colors": "Następujące kolory w Twojej konfiguracji są nieprawidłowe:",
     "must_be_positive_int": "Musi być dodatnią liczbą całkowitą",

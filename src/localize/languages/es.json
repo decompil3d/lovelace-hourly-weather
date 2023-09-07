@@ -27,7 +27,6 @@
   },
   "errors": {
     "missing_entity": "falta la entidad en la configuración",
-    "daily_forecasts": "La entidad seleccionada parece proveer pronósticos diarios. Considera cambiar a una entidad que provea pronósticos cada hora.",
     "must_be_int": "Debe ser un entero mayor o igual a 2",
     "invalid_colors": "Los siguientes colores en su configuración no son válidos:",
     "must_be_positive_int": "Debe ser un entero positivo",

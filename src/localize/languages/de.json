@@ -27,7 +27,6 @@
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",
-    "daily_forecasts": "Die gewählte Wetter-Entität scheint tägliche Vorhersagen zu liefern. Bitte eine Wetter-Entität mit stündlicher Vorhersage wählen.",
     "must_be_int": "Muss eine gerade ganze Zahl größer oder gleich 2 sein.",
     "invalid_colors": "Die folgenden Farben in Ihrer Konfiguration sind ungültig:",
     "must_be_positive_int": "Muss eine positive Ganzzahl sein",

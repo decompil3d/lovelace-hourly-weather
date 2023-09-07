@@ -25,10 +25,29 @@
     const h = document.createElement('hourly-weather');
     const now = new Date();
     now.setMinutes(0);
+    /**
+     * @typedef {{ type: 'render_remplate', template: string}} TemplateSubscribeMessageOpts
+     * @typedef {{ type: 'weather/subscribe_forecast', forecast_type: string, entity_id: string}} ForecastSubscribeMessageOpts
+     * @typedef {TemplateSubscribeMessageOpts | ForecastSubscribeMessageOpts} SubscribeMessageOpts
+     */
     h.hass = {
       connection: {
-        subscribeMessage: (/** @type {(msg: string) => void} */ cb, /** @type {{template: string}} */ { template }) => {
-          cb({ result: 'TEMPLATE:' + template.replace(/\{\{\s*/, '').replace(/\s*\}\}/, '') });
+        subscribeMessage: (/** @type {(msg: string) => void} */ cb, /** @type {SubscribeMessageOpts} */ { type, template, forecast_type, entity_id }) => {
+          if (type === 'render_template') {
+            cb({ result: 'TEMPLATE:' + template.replace(/\{\{\s*/, '').replace(/\s*\}\}/, '') });
+            return;
+          }
+          if (type === 'weather/subscribe_forecast') {
+            window.lastForecastSubCallback = cb;
+            cb({
+              forecast: window.HWForecasts[entity_id] ?? h.hass.states[entity_id].attributes.forecast
+            });
+            return {
+              then(/** @type {(unsub: () => void) => void} **/ f) {
+                f(function noop_unsub() {});
+              }
+            }
+          }
         },
       },
       states: {
@@ -581,7 +600,17 @@
           ...h.hass.states,
           ...entity
         }
-      }
+      };
+      window.HWForecasts = {};
+      window.addHWForecast = (entityId, forecast) => window.HWForecasts[entityId] = forecast;
+      window.enableHWForecastSubscriptions = () => h.hass = {
+        ...h.hass,
+        services: {
+          weather: {
+            get_forecast: () => {}
+          }
+        }
+      };
       window.setHWLocale = locale => h.hass = {
         ...h.hass,
         locale: {
@@ -594,6 +623,11 @@
         entity: 'weather.mock',
         num_segments: 12
       });
+      window.updateLastForecastSubscription = forecast => {
+        window.lastForecastSubCallback({
+          forecast
+        });
+      };
       window.appReady = true;
     });
   </script>

@@ -78,6 +78,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.label_spacing ?? '2';
   }
 
+  get _show_date(): string {
+    return this._config?.show_date ?? 'false';
+  }
+
   protected render(): TemplateResult | void {
     if (!this.hass || !this._helpers) {
       return html``;
@@ -165,6 +169,20 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         <mwc-list-item value="barb-and-speed">${localize('editor.barb_and_speed')}</mwc-list-item>
         <mwc-list-item value="barb-and-direction">${localize('editor.barb_and_direction')}</mwc-list-item>
         <mwc-list-item value="barb-speed-and-direction">${localize('editor.barb_speed_and_direction')}</mwc-list-item>
+      </mwc-select>
+      <mwc-select
+        naturalMenuWidth
+        fixedMenuPosition
+        label=${localize('editor.show_date')}
+        .configValue=${'show_date'}
+        .value=${this._show_date}
+        @selected=${this._valueChanged}
+        @closed=${(ev) => ev.stopPropagation()}
+      >
+        <mwc-list-item></mwc-list-item>
+        <mwc-list-item value="false">${localize('editor.none')}</mwc-list-item>
+        <mwc-list-item value="all">${localize('editor.all')}</mwc-list-item>
+        <mwc-list-item value="boundary">${localize('editor.on_day_boundaries')}</mwc-list-item>
       </mwc-select>
       <mwc-formfield .label=${localize('editor.show_precipitation_amounts')}>
         <mwc-switch

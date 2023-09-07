@@ -28,7 +28,6 @@
     "errors": {
       "missing_entity": "entitet mangler i konfiguration",
       "too_many_segments_requested": "For mange segmenter forespurgt i num_segments. Skal være mindre eller lig antal segmenter i vejrudsigtsentiteten.",
-      "daily_forecasts": "Den valgte vejrudsigtsentitet ser ud til at have daglige vejrudsigter. Overvej at skifte til en med timeudsigter.",
       "must_be_int": "Skal være et heltal størrere end eller lig 2",
       "invalid_colors": "Føglende farver i din konfiguration er ugyldige:",
       "must_be_positive_int": "Skal være et positivt heltal",

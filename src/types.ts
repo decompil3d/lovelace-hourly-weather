@@ -16,6 +16,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   /** @deprecated Use num_segments instead */
   num_hours?: string; // number
   num_segments?: string; // number
+  forecast_type?: ForecastType;
   name?: string;
   icons?: boolean;
   offset?: string; // number
@@ -112,4 +113,11 @@ export interface RenderTemplateResult {
 export interface LocalizerLastSettings {
   configuredLanguage: string | undefined,
   haServerLanguage: string | undefined
+}
+
+export type ForecastType = "hourly" | "daily" | "twice_daily";
+
+export interface ForecastEvent {
+  type: ForecastType;
+  forecast: [ForecastSegment] | null;
 }

@@ -27,7 +27,6 @@
   },
   "errors": {
     "missing_entity": "entità mancante nella configurazione",
-    "daily_forecasts": "L'entità meteo selezionata sembra fornire previsioni giornaliere. Prendi in considerazione il passaggio a un'entità oraria.",
     "must_be_int": "Deve essere un numero intero pari, maggiore o uguale a 2",
     "invalid_colors": "I seguenti colori nella tua configurazione non sono validi:",
     "must_be_positive_int": "Deve essere un numero intero positivo",
