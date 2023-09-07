@@ -24,15 +24,15 @@ import type {
   ColorObject,
   ColorSettings,
   ConditionSpan,
+  ForecastEvent,
   ForecastSegment,
+  ForecastType,
   HourlyWeatherCardConfig,
   LocalizerLastSettings,
   RenderTemplateResult,
+  SegmentPrecipitation,
   SegmentTemperature,
   SegmentWind,
-  SegmentPrecipitation,
-  ForecastEvent,
-  ForecastType,
 } from './types';
 import { actionHandler } from './action-handler-directive';
 import { version } from '../package.json';
@@ -337,7 +337,7 @@ export class HourlyWeatherCard extends LitElement {
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
     }
 
-    if (config.show_wind?.includes('barb') && typeof forecast?.[0].wind_bearing === 'string') {
+    if (config.show_wind?.includes?.('barb') && typeof forecast?.[0].wind_bearing === 'string') {
       return await this._showError(this.localize('errors.no_wind_barbs_with_string_bearing'));
     }
 
