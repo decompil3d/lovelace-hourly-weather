@@ -23,7 +23,10 @@
     "speed_and_direction": "Vitesse et orientation",
     "barb_and_speed": "Comme barbe de vent et vitesse",
     "barb_and_direction": "Comme barbillon de vent et direction",
-    "barb_speed_and_direction": "Comme barbillon de vent, vitesse et direction"
+    "barb_speed_and_direction": "Comme barbillon de vent, vitesse et direction",
+    "show_date": "Afficher les dates",
+    "all": "Tous",
+    "on_day_boundaries": "Aux limites du jour"
   },
   "errors": {
     "missing_entity": "Entité manquante dans la configuration",

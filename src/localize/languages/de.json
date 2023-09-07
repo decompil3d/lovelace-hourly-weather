@@ -23,7 +23,10 @@
     "speed_and_direction": "Geschwindigkeit und Richtung",
     "barb_and_speed": "Als Windwiderhaken und Geschwindigkeit",
     "barb_and_direction": "Als Windwiderhaken und Richtung",
-    "barb_speed_and_direction": "Als Windwiderstand, Geschwindigkeit und Richtung"
+    "barb_speed_and_direction": "Als Windwiderstand, Geschwindigkeit und Richtung",
+    "show_date": "Termine anzeigen",
+    "all": "Alle",
+    "on_day_boundaries": "An Tagesgrenzen"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",

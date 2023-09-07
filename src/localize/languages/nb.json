@@ -23,7 +23,10 @@
     "speed_and_direction": "Fart og retning",
     "barb_and_speed": "Som vindmottak og fart",
     "barb_and_direction": "Som vindmottak og retning",
-    "barb_speed_and_direction": "Som vindmothak, hastighet og retning"
+    "barb_speed_and_direction": "Som vindmothak, hastighet og retning",
+    "show_date": "Vis datoer",
+    "all": "Alle",
+    "on_day_boundaries": "På dagsgrenser"
   },
   "errors": {
     "missing_entity": "entity mangler i konfigurasjonen",

@@ -23,7 +23,10 @@
     "speed_and_direction": "Snelheid en richting",
     "barb_and_speed": "Zoals wind weerhaak en snelheid",
     "barb_and_direction": "Als windhaak en richting",
-    "barb_speed_and_direction": "Zoals wind weerhaak, snelheid en richting"
+    "barb_speed_and_direction": "Zoals wind weerhaak, snelheid en richting",
+    "show_date": "Datums weergeven",
+    "all": "Alle",
+    "on_day_boundaries": "Op daggrenzen"
   },
   "errors": {
     "missing_entity": "entiteit ontbreekt in configuratie",

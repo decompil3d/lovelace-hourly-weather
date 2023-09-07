@@ -23,7 +23,10 @@
     "barb": "Ako veterný osteň",
     "barb_and_speed": "Ako veterný osteň a rýchlosť",
     "barb_and_direction": "Ako veterný osteň a smer",
-    "barb_speed_and_direction": "Ako veterný osteň, rýchlosť a smer"
+    "barb_speed_and_direction": "Ako veterný osteň, rýchlosť a smer",
+    "show_date": "Zobraziť dátumy",
+    "all": "Všetky",
+    "on_day_boundaries": "Na hraniciach dňa"
   },
   "errors": {
     "missing_entity": "v konfigurácii chýba entita",

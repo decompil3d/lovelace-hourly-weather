@@ -23,7 +23,10 @@
     "speed_and_direction": "Velocità e direzione",
     "barb_and_speed": "Come il vento tagliente e la velocità",
     "barb_and_direction": "Come il vento e la direzione",
-    "barb_speed_and_direction": "Come la punta del vento, la velocità e la direzione"
+    "barb_speed_and_direction": "Come la punta del vento, la velocità e la direzione",
+    "show_date": "Mostra date",
+    "all": "Tutto",
+    "on_day_boundaries": "Sui confini del giorno"
   },
   "errors": {
     "missing_entity": "entità mancante nella configurazione",

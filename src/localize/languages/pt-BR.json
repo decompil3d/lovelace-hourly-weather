@@ -25,7 +25,10 @@
     "speed_and_direction": "Velocidade e direção",
     "barb_and_speed": "Como farpa de vento e velocidade",
     "barb_and_direction": "Como farpa de vento e direção",
-    "barb_speed_and_direction": "Como farpa de vento, velocidade e direção"
+    "barb_speed_and_direction": "Como farpa de vento, velocidade e direção",
+    "show_date": "Mostrar datas",
+    "all": "Todos",
+    "on_day_boundaries": "Nos limites do dia"
   },
   "errors": {
     "missing_entity": "entidade está faltando na configuração",

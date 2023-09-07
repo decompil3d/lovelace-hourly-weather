@@ -23,7 +23,10 @@
     "speed_and_direction": "Sebesség és irány",
     "barb_and_speed": "Szélfogóként és sebességként",
     "barb_and_direction": "Szellőként és irányként",
-    "barb_speed_and_direction": "Szélfogként, sebességként és irányként"
+    "barb_speed_and_direction": "Szélfogként, sebességként és irányként",
+    "show_date": "Dátumok megjelenítése",
+    "all": "Minden",
+    "on_day_boundaries": "A napok határain"
   },
   "errors": {
     "missing_entity": "az entitás hiányzik a konfigurációból",
