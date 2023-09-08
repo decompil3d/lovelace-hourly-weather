@@ -337,7 +337,11 @@ export class HourlyWeatherCard extends LitElement {
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
     }
 
-    if (config.show_wind?.includes?.('barb') && typeof forecast?.[0].wind_bearing === 'string') {
+    let showWind = config.show_wind;
+    if (typeof showWind === 'boolean') {
+      showWind = showWind ? 'true' : 'false';
+    }
+    if (showWind?.includes('barb') && typeof forecast?.[0].wind_bearing === 'string') {
       return await this._showError(this.localize('errors.no_wind_barbs_with_string_bearing'));
     }
 
@@ -392,7 +396,7 @@ export class HourlyWeatherCard extends LitElement {
             .hide_hours=${!!config.hide_hours}
             .hide_temperatures=${!!config.hide_temperatures}
             .hide_bar=${!!config.hide_bar}
-            .show_wind=${config.show_wind}
+            .show_wind=${showWind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}
             .show_date=${config.show_date}

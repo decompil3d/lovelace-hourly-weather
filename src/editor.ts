@@ -59,7 +59,11 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
   }
 
   get _show_wind(): WindType {
-    return this._config?.show_wind ?? 'false';
+    const showWind = this._config?.show_wind;
+    if (typeof showWind === 'boolean') {
+      return showWind ? 'true' : 'false';
+    }
+    return showWind ?? 'false';
   }
 
   get _show_precipitation_amounts(): boolean {

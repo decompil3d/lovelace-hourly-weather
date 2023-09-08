@@ -41,6 +41,33 @@ describe('Config', () => {
       .find('p')
       .should('have.text', 'Too many forecast segments requested in num_segments. Must be <= number of segments in forecast entity.');
   });
+  it('handles boolean values for show_wind', () => {
+    cy.configure({
+      show_wind: true
+    });
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.axes > div.bar-block div.wind')
+      .should('have.length', 12)
+      .each((el, i) => {
+        if (i % 2 === 0) {
+          cy.wrap(el).should('not.be.empty');
+        }
+      });
+
+    cy.configure({
+      show_wind: false
+    });
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.axes > div.bar-block div.wind')
+      .should('have.length', 12)
+      .each((el, i) => {
+        if (i % 2 === 0) {
+          cy.wrap(el).should('be.empty');
+        }
+      });
+  });
   it('errors for wind barbs when entity uses cardinal directions for wind bearing', () => {
     cy.addEntity({
       'weather.wind_bearing_string': {
