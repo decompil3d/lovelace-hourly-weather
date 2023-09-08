@@ -23,11 +23,13 @@
     "speed_and_direction": "Geschwindigkeit und Richtung",
     "barb_and_speed": "Als Windwiderhaken und Geschwindigkeit",
     "barb_and_direction": "Als Windwiderhaken und Richtung",
-    "barb_speed_and_direction": "Als Windwiderstand, Geschwindigkeit und Richtung"
+    "barb_speed_and_direction": "Als Windwiderstand, Geschwindigkeit und Richtung",
+    "show_date": "Termine anzeigen",
+    "all": "Alle",
+    "on_day_boundaries": "An Tagesgrenzen"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",
-    "daily_forecasts": "Die gewählte Wetter-Entität scheint tägliche Vorhersagen zu liefern. Bitte eine Wetter-Entität mit stündlicher Vorhersage wählen.",
     "must_be_int": "Muss eine gerade ganze Zahl größer oder gleich 2 sein.",
     "invalid_colors": "Die folgenden Farben in Ihrer Konfiguration sind ungültig:",
     "must_be_positive_int": "Muss eine positive Ganzzahl sein",

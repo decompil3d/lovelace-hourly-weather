@@ -41,6 +41,33 @@ describe('Config', () => {
       .find('p')
       .should('have.text', 'Too many forecast segments requested in num_segments. Must be <= number of segments in forecast entity.');
   });
+  it('handles boolean values for show_wind', () => {
+    cy.configure({
+      show_wind: true
+    });
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.axes > div.bar-block div.wind')
+      .should('have.length', 12)
+      .each((el, i) => {
+        if (i % 2 === 0) {
+          cy.wrap(el).should('not.be.empty');
+        }
+      });
+
+    cy.configure({
+      show_wind: false
+    });
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.axes > div.bar-block div.wind')
+      .should('have.length', 12)
+      .each((el, i) => {
+        if (i % 2 === 0) {
+          cy.wrap(el).should('be.empty');
+        }
+      });
+  });
   it('errors for wind barbs when entity uses cardinal directions for wind bearing', () => {
     cy.addEntity({
       'weather.wind_bearing_string': {
@@ -215,56 +242,6 @@ describe('Config', () => {
       .find('p')
       .should('have.text', 'Wind barbs are not supported when weather entity uses cardinal directions for wind bearing.');
   });
-  it('warns for daily forecasts', () => {
-    cy.addEntity({
-      'weather.daily': {
-        attributes: {
-          forecast: [{
-            clouds: 100,
-            condition: 'cloudy',
-            datetime: '2022-06-03T22:00:00+00:00',
-            precipitation: 0,
-            precipitation_probability: 85,
-            pressure: 1007,
-            temperature: 61,
-            wind_bearing: 153,
-            wind_speed: 3.06
-          }, {
-            clouds: 100,
-            condition: 'cloudy',
-            datetime: '2022-06-04T22:00:00+00:00',
-            precipitation: 0,
-            precipitation_probability: 85,
-            pressure: 1007,
-            temperature: 61,
-            wind_bearing: 153,
-            wind_speed: 3.06
-          }, {
-            clouds: 100,
-            condition: 'cloudy',
-            datetime: '2022-06-05T22:00:00+00:00',
-            precipitation: 0,
-            precipitation_probability: 85,
-            pressure: 1007,
-            temperature: 61,
-            wind_bearing: 153,
-            wind_speed: 3.06
-          }]
-        }
-      }
-    });
-    cy.configure({
-      entity: 'weather.daily',
-      num_segments: '3'
-    });
-    cy.get('hui-warning')
-      .shadow()
-      .slotAssignedNodes()
-      .should('have.length', 1)
-      .its(0)
-      .its('textContent')
-      .should('eq', 'The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.');
-  });
   it('warns for invalid colors', () => {
     cy.configure({
       colors: {
@@ -389,4 +366,427 @@ describe('Config', () => {
         });
       });
     });
+  describe('Forecast events from subscription', () => {
+    beforeEach(() => {
+      cy.enableForecastSubscriptions();
+    });
+
+    it('uses forecast from subscription when available', () => {
+      cy.addEntity({
+        'weather.fromSub': {
+          attributes: {
+            forecast: [
+              {
+                "datetime": "2022-07-21T17:00:00+00:00",
+                "precipitation": 0.35,
+                "precipitation_probability": 75,
+                "pressure": 1007,
+                "wind_speed": 4.67,
+                "wind_bearing": 255,
+                "condition": "sunny",
+                "clouds": 60,
+                "temperature": 84
+              },
+              {
+                "datetime": "2022-07-21T18:00:00+00:00",
+                "precipitation": 0.35,
+                "precipitation_probability": 75,
+                "pressure": 1007,
+                "wind_speed": 6.07,
+                "wind_bearing": 253,
+                "condition": "sunny",
+                "clouds": 75,
+                "temperature": 85
+              },
+              {
+                "datetime": "2022-07-21T19:00:00+00:00",
+                "precipitation": 1.3,
+                "precipitation_probability": 100,
+                "pressure": 1007,
+                "wind_speed": 6.16,
+                "wind_bearing": 258,
+                "condition": "sunny",
+                "clouds": 60,
+                "temperature": 85
+              },
+              {
+                "datetime": "2022-07-21T20:00:00+00:00",
+                "precipitation": 1.3,
+                "precipitation_probability": 100,
+                "pressure": 1007,
+                "wind_speed": 5.9,
+                "wind_bearing": 278,
+                "condition": "sunny",
+                "clouds": 49,
+                "temperature": 84
+              },
+              {
+                "datetime": "2022-07-21T21:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 15,
+                "pressure": 1007,
+                "wind_speed": 5.78,
+                "wind_bearing": 297,
+                "condition": "sunny",
+                "clouds": 34,
+                "temperature": 84
+              },
+              {
+                "datetime": "2022-07-21T22:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 15,
+                "pressure": 1008,
+                "wind_speed": 5.06,
+                "wind_bearing": 293,
+                "condition": "sunny",
+                "clouds": 19,
+                "temperature": 83
+              }
+            ]
+          }
+        }
+      });
+      cy.addForecast('weather.fromSub', [
+        {
+          "datetime": "2022-07-21T17:00:00+00:00",
+          "precipitation": 0.35,
+          "precipitation_probability": 75,
+          "pressure": 1007,
+          "wind_speed": 4.67,
+          "wind_bearing": 255,
+          "condition": "snowy",
+          "clouds": 60,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T18:00:00+00:00",
+          "precipitation": 0.35,
+          "precipitation_probability": 75,
+          "pressure": 1007,
+          "wind_speed": 6.07,
+          "wind_bearing": 253,
+          "condition": "snowy",
+          "clouds": 75,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T19:00:00+00:00",
+          "precipitation": 1.3,
+          "precipitation_probability": 100,
+          "pressure": 1007,
+          "wind_speed": 6.16,
+          "wind_bearing": 258,
+          "condition": "snowy",
+          "clouds": 60,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T20:00:00+00:00",
+          "precipitation": 1.3,
+          "precipitation_probability": 100,
+          "pressure": 1007,
+          "wind_speed": 5.9,
+          "wind_bearing": 278,
+          "condition": "snowy",
+          "clouds": 49,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T21:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 15,
+          "pressure": 1007,
+          "wind_speed": 5.78,
+          "wind_bearing": 297,
+          "condition": "snowy",
+          "clouds": 34,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T22:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 15,
+          "pressure": 1008,
+          "wind_speed": 5.06,
+          "wind_bearing": 293,
+          "condition": "snowy",
+          "clouds": 19,
+          "temperature": 83
+        }
+      ]);
+
+      cy.configure({
+        entity: 'weather.fromSub',
+        num_segments: '6',
+      });
+
+      // Legacy attributes will have other conditions, but the subscription-based forecast will be snowy
+      cy.get('weather-bar')
+      .shadow()
+      .find('div.bar > div')
+      .each((el) => {
+        cy.wrap(el).invoke('attr', 'data-tippy-content')
+          .should('exist')
+          .and('eq', 'Snow')
+      });
+    });
+
+    it('uses forecast from subscription even when forecast attribute is not on entity', () => {
+      cy.addEntity({
+        'weather.fromSub': {
+          attributes: {}
+        }
+      });
+      cy.addForecast('weather.fromSub', [
+        {
+          "datetime": "2022-07-21T17:00:00+00:00",
+          "precipitation": 0.35,
+          "precipitation_probability": 75,
+          "pressure": 1007,
+          "wind_speed": 4.67,
+          "wind_bearing": 255,
+          "condition": "snowy",
+          "clouds": 60,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T18:00:00+00:00",
+          "precipitation": 0.35,
+          "precipitation_probability": 75,
+          "pressure": 1007,
+          "wind_speed": 6.07,
+          "wind_bearing": 253,
+          "condition": "snowy",
+          "clouds": 75,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T19:00:00+00:00",
+          "precipitation": 1.3,
+          "precipitation_probability": 100,
+          "pressure": 1007,
+          "wind_speed": 6.16,
+          "wind_bearing": 258,
+          "condition": "snowy",
+          "clouds": 60,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T20:00:00+00:00",
+          "precipitation": 1.3,
+          "precipitation_probability": 100,
+          "pressure": 1007,
+          "wind_speed": 5.9,
+          "wind_bearing": 278,
+          "condition": "snowy",
+          "clouds": 49,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T21:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 15,
+          "pressure": 1007,
+          "wind_speed": 5.78,
+          "wind_bearing": 297,
+          "condition": "snowy",
+          "clouds": 34,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T22:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 15,
+          "pressure": 1008,
+          "wind_speed": 5.06,
+          "wind_bearing": 293,
+          "condition": "snowy",
+          "clouds": 19,
+          "temperature": 83
+        }
+      ]);
+
+      cy.configure({
+        entity: 'weather.fromSub',
+        num_segments: '6',
+      });
+
+      cy.get('weather-bar')
+      .shadow()
+      .find('div.bar > div')
+      .each((el) => {
+        cy.wrap(el).invoke('attr', 'data-tippy-content')
+          .should('exist')
+          .and('eq', 'Snow')
+      });
+    });
+
+    it('handles forecast updates via subscription', () => {
+      cy.addEntity({
+        'weather.fromSub': {
+          attributes: {}
+        }
+      });
+      cy.addForecast('weather.fromSub', [
+        {
+          "datetime": "2022-07-21T17:00:00+00:00",
+          "precipitation": 0.35,
+          "precipitation_probability": 75,
+          "pressure": 1007,
+          "wind_speed": 4.67,
+          "wind_bearing": 255,
+          "condition": "snowy",
+          "clouds": 60,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T18:00:00+00:00",
+          "precipitation": 0.35,
+          "precipitation_probability": 75,
+          "pressure": 1007,
+          "wind_speed": 6.07,
+          "wind_bearing": 253,
+          "condition": "snowy",
+          "clouds": 75,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T19:00:00+00:00",
+          "precipitation": 1.3,
+          "precipitation_probability": 100,
+          "pressure": 1007,
+          "wind_speed": 6.16,
+          "wind_bearing": 258,
+          "condition": "snowy",
+          "clouds": 60,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T20:00:00+00:00",
+          "precipitation": 1.3,
+          "precipitation_probability": 100,
+          "pressure": 1007,
+          "wind_speed": 5.9,
+          "wind_bearing": 278,
+          "condition": "snowy",
+          "clouds": 49,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T21:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 15,
+          "pressure": 1007,
+          "wind_speed": 5.78,
+          "wind_bearing": 297,
+          "condition": "snowy",
+          "clouds": 34,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T22:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 15,
+          "pressure": 1008,
+          "wind_speed": 5.06,
+          "wind_bearing": 293,
+          "condition": "snowy",
+          "clouds": 19,
+          "temperature": 83
+        }
+      ]);
+
+      cy.configure({
+        entity: 'weather.fromSub',
+        num_segments: '6',
+      });
+
+      cy.get('weather-bar')
+      .shadow()
+      .find('div.bar > div')
+      .each((el) => {
+        cy.wrap(el).invoke('attr', 'data-tippy-content')
+          .should('exist')
+          .and('eq', 'Snow')
+      });
+
+      cy.updateLastForecastSubscription([
+        {
+          "datetime": "2022-07-21T17:00:00+00:00",
+          "precipitation": 0.35,
+          "precipitation_probability": 75,
+          "pressure": 1007,
+          "wind_speed": 4.67,
+          "wind_bearing": 255,
+          "condition": "rainy",
+          "clouds": 60,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T18:00:00+00:00",
+          "precipitation": 0.35,
+          "precipitation_probability": 75,
+          "pressure": 1007,
+          "wind_speed": 6.07,
+          "wind_bearing": 253,
+          "condition": "rainy",
+          "clouds": 75,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T19:00:00+00:00",
+          "precipitation": 1.3,
+          "precipitation_probability": 100,
+          "pressure": 1007,
+          "wind_speed": 6.16,
+          "wind_bearing": 258,
+          "condition": "rainy",
+          "clouds": 60,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T20:00:00+00:00",
+          "precipitation": 1.3,
+          "precipitation_probability": 100,
+          "pressure": 1007,
+          "wind_speed": 5.9,
+          "wind_bearing": 278,
+          "condition": "rainy",
+          "clouds": 49,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T21:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 15,
+          "pressure": 1007,
+          "wind_speed": 5.78,
+          "wind_bearing": 297,
+          "condition": "rainy",
+          "clouds": 34,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T22:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 15,
+          "pressure": 1008,
+          "wind_speed": 5.06,
+          "wind_bearing": 293,
+          "condition": "rainy",
+          "clouds": 19,
+          "temperature": 83
+        }
+      ]);
+
+      cy.get('weather-bar')
+      .shadow()
+      .find('div.bar > div')
+      .each((el) => {
+        cy.wrap(el).invoke('attr', 'data-tippy-content')
+          .should('exist')
+          .and('eq', 'Rain')
+      });
+    });
+  });
 });

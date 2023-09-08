@@ -23,11 +23,13 @@
     "speed_and_direction": "Velocidad y dirección",
     "barb_and_speed": "Como púas de viento y velocidad",
     "barb_and_direction": "Como púa de viento y dirección",
-    "barb_speed_and_direction": "Como púa de viento, velocidad y dirección"
+    "barb_speed_and_direction": "Como púa de viento, velocidad y dirección",
+    "show_date": "Mostrar fechas",
+    "all": "Todo",
+    "on_day_boundaries": "En los límites del día"
   },
   "errors": {
     "missing_entity": "falta la entidad en la configuración",
-    "daily_forecasts": "La entidad seleccionada parece proveer pronósticos diarios. Considera cambiar a una entidad que provea pronósticos cada hora.",
     "must_be_int": "Debe ser un entero mayor o igual a 2",
     "invalid_colors": "Los siguientes colores en su configuración no son válidos:",
     "must_be_positive_int": "Debe ser un entero positivo",

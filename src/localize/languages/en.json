@@ -14,6 +14,7 @@
     "icons": "Show icons instead of text labels",
     "label_spacing": "Number of forecast segments to space time and temperature labels by (Optional)",
     "show_wind": "Show wind speed and direction",
+    "show_date": "Show dates",
     "show_precipitation_amounts": "Show precipitation amount",
     "show_precipitation_probability": "Show precipitation probability",
     "none": "None",
@@ -23,12 +24,13 @@
     "barb": "As wind barb",
     "barb_and_speed": "As wind barb and speed",
     "barb_and_direction": "As wind barb and direction",
-    "barb_speed_and_direction": "As wind barb, speed, and direction"
+    "barb_speed_and_direction": "As wind barb, speed, and direction",
+    "all": "All",
+    "on_day_boundaries": "On day boundaries"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",
     "too_many_segments_requested": "Too many forecast segments requested in num_segments. Must be <= number of segments in forecast entity.",
-    "daily_forecasts": "The selected weather entity seems to provide daily forecasts. Consider switching to an hourly entity.",
     "must_be_int": "Must be an even integer greater than or equal to 2",
     "invalid_colors": "The following colors in your configuration are invalid:",
     "must_be_positive_int": "Must be a positive integer",

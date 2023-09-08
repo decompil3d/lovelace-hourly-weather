@@ -23,12 +23,14 @@
     "speed_and_direction": "Snelheid en richting",
     "barb_and_speed": "Zoals wind weerhaak en snelheid",
     "barb_and_direction": "Als windhaak en richting",
-    "barb_speed_and_direction": "Zoals wind weerhaak, snelheid en richting"
+    "barb_speed_and_direction": "Zoals wind weerhaak, snelheid en richting",
+    "show_date": "Datums weergeven",
+    "all": "Alle",
+    "on_day_boundaries": "Op daggrenzen"
   },
   "errors": {
     "missing_entity": "entiteit ontbreekt in configuratie",
     "too_many_segments_requested": "Te veel prognosesegmenten aangevraagd in num_segments. Moet <= aantal segmenten in prognose-entiteit zijn.",
-    "daily_forecasts": "De geselecteerde weereenheid lijkt dagelijkse voorspellingen te geven. Overweeg om over te stappen naar een voorspelling op uurbasis.",
     "must_be_int": "Moet een even geheel getal zijn groter of gelijk aan 2",
     "invalid_colors": "De volgende kleuren in uw configuratie zijn ongeldig:",
     "must_be_positive_int": "Moet een positief geheel getal zijn",

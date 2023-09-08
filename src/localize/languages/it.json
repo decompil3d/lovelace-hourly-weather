@@ -23,11 +23,13 @@
     "speed_and_direction": "Velocità e direzione",
     "barb_and_speed": "Come il vento tagliente e la velocità",
     "barb_and_direction": "Come il vento e la direzione",
-    "barb_speed_and_direction": "Come la punta del vento, la velocità e la direzione"
+    "barb_speed_and_direction": "Come la punta del vento, la velocità e la direzione",
+    "show_date": "Mostra date",
+    "all": "Tutto",
+    "on_day_boundaries": "Sui confini del giorno"
   },
   "errors": {
     "missing_entity": "entità mancante nella configurazione",
-    "daily_forecasts": "L'entità meteo selezionata sembra fornire previsioni giornaliere. Prendi in considerazione il passaggio a un'entità oraria.",
     "must_be_int": "Deve essere un numero intero pari, maggiore o uguale a 2",
     "invalid_colors": "I seguenti colori nella tua configurazione non sono validi:",
     "must_be_positive_int": "Deve essere un numero intero positivo",

@@ -24,13 +24,15 @@ import type {
   ColorObject,
   ColorSettings,
   ConditionSpan,
+  ForecastEvent,
   ForecastSegment,
+  ForecastType,
   HourlyWeatherCardConfig,
   LocalizerLastSettings,
   RenderTemplateResult,
+  SegmentPrecipitation,
   SegmentTemperature,
   SegmentWind,
-  SegmentPrecipitation,
 } from './types';
 import { actionHandler } from './action-handler-directive';
 import { version } from '../package.json';
@@ -76,6 +78,9 @@ export class HourlyWeatherCard extends LitElement {
   @state() private config!: HourlyWeatherCardConfig;
 
   @state() private renderedConfig!: Promise<HourlyWeatherCardConfig>;
+
+  @state() private forecastEvent?: ForecastEvent;
+  @state() private subscribedToForecast?: Promise<() => void>;
 
   private configRenderPending = false;
 
@@ -125,6 +130,53 @@ export class HourlyWeatherCard extends LitElement {
       this.directionsLocalized = true;
     }
     return this._directions;
+  }
+
+  private unsubscribeForecastEvents() {
+    if (this.subscribedToForecast) {
+      this.subscribedToForecast.then((unsub) => unsub());
+      this.subscribedToForecast = undefined;
+    }
+  }
+
+  private async subscribeToForecastEvents() {
+    this.unsubscribeForecastEvents();
+    if (!this.isConnected || !this.hass || !this.config || !this.config.entity || !this.hassSupportsForecastEvents()) {
+      return;
+    }
+
+    const forecastType = this.getIdealForecastType();
+    this.subscribedToForecast = this.hass.connection.subscribeMessage<ForecastEvent>(
+      evt => this.forecastEvent = evt,
+      {
+        type: 'weather/subscribe_forecast',
+        forecast_type: forecastType,
+        entity_id: this.config.entity
+      });
+  }
+
+  private getIdealForecastType(): ForecastType {
+    if (this.config?.forecast_type) {
+      return this.config.forecast_type;
+    }
+    if (!this.config?.entity) {
+      return 'hourly';
+    }
+    const state = this.hass.states[this.config.entity];
+    if (!state) {
+      return 'hourly';
+    }
+    const supportedFeatures = state.attributes.supported_features;
+    if (!supportedFeatures) {
+      return 'hourly';
+    }
+    if (supportedFeatures & 0x2) {
+      return 'hourly';
+    }
+    if (supportedFeatures & 0x4) {
+      return 'twice_daily';
+    }
+    return 'daily';
   }
 
   // https://lit.dev/docs/components/properties/#accessors-custom
@@ -194,6 +246,18 @@ export class HourlyWeatherCard extends LitElement {
     });
   }
 
+  public connectedCallback(): void {
+    super.connectedCallback();
+    if (this.hasUpdated) {
+      this.subscribeToForecastEvents();
+    }
+  }
+
+  public disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.unsubscribeForecastEvents();
+  }
+
   // https://lit.dev/docs/components/lifecycle/#reactive-update-cycle-performing
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) {
@@ -211,11 +275,25 @@ export class HourlyWeatherCard extends LitElement {
     return hasConfigOrEntityChanged(this, changedProps, false);
   }
 
-  protected updated(): void {
+  protected updated(changedProps: PropertyValues): void {
+    super.updated(changedProps);
+
     if (this.hass?.connection && this.configRenderPending) {
       this.configRenderPending = false;
       this.triggerConfigRender();
     }
+    if (!this.subscribedToForecast ||
+        (changedProps.has('config') && this.config?.entity !== changedProps.get('config')?.entity)) {
+      this.subscribeToForecastEvents();
+    }
+  }
+
+  private getForecast(): ForecastSegment[] | undefined {
+    return this.forecastEvent?.forecast ?? this.hass?.states[this.config.entity]?.attributes.forecast;
+  }
+
+  private hassSupportsForecastEvents(): boolean {
+    return !!(this.hass?.services?.weather?.get_forecast);
   }
 
   // https://lit.dev/docs/components/rendering/
@@ -233,7 +311,7 @@ export class HourlyWeatherCard extends LitElement {
 
     const entityId: string = config.entity;
     const state = this.hass.states[entityId];
-    const { forecast } = state.attributes as { forecast: ForecastSegment[] };
+    const forecast = this.getForecast();
     const windSpeedUnit = state.attributes.wind_speed_unit ?? '';
     const precipitationUnit = state.attributes.precipitation_unit ?? '';
     const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
@@ -259,7 +337,11 @@ export class HourlyWeatherCard extends LitElement {
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
     }
 
-    if (config.show_wind?.includes('barb') && typeof forecast[0].wind_bearing === 'string') {
+    let showWind = config.show_wind;
+    if (typeof showWind === 'boolean') {
+      showWind = showWind ? 'true' : 'false';
+    }
+    if (showWind?.includes('barb') && typeof forecast?.[0].wind_bearing === 'string') {
       return await this._showError(this.localize('errors.no_wind_barbs_with_string_bearing'));
     }
 
@@ -282,7 +364,6 @@ export class HourlyWeatherCard extends LitElement {
         </ha-card>`;
     }
 
-    const isForecastDaily = this.isForecastDaily(forecast);
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit);
@@ -302,8 +383,6 @@ export class HourlyWeatherCard extends LitElement {
         .label=${`Hourly Weather: ${config.entity || 'No Entity Defined'}`}
       >
         <div class="card-content">
-          ${isForecastDaily ?
-        this._showWarning(this.localize('errors.daily_forecasts')) : ''}
           ${colorSettings.warnings.length ?
         this._showWarning(this.localize('errors.invalid_colors') + ' ' + colorSettings.warnings.join(', ')) : ''}
           <!-- @ts-ignore -->
@@ -317,7 +396,7 @@ export class HourlyWeatherCard extends LitElement {
             .hide_hours=${!!config.hide_hours}
             .hide_temperatures=${!!config.hide_temperatures}
             .hide_bar=${!!config.hide_bar}
-            .show_wind=${config.show_wind}
+            .show_wind=${showWind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}
             .show_date=${config.show_date}
@@ -430,12 +509,6 @@ export class HourlyWeatherCard extends LitElement {
         return speed * 0.51444444444444;
     }
     return -1;
-  }
-
-  private isForecastDaily(forecast: ForecastSegment[]): boolean {
-    const dates = forecast.map(f => new Date(f.datetime).getDate());
-    const uniqueDates = new Set(dates);
-    return uniqueDates.size >= forecast.length - 1;
   }
 
   private formatHour(time: Date, locale: FrontendLocaleData): string {

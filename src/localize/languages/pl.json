@@ -23,11 +23,13 @@
     "speed_and_direction": "Szybkość i kierunek",
     "barb_and_speed": "Jak kolce wiatru i prędkość",
     "barb_and_direction": "Jako zadzior i kierunek wiatru",
-    "barb_speed_and_direction": "Jak kolce wiatru, prędkość i kierunek"
+    "barb_speed_and_direction": "Jak kolce wiatru, prędkość i kierunek",
+    "show_date": "Pokaż daty",
+    "all": "Wszystko",
+    "on_day_boundaries": "Na granicach dnia"
   },
   "errors": {
     "missing_entity": "encja nie istnieje",
-    "daily_forecasts": "Wybrana encja dostarcza pogodę dniową, wybierz encję z pogodą godzinową.",
     "must_be_int": "Musi być parzystą liczbą całkowitą większą lub równą 2",
     "invalid_colors": "Następujące kolory w Twojej konfiguracji są nieprawidłowe:",
     "must_be_positive_int": "Musi być dodatnią liczbą całkowitą",

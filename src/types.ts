@@ -16,6 +16,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   /** @deprecated Use num_segments instead */
   num_hours?: string; // number
   num_segments?: string; // number
+  forecast_type?: ForecastType;
   name?: string;
   icons?: boolean;
   offset?: string; // number
@@ -23,7 +24,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   hide_bar?: boolean;
   hide_hours?: boolean;
   hide_temperatures?: boolean;
-  show_wind?: WindType; // 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction'
+  show_wind?: WindType | boolean; // 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction'
   show_precipitation_amounts?: boolean;
   show_precipitation_probability?: boolean;
   show_date?: ShowDateType; // 'false' | 'boundary' | 'all'
@@ -112,4 +113,11 @@ export interface RenderTemplateResult {
 export interface LocalizerLastSettings {
   configuredLanguage: string | undefined,
   haServerLanguage: string | undefined
+}
+
+export type ForecastType = "hourly" | "daily" | "twice_daily";
+
+export interface ForecastEvent {
+  type: ForecastType;
+  forecast: [ForecastSegment] | null;
 }

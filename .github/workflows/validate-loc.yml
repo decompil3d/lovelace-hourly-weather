@@ -29,10 +29,11 @@ jobs:
             });
             const langCodes = newLanguages.map(l => l.filename.replace('src/localize/languages/', '').replace('.json', ''));
             console.log('New languages added:', langCodes.join(', '));
-            return langCodes;
+            return langCodes.length > 0 ? langCodes : null;
   validate-added-languages:
     needs: find-new-languages
     runs-on: ubuntu-latest
+    if: ${{ fromJSON(needs.find-new-languages.outputs.languages) != null }}
     strategy:
       fail-fast: true
       matrix:

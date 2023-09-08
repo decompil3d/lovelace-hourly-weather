@@ -25,12 +25,14 @@
     "speed_and_direction": "Velocidade e direção",
     "barb_and_speed": "Como farpa de vento e velocidade",
     "barb_and_direction": "Como farpa de vento e direção",
-    "barb_speed_and_direction": "Como farpa de vento, velocidade e direção"
+    "barb_speed_and_direction": "Como farpa de vento, velocidade e direção",
+    "show_date": "Mostrar datas",
+    "all": "Todos",
+    "on_day_boundaries": "Nos limites do dia"
   },
   "errors": {
     "missing_entity": "entidade está faltando na configuração",
     "too_many_segments_requested": "Muitos segmentos de previsão solicitados em num_segments. Deve ser <= número de segmentos na entidade de previsão.",
-    "daily_forecasts": "A entidade meteorológica selecionada parece fornecer previsões diárias. Considere mudar para uma entidade horária.",
     "must_be_int": "Deve ser um número inteiro par maior ou igual a 2",
     "invalid_colors": "As seguintes cores em sua configuração são inválidas:",
     "must_be_positive_int": "Deve ser um número inteiro positivo",

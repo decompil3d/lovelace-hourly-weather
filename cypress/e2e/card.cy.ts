@@ -18,7 +18,6 @@ describe('Card', () => {
   it('renders a graceful message when forecast is missing', () => {
     cy.addEntity({
       'weather.no_forecast': {
-        // @ts-expect-error testing behavior with no forecast attribute
         attributes: {}
       }
     });

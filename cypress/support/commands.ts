@@ -50,12 +50,24 @@ Cypress.Commands.add('configure', (config: Partial<HourlyWeatherCardConfig>, noD
 
 interface WeatherEntity {
   attributes: {
-    forecast: ForecastSegment[];
+    forecast?: ForecastSegment[];
   };
 }
 
 Cypress.Commands.add('addEntity', (entities: Record<string, WeatherEntity>) => {
   cy.window().invoke('addHWEntity', entities).wait(1);
+});
+
+Cypress.Commands.add('addForecast', (entityId: string, forecast: ForecastSegment[]) => {
+  cy.window().invoke('addHWForecast', entityId, forecast).wait(1);
+});
+
+Cypress.Commands.add('enableForecastSubscriptions', () => {
+  cy.window().invoke('enableHWForecastSubscriptions').wait(1);
+});
+
+Cypress.Commands.add('updateLastForecastSubscription', (forecast: ForecastSegment[]) => {
+  cy.window().invoke('updateLastForecastSubscription', forecast).wait(1);
 });
 
 interface HALocale {
@@ -84,6 +96,9 @@ declare global {
       visitHarness(windowStubFn?: (win: Cypress.AUTWindow) => void): Chainable<Window>;
       configure(config: Partial<HourlyWeatherCardConfig>, noDefaults?: boolean): Chainable<void>;
       addEntity(entities: Record<string, WeatherEntity>): Chainable<void>;
+      addForecast(entityId: string, forecast: ForecastSegment[]): Chainable<void>;
+      enableForecastSubscriptions(): Chainable<void>;
+      updateLastForecastSubscription(forecast: ForecastSegment[]): Chainable<void>;
       setLocale(locale: Partial<HALocale>): Chainable<void>;
       slotAssignedNodes(name?: string): Chainable<Node[]>;
     }

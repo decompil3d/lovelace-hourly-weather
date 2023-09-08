@@ -23,12 +23,14 @@
     "speed_and_direction": "Sebesség és irány",
     "barb_and_speed": "Szélfogóként és sebességként",
     "barb_and_direction": "Szellőként és irányként",
-    "barb_speed_and_direction": "Szélfogként, sebességként és irányként"
+    "barb_speed_and_direction": "Szélfogként, sebességként és irányként",
+    "show_date": "Dátumok megjelenítése",
+    "all": "Minden",
+    "on_day_boundaries": "A napok határain"
   },
   "errors": {
     "missing_entity": "az entitás hiányzik a konfigurációból",
     "too_many_segments_requested": "Túl sok előrejelzési órát adtak meg a num_segments-ben. <= az előrejelző egységben lévő órák száma.",
-    "daily_forecasts": "Úgy tűnik, hogy a kiválasztott időjárási egység napi előrejelzéseket ad. Fontolja meg a váltást egy óránkénti egységre.",
     "must_be_int": "Páros egész számnak kell lennie, amely nagyobb vagy egyenlő 2-nél.",
     "invalid_colors": "A konfigurációdban a következő színek érvénytelenek:",
     "must_be_positive_int": "Pozitív egész szám kell legyen",

@@ -23,12 +23,14 @@
     "barb": "Ako veterný osteň",
     "barb_and_speed": "Ako veterný osteň a rýchlosť",
     "barb_and_direction": "Ako veterný osteň a smer",
-    "barb_speed_and_direction": "Ako veterný osteň, rýchlosť a smer"
+    "barb_speed_and_direction": "Ako veterný osteň, rýchlosť a smer",
+    "show_date": "Zobraziť dátumy",
+    "all": "Všetky",
+    "on_day_boundaries": "Na hraniciach dňa"
   },
   "errors": {
     "missing_entity": "v konfigurácii chýba entita",
     "too_many_segments_requested": "Príliš veľa segmentov prognózy požadovaných v num_segments. Musí byť <= počet segmentov v entite prognózy.",
-    "daily_forecasts": "Zdá sa, že vybratá entita počasia poskytuje denné predpovede. Zvážte prechod na hodinovú entitu.",
     "must_be_int": "Musí byť párne celé číslo väčšie alebo rovné 2",
     "invalid_colors": "Nasledujúce farby vo vašej konfigurácii sú neplatné:",
     "must_be_positive_int": "Musí to byť kladné celé číslo",
