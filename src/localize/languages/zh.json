@@ -1,0 +1,77 @@
+{
+  "common": {
+    "version": "版本",
+    "title": "逐小时天气",
+    "title_card": "逐小时天气卡片",
+    "description": "一个用于显示逐小时天气状况的卡片。",
+    "invalid_configuration": "无效的配置"
+  },
+  "editor": {
+    "entity": "实体（必需）",
+    "name": "名称（可选）",
+    "segments_to_show": "显示的预测段数（可选）",
+    "offset": "开始的预测段偏移数（可选）",
+    "icons": "显示图标而非文字标签",
+    "label_spacing": "时间和温度标签的预测段间距数（可选）",
+    "show_wind": "显示风速和风向",
+    "show_date": "显示日期",
+    "show_precipitation_amounts": "显示降雨量",
+    "show_precipitation_probability": "显示降雨概率",
+    "none": "无",
+    "speed_and_direction": "速度和方向",
+    "speed_only": "仅速度",
+    "direction_only": "仅方向",
+    "barb": "风向图标",
+    "barb_and_speed": "风向图标和速度",
+    "barb_and_direction": "风向图标和方向",
+    "barb_speed_and_direction": "风向图标，速度和方向",
+    "all": "全部",
+    "on_day_boundaries": "在日边界上"
+  },
+  "errors": {
+    "missing_entity": "配置中缺少实体",
+    "too_many_segments_requested": "在num_segments中请求的预测段过多。必须 <= 预测实体中的段数。",
+    "must_be_int": "必须是大于或等于2的偶数",
+    "invalid_colors": "配置中的以下颜色无效：",
+    "must_be_positive_int": "必须是正整数",
+    "offset_must_be_positive_int": "偏移必须是正整数",
+    "forecast_not_available": "预测不可用",
+    "check_entity": "检查配置的预测实体。",
+    "no_wind_barbs_with_string_bearing": "当天气实体使用风向作为风向时，不支持风向图标。"
+  },
+  "conditions": {
+    "clear": "晴朗",
+    "cloudy": "多云",
+    "fog": "雾",
+    "hail": "冰雹",
+    "thunderstorm": "雷暴",
+    "partlyCloudy": "局部多云",
+    "heavyRain": "大雨",
+    "rain": "雨",
+    "snow": "雪",
+    "mixedPrecip": "雨夹雪",
+    "sunny": "晴天",
+    "windy": "有风"
+  },
+  "direction": {
+    "n": "北",
+    "nne": "北偏东",
+    "ne": "东北",
+    "ene": "东偏北",
+    "e": "东",
+    "ese": "东偏南",
+    "se": "东南",
+    "sse": "南偏东",
+    "s": "南",
+    "ssw": "南偏西",
+    "sw": "西南",
+    "wsw": "西偏南",
+    "w": "西",
+    "wnw": "西偏北",
+    "nw": "西北",
+    "nnw": "北偏西"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}%的降雨概率"
+  }
+}
