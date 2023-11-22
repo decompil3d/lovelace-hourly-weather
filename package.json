@@ -57,7 +57,7 @@
     "rollup-plugin-typescript2": "^0.36.0",
     "rollup-plugin-visualizer": "^5.9.2",
     "start-server-and-test": "^2.0.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   },
   "resolutions": {
     "lit": "^2.1.2",
