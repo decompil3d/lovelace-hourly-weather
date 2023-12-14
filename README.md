@@ -221,7 +221,7 @@ change may cause some custom CSS to break. If you have custom CSS, you may need 
 structure.
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
-[commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/master
+[commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/main
 [devcontainer]: https://code.visualstudio.com/docs/remote/containers
 [license-shield]: https://img.shields.io/github/license/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2023.svg?style=for-the-badge
