@@ -320,7 +320,7 @@ describe('Weather bar', () => {
       84,
       79,
       70,
-      65
+      65.1
     ];
 
     it('shows temperature labels on axes', () => {
@@ -359,6 +359,20 @@ describe('Weather bar', () => {
         .should('have.length', 12)
         .each((el) => {
           cy.wrap(el).should('be.empty');
+        });
+    });
+    it('rounds temperatures to whole number when specified in config', () => {
+      cy.configure({
+        round_temperatures: true
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.temperature')
+        .should('have.length', 12)
+        .each((el, i) => {
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', Math.round(expectedTemperatures[i / 2]) + '°');
+          }
         });
     });
     it('spaces labels as specified in config', () => {
