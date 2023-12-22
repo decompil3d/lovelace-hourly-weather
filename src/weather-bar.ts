@@ -34,6 +34,9 @@ export class WeatherBar extends LitElement {
   hide_temperatures = false;
 
   @property({ type: Boolean })
+  round_temperatures = false;
+
+  @property({ type: Boolean })
   hide_bar = false;
 
   @property({ type: String })
@@ -89,6 +92,8 @@ export class WeatherBar extends LitElement {
       const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
       const showPrecipitationProbability = this.show_precipitation_probability && !skipLabel;
       const { hour, date, temperature } = this.temperatures[i];
+      const numericTemperature = parseFloat(temperature);
+      const roundedTemperature = this.round_temperatures ? Math.round(numericTemperature) : temperature;
       let renderedDate: string | TemplateResult | null = null;
       if (!skipLabel && this.show_date && this.show_date !== 'false') {
         if (this.show_date === 'all') renderedDate = date;
@@ -128,7 +133,7 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-bottom">
             <div class="date">${renderedDate}</div>
             <div class="hour">${hideHours ? null : hour}</div>
-            <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
+            <div class="temperature">${hideTemperature ? null : roundedTemperature !== null ? html`${roundedTemperature}&deg;` : html`${temperature}&deg;`}</div>
             <div class="wind">${wind}</div>
             <div class="precipitation">${precipitation}</div>
           </div>
