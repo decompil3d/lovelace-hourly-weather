@@ -133,7 +133,7 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-bottom">
             <div class="date">${renderedDate}</div>
             <div class="hour">${hideHours ? null : hour}</div>
-            <div class="temperature">${hideTemperature ? null : roundedTemperature !== null ? html`${roundedTemperature}&deg;` : html`${temperature}&deg;`}</div>
+            <div class="temperature">${hideTemperature ? null : this.round_temperatures ? html`${displayTemperature}&deg;` : html`${temperature}&deg;`}</div>
             <div class="wind">${wind}</div>
             <div class="precipitation">${precipitation}</div>
           </div>
