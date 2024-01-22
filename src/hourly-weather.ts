@@ -289,7 +289,7 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private getForecast(): { forecast: ForecastSegment[] | undefined, pending: boolean } {
-    const pending = !this.forecastEvent?.forecast;
+    const pending = !this.forecastEvent?.forecast && this.hassSupportsForecastEvents();
     const forecast = this.forecastEvent?.forecast ?? this.hass?.states[this.config.entity]?.attributes.forecast;
     return { forecast, pending };
   }
@@ -322,13 +322,11 @@ export class HourlyWeatherCard extends LitElement {
     const forecastNotAvailable = !forecast || !forecast.length;
 
     if (numSegments < 1) {
-      if (pending) return;
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'num_segments'));
     }
 
     if (offset < 0) {
-      if (pending) return;
       return await this._showError(this.localize('errors.offset_must_be_positive_int'));
     }
 
