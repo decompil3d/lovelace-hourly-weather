@@ -1,5 +1,7 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
@@ -13,6 +15,9 @@ import ignore from './rollup-plugins/ignore';
 import { ignoreTextfieldFiles } from './elements/ignore/textfield';
 import { ignoreSelectFiles } from './elements/ignore/select';
 import { ignoreSwitchFiles } from './elements/ignore/switch';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
 
 const dev = process.env.ROLLUP_WATCH;
 if (dev) console.log('Development build');
