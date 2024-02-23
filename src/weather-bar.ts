@@ -93,7 +93,11 @@ export class WeatherBar extends LitElement {
       const showPrecipitationProbability = this.show_precipitation_probability && !skipLabel;
       const { hour, date, temperature } = this.temperatures[i];
       const numericTemperature = parseFloat(temperature);
-      const displayTemperature = this.round_temperatures ? Math.round(numericTemperature) : temperature;
+      const displayTemperature = this.round_temperatures ?
+        (Number.isNaN(numericTemperature) ?
+          temperature :
+          Math.round(numericTemperature)) :
+        temperature;
       let renderedDate: string | TemplateResult | null = null;
       if (!skipLabel && this.show_date && this.show_date !== 'false') {
         if (this.show_date === 'all') renderedDate = date;
