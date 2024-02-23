@@ -10,10 +10,13 @@ import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
 import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
-import ignore from './rollup-plugins/ignore';
-import { ignoreTextfieldFiles } from './elements/ignore/textfield';
-import { ignoreSelectFiles } from './elements/ignore/select';
-import { ignoreSwitchFiles } from './elements/ignore/switch';
+import ignore from './rollup-plugins/ignore.mjs';
+import * as ignoreTextfield from './elements/ignore/textfield.mjs';
+const { ignoreTextfieldFiles } = ignoreTextfield;
+import * as ignoreSelect from './elements/ignore/select.mjs';
+const { ignoreSelectFiles } = ignoreSelect;
+import * as ignoreSwitch from './elements/ignore/switch.mjs';
+const { ignoreSwitchFiles } = ignoreSwitch;
 import { defineConfig } from 'rollup';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
