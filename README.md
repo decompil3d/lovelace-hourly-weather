@@ -226,7 +226,7 @@ structure.
 [commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/main
 [devcontainer]: https://code.visualstudio.com/docs/remote/containers
 [license-shield]: https://img.shields.io/github/license/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2023.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2024.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [releases]: https://github.com/decompil3d/lovelace-hourly-weather/releases
 
