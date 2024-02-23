@@ -288,8 +288,10 @@ export class HourlyWeatherCard extends LitElement {
     }
   }
 
-  private getForecast(): ForecastSegment[] | undefined {
-    return this.forecastEvent?.forecast ?? this.hass?.states[this.config.entity]?.attributes.forecast;
+  private getForecast(): { forecast: ForecastSegment[] | undefined, pending: boolean } {
+    const pending = !this.forecastEvent?.forecast && this.hassSupportsForecastEvents();
+    const forecast = this.forecastEvent?.forecast ?? this.hass?.states[this.config.entity]?.attributes.forecast;
+    return { forecast, pending };
   }
 
   private hassSupportsForecastEvents(): boolean {
@@ -311,7 +313,7 @@ export class HourlyWeatherCard extends LitElement {
 
     const entityId: string = config.entity;
     const state = this.hass.states[entityId];
-    const forecast = this.getForecast();
+    const { forecast, pending } = this.getForecast();
     const windSpeedUnit = state.attributes.wind_speed_unit ?? '';
     const precipitationUnit = state.attributes.precipitation_unit ?? '';
     const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
@@ -329,6 +331,7 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     if (!forecastNotAvailable && numSegments > (forecast.length - offset)) {
+      if (pending) return;
       return await this._showError(this.localize('errors.too_many_segments_requested'));
     }
 
@@ -346,6 +349,7 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     if (forecastNotAvailable) {
+      if (pending) return;
       return html`
         <ha-card
           .header=${config.name}

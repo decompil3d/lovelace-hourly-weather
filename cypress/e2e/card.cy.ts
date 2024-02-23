@@ -49,4 +49,63 @@ describe('Card', () => {
       .find('p')
       .should('have.text', 'Check the configured forecast entity.');
   });
+  it('handles graceful transient error if forecast is there by attribute, but not with the right amount of segments', () => {
+    cy.enableForecastSubscriptions();
+
+    const forecast1 = [
+      {
+        "datetime": "2022-07-21T17:00:00+00:00",
+        "precipitation": 0,
+        "precipitation_probability": 0,
+        "pressure": 1007,
+        "wind_speed": 4.67,
+        "wind_bearing": 'WSW',
+        "condition": "cloudy",
+        "clouds": 60,
+        "temperature": 84
+      },
+    ];
+    cy.addEntity({
+      'weather.fromSub': {
+        attributes: {
+          forecast: forecast1
+        }
+      }
+    });    
+    cy.configure({
+      entity: 'weather.fromSub',
+      num_segments: '2'
+    });
+    cy.get('ha-card')
+      .should('not.exist');
+
+    const forecast2 = [
+      {
+        "datetime": "2022-07-21T17:00:00+00:00",
+        "precipitation": 0,
+        "precipitation_probability": 0,
+        "pressure": 1007,
+        "wind_speed": 4.67,
+        "wind_bearing": 'WSW',
+        "condition": "cloudy",
+        "clouds": 60,
+        "temperature": 84
+      },
+      {
+        "datetime": "2022-07-21T17:00:00+00:00",
+        "precipitation": 0,
+        "precipitation_probability": 0,
+        "pressure": 1007,
+        "wind_speed": 4.67,
+        "wind_bearing": 'WSW',
+        "condition": "cloudy",
+        "clouds": 60,
+        "temperature": 84
+      }
+    ];
+    cy.addForecast('weather.fromSub', forecast2);
+    cy.updateLastForecastSubscription(forecast2);
+    cy.get('ha-card')
+      .should('exist');
+  });
 });
