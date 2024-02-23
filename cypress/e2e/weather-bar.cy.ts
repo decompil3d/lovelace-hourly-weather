@@ -320,7 +320,7 @@ describe('Weather bar', () => {
       84,
       79,
       70,
-      65
+      65.1
     ];
 
     it('shows temperature labels on axes', () => {
@@ -359,6 +359,121 @@ describe('Weather bar', () => {
         .should('have.length', 12)
         .each((el) => {
           cy.wrap(el).should('be.empty');
+        });
+    });
+    it('rounds temperatures to whole number when specified in config', () => {
+      cy.configure({
+        round_temperatures: true
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.temperature')
+        .should('have.length', 12)
+        .each((el, i) => {
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', Math.round(expectedTemperatures[i / 2]) + '°');
+          }
+        });
+    });
+    it('falls back to base temperature if temp cannot be parsed as a float when rounding is enabled', () => {
+      cy.addEntity({
+        'weather.nan_temp': {
+          attributes: {
+            forecast: [
+              {
+                "datetime": "2022-07-21T17:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 0,
+                "pressure": 1007,
+                "wind_speed": 4.67,
+                "wind_bearing": 'WSW',
+                "condition": "cloudy",
+                "clouds": 60,
+                "temperature": Number.NaN
+              },
+              {
+                "datetime": "2022-07-21T18:00:00+00:00",
+                "precipitation": 0.35,
+                "precipitation_probability": 0,
+                "pressure": 1007,
+                "wind_speed": 6.16,
+                "wind_bearing": 'W',
+                "condition": "cloudy",
+                "clouds": 75,
+                "temperature": Number.NaN
+              },
+              {
+                "datetime": "2022-07-21T19:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 0,
+                "pressure": 1007,
+                "wind_speed": 6.07,
+                "wind_bearing": 'WSW',
+                "condition": "cloudy",
+                "clouds": 60,
+                "temperature": Number.NaN
+              },
+              {
+                "datetime": "2022-07-21T20:00:00+00:00",
+                "precipitation": 1.3,
+                "precipitation_probability": 1,
+                "pressure": 1007,
+                "wind_speed": 5.9,
+                "wind_bearing": 'W',
+                "condition": "partlycloudy",
+                "clouds": 49,
+                "temperature": Number.NaN
+              },
+              {
+                "datetime": "2022-07-21T21:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 1,
+                "pressure": 1007,
+                "wind_speed": 5.78,
+                "wind_bearing": 'WNW',
+                "condition": "partlycloudy",
+                "clouds": 34,
+                "temperature": Number.NaN
+              },
+              {
+                "datetime": "2022-07-21T22:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 1,
+                "pressure": 1008,
+                "wind_speed": 5.06,
+                "wind_bearing": 'WNW',
+                "condition": "partlycloudy",
+                "clouds": 19,
+                "temperature": Number.NaN
+              },
+              {
+                "datetime": "2022-07-21T23:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 1,
+                "pressure": 1008,
+                "wind_speed": 6.39,
+                "wind_bearing": 'NW',
+                "condition": "sunny",
+                "clouds": 4,
+                "temperature": Number.NaN
+              }
+            ]
+          }
+        }
+      });
+      cy.configure({
+        entity: 'weather.nan_temp',
+        num_segments: '4',
+        round_temperatures: true
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.temperature')
+        .should('have.length', 4)
+        .each((el, i) => {
+          if (i % 2 === 0) {
+            cy.wrap(el).should('have.text', 'NaN°');
+          }
         });
     });
     it('spaces labels as specified in config', () => {
