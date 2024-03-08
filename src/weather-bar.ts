@@ -4,7 +4,7 @@ import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
-import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType } from "./types";
+import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType, ColorDefinition } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -26,6 +26,9 @@ export class WeatherBar extends LitElement {
 
   @property({ attribute: false })
   colors: ColorMap | undefined = void 0;
+
+  @property({ attribute: false })
+  borders: ColorDefinition | undefined = void 0;
 
   @property({ type: Boolean })
   hide_hours = false;
@@ -69,8 +72,9 @@ export class WeatherBar extends LitElement {
         if (icon === cond[0]) icon = 'mdi:weather-' + icon;
         else icon = 'mdi:' + icon;
         const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1] * 2) };
+        const classname = `${cond[0]} bar-span`;
         conditionBars.push(html`
-          <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
+          <div class=${classname} style=${styleMap(barStyles)} data-tippy-content=${label}>
             ${this.icons ?
             html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>` :
             html`<span class="condition-label">${label}</span>`}
@@ -150,9 +154,16 @@ export class WeatherBar extends LitElement {
       colorStyles = this.getColorStyles(this.colors);
     }
 
+    let borderStyles: TemplateResult | null = null;
+    if (this.borders) {
+      borderStyles = this.getBarSpanStyles(this.borders);
+    }
+    console.log(borderStyles);
+
     return html`
       <div class="main">
         ${colorStyles ?? null}
+        ${borderStyles ?? null}
         ${this.hide_bar ? null : html`<div class="bar">${conditionBars}</div>`}
         <div class="axes">${barBlocks}</div>
       </div>
@@ -182,6 +193,15 @@ export class WeatherBar extends LitElement {
     return html`<style>
       .main > .bar {
         ${unsafeCSS(vars.join(' '))}
+      }
+    </style>`;
+  }
+
+  private getBarSpanStyles(borders: ColorDefinition): TemplateResult | null {
+    if (!borders) return null;
+    return html`<style>
+      .main > div.bar > div.bar-span {
+        border-color: ${borders};
       }
     </style>`;
   }
@@ -308,6 +328,11 @@ export class WeatherBar extends LitElement {
       background-color: var(--color-exceptional);
       color: var(--color-exceptional-foreground, var(--primary-text-color));
     }
+    .bar-span {
+      border-style: solid;
+      border-width: 1px;
+      border-color: transparent
+    }
     .axes {
       display: grid;
       grid-auto-flow: column;
@@ -331,6 +356,7 @@ export class WeatherBar extends LitElement {
       grid-area: right;
       border: 1px solid var(--divider-color, lightgray);
       border-width: 0 0 0 1px;
+      border-collapse: collapse;
     }
     .bar-block-bottom {
       text-align: center;
