@@ -27,7 +27,7 @@
     "@material/mwc-switch": "^0.27.0",
     "@material/mwc-textfield": "^0.27.0",
     "custom-card-helpers": "^1.7.2",
-    "home-assistant-js-websocket": "^9.1.0",
+    "home-assistant-js-websocket": "^9.3.0",
     "is-valid-css-color": "^2.0.3",
     "lit": "^2.8.0",
     "tippy.js": "^6.3.7"
