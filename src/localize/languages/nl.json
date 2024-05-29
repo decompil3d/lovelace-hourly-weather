@@ -19,6 +19,7 @@
     "direction_only": "Alleen richting (tekst)",
     "barb": "Alleen richting (pijl)",
     "show_precipitation_probability": "Neerslagkans weergeven",
+    "show_humidity": "Laat vochtigheid zien",
     "none": "Geen",
     "speed_and_direction": "Snelheid en richting",
     "barb_and_speed": "Zoals wind weerhaak en snelheid",

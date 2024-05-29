@@ -66,6 +66,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return showWind ?? 'false';
   }
 
+  get _show_humidity(): boolean {
+    return this._config?.show_humidity ?? false;
+  }
+
   get _show_precipitation_amounts(): boolean {
     return this._config?.show_precipitation_amounts ?? false;
   }
@@ -188,6 +192,13 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         <mwc-list-item value="all">${localize('editor.all')}</mwc-list-item>
         <mwc-list-item value="boundary">${localize('editor.on_day_boundaries')}</mwc-list-item>
       </mwc-select>
+      <mwc-formfield .label=${localize('editor.show_humidity')}>
+        <mwc-switch
+          .checked=${this._show_humidity === true}
+          .configValue=${'show_humidity'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
       <mwc-formfield .label=${localize('editor.show_precipitation_amounts')}>
         <mwc-switch
           .checked=${this._show_precipitation_amounts === true}

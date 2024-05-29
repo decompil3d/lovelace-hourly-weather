@@ -389,7 +389,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WSW',
                 "condition": "cloudy",
                 "clouds": 60,
-                "temperature": Number.NaN
+                "temperature": Number.NaN,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T18:00:00+00:00",
@@ -400,7 +401,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'W',
                 "condition": "cloudy",
                 "clouds": 75,
-                "temperature": Number.NaN
+                "temperature": Number.NaN,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T19:00:00+00:00",
@@ -411,7 +413,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WSW',
                 "condition": "cloudy",
                 "clouds": 60,
-                "temperature": Number.NaN
+                "temperature": Number.NaN,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T20:00:00+00:00",
@@ -422,7 +425,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'W',
                 "condition": "partlycloudy",
                 "clouds": 49,
-                "temperature": Number.NaN
+                "temperature": Number.NaN,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T21:00:00+00:00",
@@ -433,7 +437,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WNW',
                 "condition": "partlycloudy",
                 "clouds": 34,
-                "temperature": Number.NaN
+                "temperature": Number.NaN,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T22:00:00+00:00",
@@ -444,7 +449,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WNW',
                 "condition": "partlycloudy",
                 "clouds": 19,
-                "temperature": Number.NaN
+                "temperature": Number.NaN,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T23:00:00+00:00",
@@ -455,7 +461,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'NW',
                 "condition": "sunny",
                 "clouds": 4,
-                "temperature": Number.NaN
+                "temperature": Number.NaN,
+                "humidity": 50
               }
             ]
           }
@@ -661,7 +668,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WSW',
                 "condition": "cloudy",
                 "clouds": 60,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T18:00:00+00:00",
@@ -672,7 +680,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'W',
                 "condition": "cloudy",
                 "clouds": 75,
-                "temperature": 85
+                "temperature": 85,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T19:00:00+00:00",
@@ -683,7 +692,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WSW',
                 "condition": "cloudy",
                 "clouds": 60,
-                "temperature": 85
+                "temperature": 85,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T20:00:00+00:00",
@@ -694,7 +704,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'W',
                 "condition": "partlycloudy",
                 "clouds": 49,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T21:00:00+00:00",
@@ -705,7 +716,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WNW',
                 "condition": "partlycloudy",
                 "clouds": 34,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T22:00:00+00:00",
@@ -716,7 +728,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WNW',
                 "condition": "partlycloudy",
                 "clouds": 19,
-                "temperature": 83
+                "temperature": 83,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T23:00:00+00:00",
@@ -727,7 +740,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'NW',
                 "condition": "sunny",
                 "clouds": 4,
-                "temperature": 79
+                "temperature": 79,
+                "humidity": 50
               }
             ]
           }
@@ -765,7 +779,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WSW',
                 "condition": "cloudy",
                 "clouds": 60,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T18:00:00+00:00",
@@ -776,7 +791,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'WSW',
                 "condition": "cloudy",
                 "clouds": 75,
-                "temperature": 85
+                "temperature": 85,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T19:00:00+00:00",
@@ -787,7 +803,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'W',
                 "condition": "cloudy",
                 "clouds": 60,
-                "temperature": 85
+                "temperature": 85,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T20:00:00+00:00",
@@ -798,7 +815,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'W',
                 "condition": "partlycloudy",
                 "clouds": 49,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T21:00:00+00:00",
@@ -809,7 +827,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'ENE',
                 "condition": "partlycloudy",
                 "clouds": 34,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T22:00:00+00:00",
@@ -820,7 +839,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'ENE',
                 "condition": "partlycloudy",
                 "clouds": 19,
-                "temperature": 83
+                "temperature": 83,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T23:00:00+00:00",
@@ -831,7 +851,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'NW',
                 "condition": "sunny",
                 "clouds": 4,
-                "temperature": 79
+                "temperature": 79,
+                "humidity": 50
               }
             ]
           }
@@ -876,7 +897,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'ABC',
                 "condition": "cloudy",
                 "clouds": 60,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T18:00:00+00:00",
@@ -887,7 +909,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'ABC',
                 "condition": "cloudy",
                 "clouds": 75,
-                "temperature": 85
+                "temperature": 85,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T19:00:00+00:00",
@@ -898,7 +921,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'DEF',
                 "condition": "cloudy",
                 "clouds": 60,
-                "temperature": 85
+                "temperature": 85,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T20:00:00+00:00",
@@ -909,7 +933,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'DEF',
                 "condition": "partlycloudy",
                 "clouds": 49,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T21:00:00+00:00",
@@ -920,7 +945,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'GHI',
                 "condition": "partlycloudy",
                 "clouds": 34,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T22:00:00+00:00",
@@ -931,7 +957,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'GHI',
                 "condition": "partlycloudy",
                 "clouds": 19,
-                "temperature": 83
+                "temperature": 83,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T23:00:00+00:00",
@@ -942,7 +969,8 @@ describe('Weather bar', () => {
                 "wind_bearing": 'JKL',
                 "condition": "sunny",
                 "clouds": 4,
-                "temperature": 79
+                "temperature": 79,
+                "humidity": 50
               }
             ]
           }

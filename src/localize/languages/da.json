@@ -16,6 +16,7 @@
     "show_wind": "Vis vindhastighed og retning",
     "show_precipitation_amounts": "Vis nedbørsmængde",
     "show_precipitation_probability": "Vis nedbørssandsynlighed",
+    "show_humidity": "Vis fugtighed",
     "none": "Ingen",
     "speed_and_direction": "Hastighed og retning",
     "speed_only": "Kun hastighed",

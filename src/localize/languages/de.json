@@ -19,6 +19,7 @@
     "direction_only": "Nur Richtung",
     "barb": "Als Windbarbe",
     "show_precipitation_probability": "Niederschlagswahrscheinlichkeit anzeigen",
+    "show_humidity": "Luftfeuchtigkeit anzeigen",
     "none": "Keiner",
     "speed_and_direction": "Geschwindigkeit und Richtung",
     "barb_and_speed": "Als Windwiderhaken und Geschwindigkeit",

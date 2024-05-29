@@ -17,6 +17,7 @@
     "show_date": "Отображать даты",
     "show_precipitation_amounts": "Отображать количество осадков",
     "show_precipitation_probability": "Отображать вероятность осадков",
+    "show_humidity": "Показать влажность",
     "none": "Нет",
     "speed_and_direction": "Скорость и направление",
     "speed_only": "Только скорость",
