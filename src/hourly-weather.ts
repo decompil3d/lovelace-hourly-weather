@@ -457,7 +457,6 @@ export class HourlyWeatherCard extends LitElement {
         humidity: `${formatNumber(fs.humidity, this.hass.locale)}%`.trim()
       })
     }
-    console.log("Got humidity", humidity);
     return humidity;
   }
 
