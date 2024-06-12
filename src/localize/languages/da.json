@@ -51,7 +51,8 @@
     "snow": "Sne",
     "mixedPrecip": "Blandet nedbør",
     "sunny": "Sol",
-    "windy": "Blæsende"
+    "windy": "Blæsende",
+    "partlyCloudyNight": "Delvist overskyet (nat)"
   },
   "direction": {
     "n": "N",
