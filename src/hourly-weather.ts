@@ -142,7 +142,7 @@ export class HourlyWeatherCard extends LitElement {
 
   private async subscribeToForecastEvents() {
     this.unsubscribeForecastEvents();
-    if (!this.isConnected || !this.hass || !this.config || !this.config.entity || !this.hassSupportsForecastEvents()) {
+    if (!this.isConnected || !this.hass || !this.config || !this.config.entity || !this.hassSupportsForecastEvents() || !this.config.entity.startsWith('weather.')) {
       return;
     }
 
