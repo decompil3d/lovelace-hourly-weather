@@ -51,7 +51,8 @@
     "snow": "Sneh",
     "mixedPrecip": "Zmiešené",
     "sunny": "Slnečno",
-    "windy": "Veterno"
+    "windy": "Veterno",
+    "partlyCloudyNight": "Čiastočne oblačno (noc)"
   },
   "direction": {
     "n": "S",

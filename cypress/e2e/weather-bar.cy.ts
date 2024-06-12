@@ -23,15 +23,16 @@ describe('Weather bar', () => {
       .find('div.axes')
       .should('exist');
   });
-  it('has the current number of condition blocks', () => {
+  it('has the correct number of condition blocks', () => {
     cy.get('weather-bar')
       .shadow()
       .find('div.bar > div')
-      .should('have.length', 4);
+      .should('have.length', 5);
   });
   const expectedConditions = [
     'Cloudy',
     'Partly cloudy',
+    'Partly cloudy (night)',
     'Sunny',
     'Clear'
   ];
@@ -48,13 +49,15 @@ describe('Weather bar', () => {
 
   const expectedWidths = [
     6,
-    6,
+    2,
+    4,
     10,
     2
   ];
   const expectedColors = [
     'rgb(119, 119, 119)',
     'rgb(179, 219, 255)',
+    'rgb(51, 51, 51)',
     'rgb(144, 203, 255)',
     'rgb(17, 17, 17)'
   ];
@@ -77,8 +80,9 @@ describe('Weather bar', () => {
   const expectedCustomColors = [
     'rgb(255, 0, 0)',
     'rgb(0, 255, 0)',
+    'rgb(0, 255, 255)',
     'rgb(0, 0, 255)',
-    'rgb(0, 255, 255)'
+    'rgb(34, 34, 34)'
   ];
 
   it('uses custom colors when specified', () => {
@@ -87,7 +91,8 @@ describe('Weather bar', () => {
         cloudy: '#FF0000',
         partlycloudy: 'rgb(0, 255, 0)',
         sunny: 'hsl(240, 100%, 50%)',
-        "clear-night": 'cyan'
+        "night-partly-cloudy": 'cyan',
+        "clear-night": '#222',
       }
     });
     cy.get('weather-bar')
@@ -102,8 +107,9 @@ describe('Weather bar', () => {
   const expectedCustomObjectColors = [
     { bg: 'rgb(18, 52, 86)', fg: 'rgb(0, 0, 0)' },
     { bg: 'rgb(179, 219, 255)', fg: 'rgb(123, 45, 6)' },
+    { bg: 'rgb(50, 205, 50)', fg: 'rgb(0, 0, 0)' },
     { bg: 'rgb(0, 255, 0)', fg: 'rgb(255, 0, 255)' },
-    { bg: 'rgb(50, 205, 50)', fg: 'rgb(0, 0, 0)' }
+    { bg: 'rgb(34, 34, 34)', fg: 'rgb(255, 255, 255)' }
   ];
 
   it('uses custom colors when specified as color objects', () => {
@@ -119,7 +125,11 @@ describe('Weather bar', () => {
           background: 'hsl(120, 100%, 50%)',
           foreground: 'magenta'
         },
-        "clear-night": 'limegreen'
+        "night-partly-cloudy": 'limegreen',
+        "clear-night": {
+          background: '#222',
+          foreground: 'white'
+        }
       }
     });
     cy.get('weather-bar')
@@ -136,7 +146,7 @@ describe('Weather bar', () => {
       cy.get('weather-bar')
         .shadow()
         .find('div.bar > div > span.condition-label')
-        .should('have.length', 4)
+        .should('have.length', 5)
         .each((el, i) => {
           cy.wrap(el).should('have.text', expectedConditions[i]);
         });
@@ -156,7 +166,7 @@ describe('Weather bar', () => {
       cy.get('weather-bar')
         .shadow()
         .find('div.bar > div')
-        .its(2)
+        .its(3)
         .find('span.condition-label')
         .should(label => {
           const cs = window.getComputedStyle(label.get(0));
@@ -174,6 +184,7 @@ describe('Weather bar', () => {
     const expectedIcons = [
       'mdi:weather-cloudy',
       'mdi:weather-partly-cloudy',
+      'mdi:weather-night-partly-cloudy',
       'mdi:weather-sunny',
       'mdi:weather-night'
     ];
@@ -182,7 +193,7 @@ describe('Weather bar', () => {
       cy.get('weather-bar')
         .shadow()
         .find('div.bar > div > span.condition-icon')
-        .should('have.length', 4)
+        .should('have.length', 5)
         .find('ha-icon')
         .each((el, i) => {
           cy.wrap(el).invoke('attr', 'icon')
@@ -194,7 +205,7 @@ describe('Weather bar', () => {
       cy.get('weather-bar')
         .shadow()
         .find('div.bar > div')
-        .its(3)
+        .its(1)
         .find('span.condition-icon')
         .should(icon => {
           const cs = window.getComputedStyle(icon.get(0));

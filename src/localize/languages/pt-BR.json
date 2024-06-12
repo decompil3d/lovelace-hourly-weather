@@ -53,7 +53,8 @@
     "snow": "Neve",
     "mixedPrecip": "Precipitação mista",
     "sunny": "Ensolarado",
-    "windy": "Ventania"
+    "windy": "Ventania",
+    "partlyCloudyNight": "Parcialmente nublado (noite)"
   },
   "direction": {
     "n": "N",
