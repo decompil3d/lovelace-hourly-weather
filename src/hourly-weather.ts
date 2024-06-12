@@ -433,8 +433,10 @@ export class HourlyWeatherCard extends LitElement {
   private getAdjustedConditionForForecastSegment(fs: ForecastSegment): string {
     const when = new Date(fs.datetime);
     const { latitude, longitude } = this.hass.config;
-    const rise = sunrise(when, latitude, longitude);
-    const set = sunset(when, latitude, longitude);
+    const noonUTCOnDay = new Date(when.toLocaleDateString());
+    noonUTCOnDay.setUTCHours(12, 0, 0, 0);
+    const rise = sunrise(noonUTCOnDay, latitude, longitude);
+    const set = sunset(noonUTCOnDay, latitude, longitude);
     const isDay = when >= rise && when <= set;
     if (!isDay && fs.condition === 'partlycloudy') {
       return 'night-partly-cloudy';
