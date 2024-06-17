@@ -16,6 +16,7 @@ import {
   formatDateShort,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
+import { rise as sunrise, set as sunset } from 'solar-calculator';
 
 import type {
   ColorConfig,
@@ -413,11 +414,11 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private getConditionListFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): ConditionSpan[] {
-    let lastCond: string = forecast[offset].condition;
+    let lastCond: string = this.getAdjustedConditionForForecastSegment(forecast[offset]);
     let j = 0;
     const res: ConditionSpan[] = [[lastCond, 1]];
     for (let i = offset + 1; i < numSegments + offset; i++) {
-      const cond: string = forecast[i].condition;
+      const cond: string = this.getAdjustedConditionForForecastSegment(forecast[i]);
       if (cond === lastCond) {
         res[j][1]++;
       } else {
@@ -427,6 +428,20 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
     return res;
+  }
+
+  private getAdjustedConditionForForecastSegment(fs: ForecastSegment): string {
+    const when = new Date(fs.datetime);
+    const { latitude, longitude } = this.hass.config;
+    const noonUTCOnDay = new Date(when.toLocaleDateString());
+    noonUTCOnDay.setUTCHours(12, 0, 0, 0);
+    const rise = sunrise(noonUTCOnDay, latitude, longitude);
+    const set = sunset(noonUTCOnDay, latitude, longitude);
+    const isDay = when >= rise && when <= set;
+    if (!isDay && fs.condition === 'partlycloudy') {
+      return 'night-partly-cloudy';
+    }
+    return fs.condition;
   }
 
   private getTemperatures(forecast: ForecastSegment[], numSegments: number, offset: number): SegmentTemperature[] {

@@ -30,6 +30,7 @@
     "home-assistant-js-websocket": "^9.3.0",
     "is-valid-css-color": "^2.0.3",
     "lit": "^3.1.4",
+    "solar-calculator": "^0.3.0",
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {

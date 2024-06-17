@@ -198,12 +198,13 @@ export class WeatherBar extends LitElement {
   static styles = [unsafeCSS(tippyStyles), css`
     .main {
       --color-clear-night: #111;
-      --color-cloudy: #777777;
+      --color-cloudy: #777;
       --color-fog: var(--color-cloudy);
       --color-hail: #2b5174;
       --color-lightning: var(--color-rainy);
       --color-lightning-rainy: var(--color-rainy);
       --color-partlycloudy: #b3dbff;
+      --color-night-partly-cloudy: #333;
       --color-pouring: var(--color-rainy);
       --color-rainy: #44739d;
       --color-snowy: white;
@@ -275,6 +276,10 @@ export class WeatherBar extends LitElement {
     .partlycloudy {
       background-color: var(--color-partlycloudy);
       color: var(--color-partlycloudy-foreground, var(--primary-text-color));
+    }
+    .night-partly-cloudy {
+      background-color: var(--color-night-partly-cloudy);
+      color: var(--color-night-partly-cloudy-foreground, var(--primary-text-color));
     }
     .pouring {
       background-color: var(--color-pouring);

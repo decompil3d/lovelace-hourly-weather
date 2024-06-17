@@ -51,7 +51,8 @@
     "snow": "雪",
     "mixedPrecip": "雨夹雪",
     "sunny": "晴天",
-    "windy": "有风"
+    "windy": "有风",
+    "partlyCloudyNight": "部分多云（夜间）"
   },
   "direction": {
     "n": "北",
