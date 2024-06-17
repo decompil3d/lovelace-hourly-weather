@@ -51,8 +51,7 @@
     "snow": "Sneeuw",
     "mixedPrecip": "Gemengde neerslag",
     "sunny": "Zonnig",
-    "windy": "Winderig",
-    "partlyCloudyNight": "Gedeeltelijk bewolkt (nacht)"
+    "windy": "Winderig"
   },
   "direction": {
     "n": "N",

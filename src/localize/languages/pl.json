@@ -51,8 +51,7 @@
     "snow": "Śnieg",
     "mixedPrecip": "Mieszane opady",
     "sunny": "Słonecznie",
-    "windy": "Wietrznie",
-    "partlyCloudyNight": "Częściowe zachmurzenie (noc)"
+    "windy": "Wietrznie"
   },
   "direction": {
     "n": "P",

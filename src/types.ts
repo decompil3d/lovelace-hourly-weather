@@ -52,7 +52,6 @@ export interface ColorConfig {
   'lightning'?: ColorDefinition;
   'lightning-rainy'?: ColorDefinition;
   'partlycloudy'?: ColorDefinition;
-  'night-partly-cloudy'?: ColorDefinition;
   'pouring'?: ColorDefinition;
   'rainy'?: ColorDefinition;
   'snowy'?: ColorDefinition;

@@ -151,24 +151,23 @@ color in your Home Assistant theme.
 Some conditions will default to whatever the value is of some other condition. For example, `fog` will default to
 whatever `cloudy` is.
 
-| Key                   | Default                |
-|-----------------------|------------------------|
-| `clear-night`         | `#111`                 |
-| `cloudy`              | `#777`                 |
-| `fog`                 | same as `cloudy`       |
-| `hail`                | `#2b5174`              |
-| `lightning`           | same as `rainy`        |
-| `lightning-rainy`     | same as `rainy`        |
-| `partlycloudy`        | `#b3dbff`              |
-| `night-partly-cloudy` | `#333`                 |
-| `pouring`             | same as `rainy`        |
-| `rainy`               | `#44739d`              |
-| `snowy`               | `#fff`                 |
-| `snowy-rainy`         | same as `partlycloudy` |
-| `sunny`               | `#90cbff`              |
-| `windy`               | same as `sunny`        |
-| `windy-variant`       | same as `sunny`        |
-| `exceptional`         | `#ff9d00`              |
+| Key               | Default                |
+|-------------------|------------------------|
+| `clear-night`     | `#000`                 |
+| `cloudy`          | `#777`                 |
+| `fog`             | same as `cloudy`       |
+| `hail`            | `#2b5174`              |
+| `lightning`       | same as `rainy`        |
+| `lightning-rainy` | same as `rainy`        |
+| `partlycloudy`    | `#b3dbff`              |
+| `pouring`         | same as `rainy`        |
+| `rainy`           | `#44739d`              |
+| `snowy`           | `#fff`                 |
+| `snowy-rainy`     | same as `partlycloudy` |
+| `sunny`           | `#90cbff`              |
+| `windy`           | same as `sunny`        |
+| `windy-variant`   | same as `sunny`        |
+| `exceptional`     | `#ff9d00`              |
 
 ### Sample colors configuration
 

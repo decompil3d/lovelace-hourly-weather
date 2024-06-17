@@ -51,8 +51,7 @@
     "snow": "Снег",
     "mixedPrecip": "Смешанные осадки",
     "sunny": "Солнечно",
-    "windy": "Ветрено",
-    "partlyCloudyNight": "Небольшая облачность (ночь)"
+    "windy": "Ветрено"
   },
   "direction": {
     "n": "С",
