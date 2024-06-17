@@ -51,8 +51,7 @@
     "snow": "Neve",
     "mixedPrecip": "Precipitação mista",
     "sunny": "Sol",
-    "windy": "Vento",
-    "partlyCloudyNight": "Parcialmente nublado (noite)"
+    "windy": "Vento"
   },
   "direction": {
     "n": "N",

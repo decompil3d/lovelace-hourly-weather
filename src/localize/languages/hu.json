@@ -51,8 +51,7 @@
     "snow": "Havazás",
     "mixedPrecip": "Havas eső",
     "sunny": "Napos",
-    "windy": "Szeles",
-    "partlyCloudyNight": "Részben felhős (éjszaka)"
+    "windy": "Szeles"
   },
   "direction": {
     "n": "É",

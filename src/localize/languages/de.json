@@ -51,8 +51,7 @@
     "snow": "Schnee",
     "mixedPrecip": "Gemischter Niederschlag",
     "sunny": "Sonnig",
-    "windy": "Windig",
-    "partlyCloudyNight": "Teilweise bewölkt (Nacht)"
+    "windy": "Windig"
   },
   "direction": {
     "n": "N",

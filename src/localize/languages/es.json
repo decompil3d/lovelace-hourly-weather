@@ -51,8 +51,7 @@
     "snow": "Nieve",
     "mixedPrecip": "Chaparrones dispersos",
     "sunny": "Soleado",
-    "windy": "Ventoso",
-    "partlyCloudyNight": "Parcialmente nublado (noche)"
+    "windy": "Ventoso"
   },
   "direction": {
     "n": "N",
