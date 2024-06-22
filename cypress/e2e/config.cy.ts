@@ -82,7 +82,8 @@ describe('Config', () => {
               "wind_bearing": 'WSW',
               "condition": "cloudy",
               "clouds": 60,
-              "temperature": 84
+              "temperature": 84,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T18:00:00+00:00",
@@ -93,7 +94,8 @@ describe('Config', () => {
               "wind_bearing": 'WSW',
               "condition": "cloudy",
               "clouds": 75,
-              "temperature": 85
+              "temperature": 85,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T19:00:00+00:00",
@@ -104,7 +106,8 @@ describe('Config', () => {
               "wind_bearing": 'W',
               "condition": "cloudy",
               "clouds": 60,
-              "temperature": 85
+              "temperature": 85,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T20:00:00+00:00",
@@ -115,7 +118,8 @@ describe('Config', () => {
               "wind_bearing": 'W',
               "condition": "partlycloudy",
               "clouds": 49,
-              "temperature": 84
+              "temperature": 84,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T21:00:00+00:00",
@@ -126,7 +130,8 @@ describe('Config', () => {
               "wind_bearing": 'WNW',
               "condition": "partlycloudy",
               "clouds": 34,
-              "temperature": 84
+              "temperature": 84,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T22:00:00+00:00",
@@ -137,7 +142,8 @@ describe('Config', () => {
               "wind_bearing": 'WNW',
               "condition": "partlycloudy",
               "clouds": 19,
-              "temperature": 83
+              "temperature": 83,
+              "humidity": 50
             }
           ]
         }
@@ -169,7 +175,8 @@ describe('Config', () => {
               "wind_bearing": 'WSW',
               "condition": "cloudy",
               "clouds": 60,
-              "temperature": 84
+              "temperature": 84,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T18:00:00+00:00",
@@ -180,7 +187,8 @@ describe('Config', () => {
               "wind_bearing": 'WSW',
               "condition": "cloudy",
               "clouds": 75,
-              "temperature": 85
+              "temperature": 85,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T19:00:00+00:00",
@@ -191,7 +199,8 @@ describe('Config', () => {
               "wind_bearing": 'W',
               "condition": "cloudy",
               "clouds": 60,
-              "temperature": 85
+              "temperature": 85,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T20:00:00+00:00",
@@ -202,7 +211,8 @@ describe('Config', () => {
               "wind_bearing": 'W',
               "condition": "partlycloudy",
               "clouds": 49,
-              "temperature": 84
+              "temperature": 84,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T21:00:00+00:00",
@@ -213,7 +223,8 @@ describe('Config', () => {
               "wind_bearing": 'WNW',
               "condition": "partlycloudy",
               "clouds": 34,
-              "temperature": 84
+              "temperature": 84,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T22:00:00+00:00",
@@ -224,7 +235,8 @@ describe('Config', () => {
               "wind_bearing": 'WNW',
               "condition": "partlycloudy",
               "clouds": 19,
-              "temperature": 83
+              "temperature": 83,
+              "humidity": 50
             }
           ]
         }
@@ -385,7 +397,8 @@ describe('Config', () => {
                 "wind_bearing": 255,
                 "condition": "sunny",
                 "clouds": 60,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T18:00:00+00:00",
@@ -396,7 +409,8 @@ describe('Config', () => {
                 "wind_bearing": 253,
                 "condition": "sunny",
                 "clouds": 75,
-                "temperature": 85
+                "temperature": 85,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T19:00:00+00:00",
@@ -407,7 +421,8 @@ describe('Config', () => {
                 "wind_bearing": 258,
                 "condition": "sunny",
                 "clouds": 60,
-                "temperature": 85
+                "temperature": 85,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T20:00:00+00:00",
@@ -418,7 +433,8 @@ describe('Config', () => {
                 "wind_bearing": 278,
                 "condition": "sunny",
                 "clouds": 49,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T21:00:00+00:00",
@@ -429,7 +445,8 @@ describe('Config', () => {
                 "wind_bearing": 297,
                 "condition": "sunny",
                 "clouds": 34,
-                "temperature": 84
+                "temperature": 84,
+                "humidity": 50
               },
               {
                 "datetime": "2022-07-21T22:00:00+00:00",
@@ -440,7 +457,8 @@ describe('Config', () => {
                 "wind_bearing": 293,
                 "condition": "sunny",
                 "clouds": 19,
-                "temperature": 83
+                "temperature": 83,
+                "humidity": 50
               }
             ]
           }
@@ -456,7 +474,8 @@ describe('Config', () => {
           "wind_bearing": 255,
           "condition": "snowy",
           "clouds": 60,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T18:00:00+00:00",
@@ -467,7 +486,8 @@ describe('Config', () => {
           "wind_bearing": 253,
           "condition": "snowy",
           "clouds": 75,
-          "temperature": 85
+          "temperature": 85,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T19:00:00+00:00",
@@ -478,7 +498,8 @@ describe('Config', () => {
           "wind_bearing": 258,
           "condition": "snowy",
           "clouds": 60,
-          "temperature": 85
+          "temperature": 85,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T20:00:00+00:00",
@@ -489,7 +510,8 @@ describe('Config', () => {
           "wind_bearing": 278,
           "condition": "snowy",
           "clouds": 49,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T21:00:00+00:00",
@@ -500,7 +522,8 @@ describe('Config', () => {
           "wind_bearing": 297,
           "condition": "snowy",
           "clouds": 34,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T22:00:00+00:00",
@@ -511,7 +534,8 @@ describe('Config', () => {
           "wind_bearing": 293,
           "condition": "snowy",
           "clouds": 19,
-          "temperature": 83
+          "temperature": 83,
+          "humidity": 50
         }
       ]);
 
@@ -547,7 +571,8 @@ describe('Config', () => {
           "wind_bearing": 255,
           "condition": "snowy",
           "clouds": 60,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T18:00:00+00:00",
@@ -558,7 +583,8 @@ describe('Config', () => {
           "wind_bearing": 253,
           "condition": "snowy",
           "clouds": 75,
-          "temperature": 85
+          "temperature": 85,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T19:00:00+00:00",
@@ -569,7 +595,8 @@ describe('Config', () => {
           "wind_bearing": 258,
           "condition": "snowy",
           "clouds": 60,
-          "temperature": 85
+          "temperature": 85,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T20:00:00+00:00",
@@ -580,7 +607,8 @@ describe('Config', () => {
           "wind_bearing": 278,
           "condition": "snowy",
           "clouds": 49,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T21:00:00+00:00",
@@ -591,7 +619,8 @@ describe('Config', () => {
           "wind_bearing": 297,
           "condition": "snowy",
           "clouds": 34,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T22:00:00+00:00",
@@ -602,7 +631,8 @@ describe('Config', () => {
           "wind_bearing": 293,
           "condition": "snowy",
           "clouds": 19,
-          "temperature": 83
+          "temperature": 83,
+          "humidity": 50
         }
       ]);
 
@@ -637,7 +667,8 @@ describe('Config', () => {
           "wind_bearing": 255,
           "condition": "snowy",
           "clouds": 60,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T18:00:00+00:00",
@@ -648,7 +679,8 @@ describe('Config', () => {
           "wind_bearing": 253,
           "condition": "snowy",
           "clouds": 75,
-          "temperature": 85
+          "temperature": 85,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T19:00:00+00:00",
@@ -659,7 +691,8 @@ describe('Config', () => {
           "wind_bearing": 258,
           "condition": "snowy",
           "clouds": 60,
-          "temperature": 85
+          "temperature": 85,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T20:00:00+00:00",
@@ -670,7 +703,8 @@ describe('Config', () => {
           "wind_bearing": 278,
           "condition": "snowy",
           "clouds": 49,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T21:00:00+00:00",
@@ -681,7 +715,8 @@ describe('Config', () => {
           "wind_bearing": 297,
           "condition": "snowy",
           "clouds": 34,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T22:00:00+00:00",
@@ -692,7 +727,8 @@ describe('Config', () => {
           "wind_bearing": 293,
           "condition": "snowy",
           "clouds": 19,
-          "temperature": 83
+          "temperature": 83,
+          "humidity": 50
         }
       ]);
 
@@ -720,7 +756,8 @@ describe('Config', () => {
           "wind_bearing": 255,
           "condition": "rainy",
           "clouds": 60,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T18:00:00+00:00",
@@ -731,7 +768,8 @@ describe('Config', () => {
           "wind_bearing": 253,
           "condition": "rainy",
           "clouds": 75,
-          "temperature": 85
+          "temperature": 85,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T19:00:00+00:00",
@@ -742,7 +780,8 @@ describe('Config', () => {
           "wind_bearing": 258,
           "condition": "rainy",
           "clouds": 60,
-          "temperature": 85
+          "temperature": 85,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T20:00:00+00:00",
@@ -753,7 +792,8 @@ describe('Config', () => {
           "wind_bearing": 278,
           "condition": "rainy",
           "clouds": 49,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T21:00:00+00:00",
@@ -764,7 +804,8 @@ describe('Config', () => {
           "wind_bearing": 297,
           "condition": "rainy",
           "clouds": 34,
-          "temperature": 84
+          "temperature": 84,
+          "humidity": 50
         },
         {
           "datetime": "2022-07-21T22:00:00+00:00",
@@ -775,7 +816,8 @@ describe('Config', () => {
           "wind_bearing": 293,
           "condition": "rainy",
           "clouds": 19,
-          "temperature": 83
+          "temperature": 83,
+          "humidity": 50
         }
       ]);
 

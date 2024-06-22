@@ -17,6 +17,7 @@
     "show_date": "Show dates",
     "show_precipitation_amounts": "Show precipitation amount",
     "show_precipitation_probability": "Show precipitation probability",
+    "show_humidity": "Show humidity",
     "none": "None",
     "speed_and_direction": "Speed and direction",
     "speed_only": "Speed only",

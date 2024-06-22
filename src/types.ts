@@ -26,6 +26,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   hide_temperatures?: boolean;
   round_temperatures?: boolean;
   show_wind?: WindType | boolean; // 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction'
+  show_humidity?: boolean;
   show_precipitation_amounts?: boolean;
   show_precipitation_probability?: boolean;
   show_date?: ShowDateType; // 'false' | 'boundary' | 'all'
@@ -70,6 +71,7 @@ export interface ForecastSegment {
   precipitation_probability: number; // 85
   pressure: number; // 1007
   temperature: number; // 61
+  humidity: number; // 50
   wind_bearing: number | string; // 153 | 'SSW'
   wind_speed: number; // 3.06
 }
@@ -83,6 +85,11 @@ export interface SegmentTemperature {
   hour: string,
   date: string,
   temperature: string
+}
+
+export interface SegmentHumidity {
+  hour: string,
+  humidity: string
 }
 
 export interface SegmentWind {

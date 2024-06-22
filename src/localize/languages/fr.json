@@ -19,6 +19,7 @@
     "direction_only": "Sens uniquement",
     "barb": "Comme barbillon de vent",
     "show_precipitation_probability": "Afficher la probabilité de précipitation",
+    "show_humidity": "Afficher l'humidité",
     "none": "Aucun",
     "speed_and_direction": "Vitesse et orientation",
     "barb_and_speed": "Comme barbe de vent et vitesse",

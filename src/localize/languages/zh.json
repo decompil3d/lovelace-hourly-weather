@@ -17,6 +17,7 @@
     "show_date": "显示日期",
     "show_precipitation_amounts": "显示降雨量",
     "show_precipitation_probability": "显示降雨概率",
+    "show_humidity": "显示湿度",
     "none": "无",
     "speed_and_direction": "速度和方向",
     "speed_only": "仅速度",

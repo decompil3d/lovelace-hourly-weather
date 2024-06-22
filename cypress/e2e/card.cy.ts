@@ -62,7 +62,8 @@ describe('Card', () => {
         "wind_bearing": 'WSW',
         "condition": "cloudy",
         "clouds": 60,
-        "temperature": 84
+        "temperature": 84,
+        "humidity": 50
       },
     ];
     cy.addEntity({
@@ -89,7 +90,8 @@ describe('Card', () => {
         "wind_bearing": 'WSW',
         "condition": "cloudy",
         "clouds": 60,
-        "temperature": 84
+        "temperature": 84,
+        "humidity": 50
       },
       {
         "datetime": "2022-07-21T17:00:00+00:00",
@@ -100,7 +102,8 @@ describe('Card', () => {
         "wind_bearing": 'WSW',
         "condition": "cloudy",
         "clouds": 60,
-        "temperature": 84
+        "temperature": 84,
+        "humidity": 50
       }
     ];
     cy.addForecast('weather.fromSub', forecast2);
