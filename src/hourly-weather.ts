@@ -295,7 +295,7 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private hassSupportsForecastEvents(): boolean {
-    return !!(this.hass?.services?.weather?.get_forecast);
+    return !!(this.hass?.services?.weather?.get_forecasts) || !!(this.hass?.services?.weather?.get_forecast);
   }
 
   // https://lit.dev/docs/components/rendering/
