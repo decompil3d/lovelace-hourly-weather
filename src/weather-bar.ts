@@ -1,10 +1,11 @@
-import { LitElement, html, css, TemplateResult, unsafeCSS, PropertyValueMap } from "lit";
+import { LitElement, html, css, nothing, TemplateResult, unsafeCSS, PropertyValueMap } from "lit";
 import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
 import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType } from "./types";
+import { getWeatherStateSVG, weatherSVGStyles } from './lib/homeassistant-weather-icons';
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -39,6 +40,15 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   hide_bar = false;
 
+  @property({ type: Boolean })
+  icon_fill = false;
+
+  @property({ type: Boolean })
+  official_icons = false;
+
+  @property({ type: Number })
+  segment_spacing = 1;
+
   @property({ type: String })
   show_wind: WindType = 'false';
 
@@ -59,23 +69,52 @@ export class WeatherBar extends LitElement {
 
   private tips: Instance[] = [];
 
+  private getIcon(condition:string) {
+    if (this.official_icons) {
+      return html`<span class="condition-icon-big">${getWeatherStateSVG(condition)}</span>`
+    }
+
+    let icon = ICONS[condition];
+    if (icon === condition) icon = 'mdi:weather-' + icon;
+    else icon = 'mdi:' + icon;
+    icon = html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>`;
+    return icon;
+  }
+
+  private getConditionBar(condition: string, start:number, end:number, label: string, icon: string) {
+    const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(start), gridColumnEnd: String(end) };
+    return html`
+      <div class="${this.official_icons ? nothing : condition}" style=${styleMap(barStyles)} data-tippy-content=${label}>
+        ${this.icons ?
+        html`${icon}` :
+        html`<span class="condition-label">${label}</span>`}
+      </div>`;
+  }
+
   render() {
     const conditionBars: TemplateResult[] = [];
     let gridStart = 1;
     if (!this.hide_bar) {
       for (const cond of this.conditions) {
+
         const label = this.labels[cond[0]];
-        let icon = ICONS[cond[0]];
-        if (icon === cond[0]) icon = 'mdi:weather-' + icon;
-        else icon = 'mdi:' + icon;
-        const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1] * 2) };
-        conditionBars.push(html`
-          <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
-            ${this.icons ?
-            html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>` :
-            html`<span class="condition-label">${label}</span>`}
-          </div>
-        `);
+        const icon = this.getIcon(cond[0]);
+
+        if (this.icon_fill) {
+          for (let i = 0; i < cond[1]; i += this.segment_spacing) {
+            const gridEnd = gridStart + (2 * this.segment_spacing);
+            conditionBars.push(
+              this.getConditionBar(cond[0], gridStart, gridEnd, label, icon)
+            )
+            gridStart = gridEnd;
+          }
+        } else {
+          const gridEnd = gridStart + cond[1] * 2
+          conditionBars.push(
+            this.getConditionBar(cond[0], gridStart, gridEnd, label, icon)
+          )
+          gridStart = gridEnd;
+        }
       }
     }
 
@@ -195,7 +234,7 @@ export class WeatherBar extends LitElement {
     </svg>`;
   }
 
-  static styles = [unsafeCSS(tippyStyles), css`
+  static styles = [unsafeCSS(tippyStyles), weatherSVGStyles, css`
     .main {
       --color-clear-night: #111;
       --color-cloudy: #777777;
@@ -236,6 +275,16 @@ export class WeatherBar extends LitElement {
       display: inline-block;
       max-width: max(0px, calc((100% - 40px) * 999));
       overflow: hidden;
+    }
+    .condition-icon-big {
+      display: inline-block;
+      max-width: max(0px, calc((100% - 20px) * 999));
+      overflow: hidden;
+
+      width: var(--mdc-icon-size,48px);
+      height: var(--mdc-icon-size,48px);
+      justify-self: center;
+      align-self: center;
     }
     .condition-icon > ha-icon {
       filter: drop-shadow(1px 1px 3px var(--primary-background-color));

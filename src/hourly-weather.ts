@@ -319,6 +319,7 @@ export class HourlyWeatherCard extends LitElement {
     const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
     const offset = parseInt(config.offset ?? '0', 10);
     const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
+    const segmentSpacing = parseInt(config.segment_spacing ?? '1', 10);
     const forecastNotAvailable = !forecast || !forecast.length;
 
     if (numSegments < 1) {
@@ -338,6 +339,11 @@ export class HourlyWeatherCard extends LitElement {
     if (labelSpacing < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
+    }
+
+    if (segmentSpacing < 1) {
+      // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
+      return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'segment_spacing'));
     }
 
     let showWind = config.show_wind;
@@ -401,6 +407,9 @@ export class HourlyWeatherCard extends LitElement {
             .hide_temperatures=${!!config.hide_temperatures}
             .round_temperatures=${!!config.round_temperatures}
             .hide_bar=${!!config.hide_bar}
+            .icon_fill=${!!config.icon_fill}
+            .official_icons=${!!config.official_icons}
+            .segment_spacing=${segmentSpacing}
             .show_wind=${showWind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}
