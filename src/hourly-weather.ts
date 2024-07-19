@@ -196,6 +196,11 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
 
+    if (config.icon_fill && config.icon_fill !== 'single' && config.icon_fill !== 'full') {
+      if (!Number.isNaN(config.icon_fill) && (config.icon_fill < 1)) {
+        throw new Error(this.localize('errors.must_be_positive_int'));
+      }
+    }
     if (config.test_gui) {
       getLovelace().setEditMode(true);
     }
@@ -401,6 +406,7 @@ export class HourlyWeatherCard extends LitElement {
             .hide_temperatures=${!!config.hide_temperatures}
             .round_temperatures=${!!config.round_temperatures}
             .hide_bar=${!!config.hide_bar}
+            .icon_fill=${config.icon_fill}
             .show_wind=${showWind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}

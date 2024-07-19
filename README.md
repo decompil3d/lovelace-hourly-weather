@@ -61,30 +61,31 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 
 ## Options
 
-| Name                             | Type             | Requirement  | Description                                                                                                                                                     | Default             |
-|----------------------------------|------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-| `type`                           | string           | **Required** | `custom:hourly-weather`                                                                                                                                         |                     |
-| `entity`                         | string           | **Required** | Home Assistant weather entity ID.                                                                                                                               |                     |
-| `forecast_type`                  | string           | **Optional** | The type of forecast data to use. One of `hourly`, `daily`, or `twice-daily`. If not specified, the card will attempt to use the finest-grained data available. |                     |
-| `name`                           | string           | **Optional** | Card name (set to `null` to hide)                                                                                                                               | `Hourly Weather`    |
-| `icons`                          | bool             | **Optional** | Whether to show icons instead of text labels                                                                                                                    | `false`             |
-| `num_segments`                   | number           | **Optional** | Number of forecast segments to show (integer >= 1)                                                                                                              | `12`                |
-| ~~`num_hours`~~                  | number           | **Optional** | _Deprecated:_ Use `num_segments` instead                                                                                                                        | `12`                |
-| `offset`                         | number           | **Optional** | Number of forecast segments to offset from start                                                                                                                | `0`                 |
-| `label_spacing`                  | number           | **Optional** | Space between time/temperature labels (integer >= 1)                                                                                                            | `2`                 |
-| `colors`                         | [object][color]  | **Optional** | Set colors for all or some conditions                                                                                                                           |                     |
-| `hide_hours`                     | bool             | **Optional** | Whether to hide hour labels under the bar                                                                                                                       | `false`             |
-| `hide_temperatures`              | bool             | **Optional** | Whether to hide temperatures under the bar                                                                                                                      | `false`             |
-| `round_temperatures`             | bool             | **Optional** | Whether to round temperatures to the nearest whole number                                                                                                       | `false`             |
-| `hide_bar`                       | bool             | **Optional** | Whether to hide the bar itself                                                                                                                                  | `false`             |
-| `show_wind`                      | [Wind][wind]     | **Optional** | Whether to show wind speed and/or direction under the bar                                                                                                       | `'false'`           |
-| `show_precipitation_amounts`     | bool             | **Optional** | Whether to show precipitation (rain) amount under the bar                                                                                                       | `false`             |
-| `show_precipitation_probability` | bool             | **Optional** | Whether to show precipitation (rain) probability under the bar                                                                                                  | `false`             |
-| `show_date`                      | [string][dates]  | **Optional** | Whether to show date under the bar                                                                                                                              | `'false'`           |
-| `tap_action`                     | [object][action] | **Optional** | Action to take on tap                                                                                                                                           | `action: more-info` |
-| `hold_action`                    | [object][action] | **Optional** | Action to take on hold                                                                                                                                          | `none`              |
-| `double_tap_action`              | [object][action] | **Optional** | Action to take on double tap                                                                                                                                    | `none`              |
-| `language`                       | string           | **Optional** | Language to use for card (overrides HA & user settings)                                                                                                         |                     |
+| Name                             | Type                | Requirement  | Description                                                                                                                                                     | Default             |
+|----------------------------------|---------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
+| `type`                           | string              | **Required** | `custom:hourly-weather`                                                                                                                                         |                     |
+| `entity`                         | string              | **Required** | Home Assistant weather entity ID.                                                                                                                               |                     |
+| `forecast_type`                  | string              | **Optional** | The type of forecast data to use. One of `hourly`, `daily`, or `twice-daily`. If not specified, the card will attempt to use the finest-grained data available. |                     |
+| `name`                           | string              | **Optional** | Card name (set to `null` to hide)                                                                                                                               | `Hourly Weather`    |
+| `icons`                          | bool                | **Optional** | Whether to show icons instead of text labels                                                                                                                    | `false`             |
+| `num_segments`                   | number              | **Optional** | Number of forecast segments to show (integer >= 1)                                                                                                              | `12`                |
+| ~~`num_hours`~~                  | number              | **Optional** | _Deprecated:_ Use `num_segments` instead                                                                                                                        | `12`                |
+| `offset`                         | number              | **Optional** | Number of forecast segments to offset from start                                                                                                                | `0`                 |
+| `label_spacing`                  | number              | **Optional** | Space between time/temperature labels (integer >= 1)                                                                                                            | `2`                 |
+| `colors`                         | [object][color]     | **Optional** | Set colors for all or some conditions                                                                                                                           |                     |
+| `hide_hours`                     | bool                | **Optional** | Whether to hide hour labels under the bar                                                                                                                       | `false`             |
+| `hide_temperatures`              | bool                | **Optional** | Whether to hide temperatures under the bar                                                                                                                      | `false`             |
+| `round_temperatures`             | bool                | **Optional** | Whether to round temperatures to the nearest whole number                                                                                                       | `false`             |
+| `hide_bar`                       | bool                | **Optional** | Whether to hide the bar itself                                                                                                                                  | `false`             |
+| `icon_fill`                      | [string][icon_fill] | **Optional** | Whether to repeat the icon inside the bar                                                                                                                       | `'single`           |
+| `show_wind`                      | [Wind][wind]        | **Optional** | Whether to show wind speed and/or direction under the bar                                                                                                       | `'false'`           |
+| `show_precipitation_amounts`     | bool                | **Optional** | Whether to show precipitation (rain) amount under the bar                                                                                                       | `false`             |
+| `show_precipitation_probability` | bool                | **Optional** | Whether to show precipitation (rain) probability under the bar                                                                                                  | `false`             |
+| `show_date`                      | [string][dates]     | **Optional** | Whether to show date under the bar                                                                                                                              | `'false'`           |
+| `tap_action`                     | [object][action]    | **Optional** | Action to take on tap                                                                                                                                           | `action: more-info` |
+| `hold_action`                    | [object][action]    | **Optional** | Action to take on hold                                                                                                                                          | `none`              |
+| `double_tap_action`              | [object][action]    | **Optional** | Action to take on double tap                                                                                                                                    | `none`              |
+| `language`                       | string              | **Optional** | Language to use for card (overrides HA & user settings)                                                                                                         |                     |
 
 > Note that some of the more advanced options are not available in the card editor UI and must be configured via YAML.
 
@@ -205,6 +206,14 @@ colors:
 - `boundary` Show date at the boundary between days
 - `all` Always show date
 
+### Icon Fill Options
+
+`icon_fill` can be one of the following values:
+
+- `single` Show one icon per forecast span (deafult)
+- `full` Show one icon per forecast segment.
+- `<n>` (an integer). Show icons every _n-th_ forecast segments (will at least show one icon per forecast span)
+
 ## Upgrades
 
 ### Version 3 ➡️ 4
@@ -231,5 +240,6 @@ structure.
 
 [color]: #color-options
 [wind]: #wind-options
+[icon_fill]: #icon-fill-options
 [dates]: #date-options
 [action]: #action-options
