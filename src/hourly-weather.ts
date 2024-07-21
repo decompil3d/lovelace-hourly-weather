@@ -196,9 +196,13 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
 
-    if (config.icon_fill && config.icon_fill !== 'single' && config.icon_fill !== 'full') {
-      if (!Number.isNaN(config.icon_fill) && (config.icon_fill < 1)) {
-        throw new Error(this.localize('errors.must_be_positive_int'));
+    if (config.icon_fill) {
+      const isFull = config.icon_fill === 'full';
+      const isSingle = config.icon_fill === 'single';
+      const valueAsNumber = Number(config.icon_fill); //Note: undefined and strings will be converted NaN, but null is 0
+      const isPositiveInteger =  Number.isInteger(valueAsNumber) && valueAsNumber > 0;
+      if (!isFull && !isSingle && !isPositiveInteger) {
+        throw new Error(this.localize('errors.invalid_value_icon_fill'));
       }
     }
     if (config.test_gui) {
