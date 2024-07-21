@@ -77,7 +77,7 @@ export class WeatherBar extends LitElement {
           iconMarkup.push(html`<span class="condition-label">${label}</span>`);
         } else {
           let iconSize: IconFillType;
-          if (this.icon_fill === 'single') {
+          if (!this.icon_fill || this.icon_fill === 'single') {
             iconSize = cond[1]; // grid width of segment, so one icon
           } else if (this.icon_fill === 'full') {
             iconSize = 1;
