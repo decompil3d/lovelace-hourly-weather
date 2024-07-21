@@ -32,6 +32,7 @@ import type {
   RenderTemplateResult,
   SegmentPrecipitation,
   SegmentTemperature,
+  SegmentHumidity,
   SegmentWind,
 } from './types';
 import { actionHandler } from './action-handler-directive';
@@ -370,6 +371,7 @@ export class HourlyWeatherCard extends LitElement {
 
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset);
+    const humidity = this.getHumidity(forecast, numSegments, offset);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit);
     const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit);
 
@@ -393,6 +395,7 @@ export class HourlyWeatherCard extends LitElement {
           <weather-bar
             .conditions=${conditionList}
             .temperatures=${temperatures}
+            .humidity=${humidity}
             .wind=${wind}
             .precipitation=${precipitation}
             .icons=${!!config.icons}
@@ -401,6 +404,7 @@ export class HourlyWeatherCard extends LitElement {
             .hide_temperatures=${!!config.hide_temperatures}
             .round_temperatures=${!!config.round_temperatures}
             .hide_bar=${!!config.hide_bar}
+            .show_humidity=${!!config.show_humidity}
             .show_wind=${showWind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}
@@ -441,6 +445,19 @@ export class HourlyWeatherCard extends LitElement {
       })
     }
     return temperatures;
+  }
+
+  private getHumidity(forecast: ForecastSegment[], numSegments: number, offset: number): SegmentHumidity[] {
+    const humidity: SegmentHumidity[] = [];
+    for (let i = offset; i < numSegments + offset; i++) {
+      const fs = forecast[i];
+      const dt = new Date(fs.datetime)
+      humidity.push({
+        hour: this.formatHour(dt, this.hass.locale),
+        humidity: `${formatNumber(fs.humidity, this.hass.locale)}%`.trim()
+      })
+    }
+    return humidity;
   }
 
   private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string): SegmentPrecipitation[] {

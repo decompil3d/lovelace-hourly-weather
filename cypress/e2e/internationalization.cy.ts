@@ -71,7 +71,8 @@ describe('Internationalization', () => {
               "wind_bearing": 255,
               "condition": "cloudy",
               "clouds": 60,
-              "temperature": 84.2
+              "temperature": 84.2,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T18:00:00+00:00",
@@ -82,7 +83,8 @@ describe('Internationalization', () => {
               "wind_bearing": 253,
               "condition": "cloudy",
               "clouds": 75,
-              "temperature": 85.5
+              "temperature": 85.5,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T19:00:00+00:00",
@@ -93,7 +95,8 @@ describe('Internationalization', () => {
               "wind_bearing": 258,
               "condition": "cloudy",
               "clouds": 60,
-              "temperature": 85.3
+              "temperature": 85.3,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T20:00:00+00:00",
@@ -104,7 +107,8 @@ describe('Internationalization', () => {
               "wind_bearing": 278,
               "condition": "partlycloudy",
               "clouds": 49,
-              "temperature": 84.0
+              "temperature": 84.0,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T21:00:00+00:00",
@@ -115,7 +119,8 @@ describe('Internationalization', () => {
               "wind_bearing": 297,
               "condition": "partlycloudy",
               "clouds": 34,
-              "temperature": 84.1
+              "temperature": 84.1,
+              "humidity": 50
             },
             {
               "datetime": "2022-07-21T22:00:00+00:00",
@@ -126,7 +131,8 @@ describe('Internationalization', () => {
               "wind_bearing": 293,
               "condition": "partlycloudy",
               "clouds": 19,
-              "temperature": 83.8
+              "temperature": 83.8,
+              "humidity": 50
             }
           ]}
         }

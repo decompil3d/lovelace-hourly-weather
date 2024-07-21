@@ -4,7 +4,7 @@ import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
-import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType } from "./types";
+import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentHumidity, SegmentWind, SegmentPrecipitation, WindType, ShowDateType } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -14,6 +14,9 @@ export class WeatherBar extends LitElement {
 
   @property({ type: Array })
   temperatures: SegmentTemperature[] = [];
+
+  @property({ type: Array })
+  humidity: SegmentHumidity[] = [];
 
   @property({ type: Array })
   wind: SegmentWind[] = [];
@@ -41,6 +44,9 @@ export class WeatherBar extends LitElement {
 
   @property({ type: String })
   show_wind: WindType = 'false';
+
+  @property({ type: Boolean })
+  show_humidity = false;
 
   @property({ type: Boolean })
   show_precipitation_amounts = false;
@@ -86,6 +92,7 @@ export class WeatherBar extends LitElement {
       const skipLabel = i % (this.label_spacing) !== 0;
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
+      const showHumidity = this.show_humidity && !skipLabel;
       const showWindSpeed = (windCfg === 'true' || windCfg.includes('speed')) && !skipLabel;
       const showWindDirection = (windCfg === 'true' || windCfg.includes('direction')) && !skipLabel;
       const showWindBarb = windCfg.includes('barb') && !skipLabel;
@@ -110,8 +117,11 @@ export class WeatherBar extends LitElement {
           }
         }
       }
-      const { windSpeed, windSpeedRawMS, windDirection, windDirectionRaw } = this.wind[i];
+      const humidityText = this.humidity[i].humidity;
+      const humidity: TemplateResult[] = [];
+      if (showHumidity) humidity.push(html`${humidityText}`);
 
+      const { windSpeed, windSpeedRawMS, windDirection, windDirectionRaw } = this.wind[i];
       const wind: TemplateResult[] = [];
       if (showWindBarb && typeof windDirectionRaw === 'number') {
         wind.push(html`<span title=${`${windSpeed} ${windDirection}`}>
@@ -138,6 +148,7 @@ export class WeatherBar extends LitElement {
             <div class="date">${renderedDate}</div>
             <div class="hour">${hideHours ? null : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${displayTemperature}&deg;`}</div>
+            <div class="humidity">${humidity}</div>
             <div class="wind">${wind}</div>
             <div class="precipitation">${precipitation}</div>
           </div>
@@ -346,7 +357,8 @@ export class WeatherBar extends LitElement {
       font-size: 1.1rem;
     }
     .wind,
-    .precipitation {
+    .precipitation,
+    .humidity {
       font-size: 0.9rem;
       line-height: 1.1rem;
       padding-top: 0.1rem;
