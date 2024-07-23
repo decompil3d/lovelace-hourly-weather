@@ -131,6 +131,19 @@ describe('Weather bar', () => {
         expect(cs.color).to.eq(expectedCustomObjectColors[i].fg);
       });
   });
+
+  it('draws borders when a border color is specified', () => {
+    cy.configure({
+      borders: 'limegreen'
+    });
+    cy.get('weather-bar')
+        .shadow()
+        .find('div.bar > div.bar-span')
+        .each((el) => {
+          cy.wrap(el).should('have.css', 'border-color', 'rgb(50, 205, 50)');
+        });
+  });
+
   describe('Labels', () => {
     it('shows text descriptions on condition blocks', () => {
       cy.get('weather-bar')
