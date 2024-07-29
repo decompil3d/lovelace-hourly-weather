@@ -196,15 +196,6 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
 
-    if (config.icon_fill) {
-      const isFull = config.icon_fill === 'full';
-      const isSingle = config.icon_fill === 'single';
-      const valueAsNumber = Number(config.icon_fill); //Note: undefined and strings will be converted NaN, but null is 0
-      const isPositiveInteger =  Number.isInteger(valueAsNumber) && valueAsNumber > 0;
-      if (!isFull && !isSingle && !isPositiveInteger) {
-        throw new Error(this.localize('errors.invalid_value_icon_fill'));
-      }
-    }
     if (config.test_gui) {
       getLovelace().setEditMode(true);
     }
@@ -329,6 +320,7 @@ export class HourlyWeatherCard extends LitElement {
     const offset = parseInt(config.offset ?? '0', 10);
     const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
     const forecastNotAvailable = !forecast || !forecast.length;
+    const icon_fill = config.icon_fill;
 
     if (numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
@@ -347,6 +339,16 @@ export class HourlyWeatherCard extends LitElement {
     if (labelSpacing < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
+    }
+
+    if (icon_fill) {
+      const isFull = config.icon_fill === 'full';
+      const isSingle = config.icon_fill === 'single';
+      const valueAsNumber = Number(config.icon_fill); //Undefined and non-numerical strings will be converted NaN, but null is 0
+      const isPositiveInteger =  Number.isInteger(valueAsNumber) && valueAsNumber > 0;
+      if (!isFull && !isSingle && !isPositiveInteger) {
+        return await this._showError(this.localize('errors.invalid_value_icon_fill'));
+      }
     }
 
     let showWind = config.show_wind;
