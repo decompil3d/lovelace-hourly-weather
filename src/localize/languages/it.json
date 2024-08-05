@@ -37,7 +37,8 @@
     "offset_must_be_positive_int": "offset deve essere un numero intero positivo",
     "forecast_not_available": "Previsione non disponibile",
     "check_entity": "Controllare l'entità di previsione configurata.",
-    "no_wind_barbs_with_string_bearing": "I picchi di vento non sono supportati quando l'entità meteorologica utilizza le direzioni cardinali per il rilevamento del vento."
+    "no_wind_barbs_with_string_bearing": "I picchi di vento non sono supportati quando l'entità meteorologica utilizza le direzioni cardinali per il rilevamento del vento.",
+    "invalid_value_icon_fill": "icon_fill deve essere un numero intero positivo o uno dei valori 'single' o 'full'"
   },
   "conditions": {
     "clear": "Limpido",

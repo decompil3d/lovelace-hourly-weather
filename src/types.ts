@@ -9,6 +9,7 @@ declare global {
 
 export type WindType = 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction';
 export type ShowDateType = 'false' | 'boundary' | 'all';
+export type IconFillType = 'single' | 'full' | number;
 
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   type: string;
@@ -22,6 +23,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   offset?: string; // number
   colors?: ColorConfig;
   hide_bar?: boolean;
+  icon_fill?: IconFillType;
   hide_hours?: boolean;
   hide_temperatures?: boolean;
   round_temperatures?: boolean;

@@ -37,7 +37,8 @@
     "offset_must_be_positive_int": "offset pozitív egész számnak kell lennie",
     "forecast_not_available": "Előrejelzés nem elérhető",
     "check_entity": "Ellenőrizze a beállított előrejelző egységet.",
-    "no_wind_barbs_with_string_bearing": "A szélsávok nem támogatottak, ha az időjárási egység kardinális irányokat használ a szél irányítására."
+    "no_wind_barbs_with_string_bearing": "A szélsávok nem támogatottak, ha az időjárási egység kardinális irányokat használ a szél irányítására.",
+    "invalid_value_icon_fill": "Az ikon_kitöltésének pozitív egésznek vagy az 'single' vagy 'full'"
   },
   "conditions": {
     "clear": "Tiszta",

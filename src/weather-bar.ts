@@ -4,7 +4,7 @@ import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
-import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType } from "./types";
+import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType, IconFillType } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS || '';
 
@@ -40,6 +40,9 @@ export class WeatherBar extends LitElement {
   hide_bar = false;
 
   @property({ type: String })
+  icon_fill: IconFillType = 'single';
+
+  @property({ type: String })
   show_wind: WindType = 'false';
 
   @property({ type: Boolean })
@@ -68,12 +71,30 @@ export class WeatherBar extends LitElement {
         let icon = ICONS[cond[0]];
         if (icon === cond[0]) icon = 'mdi:weather-' + icon;
         else icon = 'mdi:' + icon;
+
+        const iconMarkup: TemplateResult[] = [];
+        if (!this.icons) {
+          iconMarkup.push(html`<span class="condition-label">${label}</span>`);
+        } else {
+          let iconSize: IconFillType;
+          if (!this.icon_fill || this.icon_fill === 'single') {
+            iconSize = cond[1]; // grid width of segment, so one icon
+          } else if (this.icon_fill === 'full') {
+            iconSize = 1;
+          } else {
+            iconSize = Math.max(Number(this.icon_fill) || 0, 1); //`Number(this.icon_fill) || 0` will evaluate as 0 if icon_fill is null or undefined.
+          }
+          let iconGridStart = 1;
+          for (let i = 0; i < cond[1]; i += iconSize) {
+            const iconStyles: Readonly<StyleInfo> = { gridColumnStart: String(iconGridStart), gridColumnEnd: String(iconGridStart += iconSize * 2) };
+            iconMarkup.push(html`<span class="condition-icon" style=${styleMap(iconStyles)}><ha-icon icon=${icon}></ha-icon></span>`)
+          }
+        }
+
         const barStyles: Readonly<StyleInfo> = { gridColumnStart: String(gridStart), gridColumnEnd: String(gridStart += cond[1] * 2) };
         conditionBars.push(html`
           <div class=${cond[0]} style=${styleMap(barStyles)} data-tippy-content=${label}>
-            ${this.icons ?
-            html`<span class="condition-icon"><ha-icon icon=${icon}></ha-icon></span>` :
-            html`<span class="condition-label">${label}</span>`}
+            ${iconMarkup}
           </div>
         `);
       }

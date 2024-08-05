@@ -213,6 +213,86 @@ describe('Weather bar', () => {
         });
     });
   });
+  describe('Icon fill', () => {
+    function verifyIcons (cy, expectedIcons) {
+      cy.get('weather-bar')
+      .shadow()
+      .find('div.bar > div > span.condition-icon')
+      .should('have.length', expectedIcons.length)
+      .find('ha-icon')
+      .each((el, i) => {
+        cy.wrap(el).invoke('attr', 'icon')
+          .should('exist')
+          .and('eq', expectedIcons[i]);
+      });
+    }
+
+    it('fills the blocks with icons', () => {
+      const expectedIcons = [
+        'mdi:weather-cloudy',
+        'mdi:weather-cloudy',
+        'mdi:weather-cloudy',
+        'mdi:weather-partly-cloudy',
+        'mdi:weather-partly-cloudy',
+        'mdi:weather-partly-cloudy',
+        'mdi:weather-sunny',
+        'mdi:weather-sunny',
+        'mdi:weather-sunny',
+        'mdi:weather-sunny',
+        'mdi:weather-sunny',
+        'mdi:weather-night'
+      ];
+      cy.configure({
+        icons: true,
+        icon_fill: 'full'
+      });
+      verifyIcons(cy, expectedIcons);
+    });
+    it('a single icon for each block', () => {
+      const expectedIcons = [
+        'mdi:weather-cloudy',
+        'mdi:weather-partly-cloudy',
+        'mdi:weather-sunny',
+        'mdi:weather-night'
+      ];
+      cy.configure({
+        icons: true,
+        icon_fill: 'single'
+      });
+      verifyIcons(cy, expectedIcons);
+    });
+    it('spaces icons', () => {
+      const expectedIcons = [
+        'mdi:weather-cloudy',
+        'mdi:weather-cloudy',
+        'mdi:weather-partly-cloudy',
+        'mdi:weather-partly-cloudy',
+        'mdi:weather-sunny',
+        'mdi:weather-sunny',
+        'mdi:weather-sunny',
+        'mdi:weather-night'
+      ];
+      cy.configure({
+        icons: true,
+        icon_fill: 2
+      });
+      verifyIcons(cy, expectedIcons);
+    });
+    it('shows at least one icon per block', () => {
+      const expectedIcons = [
+        'mdi:weather-cloudy',
+        'mdi:weather-partly-cloudy',
+        'mdi:weather-sunny',
+        'mdi:weather-sunny',
+        'mdi:weather-night'
+      ];
+      cy.configure({
+        icons: true,
+        icon_fill: 4
+      });
+      verifyIcons(cy, expectedIcons);
+    })
+  });
   describe('Axes', () => {
     it('shows the correct number of axes', () => {
       cy.get('weather-bar')

@@ -284,6 +284,25 @@ describe('Config', () => {
       .and('contain', 'exceptional: {\n  "foreground": "#12345678"\n}')
       .and('contain', 'hail: {\n  "background": "foo(240, 100%, 50%)",\n  "foreground": "rgb(0, 255, 0, 0)"\n}');
   });
+  it('errors for invalid string values for icon_fill', () => {
+    cy.configure({
+      //@ts-expect-error This is testing invalid config
+      icon_fill: 'all' //valid values are 'single', 'full' or integer
+    });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', "icon_fill must be either a positive integer or one of 'single' or 'full'");
+  });
+  it('errors for invalid integer values for icon_fill', () => {
+    cy.configure({
+      icon_fill: -1
+    });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', "icon_fill must be either a positive integer or one of 'single' or 'full'");
+  });
   describe('Templates', () => {
     it('supports templated name', () => {
       cy.configure({

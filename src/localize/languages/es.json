@@ -37,7 +37,8 @@
     "offset_must_be_positive_int": "offset debe ser un número entero positivo",
     "forecast_not_available": "Pronóstico no disponible",
     "check_entity": "Verifique la entidad de pronóstico configurada.",
-    "no_wind_barbs_with_string_bearing": "Las púas de viento no son compatibles cuando la entidad meteorológica utiliza direcciones cardinales para la dirección del viento."
+    "no_wind_barbs_with_string_bearing": "Las púas de viento no son compatibles cuando la entidad meteorológica utiliza direcciones cardinales para la dirección del viento.",
+    "invalid_value_icon_fill": "icon_fill debe ser un número entero positivo o uno de los valores 'single' o 'full'"
   },
   "conditions": {
     "clear": "Despejado",
