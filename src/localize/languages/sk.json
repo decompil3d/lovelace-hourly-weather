@@ -37,7 +37,8 @@
     "offset_must_be_positive_int": "offset musí byť kladné celé číslo",
     "forecast_not_available": "Predpoveď nie je k dispozícii",
     "check_entity": "Skontrolujte nakonfigurovanú entitu predpovede.",
-    "no_wind_barbs_with_string_bearing": "Veterné ostne nie sú podporované, keď entita počasia používa hlavné smery pre smer vetra."
+    "no_wind_barbs_with_string_bearing": "Veterné ostne nie sú podporované, keď entita počasia používa hlavné smery pre smer vetra.",
+    "invalid_value_icon_fill": "icon_fill musí byť buď kladné celé číslo alebo jedno z \"jednotlivých\"; alebo 'úplné';"
   },
   "conditions": {
     "clear": "Čisté",

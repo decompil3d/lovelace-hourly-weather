@@ -37,7 +37,8 @@
     "offset_must_be_positive_int": "offset må være et positivt heltall",
     "forecast_not_available": "Værvarsel er ikke tilgjengelig",
     "check_entity": "Sjekk den konfigurerte prognoseenheten.",
-    "no_wind_barbs_with_string_bearing": "Vindmottak støttes ikke når værenheter bruker kardinalretninger for vindføring."
+    "no_wind_barbs_with_string_bearing": "Vindmottak støttes ikke når værenheter bruker kardinalretninger for vindføring.",
+    "invalid_value_icon_fill": "icon_fill må enten være et positivt heltall eller et av 'single' eller 'full'"
   },
   "conditions": {
     "clear": "Klar",

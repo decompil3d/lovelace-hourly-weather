@@ -37,7 +37,8 @@
     "offset_must_be_positive_int": "偏移必须是正整数",
     "forecast_not_available": "预测不可用",
     "check_entity": "检查配置的预测实体。",
-    "no_wind_barbs_with_string_bearing": "当天气实体使用风向作为风向时，不支持风向图标。"
+    "no_wind_barbs_with_string_bearing": "当天气实体使用风向作为风向时，不支持风向图标。",
+    "invalid_value_icon_fill": "icon_fill 必须是正整数，或者是‘single’或‘full’之一"
   },
   "conditions": {
     "clear": "晴朗",
