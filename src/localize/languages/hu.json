@@ -38,7 +38,7 @@
     "forecast_not_available": "Előrejelzés nem elérhető",
     "check_entity": "Ellenőrizze a beállított előrejelző egységet.",
     "no_wind_barbs_with_string_bearing": "A szélsávok nem támogatottak, ha az időjárási egység kardinális irányokat használ a szél irányítására.",
-    "invalid_value_icon_fill": "Az ikon_kitöltésének pozitív egésznek vagy az 'egyes' vagy 'teljes'"
+    "invalid_value_icon_fill": "Az ikon_kitöltésének pozitív egésznek vagy az 'single' vagy 'full'"
   },
   "conditions": {
     "clear": "Tiszta",

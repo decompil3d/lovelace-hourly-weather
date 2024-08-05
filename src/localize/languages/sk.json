@@ -38,7 +38,7 @@
     "forecast_not_available": "Predpoveď nie je k dispozícii",
     "check_entity": "Skontrolujte nakonfigurovanú entitu predpovede.",
     "no_wind_barbs_with_string_bearing": "Veterné ostne nie sú podporované, keď entita počasia používa hlavné smery pre smer vetra.",
-    "invalid_value_icon_fill": "icon_fill musí byť buď kladné celé číslo alebo jedno z \"jednotlivých\"; alebo 'úplné';"
+    "invalid_value_icon_fill": "icon_fill musí byť buď kladné celé číslo alebo jedno z 'single'; alebo 'full';"
   },
   "conditions": {
     "clear": "Čisté",

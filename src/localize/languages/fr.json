@@ -38,7 +38,7 @@
     "forecast_not_available": "Prévision non disponible",
     "check_entity": "Vérifiez l'entité de prévision configurée.",
     "no_wind_barbs_with_string_bearing": "Les barbes de vent ne sont pas prises en charge lorsque l'entité météo utilise des directions cardinales pour le relèvement du vent.",
-    "invalid_value_icon_fill": "icon_fill doit être soit un entier positif, soit l'un des nombres 'single' ou 'complet'"
+    "invalid_value_icon_fill": "icon_fill doit être soit un entier positif, soit l'un des nombres 'single' ou 'full'"
   },
   "conditions": {
     "clear": "Dégagé",

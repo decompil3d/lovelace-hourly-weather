@@ -38,7 +38,7 @@
     "forecast_not_available": "Prognoza niedostępna",
     "check_entity": "Sprawdź skonfigurowaną encję prognozy.",
     "no_wind_barbs_with_string_bearing": "Zadziory wiatru nie są obsługiwane, gdy jednostka pogodowa używa kierunków kardynalnych dla kierunku wiatru.",
-    "invalid_value_icon_fill": "icon_fill musi być dodatnią liczbą całkowitą lub jedną z wartości „pojedynczych” lub „pełny”"
+    "invalid_value_icon_fill": "icon_fill musi być dodatnią liczbą całkowitą lub jedną z wartości 'single' lub 'full'"
   },
   "conditions": {
     "clear": "Bezchmurnie",
