@@ -1,5 +1,7 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
@@ -8,11 +10,17 @@ import { terser } from 'rollup-plugin-terser';
 import serve from 'rollup-plugin-serve';
 import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
-import visualizer from 'rollup-plugin-visualizer';
-import ignore from './rollup-plugins/ignore';
-import { ignoreTextfieldFiles } from './elements/ignore/textfield';
-import { ignoreSelectFiles } from './elements/ignore/select';
-import { ignoreSwitchFiles } from './elements/ignore/switch';
+import { visualizer } from 'rollup-plugin-visualizer';
+import ignore from './rollup-plugins/ignore.mjs';
+import * as ignoreTextfield from './elements/ignore/textfield.mjs';
+const { ignoreTextfieldFiles } = ignoreTextfield;
+import * as ignoreSelect from './elements/ignore/select.mjs';
+const { ignoreSelectFiles } = ignoreSelect;
+import * as ignoreSwitch from './elements/ignore/switch.mjs';
+const { ignoreSwitchFiles } = ignoreSwitch;
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
 
 const dev = process.env.ROLLUP_WATCH;
 if (dev) console.log('Development build');
