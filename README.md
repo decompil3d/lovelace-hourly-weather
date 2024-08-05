@@ -214,6 +214,10 @@ colors:
 - `full` Show one icon per forecast segment.
 - `<n>` (an integer). Show icons every _n-th_ forecast segment (will show at least one icon per forecast span)
 
+> **NOTE:** If a forecast segment is not wide enough to fit an icon, the icon will not be shown. That means that on
+> narrow screens or with many segments, you may not see all icons. If that happens, consider using a larger numeric
+> value for `icon_fill` or use `single` to show one icon per forecast span.
+
 ## Upgrades
 
 ### Version 3 ➡️ 4
