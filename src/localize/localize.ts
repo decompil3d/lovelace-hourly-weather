@@ -14,6 +14,7 @@ import * as pt from './languages/pt.json';
 import * as pt_BR from './languages/pt-BR.json';
 import * as ru from './languages/ru.json';
 import * as sk from './languages/sk.json';
+import * as uk from './languages/uk.json';
 import * as zh from './languages/zh.json';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,6 +35,7 @@ const languages: any = {
   pt_BR,
   ru,
   sk,
+  uk,
   zh,
 };
 
