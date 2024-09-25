@@ -6,7 +6,7 @@ import { LABELS, ICONS } from "./conditions";
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
 import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType, IconFillType } from "./types";
 
-const tippyStyles: string = process.env.TIPPY_CSS || '';
+const tippyStyles: string = process.env.TIPPY_CSS!;
 
 export class WeatherBar extends LitElement {
   @property({ type: Array })
