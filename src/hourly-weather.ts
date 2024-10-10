@@ -410,7 +410,6 @@ export class HourlyWeatherCard extends LitElement {
             .icons=${!!config.icons}
             .colors=${colorSettings.validColors}
             .hide_hours=${!!config.hide_hours}
-            .hide_minutes=${!!config.hide_minutes}
             .hide_temperatures=${!!config.hide_temperatures}
             .round_temperatures=${!!config.round_temperatures}
             .hide_bar=${!!config.hide_bar}
