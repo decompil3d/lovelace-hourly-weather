@@ -27,22 +27,22 @@ describe('Internationalization', () => {
       .should('have.text', '17:00');
   });
 
-  // it('formats times correctly for 24 hour with configuration hide_minutes as true', () => {
-  //   cy.configure({
-  //     hide_minutes: true,
-  //   })
-  //   cy.visitHarness();
-  //   cy.setLocale({
-  //     language: 'en',
-  //     number_format: 'language',
-  //     time_format: '24',
-  //   });
-  //   cy.get('weather-bar')
-  //     .shadow()
-  //     .find('div.axes > div.bar-block div.hour')
-  //     .first()
-  //     .should('have.text', '17');
-  // });
+  it('formats times correctly for 24 hour with configuration hide_minutes as true', () => {
+    cy.visitHarness();
+    cy.configure({
+      hide_minutes: true,
+    });
+    cy.setLocale({
+      language: 'en',
+      number_format: 'language',
+      time_format: '24',
+    });
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.axes > div.bar-block div.hour')
+      .first()
+      .should('have.text', '17');
+  });
 
   it('defaults to 12 hour for en', () => {
     cy.visitHarness();
