@@ -321,6 +321,7 @@ export class HourlyWeatherCard extends LitElement {
     const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
     const forecastNotAvailable = !forecast || !forecast.length;
     const icon_fill = config.icon_fill;
+    const hideMinutes = !!config.hide_minutes;
 
     if (numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
@@ -380,9 +381,9 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
-    const temperatures = this.getTemperatures(forecast, numSegments, offset);
-    const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit);
-    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit);
+    const temperatures = this.getTemperatures(forecast, numSegments, offset, hideMinutes);
+    const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit, hideMinutes);
+    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit, hideMinutes);
 
     const colorSettings = this.getColorSettings(config.colors);
 
@@ -441,21 +442,21 @@ export class HourlyWeatherCard extends LitElement {
     return res;
   }
 
-  private getTemperatures(forecast: ForecastSegment[], numSegments: number, offset: number): SegmentTemperature[] {
+  private getTemperatures(forecast: ForecastSegment[], numSegments: number, offset: number, hideMinutes: boolean): SegmentTemperature[] {
     const temperatures: SegmentTemperature[] = [];
     for (let i = offset; i < numSegments + offset; i++) {
       const fs = forecast[i];
       const dt = new Date(fs.datetime)
       temperatures.push({
         date: formatDateShort(dt, this.hass.locale),
-        hour: this.formatHour(dt, this.hass.locale),
+        hour: this.formatHour(dt, this.hass.locale, hideMinutes),
         temperature: formatNumber(fs.temperature, this.hass.locale)
       })
     }
     return temperatures;
   }
 
-  private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string): SegmentPrecipitation[] {
+  private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string, hideMinutes: boolean): SegmentPrecipitation[] {
     const precipitation: SegmentPrecipitation[] = [];
     for (let i = offset; i < numSegments + offset; i++) {
       const fs = forecast[i];
@@ -470,7 +471,7 @@ export class HourlyWeatherCard extends LitElement {
         probabilityText = this.localize('card.chance_of_precipitation', '{0}', String(fs.precipitation_probability));
       }
       precipitation.push({
-        hour: this.formatHour(new Date(fs.datetime), this.hass.locale),
+        hour: this.formatHour(new Date(fs.datetime), this.hass.locale, hideMinutes),
         precipitationAmount: amount,
         precipitationProbability: probability,
         precipitationProbabilityText: probabilityText
@@ -479,7 +480,7 @@ export class HourlyWeatherCard extends LitElement {
     return precipitation;
   }
 
-  private getWind(forecast: ForecastSegment[], numSegments: number, offset: number, speedUnit: string): SegmentWind[] {
+  private getWind(forecast: ForecastSegment[], numSegments: number, offset: number, speedUnit: string, hideMinutes: boolean): SegmentWind[] {
     const wind: SegmentWind[] = [];
     for (let i = offset; i < numSegments + offset; i++) {
       const fs = forecast[i];
@@ -490,7 +491,7 @@ export class HourlyWeatherCard extends LitElement {
         dir = this.formatWindDir(fs.wind_bearing);
       }
       wind.push({
-        hour: this.formatHour(new Date(fs.datetime), this.hass.locale),
+        hour: this.formatHour(new Date(fs.datetime), this.hass.locale, hideMinutes),
         windSpeed: speed,
         windSpeedRawMS: this.getWindSpeedMS(fs.wind_speed, speedUnit),
         windDirection: dir,
@@ -528,9 +529,9 @@ export class HourlyWeatherCard extends LitElement {
     return -1;
   }
 
-  private formatHour(time: Date, locale: FrontendLocaleData): string {
+  private formatHour(time: Date, locale: FrontendLocaleData, hideMinutes: boolean): string {
     const formatted = formatTime(time, locale);
-    if (formatted.includes('AM') || formatted.includes('PM')) {
+    if (hideMinutes || formatted.includes('AM') || formatted.includes('PM')) {
       // Drop ':00' in 12 hour time
       return formatted.replace(':00', '');
     }
