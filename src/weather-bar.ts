@@ -31,6 +31,9 @@ export class WeatherBar extends LitElement {
   hide_hours = false;
 
   @property({ type: Boolean })
+  hide_minutes = false;
+
+  @property({ type: Boolean })
   hide_temperatures = false;
 
   @property({ type: Boolean })
