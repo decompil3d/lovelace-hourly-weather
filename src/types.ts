@@ -25,6 +25,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   hide_bar?: boolean;
   icon_fill?: IconFillType;
   hide_hours?: boolean;
+  hide_minutes?: boolean;
   hide_temperatures?: boolean;
   round_temperatures?: boolean;
   show_wind?: WindType | boolean; // 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction'
