@@ -24,6 +24,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   icons = false;
 
+  @property({ type: Object })
+  icon_map = null;
+
   @property({ attribute: false })
   colors: ColorMap | undefined = void 0;
 
@@ -68,9 +71,15 @@ export class WeatherBar extends LitElement {
     if (!this.hide_bar) {
       for (const cond of this.conditions) {
         const label = this.labels[cond[0]];
-        let icon = ICONS[cond[0]];
-        if (icon === cond[0]) icon = 'mdi:weather-' + icon;
-        else icon = 'mdi:' + icon;
+
+        let icon;
+        if (this.icon_map && cond[0] in this.icon_map) {
+          icon = this.icon_map[cond[0]]
+        } else {
+          icon = ICONS[cond[0]];
+          if (icon === cond[0]) icon = 'mdi:weather-' + icon;
+          else icon = 'mdi:' + icon;
+        }
 
         const iconMarkup: TemplateResult[] = [];
         if (!this.icons) {

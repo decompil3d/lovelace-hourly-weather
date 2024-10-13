@@ -10,6 +10,8 @@ declare global {
 export type WindType = 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction';
 export type ShowDateType = 'false' | 'boundary' | 'all';
 export type IconFillType = 'single' | 'full' | number;
+export type Conditions = 'clear-night' | 'cloudy' | 'fog' | 'hail' | 'lightning' | 'lightning-rainy' | 'partlycloudy' | 'pouring' | 'rainy' | 'snowy' | 'snowy-rainy' | 'sunny' | 'windy' | 'windy-variant' | 'exceptional'
+export type IconMap = Partial<Record<Conditions, string>>
 
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   type: string;
@@ -20,6 +22,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   forecast_type?: ForecastType;
   name?: string;
   icons?: boolean;
+  icon_map?: IconMap;
   offset?: string; // number
   colors?: ColorConfig;
   hide_bar?: boolean;

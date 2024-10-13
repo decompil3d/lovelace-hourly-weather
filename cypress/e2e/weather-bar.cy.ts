@@ -212,6 +212,32 @@ describe('Weather bar', () => {
           expect(cs.width).to.not.eq('0px');
         });
     });
+    it('uses custom icons when specified', () => {
+      const expectedIcons = [
+        'mdi:customIcon1',
+        'foo:bar',
+        'mdi:weather-sunny',
+        'mdi:weather-night'
+      ];
+      cy.configure({
+        icons: true,
+        icon_map: {
+          cloudy: 'mdi:customIcon1',
+          "partlycloudy": "foo:bar"
+        }
+      });
+      cy.get('weather-bar')
+      .shadow()
+      .find('div.bar > div > span.condition-icon')
+      .should('have.length', 4)
+      .find('ha-icon')
+      .each((el, i) => {
+        cy.wrap(el).invoke('attr', 'icon')
+          .should('exist')
+          .and('eq', expectedIcons[i]);
+      });
+    });
+
   });
   describe('Icon fill', () => {
     function verifyIcons (cy, expectedIcons) {
