@@ -10,8 +10,9 @@ declare global {
 export type WindType = 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction';
 export type ShowDateType = 'false' | 'boundary' | 'all';
 export type IconFillType = 'single' | 'full' | number;
-export type Conditions = 'clear-night' | 'cloudy' | 'fog' | 'hail' | 'lightning' | 'lightning-rainy' | 'partlycloudy' | 'pouring' | 'rainy' | 'snowy' | 'snowy-rainy' | 'sunny' | 'windy' | 'windy-variant' | 'exceptional'
-export type IconMap = Partial<Record<Conditions, string>>
+export type Condition = 'clear-night' | 'cloudy' | 'fog' | 'hail' | 'lightning' | 'lightning-rainy' | 'partlycloudy' | 'pouring' | 'rainy' | 'snowy' | 'snowy-rainy' | 'sunny' | 'windy' | 'windy-variant' | 'exceptional';
+type PerConditionConfig<TValue> = Partial<Record<Condition, TValue>>;
+export type IconMap = PerConditionConfig<string>;
 
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   type: string;
@@ -50,27 +51,11 @@ export interface ColorObject {
 
 export type ColorDefinition = string | ColorObject;
 
-export interface ColorConfig {
-  'clear-night'?: ColorDefinition;
-  'cloudy'?: ColorDefinition;
-  'fog'?: ColorDefinition;
-  'hail'?: ColorDefinition;
-  'lightning'?: ColorDefinition;
-  'lightning-rainy'?: ColorDefinition;
-  'partlycloudy'?: ColorDefinition;
-  'pouring'?: ColorDefinition;
-  'rainy'?: ColorDefinition;
-  'snowy'?: ColorDefinition;
-  'snowy-rainy'?: ColorDefinition;
-  'sunny'?: ColorDefinition;
-  'windy'?: ColorDefinition;
-  'windy-variant'?: ColorDefinition;
-  'exceptional'?: ColorDefinition;
-}
+export type ColorConfig = PerConditionConfig<ColorDefinition>;
 
 export interface ForecastSegment {
   clouds: number; // 100
-  condition: string; // "cloudy"
+  condition: Condition; // "cloudy"
   datetime: string; // "2022-06-03T22:00:00+00:00"
   precipitation: number; // 0
   precipitation_probability: number; // 85
@@ -81,7 +66,7 @@ export interface ForecastSegment {
 }
 
 export type ConditionSpan = [
-  condition: string,
+  condition: Condition,
   span: number
 ]
 

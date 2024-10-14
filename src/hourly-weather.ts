@@ -33,6 +33,7 @@ import type {
   SegmentPrecipitation,
   SegmentTemperature,
   SegmentWind,
+  Condition
 } from './types';
 import { actionHandler } from './action-handler-directive';
 import { version } from '../package.json';
@@ -408,7 +409,7 @@ export class HourlyWeatherCard extends LitElement {
             .wind=${wind}
             .precipitation=${precipitation}
             .icons=${!!config.icons}
-            .icon_map = ${config.icon_map}
+            .icon_map=${config.icon_map}
             .colors=${colorSettings.validColors}
             .hide_hours=${!!config.hide_hours}
             .hide_temperatures=${!!config.hide_temperatures}
@@ -427,11 +428,11 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private getConditionListFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): ConditionSpan[] {
-    let lastCond: string = forecast[offset].condition;
+    let lastCond: Condition = forecast[offset].condition;
     let j = 0;
     const res: ConditionSpan[] = [[lastCond, 1]];
     for (let i = offset + 1; i < numSegments + offset; i++) {
-      const cond: string = forecast[i].condition;
+      const cond: Condition = forecast[i].condition;
       if (cond === lastCond) {
         res[j][1]++;
       } else {

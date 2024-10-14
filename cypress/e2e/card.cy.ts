@@ -1,3 +1,5 @@
+import { Condition } from "../../src/types";
+
 describe('Card', () => {
   beforeEach(() => {
     cy.visitHarness();
@@ -60,7 +62,7 @@ describe('Card', () => {
         "pressure": 1007,
         "wind_speed": 4.67,
         "wind_bearing": 'WSW',
-        "condition": "cloudy",
+        "condition": "cloudy" as Condition,
         "clouds": 60,
         "temperature": 84
       },
@@ -71,7 +73,7 @@ describe('Card', () => {
           forecast: forecast1
         }
       }
-    });    
+    });
     cy.configure({
       entity: 'weather.fromSub',
       num_segments: '2'
@@ -87,7 +89,7 @@ describe('Card', () => {
         "pressure": 1007,
         "wind_speed": 4.67,
         "wind_bearing": 'WSW',
-        "condition": "cloudy",
+        "condition": "cloudy" as Condition,
         "clouds": 60,
         "temperature": 84
       },
@@ -98,7 +100,7 @@ describe('Card', () => {
         "pressure": 1007,
         "wind_speed": 4.67,
         "wind_bearing": 'WSW',
-        "condition": "cloudy",
+        "condition": "cloudy" as Condition,
         "clouds": 60,
         "temperature": 84
       }
