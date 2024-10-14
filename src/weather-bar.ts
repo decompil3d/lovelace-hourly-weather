@@ -4,7 +4,7 @@ import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
 import { LABELS, ICONS } from "./conditions";
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
-import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType, IconFillType } from "./types";
+import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType, IconFillType, IconMap } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS!;
 
@@ -23,6 +23,9 @@ export class WeatherBar extends LitElement {
 
   @property({ type: Boolean })
   icons = false;
+
+  @property({ type: Object })
+  icon_map: IconMap | undefined = void 0;
 
   @property({ attribute: false })
   colors: ColorMap | undefined = void 0;
@@ -68,9 +71,13 @@ export class WeatherBar extends LitElement {
     if (!this.hide_bar) {
       for (const cond of this.conditions) {
         const label = this.labels[cond[0]];
-        let icon = ICONS[cond[0]];
-        if (icon === cond[0]) icon = 'mdi:weather-' + icon;
-        else icon = 'mdi:' + icon;
+
+        let icon: string | undefined = this.icon_map?.[cond[0]];
+        if (!icon) {
+          icon = ICONS[cond[0]];
+          if (icon === cond[0]) icon = 'mdi:weather-' + icon;
+          else icon = 'mdi:' + icon;
+        }
 
         const iconMarkup: TemplateResult[] = [];
         if (!this.icons) {

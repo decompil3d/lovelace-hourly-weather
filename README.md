@@ -68,6 +68,7 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 | `forecast_type`                  | string                 | **Optional** | The type of forecast data to use. One of `hourly`, `daily`, or `twice-daily`. If not specified, the card will attempt to use the finest-grained data available. |                     |
 | `name`                           | string                 | **Optional** | Card name (set to `null` to hide)                                                                                                                               | `Hourly Weather`    |
 | `icons`                          | bool                   | **Optional** | Whether to show icons instead of text labels                                                                                                                    | `false`             |
+| `icon_map`                       | [Icon map][icon_map]   | **Optional** | Custom icons to use for the weather conditions. Uses `mdi` icons by default.                                                                                    |                     |
 | `num_segments`                   | number                 | **Optional** | Number of forecast segments to show (integer >= 1)                                                                                                              | `12`                |
 | ~~`num_hours`~~                  | number                 | **Optional** | _Deprecated:_ Use `num_segments` instead                                                                                                                        | `12`                |
 | `offset`                         | number                 | **Optional** | Number of forecast segments to offset from start                                                                                                                | `0`                 |
@@ -183,6 +184,37 @@ colors:
     foreground: '#000'
 ```
 
+## Icon map Options
+
+`icon_map` can be used to customize the icon used for each weather condition. It is specified as an object containing
+one or more of the keys listed below and values that are valid icons installed in Home Assistant.
+
+| Key               | Default                        |
+|-------------------|--------------------------------|
+| `clear-night`     | `mdi:weather-night`            |
+| `cloudy`          | `mdi:weather-cloudy`           |
+| `fog`             | `mdi:weather-fog`              |
+| `hail`            | `mdi:weather-hail`             |
+| `lightning`       | `mdi:weather-lightning`        |
+| `lightning-rainy` | `mdi:weather-lightning-rainy`  |
+| `partlycloudy`    | `mdi:weather-partly-cloudy`    |
+| `pouring`         | `mdi:weather-pouring`          |
+| `rainy`           | `mdi:weather-rainy`            |
+| `snowy`           | `mdi:weather-snowy`            |
+| `snowy-rainy`     | `mdi:weather-snowy-rainy`      |
+| `sunny`           | `mdi:weather-sunny`            |
+| `windy`           | `mdi:weather-windy`            |
+| `windy-variant`   | `mdi:weather-windy-variant`    |
+| `exceptional`     | `mdi:alert-outline`            |
+
+### Sample icon map configuration
+
+```yaml
+icon_map:
+  sunny: mdi:emotion-cool
+  cloudy: phu:nextcloud # can use any icon set
+```
+
 ### Wind Options
 
 `show_wind` can be one of the following values:
@@ -243,6 +275,7 @@ structure.
 [releases-shield]: https://img.shields.io/github/release/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [releases]: https://github.com/decompil3d/lovelace-hourly-weather/releases
 
+[icon_map]: #icon-map-options
 [color]: #color-options
 [wind]: #wind-options
 [icon_fill]: #icon-fill-options
