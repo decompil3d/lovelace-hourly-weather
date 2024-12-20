@@ -1,0 +1,78 @@
+{
+  "common": {
+    "version": "Версия",
+    "title": "Времето по часове",
+    "title_card": "Карта с времето по часове",
+    "description": "Карта, която визуализира почасово метеорологичните условия във вид на лента.",
+    "invalid_configuration": "Невалидна конфигурация"
+  },
+  "editor": {
+    "entity": "Entity (Задължително)",
+    "name": "Име (Опционално)",
+    "segments_to_show": "Брой сегменти за визуализиране (Опционално)",
+    "offset": "Брой сегменти с които да се отмести началото (Опционално)",
+    "icons": "Показвай икони вместо текст",
+    "label_spacing": "Брой сегменти между етикетите за час и температура (Опционално)",
+    "show_wind": "Показвай посока и скорост на вятъра",
+    "show_date": "Показвай датите",
+    "show_precipitation_amounts": "Покажи количеството валежи",
+    "show_precipitation_probability": "Покажи вероятноста за валежи",
+    "none": "Няма",
+    "speed_and_direction": "Скорост и посока",
+    "speed_only": "Само скорост",
+    "direction_only": "Само посока",
+    "barb": "Като wind barb",
+    "barb_and_speed": "Като wind barb и скорост",
+    "barb_and_direction": "Като wind barb и посока",
+    "barb_speed_and_direction": "Като wind barb, скорост и посока",
+    "all": "Всички",
+    "on_day_boundaries": "На границите между дните"
+  },
+  "errors": {
+    "missing_entity": "entity липсва в конфигурацията",
+    "too_many_segments_requested": "Задали сте твърсе много сегменти с прогнози в num_segments. Трябва да бъдат <= от броя сегменти във forecast entity.",
+    "must_be_int": "Трябва да бъде четно число по-голямо или равно на 2",
+    "invalid_colors": "Следните цветове в конфигурацията Ви са невалидни:",
+    "must_be_positive_int": "Трябва да е положително число",
+    "offset_must_be_positive_int": "отместването трябва да е положително число",
+    "forecast_not_available": "Не е налична прогноза",
+    "check_entity": "Проверете конфигурираното forecast entity.",
+    "no_wind_barbs_with_string_bearing": "Wind barbs не се поддържат, когато weather entity използва cardinal directions за посока на вятъра.",
+    "invalid_value_icon_fill": "icon_fill трябва да бъде или положително цяло число, или едно от'single' или 'full'"
+  },
+  "conditions": {
+    "clear": "Ясно",
+    "cloudy": "Облачно",
+    "fog": "Мъгла",
+    "hail": "Градушка",
+    "thunderstorm": "Гръмотевична буря",
+    "partlyCloudy": "Частично облачно",
+    "heavyRain": "Обилен дъжд",
+    "rain": "Дъжд",
+    "snow": "Сняг",
+    "mixedPrecip": "Смесено преваляване",
+    "sunny": "Слънчево",
+    "windy": "Ветровито"
+  },
+  "direction": {
+    "n": "С",
+    "nne": "ССИ",
+    "ne": "СИ",
+    "ene": "ИСИ",
+    "e": "И",
+    "ese": "ИЮИ",
+    "se": "ЮИ",
+    "sse": "ЮЮИ",
+    "s": "Ю",
+    "ssw": "ЮЮЗ",
+    "sw": "ЮЗ",
+    "wsw": "ЗЮЗ",
+    "w": "З",
+    "wnw": "ЗСЗ",
+    "nw": "СЗ",
+    "nnw": "ССЗ"
+  },
+  "card": {
+    "chance_of_precipitation": "{0}% вероятност за валежи"
+  }
+}
