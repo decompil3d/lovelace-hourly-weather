@@ -22,7 +22,7 @@ jobs:
             subscriptionKey: '${{ secrets.TRANSLATOR_SUBSCRIPTION_KEY }}'
             filePath: './src/localize/languages/en.json'
             from: 'en'
-            to: 'cs,da,de,es,fr,hu,it,nb,nl,pl,pt,ru,sk,uk,zh'
+            to: 'bg,cs,da,de,es,fr,hu,it,nb,nl,pl,pt,ru,sk,uk,zh'
             debug: false
 
       - name: Copy new strings to sub-locales
