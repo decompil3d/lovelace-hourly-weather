@@ -37,7 +37,6 @@
     "offset_must_be_positive_int": "offset skal være et positivt heltal",
     "forecast_not_available": "Vejrudsigt ikke tilgængelig",
     "check_entity": "Kontroller den definerede vejrudsigtsentitet.",
-    "no_wind_barbs_with_string_bearing": "Vindrose understøttes ikke, når vejrudsigtsentitet bruger kompasretninger for vindretning.",
     "invalid_value_icon_fill": "icon_fill skal enten være et positivt heltal eller et af 'single' eller 'full'"
   },
   "conditions": {

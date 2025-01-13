@@ -37,7 +37,6 @@
     "offset_must_be_positive_int": "offset must be a positive integer",
     "forecast_not_available": "Forecast not available",
     "check_entity": "Check the configured forecast entity.",
-    "no_wind_barbs_with_string_bearing": "Wind barbs are not supported when weather entity uses cardinal directions for wind bearing.",
     "invalid_value_icon_fill": "icon_fill must be either a positive integer or one of 'single' or 'full'"
   },
   "conditions": {

@@ -37,7 +37,6 @@
     "offset_must_be_positive_int": "Hodnota 'offset' musí být kladné celé číslo",
     "forecast_not_available": "Předpověď není dostupná",
     "check_entity": "Zkontrolujte zadanou entity předpovědi.",
-    "no_wind_barbs_with_string_bearing": "Šipky větru nejsou podporovány, pokud entita počasí používá světové směry pro směr větru.",
     "invalid_value_icon_fill": "icon_fill musí být buď kladné celé číslo, nebo jedno z 'single'; nebo 'full';"
   },
   "conditions": {

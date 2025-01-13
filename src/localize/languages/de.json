@@ -37,7 +37,6 @@
     "offset_must_be_positive_int": "offset muss eine positive Ganzzahl sein",
     "forecast_not_available": "Prognose nicht verfügbar",
     "check_entity": "Überprüfen Sie die konfigurierte Prognoseentität.",
-    "no_wind_barbs_with_string_bearing": "Windfahnen werden nicht unterstützt, wenn die Wetterentität Himmelsrichtungen für die Windpeilung verwendet.",
     "invalid_value_icon_fill": "icon_fill muss entweder eine positive Ganzzahl oder einer der Werte 'single' oder 'full' sein."
   },
   "conditions": {

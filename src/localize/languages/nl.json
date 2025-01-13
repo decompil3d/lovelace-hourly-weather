@@ -37,7 +37,6 @@
     "offset_must_be_positive_int": "offset moet een positief geheel getal zijn",
     "forecast_not_available": "Prognose niet beschikbaar",
     "check_entity": "Controleer de geconfigureerde prognose-entiteit.",
-    "no_wind_barbs_with_string_bearing": "Windweerhaken worden niet ondersteund wanneer de weerentiteit kardinale richtingen gebruikt voor windrichting.",
     "invalid_value_icon_fill": "icon_fill moet een positief geheel getal zijn of een van de 'single'; of 'full'"
   },
   "conditions": {

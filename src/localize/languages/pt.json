@@ -37,7 +37,6 @@
     "offset_must_be_positive_int": "offset deve ser um número inteiro positivo",
     "forecast_not_available": "Previsão não disponível",
     "check_entity": "Verifique a entidade de previsão configurada.",
-    "no_wind_barbs_with_string_bearing": "Farpas de vento não são suportadas quando a entidade meteorológica usa direções cardeais para direção do vento.",
     "invalid_value_icon_fill": "icon_fill deve ser um número inteiro positivo ou um dos valores 'single' ou 'full'"
   },
   "conditions": {
