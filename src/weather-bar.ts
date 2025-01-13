@@ -1,10 +1,11 @@
-import { LitElement, html, css, TemplateResult, unsafeCSS, PropertyValueMap } from "lit";
+import { css, html, LitElement, PropertyValueMap, TemplateResult, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import tippy, { Instance } from 'tippy.js';
-import { LABELS, ICONS } from "./conditions";
+import { ICONS, LABELS } from "./conditions";
+import { DIRECTIONS_BEARINGS } from './directions';
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
-import type { ColorMap, ConditionSpan, SegmentTemperature, SegmentWind, SegmentPrecipitation, WindType, ShowDateType, IconFillType, IconMap } from "./types";
+import type { ColorMap, ConditionSpan, IconFillType, IconMap, SegmentPrecipitation, SegmentTemperature, SegmentWind, ShowDateType, WindType } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS!;
 
@@ -141,9 +142,12 @@ export class WeatherBar extends LitElement {
       const { windSpeed, windSpeedRawMS, windDirection, windDirectionRaw } = this.wind[i];
 
       const wind: TemplateResult[] = [];
-      if (showWindBarb && typeof windDirectionRaw === 'number') {
+      const bearing: number = typeof windDirectionRaw === 'number'
+        ? windDirectionRaw
+        : DIRECTIONS_BEARINGS[windDirectionRaw.toLowerCase()];
+      if (showWindBarb && bearing !== undefined) {
         wind.push(html`<span title=${`${windSpeed} ${windDirection}`}>
-          ${this.getWindBarb(windSpeedRawMS, windDirectionRaw)}
+          ${this.getWindBarb(windSpeedRawMS, bearing)}
         </span>`);
         if (showWindSpeed || showWindDirection) wind.push(html`<br>`);
       }
@@ -205,7 +209,7 @@ export class WeatherBar extends LitElement {
       if (color.background)
         vars.push(`--color-${key}: ${color.background};`);
       if (color.foreground)
-      vars.push(`--color-${key}-foreground: ${color.foreground};`);
+        vars.push(`--color-${key}-foreground: ${color.foreground};`);
     }
     return html`<style>
       .main > .bar {
