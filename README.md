@@ -62,7 +62,7 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 ## Options
 
 | Name                             | Type                   | Requirement  | Description                                                                                                                                                     | Default             |
-|----------------------------------|------------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
+| -------------------------------- | ---------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
 | `type`                           | string                 | **Required** | `custom:hourly-weather`                                                                                                                                         |                     |
 | `entity`                         | string                 | **Required** | Home Assistant weather entity ID.                                                                                                                               |                     |
 | `forecast_type`                  | string                 | **Optional** | The type of forecast data to use. One of `hourly`, `daily`, or `twice-daily`. If not specified, the card will attempt to use the finest-grained data available. |                     |
@@ -125,7 +125,7 @@ label_spacing: |
 ## Action Options
 
 | Name              | Type   | Requirement  | Description                                                                                        | Default     |
-|-------------------|--------|--------------|----------------------------------------------------------------------------------------------------|-------------|
+| ----------------- | ------ | ------------ | -------------------------------------------------------------------------------------------------- | ----------- |
 | `action`          | string | **Required** | Action to perform (more-info, toggle, call-service, navigate url, none)                            | `more-info` |
 | `navigation_path` | string | **Optional** | Path to navigate to (e.g. /lovelace/0/) when action defined as navigate                            | `none`      |
 | `url`             | string | **Optional** | URL to open on click when action is url. The URL will open in a new tab                            | `none`      |
@@ -155,7 +155,7 @@ Some conditions will default to whatever the value is of some other condition. F
 whatever `cloudy` is.
 
 | Key               | Default                |
-|-------------------|------------------------|
+| ----------------- | ---------------------- |
 | `clear-night`     | `#000`                 |
 | `cloudy`          | `#777`                 |
 | `fog`             | same as `cloudy`       |
@@ -189,23 +189,23 @@ colors:
 `icon_map` can be used to customize the icon used for each weather condition. It is specified as an object containing
 one or more of the keys listed below and values that are valid icons installed in Home Assistant.
 
-| Key               | Default                        |
-|-------------------|--------------------------------|
-| `clear-night`     | `mdi:weather-night`            |
-| `cloudy`          | `mdi:weather-cloudy`           |
-| `fog`             | `mdi:weather-fog`              |
-| `hail`            | `mdi:weather-hail`             |
-| `lightning`       | `mdi:weather-lightning`        |
-| `lightning-rainy` | `mdi:weather-lightning-rainy`  |
-| `partlycloudy`    | `mdi:weather-partly-cloudy`    |
-| `pouring`         | `mdi:weather-pouring`          |
-| `rainy`           | `mdi:weather-rainy`            |
-| `snowy`           | `mdi:weather-snowy`            |
-| `snowy-rainy`     | `mdi:weather-snowy-rainy`      |
-| `sunny`           | `mdi:weather-sunny`            |
-| `windy`           | `mdi:weather-windy`            |
-| `windy-variant`   | `mdi:weather-windy-variant`    |
-| `exceptional`     | `mdi:alert-outline`            |
+| Key               | Default                       |
+| ----------------- | ----------------------------- |
+| `clear-night`     | `mdi:weather-night`           |
+| `cloudy`          | `mdi:weather-cloudy`          |
+| `fog`             | `mdi:weather-fog`             |
+| `hail`            | `mdi:weather-hail`            |
+| `lightning`       | `mdi:weather-lightning`       |
+| `lightning-rainy` | `mdi:weather-lightning-rainy` |
+| `partlycloudy`    | `mdi:weather-partly-cloudy`   |
+| `pouring`         | `mdi:weather-pouring`         |
+| `rainy`           | `mdi:weather-rainy`           |
+| `snowy`           | `mdi:weather-snowy`           |
+| `snowy-rainy`     | `mdi:weather-snowy-rainy`     |
+| `sunny`           | `mdi:weather-sunny`           |
+| `windy`           | `mdi:weather-windy`           |
+| `windy-variant`   | `mdi:weather-windy-variant`   |
+| `exceptional`     | `mdi:alert-outline`           |
 
 ### Sample icon map configuration
 
@@ -227,9 +227,6 @@ icon_map:
 - `barb-and-direction` Show wind direction as a wind barb arrow and also show textual direction
 - `barb-and-speed` Show wind direction as a wind barb arrow and also show speed
 - `barb-speed-and-direction` Show wind direction as a wind barb arrow and also show speed and textual direction
-
-> Note: If your weather entity uses cardinal directions (e.g. 'N', 'SW', etc.) rather than numeric degrees for
-> `wind_bearing`, the `barb` option is not supported and will result in an error.
 
 ### Date Options
 
@@ -274,7 +271,6 @@ structure.
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2024.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [releases]: https://github.com/decompil3d/lovelace-hourly-weather/releases
-
 [icon_map]: #icon-map-options
 [color]: #color-options
 [wind]: #wind-options

@@ -1,28 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LitElement, html, TemplateResult, css, PropertyValues, CSSResultGroup } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { until } from 'lit/directives/until.js'
 import {
-  HomeAssistant,
-  hasConfigOrEntityChanged,
-  hasAction,
   ActionHandlerEvent,
-  handleAction,
+  FrontendLocaleData,
+  HomeAssistant,
   LovelaceCardEditor,
-  getLovelace,
+  formatDateShort,
   formatNumber,
   formatTime,
-  FrontendLocaleData,
-  formatDateShort,
+  getLovelace,
+  handleAction,
+  hasAction,
+  hasConfigOrEntityChanged,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
+import { CSSResultGroup, LitElement, PropertyValues, TemplateResult, css, html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import { until } from 'lit/directives/until.js';
 
+import { version } from '../package.json';
+import { actionHandler } from './action-handler-directive';
+import { ICONS, LABELS } from './conditions';
+import { DIRECTIONS } from './directions';
+import { getLocalizer } from './localize/localize';
 import type {
   ColorConfig,
   ColorDefinition,
   ColorMap,
   ColorObject,
   ColorSettings,
+  Condition,
   ConditionSpan,
   ForecastEvent,
   ForecastSegment,
@@ -32,15 +38,9 @@ import type {
   RenderTemplateResult,
   SegmentPrecipitation,
   SegmentTemperature,
-  SegmentWind,
-  Condition
+  SegmentWind
 } from './types';
-import { actionHandler } from './action-handler-directive';
-import { version } from '../package.json';
-import { getLocalizer } from './localize/localize';
 import { WeatherBar } from './weather-bar';
-import { ICONS, LABELS } from './conditions';
-import { DIRECTIONS } from './directions';
 customElements.define('weather-bar', WeatherBar);
 
 // Naive localizer is used before we can get at card configuration data
@@ -99,7 +99,7 @@ export class HourlyWeatherCard extends LitElement {
 
   private localize(string: string, search = '', replace = ''): string {
     if (!this.localizer ||
-        this.localizerSettingsChanged) {
+      this.localizerSettingsChanged) {
       this.localizer = getLocalizer(this.config?.language, this.hass?.locale?.language);
       this.localizerLastSettings.configuredLanguage = this.config?.language;
       this.localizerLastSettings.haServerLanguage = this.hass?.locale?.language;
@@ -284,7 +284,7 @@ export class HourlyWeatherCard extends LitElement {
       this.triggerConfigRender();
     }
     if (!this.subscribedToForecast ||
-        (changedProps.has('config') && this.config?.entity !== changedProps.get('config')?.entity)) {
+      (changedProps.has('config') && this.config?.entity !== changedProps.get('config')?.entity)) {
       this.subscribeToForecastEvents();
     }
   }
@@ -347,7 +347,7 @@ export class HourlyWeatherCard extends LitElement {
       const isFull = config.icon_fill === 'full';
       const isSingle = config.icon_fill === 'single';
       const valueAsNumber = Number(config.icon_fill); //Undefined and non-numerical strings will be converted NaN, but null is 0
-      const isPositiveInteger =  Number.isInteger(valueAsNumber) && valueAsNumber > 0;
+      const isPositiveInteger = Number.isInteger(valueAsNumber) && valueAsNumber > 0;
       if (!isFull && !isSingle && !isPositiveInteger) {
         return await this._showError(this.localize('errors.invalid_value_icon_fill'));
       }
@@ -356,9 +356,6 @@ export class HourlyWeatherCard extends LitElement {
     let showWind = config.show_wind;
     if (typeof showWind === 'boolean') {
       showWind = showWind ? 'true' : 'false';
-    }
-    if (showWind?.includes('barb') && typeof forecast?.[0].wind_bearing === 'string') {
-      return await this._showError(this.localize('errors.no_wind_barbs_with_string_bearing'));
     }
 
     if (forecastNotAvailable) {
@@ -375,8 +372,8 @@ export class HourlyWeatherCard extends LitElement {
           .label=${`Hourly Weather: ${config.entity || 'No Entity Defined'}`}
         >
           <div class="card-content">
-            <h3>${ this.localize('errors.forecast_not_available') }</h3>
-            <p>${ this.localize('errors.check_entity') }</p>
+            <h3>${this.localize('errors.forecast_not_available')}</h3>
+            <p>${this.localize('errors.check_entity')}</p>
           </div>
         </ha-card>`;
     }

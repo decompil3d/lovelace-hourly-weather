@@ -37,7 +37,6 @@
     "offset_must_be_positive_int": "offset має бути додатнім цілим числом",
     "forecast_not_available": "Прогноз недоступний",
     "check_entity": "Перевірте налаштовану сутність прогнозу.",
-    "no_wind_barbs_with_string_bearing": "Вітрові вимпели не підтримуються, коли сутність погоди використовує сторони світу для напрямку вітру.",
     "invalid_value_icon_fill": "icon_fill має бути додатнім цілим числом або одним з 'single' чи 'full'"
   },
   "conditions": {

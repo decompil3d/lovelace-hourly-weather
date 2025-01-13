@@ -39,7 +39,6 @@
     "offset_must_be_positive_int": "offset må vere eit positivt heiltal",
     "forecast_not_available": "Vervarsel er ikkje tilgjengeleg",
     "check_entity": "Sjekk den konfigurerte prognoseeininga.",
-    "no_wind_barbs_with_string_bearing": "Vindmottak blir ikkje støtta når vêreiningar bruker kardinalretningar for vindføring.",
     "invalid_value_icon_fill": "icon_fill må enten være et positivt heltall eller et av 'single' eller 'full'"
   },
   "conditions": {

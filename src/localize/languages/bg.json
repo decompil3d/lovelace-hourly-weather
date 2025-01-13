@@ -37,7 +37,6 @@
     "offset_must_be_positive_int": "Отместването трябва да е положително число",
     "forecast_not_available": "Не е налична прогноза",
     "check_entity": "Проверете конфигурираното forecast entity.",
-    "no_wind_barbs_with_string_bearing": "Wind barbs не се поддържат, когато weather entity използва cardinal directions за посока на вятъра.",
     "invalid_value_icon_fill": "icon_fill трябва да бъде или положително цяло число, или едно от 'single' или 'full'"
   },
   "conditions": {
