@@ -264,11 +264,16 @@ on the bar represents the first segment of data where in prior versions labels w
 change may cause some custom CSS to break. If you have custom CSS, you may need to adjust it to account for the new
 structure.
 
+### Version 5 ➡️ 6
+
+No breaking changes here. I tried using sun position information to calculate whether to show a night version of the
+partly cloudy icon, but it didn't work out and was removed in a patch release.
+
 [commits-shield]: https://img.shields.io/github/commit-activity/y/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/main
 [devcontainer]: https://code.visualstudio.com/docs/remote/containers
 [license-shield]: https://img.shields.io/github/license/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2024.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2025.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [releases]: https://github.com/decompil3d/lovelace-hourly-weather/releases
 [icon_map]: #icon-map-options
