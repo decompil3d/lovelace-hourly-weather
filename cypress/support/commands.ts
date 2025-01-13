@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /// <reference types="cypress" />
 
-import { ForecastSegment, HourlyWeatherCardConfig } from "../../src/types"
-import { defaultConfig } from "../fixtures/test-utils"
+import { ForecastSegment, HourlyWeatherCardConfig } from "../../src/types";
+import { defaultConfig } from "../fixtures/test-utils";
 
 // ***********************************************
 // This example commands.ts shows you how to
@@ -48,13 +48,7 @@ Cypress.Commands.add('configure', (config: Partial<HourlyWeatherCardConfig>, noD
   cy.window().invoke('setHWConfig', cfg).wait(1);
 });
 
-interface WeatherEntity {
-  attributes: {
-    forecast?: ForecastSegment[];
-  };
-}
-
-Cypress.Commands.add('addEntity', (entities: Record<string, WeatherEntity>) => {
+Cypress.Commands.add('addEntity', (entities: Record<string, Cypress.WeatherEntity>) => {
   cy.window().invoke('addHWEntity', entities).wait(1);
 });
 
@@ -92,6 +86,12 @@ Cypress.Commands.add('slotAssignedNodes', { prevSubject: true }, (subject, name)
 
 declare global {
   namespace Cypress {
+    interface WeatherEntity {
+      attributes: {
+        wind_speed_unit?: string,
+        forecast?: ForecastSegment[];
+      };
+    }
     interface Chainable {
       visitHarness(windowStubFn?: (win: Cypress.AUTWindow) => void): Chainable<Window>;
       configure(config: Partial<HourlyWeatherCardConfig>, noDefaults?: boolean): Chainable<void>;

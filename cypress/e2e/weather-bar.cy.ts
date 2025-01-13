@@ -227,30 +227,30 @@ describe('Weather bar', () => {
         }
       });
       cy.get('weather-bar')
-      .shadow()
-      .find('div.bar > div > span.condition-icon')
-      .should('have.length', 4)
-      .find('ha-icon')
-      .each((el, i) => {
-        cy.wrap(el).invoke('attr', 'icon')
-          .should('exist')
-          .and('eq', expectedIcons[i]);
-      });
+        .shadow()
+        .find('div.bar > div > span.condition-icon')
+        .should('have.length', 4)
+        .find('ha-icon')
+        .each((el, i) => {
+          cy.wrap(el).invoke('attr', 'icon')
+            .should('exist')
+            .and('eq', expectedIcons[i]);
+        });
     });
 
   });
   describe('Icon fill', () => {
-    function verifyIcons (cy, expectedIcons) {
+    function verifyIcons(cy, expectedIcons) {
       cy.get('weather-bar')
-      .shadow()
-      .find('div.bar > div > span.condition-icon')
-      .should('have.length', expectedIcons.length)
-      .find('ha-icon')
-      .each((el, i) => {
-        cy.wrap(el).invoke('attr', 'icon')
-          .should('exist')
-          .and('eq', expectedIcons[i]);
-      });
+        .shadow()
+        .find('div.bar > div > span.condition-icon')
+        .should('have.length', expectedIcons.length)
+        .find('ha-icon')
+        .each((el, i) => {
+          cy.wrap(el).invoke('attr', 'icon')
+            .should('exist')
+            .and('eq', expectedIcons[i]);
+        });
     }
 
     it('fills the blocks with icons', () => {
@@ -590,7 +590,7 @@ describe('Weather bar', () => {
         .shadow()
         .find('div.axes > div.bar-block div.hour:not(:empty)')
         .should('have.length', 3);
-        cy.get('weather-bar')
+      cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.temperature:not(:empty)')
         .should('have.length', 3);
@@ -754,92 +754,7 @@ describe('Weather bar', () => {
     });
 
     it('supports wind bearing specified as a string', () => {
-      cy.addEntity({
-        'weather.wind_bearing_string': {
-          attributes: {
-            forecast: [
-              {
-                "datetime": "2022-07-21T17:00:00+00:00",
-                "precipitation": 0,
-                "precipitation_probability": 0,
-                "pressure": 1007,
-                "wind_speed": 4.67,
-                "wind_bearing": 'WSW',
-                "condition": "cloudy",
-                "clouds": 60,
-                "temperature": 84
-              },
-              {
-                "datetime": "2022-07-21T18:00:00+00:00",
-                "precipitation": 0.35,
-                "precipitation_probability": 0,
-                "pressure": 1007,
-                "wind_speed": 6.16,
-                "wind_bearing": 'W',
-                "condition": "cloudy",
-                "clouds": 75,
-                "temperature": 85
-              },
-              {
-                "datetime": "2022-07-21T19:00:00+00:00",
-                "precipitation": 0,
-                "precipitation_probability": 0,
-                "pressure": 1007,
-                "wind_speed": 6.07,
-                "wind_bearing": 'WSW',
-                "condition": "cloudy",
-                "clouds": 60,
-                "temperature": 85
-              },
-              {
-                "datetime": "2022-07-21T20:00:00+00:00",
-                "precipitation": 1.3,
-                "precipitation_probability": 1,
-                "pressure": 1007,
-                "wind_speed": 5.9,
-                "wind_bearing": 'W',
-                "condition": "partlycloudy",
-                "clouds": 49,
-                "temperature": 84
-              },
-              {
-                "datetime": "2022-07-21T21:00:00+00:00",
-                "precipitation": 0,
-                "precipitation_probability": 1,
-                "pressure": 1007,
-                "wind_speed": 5.78,
-                "wind_bearing": 'WNW',
-                "condition": "partlycloudy",
-                "clouds": 34,
-                "temperature": 84
-              },
-              {
-                "datetime": "2022-07-21T22:00:00+00:00",
-                "precipitation": 0,
-                "precipitation_probability": 1,
-                "pressure": 1008,
-                "wind_speed": 5.06,
-                "wind_bearing": 'WNW',
-                "condition": "partlycloudy",
-                "clouds": 19,
-                "temperature": 83
-              },
-              {
-                "datetime": "2022-07-21T23:00:00+00:00",
-                "precipitation": 0,
-                "precipitation_probability": 1,
-                "pressure": 1008,
-                "wind_speed": 6.39,
-                "wind_bearing": 'NW',
-                "condition": "sunny",
-                "clouds": 4,
-                "temperature": 79
-              }
-            ]
-          }
-        }
-      });
-
+      cy.addEntity(WIND_BEARING_STRING_DATA);
       cy.configure({
         entity: 'weather.wind_bearing_string',
         num_segments: '6',
@@ -855,6 +770,67 @@ describe('Weather bar', () => {
             cy.wrap(el).should('have.text', `${expectedWindDirections[i / 2]}`);
           }
         });
+    });
+
+    it('supports wind barbs when wind bearing specified as a string', () => {
+      cy.addEntity(WIND_BEARING_STRING_DATA);
+      cy.configure({
+        entity: 'weather.wind_bearing_string',
+        num_segments: '6',
+        show_wind: 'barb'
+      });
+      const expectedWindBearings = [
+        247.5,
+        247.5,
+        292.5,
+      ];
+
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 6)
+        .each((el, i) => {
+          if (i % 2 === 0) {
+            cy.wrap(el).find('svg').should('exist')
+              .and('have.attr', 'style', `transform:rotate(${expectedWindBearings[i / 2]}deg);`);
+          }
+        });
+    });
+
+    it('supports wind barbs with speed and direction when wind bearing specified as a string', () => {
+      cy.addEntity(WIND_BEARING_STRING_DATA);
+      cy.configure({
+        entity: 'weather.wind_bearing_string',
+        num_segments: '6',
+        show_wind: 'barb-speed-and-direction'
+      });
+      const expectedWindSpeeds = [
+        5,
+        6,
+        6,
+      ];
+      const expectedWindDirections = [
+        'WSW',
+        'WSW',
+        'WNW',
+      ];
+      const expectedWindBearings = [
+        247.5,
+        247.5,
+        292.5,
+      ];
+
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 6)
+        .each((el, i) => {
+          if (i % 2 === 0) {
+            cy.wrap(el).should('contain.text', `${expectedWindSpeeds[i / 2]} mph${expectedWindDirections[i / 2]}`)
+              .find('svg').should('exist')
+              .and('have.attr', 'style', `transform:rotate(${expectedWindBearings[i / 2]}deg);`);
+          }
+        })
     });
 
     it('localizes wind bearing when entity provides as a string', () => {
@@ -1148,3 +1124,90 @@ describe('Weather bar', () => {
     });
   });
 });
+
+const WIND_BEARING_STRING_DATA: Record<string, Cypress.WeatherEntity> = {
+  'weather.wind_bearing_string': {
+    attributes: {
+      wind_speed_unit: "mph",
+      forecast: [
+        {
+          "datetime": "2022-07-21T17:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 0,
+          "pressure": 1007,
+          "wind_speed": 4.67,
+          "wind_bearing": 'WSW',
+          "condition": "cloudy",
+          "clouds": 60,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T18:00:00+00:00",
+          "precipitation": 0.35,
+          "precipitation_probability": 0,
+          "pressure": 1007,
+          "wind_speed": 6.16,
+          "wind_bearing": 'W',
+          "condition": "cloudy",
+          "clouds": 75,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T19:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 0,
+          "pressure": 1007,
+          "wind_speed": 6.07,
+          "wind_bearing": 'WSW',
+          "condition": "cloudy",
+          "clouds": 60,
+          "temperature": 85
+        },
+        {
+          "datetime": "2022-07-21T20:00:00+00:00",
+          "precipitation": 1.3,
+          "precipitation_probability": 1,
+          "pressure": 1007,
+          "wind_speed": 5.9,
+          "wind_bearing": 'W',
+          "condition": "partlycloudy",
+          "clouds": 49,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T21:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 1,
+          "pressure": 1007,
+          "wind_speed": 5.78,
+          "wind_bearing": 'WNW',
+          "condition": "partlycloudy",
+          "clouds": 34,
+          "temperature": 84
+        },
+        {
+          "datetime": "2022-07-21T22:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 1,
+          "pressure": 1008,
+          "wind_speed": 5.06,
+          "wind_bearing": 'WNW',
+          "condition": "partlycloudy",
+          "clouds": 19,
+          "temperature": 83
+        },
+        {
+          "datetime": "2022-07-21T23:00:00+00:00",
+          "precipitation": 0,
+          "precipitation_probability": 1,
+          "pressure": 1008,
+          "wind_speed": 6.39,
+          "wind_bearing": 'NW',
+          "condition": "sunny",
+          "clouds": 4,
+          "temperature": 79
+        }
+      ]
+    }
+  }
+};
