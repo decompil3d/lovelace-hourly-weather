@@ -833,6 +833,113 @@ describe('Weather bar', () => {
         })
     });
 
+    it('handles undefined wind bearing', () => {
+      cy.addEntity({
+        'weather.undefined_wind_bearing': {
+          attributes: {
+            forecast: [
+              {
+                "datetime": "2022-07-21T17:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 0,
+                "pressure": 1007,
+                "wind_speed": 4.67,
+                // @ts-expect-error testing undefined wind_bearing
+                "wind_bearing": undefined,
+                "condition": "cloudy",
+                "clouds": 60,
+                "temperature": 84
+              },
+              {
+                "datetime": "2022-07-21T18:00:00+00:00",
+                "precipitation": 0.35,
+                "precipitation_probability": 0,
+                "pressure": 1007,
+                "wind_speed": 6.07,
+                // @ts-expect-error testing undefined wind_bearing
+                "wind_bearing": undefined,
+                "condition": "cloudy",
+                "clouds": 75,
+                "temperature": 85
+              },
+              {
+                "datetime": "2022-07-21T19:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 0,
+                "pressure": 1007,
+                "wind_speed": 6.16,
+                // @ts-expect-error testing undefined wind_bearing
+                "wind_bearing": undefined,
+                "condition": "cloudy",
+                "clouds": 60,
+                "temperature": 85
+              },
+              {
+                "datetime": "2022-07-21T20:00:00+00:00",
+                "precipitation": 1.3,
+                "precipitation_probability": 1,
+                "pressure": 1007,
+                "wind_speed": 5.9,
+                // @ts-expect-error testing undefined wind_bearing
+                "wind_bearing": undefined,
+                "condition": "partlycloudy",
+                "clouds": 49,
+                "temperature": 84
+              },
+              {
+                "datetime": "2022-07-21T21:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 1,
+                "pressure": 1007,
+                "wind_speed": 5.78,
+                // @ts-expect-error testing undefined wind_bearing
+                "wind_bearing": undefined,
+                "condition": "partlycloudy",
+                "clouds": 34,
+                "temperature": 84
+              },
+              {
+                "datetime": "2022-07-21T22:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 1,
+                "pressure": 1008,
+                "wind_speed": 5.06,
+                // @ts-expect-error testing undefined wind_bearing
+                "wind_bearing": undefined,
+                "condition": "partlycloudy",
+                "clouds": 19,
+                "temperature": 83
+              },
+              {
+                "datetime": "2022-07-21T23:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 1,
+                "pressure": 1008,
+                "wind_speed": 6.39,
+                // @ts-expect-error testing undefined wind_bearing
+                "wind_bearing": undefined,
+                "condition": "sunny",
+                "clouds": 4,
+                "temperature": 79
+              }
+            ]
+          }
+        }
+      });
+      cy.configure({
+        entity: 'weather.undefined_wind_bearing',
+        num_segments: '4',
+        show_wind: 'direction'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind')
+        .should('have.length', 4)
+        .each((el) => {
+          cy.wrap(el).should('be.empty');
+        });
+    });
+
     it('localizes wind bearing when entity provides as a string', () => {
       cy.addEntity({
         'weather.wind_bearing_string': {

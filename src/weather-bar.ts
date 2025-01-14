@@ -142,9 +142,9 @@ export class WeatherBar extends LitElement {
       const { windSpeed, windSpeedRawMS, windDirection, windDirectionRaw } = this.wind[i];
 
       const wind: TemplateResult[] = [];
-      const bearing: number = typeof windDirectionRaw === 'number'
+      const bearing: number | undefined = typeof windDirectionRaw === 'number'
         ? windDirectionRaw
-        : DIRECTIONS_BEARINGS[windDirectionRaw.toLowerCase()];
+        : DIRECTIONS_BEARINGS[windDirectionRaw?.toLowerCase()];
       if (showWindBarb && bearing !== undefined) {
         wind.push(html`<span title=${`${windSpeed} ${windDirection}`}>
           ${this.getWindBarb(windSpeedRawMS, bearing)}
