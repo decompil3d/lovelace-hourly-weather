@@ -1,0 +1,77 @@
+{
+  "common": {
+    "version": "Sürüm",
+    "title": "Saatlik Hava Durumu",
+    "title_card": "Saatlik Hava Durumu Kartı",
+    "description": "Saatlik hava koşullarını çubuk grafik olarak gösteren bir kart.",
+    "invalid_configuration": "Geçersiz yapılandırma"
+  },
+  "editor": {
+    "entity": "Varlık (Zorunlu)",
+    "name": "Ad (İsteğe bağlı)",
+    "segments_to_show": "Gösterilecek tahmin dilimi sayısı (İsteğe bağlı)",
+    "offset": "Başlangıcı öteleme sayısı (İsteğe bağlı)",
+    "icons": "Metin etiketleri yerine simgeleri göster",
+    "label_spacing": "Zaman ve sıcaklık etiketlerinin aralık sayısı (İsteğe bağlı)",
+    "show_wind": "Rüzgar hızı ve yönünü göster",
+    "show_date": "Tarihleri göster",
+    "show_precipitation_amounts": "Yağış miktarını göster",
+    "show_precipitation_probability": "Yağış olasılığını göster",
+    "none": "Yok",
+    "speed_and_direction": "Hız ve yön",
+    "speed_only": "Sadece hız",
+    "direction_only": "Sadece yön",
+    "barb": "Rüzgar oku olarak",
+    "barb_and_speed": "Rüzgar oku ve hız olarak",
+    "barb_and_direction": "Rüzgar oku ve yön olarak",
+    "barb_speed_and_direction": "Rüzgar oku, hız ve yön olarak",
+    "all": "Tümü",
+    "on_day_boundaries": "Gün sınırlarında"
+  },
+  "errors": {
+    "missing_entity": "Yapılandırmada varlık eksik",
+    "too_many_segments_requested": "İstenen tahmin dilimi sayısı çok fazla. num_segments değeri, tahmin varlığındaki dilim sayısından fazla olamaz.",
+    "must_be_int": "2 veya daha büyük çift bir tam sayı olmalı",
+    "invalid_colors": "Yapılandırmanızdaki geçersiz renkler:",
+    "must_be_positive_int": "Pozitif bir tam sayı olmalı",
+    "offset_must_be_positive_int": "offset pozitif bir tam sayı olmalı",
+    "forecast_not_available": "Tahmin mevcut değil",
+    "check_entity": "Yapılandırılmış tahmin varlığını kontrol edin.",
+    "invalid_value_icon_fill": "icon_fill değeri pozitif bir tam sayı ya da 'single' veya 'full' olmalıdır"
+  },
+  "conditions": {
+    "clear": "Açık",
+    "cloudy": "Bulutlu",
+    "fog": "Sisli",
+    "hail": "Dolu",
+    "thunderstorm": "Gök gürültülü fırtına",
+    "partlyCloudy": "Parçalı bulutlu",
+    "heavyRain": "Şiddetli yağmur",
+    "rain": "Yağmur",
+    "snow": "Kar",
+    "mixedPrecip": "Karışık yağış",
+    "sunny": "Güneşli",
+    "windy": "Rüzgarlı"
+  },
+  "direction": {
+    "n": "K",
+    "nne": "KKB",
+    "ne": "KB",
+    "ene": "DKB",
+    "e": "D",
+    "ese": "DGD",
+    "se": "GD",
+    "sse": "GGB",
+    "s": "G",
+    "ssw": "GGB",
+    "sw": "GB",
+    "wsw": "BGB",
+    "w": "B",
+    "wnw": "BKB",
+    "nw": "KB",
+    "nnw": "KKB"
+  },
+  "card": {
+    "chance_of_precipitation": "%{0} yağış olasılığı"
+  }
+}
