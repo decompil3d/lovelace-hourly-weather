@@ -59,6 +59,7 @@ describe('Localization', () => {
     'nn-NO': 'Skya',
     ru: 'Облачно',
     sk: 'Zamračené',
+    tr: 'Bulutlu',
     uk: 'Хмарно',
     zh: '多云'
   }

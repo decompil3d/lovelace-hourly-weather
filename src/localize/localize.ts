@@ -15,6 +15,7 @@ import * as pt from './languages/pt.json';
 import * as pt_BR from './languages/pt-BR.json';
 import * as ru from './languages/ru.json';
 import * as sk from './languages/sk.json';
+import * as tr from './languages/tr.json';
 import * as uk from './languages/uk.json';
 import * as zh from './languages/zh.json';
 
@@ -37,6 +38,7 @@ const languages: any = {
   pt_BR,
   ru,
   sk,
+  tr,
   uk,
   zh,
 };
@@ -52,7 +54,7 @@ export function getLocalizer(configuredLanguage: string | undefined, haServerLan
 
     try {
       translated = string.split('.').reduce((o, i) => o[i], languages[lang]);
-    } catch (e) {
+    } catch {
       translated = string.split('.').reduce((o, i) => o[i], languages['en']);
     }
 
