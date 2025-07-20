@@ -17,7 +17,7 @@
   "author": "Jonathan Keslin <github@jonathankeslin.com>",
   "license": "MIT",
   "dependencies": {
-    "@lit-labs/scoped-registry-mixin": "^1.0.3",
+    "@lit-labs/scoped-registry-mixin": "^1.0.4",
     "@material/mwc-formfield": "^0.27.0",
     "@material/mwc-list": "^0.27.0",
     "@material/mwc-menu": "^0.27.0",
