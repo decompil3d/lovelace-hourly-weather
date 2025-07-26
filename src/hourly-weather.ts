@@ -323,6 +323,7 @@ export class HourlyWeatherCard extends LitElement {
     const forecastNotAvailable = !forecast || !forecast.length;
     const icon_fill = config.icon_fill;
     const hideMinutes = !!config.hide_minutes;
+    const roundTemperatures = !!config.round_temperatures;
 
     if (numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
@@ -379,7 +380,7 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
-    const temperatures = this.getTemperatures(forecast, numSegments, offset, hideMinutes);
+    const temperatures = this.getTemperatures(forecast, numSegments, offset, hideMinutes, roundTemperatures);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit, hideMinutes);
     const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit, hideMinutes);
 
@@ -410,7 +411,6 @@ export class HourlyWeatherCard extends LitElement {
             .colors=${colorSettings.validColors}
             .hide_hours=${!!config.hide_hours}
             .hide_temperatures=${!!config.hide_temperatures}
-            .round_temperatures=${!!config.round_temperatures}
             .hide_bar=${!!config.hide_bar}
             .icon_fill=${config.icon_fill}
             .show_wind=${showWind}
@@ -441,15 +441,18 @@ export class HourlyWeatherCard extends LitElement {
     return res;
   }
 
-  private getTemperatures(forecast: ForecastSegment[], numSegments: number, offset: number, hideMinutes: boolean): SegmentTemperature[] {
+  private getTemperatures(forecast: ForecastSegment[], numSegments: number, offset: number, hideMinutes: boolean, roundTemperatures: boolean): SegmentTemperature[] {
     const temperatures: SegmentTemperature[] = [];
     for (let i = offset; i < numSegments + offset; i++) {
       const fs = forecast[i];
       const dt = new Date(fs.datetime)
+      const temperature = roundTemperatures && !Number.isNaN(fs.temperature) ?
+        Math.round(fs.temperature) :
+        fs.temperature;
       temperatures.push({
         date: formatDateShort(dt, this.hass.locale),
         hour: this.formatHour(dt, this.hass.locale, hideMinutes),
-        temperature: formatNumber(fs.temperature, this.hass.locale)
+        temperature: formatNumber(temperature, this.hass.locale)
       })
     }
     return temperatures;
