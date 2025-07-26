@@ -88,7 +88,7 @@ describe('Internationalization', () => {
               "wind_bearing": 255,
               "condition": "cloudy",
               "clouds": 60,
-              "temperature": 84.2
+              "temperature": 83.6
             },
             {
               "datetime": "2022-07-21T18:00:00+00:00",
@@ -99,7 +99,7 @@ describe('Internationalization', () => {
               "wind_bearing": 253,
               "condition": "cloudy",
               "clouds": 75,
-              "temperature": 85.5
+              "temperature": 85.6
             },
             {
               "datetime": "2022-07-21T19:00:00+00:00",
@@ -110,7 +110,7 @@ describe('Internationalization', () => {
               "wind_bearing": 258,
               "condition": "cloudy",
               "clouds": 60,
-              "temperature": 85.3
+              "temperature": 85.6
             },
             {
               "datetime": "2022-07-21T20:00:00+00:00",
@@ -162,7 +162,7 @@ describe('Internationalization', () => {
         .shadow()
         .find('div.axes > div.bar-block div.temperature')
         .first()
-        .should('have.text', '84.2°');
+        .should('have.text', '83.6°');
     });
     it('uses comma as decimal separator when specified as decimal_comma', () => {
       cy.setLocale({
@@ -172,7 +172,7 @@ describe('Internationalization', () => {
         .shadow()
         .find('div.axes > div.bar-block div.temperature')
         .first()
-        .should('have.text', '84,2°');
+        .should('have.text', '83,6°');
     });
     it('uses comma as decimal separator when specified as space_comma', () => {
       cy.setLocale({
@@ -182,7 +182,22 @@ describe('Internationalization', () => {
         .shadow()
         .find('div.axes > div.bar-block div.temperature')
         .first()
-        .should('have.text', '84,2°');
+        .should('have.text', '83,6°');
+    });
+    it('rounds properly when number format uses a comma', () => {
+      cy.configure({
+        entity: 'weather.fractional',
+        num_segments: '6',
+        round_temperatures: true,
+      });
+      cy.setLocale({
+        number_format: 'decimal_comma'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.temperature')
+        .first()
+        .should('have.text', '84°');
     });
   });
 });

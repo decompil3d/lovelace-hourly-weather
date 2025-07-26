@@ -71,40 +71,40 @@ export type ConditionSpan = [
 ]
 
 export interface SegmentTemperature {
-  hour: string,
-  date: string,
-  temperature: string
+  hour: string;
+  date: string;
+  temperature: string;
 }
 
 export interface SegmentWind {
-  hour: string,
-  windSpeed: string,
-  windSpeedRawMS: number,
-  windDirection: string,
-  windDirectionRaw: number | string
+  hour: string;
+  windSpeed: string;
+  windSpeedRawMS: number;
+  windDirection: string;
+  windDirectionRaw: number | string;
 }
 
 export interface SegmentPrecipitation {
-  hour: string,
-  precipitationAmount: string,
-  precipitationProbability: string,
-  precipitationProbabilityText: string
+  hour: string;
+  precipitationAmount: string;
+  precipitationProbability: string;
+  precipitationProbabilityText: string;
 }
 
 export type ColorMap = Map<keyof ColorConfig, ColorObject>
 
 export interface ColorSettings {
-  validColors?: ColorMap,
-  warnings: string[]
+  validColors?: ColorMap;
+  warnings: string[];
 }
 
 export interface RenderTemplateResult {
-  result: string
+  result: string;
 }
 
 export interface LocalizerLastSettings {
-  configuredLanguage: string | undefined,
-  haServerLanguage: string | undefined
+  configuredLanguage: string | undefined;
+  haServerLanguage: string | undefined;
 }
 
 export type ForecastType = "hourly" | "daily" | "twice_daily";
