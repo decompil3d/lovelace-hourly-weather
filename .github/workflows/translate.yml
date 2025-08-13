@@ -35,7 +35,7 @@ jobs:
         run: echo ::set-output name=current_branch::${GITHUB_REF#refs/*/}
 
       - name: Commit changes
-        uses: devops-infra/action-commit-push@v0.11.2
+        uses: devops-infra/action-commit-push@v0.11.3
         continue-on-error: true
         with:
             github_token: '${{ secrets.GITHUB_TOKEN }}'
