@@ -418,7 +418,9 @@ export class HourlyWeatherCard extends LitElement {
             .show_precipitation_probability=${!!config.show_precipitation_probability}
             .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
-            .labels=${this.labels}></weather-bar>
+            .labels=${this.labels}
+            .compact_layout=${!!config.compact_layout}
+          ></weather-bar>
         </div>
       </ha-card>
     `;

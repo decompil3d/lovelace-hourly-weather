@@ -86,6 +86,14 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
     return this._config?.show_date ?? 'false';
   }
 
+  get _compact_layout(): boolean {
+    return this._config?.compact_layout ?? false;
+  }
+
+  get _hide_temperatures(): boolean {
+    return this._config?.hide_temperatures ?? false;
+  }
+
   protected render(): TemplateResult | void {
     if (!this.hass || !this._helpers) {
       return html``;
@@ -199,6 +207,20 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         <mwc-switch
           .checked=${this._show_precipitation_probability === true}
           .configValue=${'show_precipitation_probability'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${localize('editor.compact_layout')}>
+        <mwc-switch
+          .checked=${this._compact_layout === true}
+          .configValue=${'compact_layout'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${localize('editor.hide_temperatures')}>
+        <mwc-switch
+          .checked=${this._hide_temperatures === true}
+          .configValue=${'hide_temperatures'}
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>

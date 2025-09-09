@@ -42,6 +42,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   hold_action?: ActionConfig;
   double_tap_action?: ActionConfig;
   language?: string;
+  compact_layout?: boolean;
 }
 
 export interface ColorObject {
