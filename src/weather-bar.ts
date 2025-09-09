@@ -64,6 +64,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   compact_layout = false;
 
+  @property({ type: String })
+  inline_display_value: InlineDisplayType = 'false';
+
   private tips: Instance[] = [];
 
   render() {
@@ -134,6 +137,7 @@ export class WeatherBar extends LitElement {
         }
       }
       const { windSpeed, windSpeedRawMS, windDirection, windDirectionRaw } = this.wind[i];
+      const hideInlineDisplayValue = this.inline_display_value === 'false' || skipLabel;
 
       const wind: TemplateResult[] = [];
       const bearing: number | undefined = typeof windDirectionRaw === 'number'
@@ -152,15 +156,22 @@ export class WeatherBar extends LitElement {
       const { precipitationAmount, precipitationProbability, precipitationProbabilityText } = this.precipitation[i];
       const precipitation: TemplateResult[] = [];
       if (showPrecipitationAmounts) precipitation.push(html`${precipitationAmount}`);
-      if (showPrecipitationAmounts && showPrecipitationProbability) precipitation.push(html`<br>`);
-      if (showPrecipitationProbability) precipitation.push(
-        html`<span title=${precipitationProbabilityText}>${precipitationProbability}</span>`);
-
+      let inlineDisplayValue: TemplateResult;
+      if (this.inline_display_value === 'temperature') {
+        inlineDisplayValue = html`${temperature}&deg;`;
+      } else if (this.inline_display_value === 'precipitation') {
+        inlineDisplayValue = html`${precipitationAmount}`;
+      } else if (this.inline_display_value === 'precipitation_probability') {
+        inlineDisplayValue = html`${precipitationProbability}`;
+      } else {
+        inlineDisplayValue = html``;
+      }
       barBlocks.push(html`
         <div class="bar-block">
           <div class="bar-block-left"></div>
           <div class="bar-block-right"></div>
           <div class="bar-block-bottom">
+            <div class="inline-display-value">${hideInlineDisplayValue ? null : inlineDisplayValue}</div>
             <div class="date">${renderedDate}</div>
             <div class="hour">${hideHours ? null : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
@@ -216,7 +227,7 @@ export class WeatherBar extends LitElement {
   }
 
   private getCompactLayoutCSS(compact: boolean): TemplateResult | null {
-    const factor = compact ? 0.6 : 1.0;
+    const factor = compact ? 0.7 : 1.0;
     const height = 30 * factor;
     return html`<style>
       .bar {
@@ -234,9 +245,6 @@ export class WeatherBar extends LitElement {
       }
       .bar-block-bottom {
         padding-top: ${compact ? 0 : 5}px;
-      }
-      .precipitation {
-        ${compact ? unsafeCSS('height: 1em; overflow:hidden; position: relative; margin-top: -35px;') : ''}
       }
     </style>`;
   }

@@ -3,7 +3,7 @@ import { LitElement, html, TemplateResult, css, CSSResultGroup } from 'lit';
 import { HomeAssistant, fireEvent, LovelaceCardEditor } from 'custom-card-helpers';
 
 import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
-import { HourlyWeatherCardConfig, WindType } from './types';
+import { HourlyWeatherCardConfig, InlineDisplayType, WindType } from './types';
 import { customElement, property, state } from 'lit/decorators.js';
 import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
@@ -92,6 +92,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
 
   get _hide_temperatures(): boolean {
     return this._config?.hide_temperatures ?? false;
+  }
+
+  get _inline_display_value(): InlineDisplayType {
+    return this._config?.inline_display_value ?? 'false';
   }
 
   protected render(): TemplateResult | void {
@@ -210,13 +214,7 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>
-      <mwc-formfield .label=${localize('editor.compact_layout')}>
-        <mwc-switch
-          .checked=${this._compact_layout === true}
-          .configValue=${'compact_layout'}
-          @change=${this._valueChanged}
-        ></mwc-switch>
-      </mwc-formfield>
+      <br />
       <mwc-formfield .label=${localize('editor.hide_temperatures')}>
         <mwc-switch
           .checked=${this._hide_temperatures === true}
@@ -224,6 +222,34 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>
+      <hr />
+      <mwc-formfield .label=${localize('editor.compact_layout')}>
+        <mwc-switch
+          .checked=${this._compact_layout === true}
+          .configValue=${'compact_layout'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      ${this._compact_layout
+        ? html`
+            <mwc-select
+              naturalMenuWidth
+              fixedMenuPosition
+              label=${localize('editor.inline_display_value')}
+              .configValue=${'inline_display_value'}
+              .value=${this._inline_display_value}
+              @selected=${this._valueChanged}
+              @closed=${(ev) => ev.stopPropagation()}
+            >
+              <mwc-list-item value="false">${localize('editor.none')}</mwc-list-item>
+              <mwc-list-item value="temperature">${localize('editor.temperature')}</mwc-list-item>
+              <mwc-list-item value="precipitation">${localize('editor.precipitation')}</mwc-list-item>
+              <mwc-list-item value="precipitation_probability"
+                >${localize('editor.precipitation_probability')}</mwc-list-item
+              >
+            </mwc-select>
+          `
+        : ''}
     `;
   }
 

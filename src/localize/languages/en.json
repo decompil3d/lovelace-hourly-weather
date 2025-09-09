@@ -29,6 +29,10 @@
     "on_day_boundaries": "On day boundaries",
     "compact_layout": "Compact layout",
     "hide_temperatures": "Hide temperatures",
+    "inline_display_value": "Show value overhead the condition bar",
+    "precipitation": "Precipitation",
+    "temperature": "Temperature",
+    "precipitation_probability": "Precipitation Probability"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",

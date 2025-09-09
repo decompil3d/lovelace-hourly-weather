@@ -9,6 +9,7 @@ declare global {
 
 export type WindType = 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction';
 export type ShowDateType = 'false' | 'boundary' | 'all';
+export type InlineDisplayType = 'false' | 'temperature' | 'precipitation' | 'precipitation_probability';
 export type IconFillType = 'single' | 'full' | number;
 export type Condition = 'clear-night' | 'cloudy' | 'fog' | 'hail' | 'lightning' | 'lightning-rainy' | 'partlycloudy' | 'pouring' | 'rainy' | 'snowy' | 'snowy-rainy' | 'sunny' | 'windy' | 'windy-variant' | 'exceptional';
 type PerConditionConfig<TValue> = Partial<Record<Condition, TValue>>;
@@ -43,6 +44,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   double_tap_action?: ActionConfig;
   language?: string;
   compact_layout?: boolean;
+  inline_display_value?: InlineDisplayType;
 }
 
 export interface ColorObject {

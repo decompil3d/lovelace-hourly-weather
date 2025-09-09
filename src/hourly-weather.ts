@@ -420,6 +420,7 @@ export class HourlyWeatherCard extends LitElement {
             .label_spacing=${labelSpacing}
             .labels=${this.labels}
             .compact_layout=${!!config.compact_layout}
+            .inline_display_value=${config.inline_display_value}
           ></weather-bar>
         </div>
       </ha-card>
