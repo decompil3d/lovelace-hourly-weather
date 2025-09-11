@@ -5,7 +5,7 @@ import tippy, { Instance } from 'tippy.js';
 import { ICONS, LABELS } from "./conditions";
 import { DIRECTIONS_BEARINGS } from './directions';
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
-import type { ColorMap, ConditionSpan, IconFillType, IconMap, SegmentPrecipitation, SegmentTemperature, SegmentWind, ShowDateType, WindType } from "./types";
+import type { ColorMap, ConditionSpan, IconFillType, IconMap, InlineDisplayType, SegmentPrecipitation, SegmentTemperature, SegmentWind, ShowDateType, WindType } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS!;
 
@@ -156,6 +156,10 @@ export class WeatherBar extends LitElement {
       const { precipitationAmount, precipitationProbability, precipitationProbabilityText } = this.precipitation[i];
       const precipitation: TemplateResult[] = [];
       if (showPrecipitationAmounts) precipitation.push(html`${precipitationAmount}`);
+      if (showPrecipitationAmounts && showPrecipitationProbability) precipitation.push(html`<br>`);
+      if (showPrecipitationProbability) precipitation.push(
+        html`<span title=${precipitationProbabilityText}>${precipitationProbability}</span>`);
+
       let inlineDisplayValue: TemplateResult;
       if (this.inline_display_value === 'temperature') {
         inlineDisplayValue = html`${temperature}&deg;`;
