@@ -39,7 +39,7 @@ jobs:
       matrix:
         language: ${{ fromJSON(needs.find-new-languages.outputs.languages) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Ensure src/localize/localize.ts imports new language
         env:
           LANGUAGE: ${{ matrix.language }}
