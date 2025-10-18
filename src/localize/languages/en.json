@@ -26,7 +26,13 @@
     "barb_and_direction": "As wind barb and direction",
     "barb_speed_and_direction": "As wind barb, speed, and direction",
     "all": "All",
-    "on_day_boundaries": "On day boundaries"
+    "on_day_boundaries": "On day boundaries",
+    "compact_layout": "Compact layout",
+    "hide_temperatures": "Hide temperatures",
+    "inline_display_value": "Show value overhead the condition bar",
+    "precipitation": "Precipitation",
+    "temperature": "Temperature",
+    "precipitation_probability": "Precipitation Probability"
   },
   "errors": {
     "missing_entity": "entity is missing in configuration",
