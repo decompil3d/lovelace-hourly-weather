@@ -179,6 +179,7 @@ colors:
   sunny: '#bbccee' # note that hex colors must be quoted
   snowy-rainy: rgba(255, 255, 255, 0.8) # rgba works (and hsla too)
   exceptional: red # as do valid CSS color names
+  rainy: var(--primary-color) # CSS custom properties (aka variables) are fine as well
   windy:
     background: lightgray
     foreground: '#000'

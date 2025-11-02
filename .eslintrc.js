@@ -13,5 +13,11 @@ module.exports = {
         // e.g. "@typescript-eslint/explicit-function-return-type": "off",
         "eqeqeq": "error",
         "space-infix-ops": "error"
-    }
+    },
+    overrides: [{
+        files: ["cypress/e2e/*.cy.ts"],
+        rules: {
+            "@typescript-eslint/no-unused-expressions": "off"
+        }
+    }]
 };

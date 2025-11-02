@@ -110,6 +110,36 @@ describe('Config', () => {
       .and('contain', 'exceptional: {\n  "foreground": "#12345678"\n}')
       .and('contain', 'hail: {\n  "background": "foo(240, 100%, 50%)",\n  "foreground": "rgb(0, 255, 0, 0)"\n}');
   });
+  it('warns for invalid color vars', () => {
+    cy.configure({
+      colors: {
+        cloudy: 'var()', // no params in var
+        partlycloudy: 'var(foo)', // invalid var name
+        sunny: 'var(-bar)', // still invalid var name
+        "clear-night": 'var(--baz)', // valid
+        windy: 'var(--gloop, 123)', // invalid fallback
+        rainy: 'var(--glahp, blue)', // valid
+        fog: ' var(--zing)', // valid
+        exceptional: 'var( --zong)', // valid
+        hail: 'var(--blong,  #123456  )' // valid
+      }
+    });
+    cy.get('hui-warning')
+      .shadow()
+      .slotAssignedNodes()
+      .should('have.length', 1)
+      .its(0)
+      .its('textContent')
+      .should('contain', 'cloudy: "var()"')
+      .and('contain', 'partlycloudy: "var(foo)"')
+      .and('contain', 'sunny: "var(-bar)"')
+      .and('contain', 'windy: "var(--gloop, 123)')
+      .and('not.contain', 'clear-night')
+      .and('not.contain', 'rainy')
+      .and('not.contain', 'fog')
+      .and('not.contain', 'exceptional')
+      .and('not.contain', 'hail');
+  });
   it('errors for invalid string values for icon_fill', () => {
     cy.configure({
       //@ts-expect-error This is testing invalid config
