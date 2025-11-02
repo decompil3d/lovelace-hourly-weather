@@ -52,7 +52,7 @@
     "eslint-plugin-prettier": "^5.5.4",
     "http-server": "^14.1.1",
     "prettier": "^3.6.2",
-    "rollup": "^2.79.2",
+    "rollup": "^4.52.5",
     "rollup-plugin-serve": "^2.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
     "rollup-plugin-visualizer": "^6.0.3",
