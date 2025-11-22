@@ -10,7 +10,7 @@ jobs:
     name: translate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install localization package
         run: npm install -g i18n-auto-translation
 
