@@ -581,9 +581,47 @@ export class HourlyWeatherCard extends LitElement {
   private static isValidColor(color: string): boolean {
     if (!(isValidRGB(color) ||
       isValidColorName(color) ||
-      isValidHSL(color))) {
+      isValidHSL(color) ||
+      HourlyWeatherCard.isValidColorVar(color))) {
       return false;
     }
+
+    return true;
+  }
+
+  private static isValidCustomPropertyName(name: string): boolean {
+    if (typeof name !== 'string') return false;
+    if (!name.startsWith('--')) return false;
+
+    const ident = name.slice(2);
+    if (ident.length === 0) return false;
+
+    // Cannot start with a digit or dash-digit
+    if (/^-[0-9]/.test(ident) || /^[0-9]/.test(ident)) return false;
+
+    // Allowed characters (ASCII-only, simple & fast)
+    return /^[A-Za-z0-9_-]+$/.test(ident);
+  }
+
+  private static isValidColorVar(color: string): boolean {
+    if (typeof color !== 'string') return false;
+
+    // Trim to be forgiving about spacing
+    const trimmed = color.trim();
+
+    if (!trimmed.startsWith('var(') || !trimmed.endsWith(')')) return false;
+
+    // Extract the inside of var(...)
+    const inner = trimmed.slice(4, -1).trim();
+
+    // Split on the first comma only (fallbacks may contain commas)
+    const [property, fallback] = inner.split(',');
+    const propName = property.trim();
+
+    if (!HourlyWeatherCard.isValidCustomPropertyName(propName)) return false;
+
+    const trimmedFallback = fallback?.trim();
+    if (trimmedFallback && !HourlyWeatherCard.isValidColor(trimmedFallback)) return false;
 
     return true;
   }

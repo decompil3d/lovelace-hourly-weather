@@ -1,6 +1,6 @@
 {
   "name": "lovelace-hourly-weather",
-  "version": "6.7.1",
+  "version": "6.8.0",
   "description": "Hourly weather card for Home Assistant. Visualize upcoming weather conditions as a colored horizontal bar.",
   "keywords": [
     "home-assistant",
@@ -33,7 +33,7 @@
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.0",
+    "@babel/core": "^7.28.5",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-proposal-decorators": "^7.28.0",
     "@rollup/plugin-babel": "^6.0.4",
@@ -42,13 +42,13 @@
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-terser": "^0.4.4",
-    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.20.0",
     "cypress": "^13.17.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.4",
     "http-server": "^14.1.1",
     "prettier": "^3.6.2",

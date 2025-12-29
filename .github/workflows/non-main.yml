@@ -13,14 +13,14 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: |
           cd /home/runner/work/lovelace-hourly-weather/lovelace-hourly-weather
           npm ci
           npm run build
       - name: Save artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: hourly-weather.js
           retention-days: 5
