@@ -9,7 +9,7 @@
   "author": "Jonathan Keslin <github@jonathankeslin.com>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0",
+    "@actions/core": "^1.11.1",
     "deep-object-diff": "^1.1.9",
     "just-extend": "^6.1.1"
   }
