@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2019",
     "module": "esnext",
     "moduleResolution": "node",
     "lib": [
-      "es2017",
+      "es2019",
       "dom",
       "dom.iterable"
     ],
