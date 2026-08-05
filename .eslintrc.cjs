@@ -1,0 +1,32 @@
+module.exports = {
+  parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+  parserOptions: {
+    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
+    sourceType: 'module', // Allows for the use of imports
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+  ],
+  rules: {
+    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
+    // e.g. "@typescript-eslint/explicit-function-return-type": "off",
+    eqeqeq: 'error',
+    'space-infix-ops': 'error',
+  },
+  overrides: [
+    {
+      files: ['cypress/e2e/*.cy.ts'],
+      rules: {
+        '@typescript-eslint/no-unused-expressions': 'off',
+      },
+    },
+    {
+      // Apply Node.js globals specifically to Vite & eslint configuration file
+      files: ['.eslintrc.js', 'vite.config.js'],
+      env: {
+        node: true,
+      },
+    },
+  ],
+};

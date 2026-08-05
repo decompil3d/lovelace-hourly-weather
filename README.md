@@ -62,7 +62,7 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 ## Options
 
 | Name                             | Type                   | Requirement  | Description                                                                                                                                                     | Default             |
-| -------------------------------- | ---------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+|----------------------------------|------------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
 | `type`                           | string                 | **Required** | `custom:hourly-weather`                                                                                                                                         |                     |
 | `entity`                         | string                 | **Required** | Home Assistant weather entity ID.                                                                                                                               |                     |
 | `forecast_type`                  | string                 | **Optional** | The type of forecast data to use. One of `hourly`, `daily`, or `twice-daily`. If not specified, the card will attempt to use the finest-grained data available. |                     |
@@ -125,7 +125,7 @@ label_spacing: |
 ## Action Options
 
 | Name              | Type   | Requirement  | Description                                                                                        | Default     |
-| ----------------- | ------ | ------------ | -------------------------------------------------------------------------------------------------- | ----------- |
+|-------------------|--------|--------------|----------------------------------------------------------------------------------------------------|-------------|
 | `action`          | string | **Required** | Action to perform (more-info, toggle, call-service, navigate url, none)                            | `more-info` |
 | `navigation_path` | string | **Optional** | Path to navigate to (e.g. /lovelace/0/) when action defined as navigate                            | `none`      |
 | `url`             | string | **Optional** | URL to open on click when action is url. The URL will open in a new tab                            | `none`      |
@@ -155,7 +155,7 @@ Some conditions will default to whatever the value is of some other condition. F
 whatever `cloudy` is.
 
 | Key               | Default                |
-| ----------------- | ---------------------- |
+|-------------------|------------------------|
 | `clear-night`     | `#000`                 |
 | `cloudy`          | `#777`                 |
 | `fog`             | same as `cloudy`       |
@@ -191,7 +191,7 @@ colors:
 one or more of the keys listed below and values that are valid icons installed in Home Assistant.
 
 | Key               | Default                       |
-| ----------------- | ----------------------------- |
+|-------------------|-------------------------------|
 | `clear-night`     | `mdi:weather-night`           |
 | `cloudy`          | `mdi:weather-cloudy`          |
 | `fog`             | `mdi:weather-fog`             |
@@ -274,7 +274,7 @@ partly cloudy icon, but it didn't work out and was removed in a patch release.
 [commits]: https://github.com/decompil3d/lovelace-hourly-weather/commits/main
 [devcontainer]: https://code.visualstudio.com/docs/remote/containers
 [license-shield]: https://img.shields.io/github/license/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2025.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/decompil3d/lovelace-hourly-weather.svg?style=for-the-badge
 [releases]: https://github.com/decompil3d/lovelace-hourly-weather/releases
 [icon_map]: #icon-map-options

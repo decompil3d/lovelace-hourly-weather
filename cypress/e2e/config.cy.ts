@@ -1,4 +1,4 @@
-import type * as Sinon from "cypress/types/sinon";
+import type * as Sinon from "sinon";
 
 describe('Config', () => {
   beforeEach(() => {
