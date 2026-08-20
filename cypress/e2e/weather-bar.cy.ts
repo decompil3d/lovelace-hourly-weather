@@ -1174,7 +1174,13 @@ describe('Weather bar', () => {
 
     const expectedPrecipitation = [
       0.35,
+      0.35,
       1.3,
+      1.3,
+      0,
+      0,
+      0,
+      0,
       0,
       0,
       0,
@@ -1183,7 +1189,26 @@ describe('Weather bar', () => {
 
     it('shows precipitation if specified in config', () => {
       cy.configure({
-        show_precipitation_amounts: true
+        show_precipitation_amounts: true,
+        label_spacing: '1'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.precipitation')
+        .should('have.length', 12)
+        .each((el, i) => {
+            if (expectedPrecipitation[i] === 0) {
+              cy.wrap(el).should('be.empty');
+            } else {
+              cy.wrap(el).should('have.text', `${expectedPrecipitation[i]} in`);
+            }
+        });
+    });
+
+    it('shows and aggregates precipitation if specified in config', () => {
+      cy.configure({
+        show_precipitation_amounts: true,
+        label_spacing: '2'
       });
       cy.get('weather-bar')
         .shadow()
@@ -1191,40 +1216,89 @@ describe('Weather bar', () => {
         .should('have.length', 12)
         .each((el, i) => {
           if (i % 2 === 0) {
-            if (expectedPrecipitation[i / 2] === 0) {
+            if (expectedPrecipitation[i] + expectedPrecipitation[i+1] === 0) {
               cy.wrap(el).should('be.empty');
             } else {
-              cy.wrap(el).should('have.text', `${expectedPrecipitation[i / 2]} in`);
+              cy.wrap(el).should('have.text', `${expectedPrecipitation[i] + expectedPrecipitation[i+1]} in`);
             }
+          }
+          else {
+            cy.wrap(el).should('be.empty');
           }
         });
     });
 
     const expectedPrecipitationProbability = [
       75,
+      75,
+      100,
       100,
       15,
+      15,
+      0,
       0,
       5,
+      5,
+      0,
       0,
     ];
 
     it('shows precipitation probability if specified in config', () => {
       cy.configure({
-        show_precipitation_probability: true
+        show_precipitation_probability: true,
+        label_spacing: '1'
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.precipitation')
         .should('have.length', 12)
         .each((el, i) => {
-          if (i % 2 === 0) {
-            if (expectedPrecipitationProbability[i / 2] === 0) {
+          //if (i % 2 === 0) {
+            if (expectedPrecipitationProbability[i] === 0) {
               cy.wrap(el.text()).should('be.empty');
             } else {
-              cy.wrap(el).should('have.text', `${expectedPrecipitationProbability[i / 2]}%`)
+              cy.wrap(el).should('have.text', `${expectedPrecipitationProbability[i]}%`)
                 .find('span')
-                .should('have.attr', 'title', `${expectedPrecipitationProbability[i / 2]}% chance of precipitation`);
+                .should('have.attr', 'title', `${expectedPrecipitationProbability[i]}% chance of precipitation`);
+            }
+          //}
+        });
+    });
+
+    const aggregateProbability = (first: number, second: number): number =>
+      Math.round(100 * (1 - (1 - first / 100) * (1 - second / 100)));
+
+    it('shows aggregated precipitation probability if specified in config', () => {
+      cy.configure({
+        show_precipitation_probability: true,
+        label_spacing: '2',
+        num_segments: '5',
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.precipitation')
+        .should('have.length', 5)
+        .each((el, i) => {
+          if (i % 2 !== 0) {
+            cy.wrap(el).should('be.empty');
+          }
+          else {
+            const firstProbability = expectedPrecipitationProbability[i];
+            const secondProbability = expectedPrecipitationProbability[i + 1];
+            const expectedExpectedProbability = i < 4 ? aggregateProbability(firstProbability, secondProbability): firstProbability;
+            if (expectedExpectedProbability === 0) {
+              cy.wrap(el.text()).should('be.empty');
+            } else {
+              cy.wrap(el).should(
+                'have.text', 
+                `${expectedExpectedProbability}%`
+              )
+                .find('span')
+                .should(
+                  'have.attr', 
+                  'title', 
+                  `${expectedExpectedProbability}% chance of precipitation`
+                );
             }
           }
         });

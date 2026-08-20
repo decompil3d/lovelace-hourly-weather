@@ -382,7 +382,7 @@ export class HourlyWeatherCard extends LitElement {
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset, hideMinutes, roundTemperatures);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit, hideMinutes);
-    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit, hideMinutes);
+    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit, hideMinutes, labelSpacing);
 
     const colorSettings = this.getColorSettings(config.colors);
 
@@ -458,27 +458,65 @@ export class HourlyWeatherCard extends LitElement {
     return temperatures;
   }
 
-  private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string, hideMinutes: boolean): SegmentPrecipitation[] {
+  private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string, hideMinutes: boolean, labelSpacing: number): SegmentPrecipitation[] {
     const precipitation: SegmentPrecipitation[] = [];
-    for (let i = offset; i < numSegments + offset; i++) {
-      const fs = forecast[i];
-      let amount = '';
-      if (fs.precipitation > 0) {
-        amount = `${formatNumber(fs.precipitation, this.hass.locale)} ${unit}`.trim();
+
+    for (let i = 0; i < numSegments; i++) {
+      const fs = forecast[offset + i];
+
+      // Only these entries are rendered when label_spacing is used.
+      if (i % labelSpacing === 0) {
+        const interval = forecast.slice(
+          offset + i,
+          Math.min(offset + i + labelSpacing, offset + numSegments),
+        );
+
+        const totalAmount = interval.reduce(
+          (sum, segment) => sum + (Number(segment.precipitation) || 0),
+          0,
+        );
+
+        // Probability for "rain at least once in this interval", assuming
+        // independent segment probabilities.
+        const probability = 100 * (
+          1 - interval.reduce(
+            (noneProbability, segment) =>
+              noneProbability * (1 - (Number(segment.precipitation_probability) || 0) / 100),
+            1,
+          )
+        );
+        const roundedProbability = Math.round(probability);
+
+        precipitation.push({
+          hour: this.formatHour(new Date(fs.datetime), this.hass.locale, hideMinutes),
+          precipitationAmount:
+            totalAmount > 0
+              ? `${formatNumber(totalAmount, this.hass.locale)} ${unit}`.trim()
+              : '',
+          precipitationProbability:
+            roundedProbability > 0
+              ? `${formatNumber(roundedProbability, this.hass.locale)}%`
+              : '',
+          precipitationProbabilityText:
+            roundedProbability > 0
+              ? this.localize(
+                  'card.chance_of_precipitation',
+                  '{0}',
+                  String(roundedProbability),
+                )
+              : '',
+        });
+      } else {
+        // Keep the array aligned with temperatures/weather-bar indexes.
+        precipitation.push({
+          hour: this.formatHour(new Date(fs.datetime), this.hass.locale, hideMinutes),
+          precipitationAmount: '',
+          precipitationProbability: '',
+          precipitationProbabilityText: '',
+        });
       }
-      let probability = '';
-      let probabilityText = '';
-      if (fs.precipitation_probability > 0) {
-        probability = `${formatNumber(fs.precipitation_probability, this.hass.locale)}%`.trim();
-        probabilityText = this.localize('card.chance_of_precipitation', '{0}', String(fs.precipitation_probability));
-      }
-      precipitation.push({
-        hour: this.formatHour(new Date(fs.datetime), this.hass.locale, hideMinutes),
-        precipitationAmount: amount,
-        precipitationProbability: probability,
-        precipitationProbabilityText: probabilityText
-      })
     }
+
     return precipitation;
   }
 
