@@ -1253,15 +1253,13 @@ describe('Weather bar', () => {
         .find('div.axes > div.bar-block div.precipitation')
         .should('have.length', 12)
         .each((el, i) => {
-          //if (i % 2 === 0) {
-            if (expectedPrecipitationProbability[i] === 0) {
-              cy.wrap(el.text()).should('be.empty');
-            } else {
-              cy.wrap(el).should('have.text', `${expectedPrecipitationProbability[i]}%`)
-                .find('span')
-                .should('have.attr', 'title', `${expectedPrecipitationProbability[i]}% chance of precipitation`);
-            }
-          //}
+          if (expectedPrecipitationProbability[i] === 0) {
+            cy.wrap(el.text()).should('be.empty');
+          } else {
+            cy.wrap(el).should('have.text', `${expectedPrecipitationProbability[i]}%`)
+              .find('span')
+              .should('have.attr', 'title', `${expectedPrecipitationProbability[i]}% chance of precipitation`);
+          }
         });
     });
 
