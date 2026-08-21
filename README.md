@@ -72,7 +72,7 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 | `num_segments`                   | number                 | **Optional** | Number of forecast segments to show (integer >= 1)                                                                                                              | `12`                |
 | ~~`num_hours`~~                  | number                 | **Optional** | _Deprecated:_ Use `num_segments` instead                                                                                                                        | `12`                |
 | `offset`                         | number                 | **Optional** | Number of forecast segments to offset from start                                                                                                                | `0`                 |
-| `label_spacing`                  | number                 | **Optional** | Space between time/temperature labels (integer >= 1)                                                                                                            | `2`                 |
+| `label_spacing`                  | number                 | **Optional** | Number of forecast segments represented by each displayed label (integer >= 1)                                                                                                             | `2`                 |
 | `colors`                         | [object][color]        | **Optional** | Set colors for all or some conditions                                                                                                                           |                     |
 | `hide_hours`                     | bool                   | **Optional** | Whether to hide hour labels under the bar                                                                                                                       | `false`             |
 | `hide_minutes`                   | bool                   | **Optional** | Whether to show hours without minutes under the bar (display only "17" instead of "17:00")                                                                      | `false`             |
@@ -81,8 +81,8 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 | `hide_bar`                       | bool                   | **Optional** | Whether to hide the bar itself                                                                                                                                  | `false`             |
 | `icon_fill`                      | [Icon Fill][icon_fill] | **Optional** | Whether to repeat the icon inside the bar                                                                                                                       | `'single`           |
 | `show_wind`                      | [Wind][wind]           | **Optional** | Whether to show wind speed and/or direction under the bar                                                                                                       | `'false'`           |
-| `show_precipitation_amounts`     | bool                   | **Optional** | Whether to show precipitation (rain) amount under the bar                                                                                                       | `false`             |
-| `show_precipitation_probability` | bool                   | **Optional** | Whether to show precipitation (rain) probability under the bar                                                                                                  | `false`             |
+| `show_precipitation_amounts`     | bool                   | **Optional** | Whether to show the aggregated precipitation (rain) amount for each displayed label interval under the bar                                                                                                       | `false`             |
+| `show_precipitation_probability` | bool                   | **Optional** | Whether to show the combined precipitation probability for each displayed label interval under the bar                                                                                                  | `false`             |
 | `show_date`                      | [string][dates]        | **Optional** | Whether to show date under the bar                                                                                                                              | `'false'`           |
 | `tap_action`                     | [object][action]       | **Optional** | Action to take on tap                                                                                                                                           | `action: more-info` |
 | `hold_action`                    | [object][action]       | **Optional** | Action to take on hold                                                                                                                                          | `none`              |
@@ -90,6 +90,27 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 | `language`                       | string                 | **Optional** | Language to use for card (overrides HA & user settings)                                                                                                         |                     |
 
 > Note that some of the more advanced options are not available in the card editor UI and must be configured via YAML.
+
+### Precipitation and label spacing
+
+When precipitation amounts or probabilities are enabled, their values represent
+the forecast segments covered by each displayed label.
+
+For example, with `label_spacing: 2`, the precipitation label at the first
+segment summarizes segments 1-2, the next label summarizes segments 3-4, and
+so on. Precipitation amounts are summed. Precipitation probabilities are combined as the probability that precipitation
+occurs during at least one segment in that interval:
+
+$$
+P(\text{precipitation}) = 1 - \prod_{i=1}^{n} (1 - p_i)
+$$
+
+where $p_i$ is the precipitation probability of each segment expressed as a
+value from 0 to 1. The displayed result is rounded to the nearest whole
+percentage.
+
+If the final label interval contains fewer segments than `label_spacing`, it
+summarizes the remaining segment or segments.
 
 ### Templating
 
