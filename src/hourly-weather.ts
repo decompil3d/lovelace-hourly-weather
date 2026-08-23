@@ -19,17 +19,18 @@ import { until } from 'lit/directives/until.js';
 
 import { version } from '../package.json';
 import { actionHandler } from './action-handler-directive';
-import { ICONS, LABELS } from './conditions';
+import { DAY_NIGHT_VARIANTS, ICONS, LABELS } from './conditions';
 import { DIRECTIONS } from './directions';
 import { getLocalizer } from './localize/localize';
+import { isDaytime } from './solar';
 import type {
   ColorConfig,
   ColorDefinition,
   ColorMap,
   ColorObject,
   ColorSettings,
-  Condition,
   ConditionSpan,
+  DisplayCondition,
   ForecastEvent,
   ForecastSegment,
   ForecastType,
@@ -425,11 +426,11 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private getConditionListFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): ConditionSpan[] {
-    let lastCond: Condition = forecast[offset].condition;
+    let lastCond: DisplayCondition = this.getDisplayCondition(forecast[offset]);
     let j = 0;
     const res: ConditionSpan[] = [[lastCond, 1]];
     for (let i = offset + 1; i < numSegments + offset; i++) {
-      const cond: Condition = forecast[i].condition;
+      const cond: DisplayCondition = this.getDisplayCondition(forecast[i]);
       if (cond === lastCond) {
         res[j][1]++;
       } else {
@@ -439,6 +440,35 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
     return res;
+  }
+
+  /**
+   * Resolves the condition to render for a forecast segment, picking the
+   * daytime or nighttime variant based on whether the sun is up *at that
+   * segment's own timestamp*.
+   *
+   * Weather integrations pick `sunny` vs `clear-night` once, from the sun
+   * position at the time the forecast is generated, and apply it to every
+   * segment. So a forecast fetched at noon labels tonight's clear hours
+   * `sunny`, and one fetched at midnight labels tomorrow's clear hours
+   * `clear-night`. Resolving per segment fixes both directions.
+   *
+   * Falls back to the reported condition when the home location is unknown, so
+   * behaviour is unchanged for anyone whose `hass.config` carries no
+   * coordinates.
+   */
+  private getDisplayCondition(segment: ForecastSegment): DisplayCondition {
+    const variants = DAY_NIGHT_VARIANTS[segment.condition];
+    if (!variants) return segment.condition;
+
+    const { latitude, longitude } = this.hass?.config ?? {};
+    if (typeof latitude !== 'number' || typeof longitude !== 'number') return segment.condition;
+
+    const when = new Date(segment.datetime);
+    if (Number.isNaN(when.getTime())) return segment.condition;
+
+    const [day, night] = variants;
+    return isDaytime(when, latitude, longitude) ? day : night;
   }
 
   private getTemperatures(forecast: ForecastSegment[], numSegments: number, offset: number, hideMinutes: boolean, roundTemperatures: boolean): SegmentTemperature[] {

@@ -46,6 +46,7 @@
     "hail": "Grandine",
     "thunderstorm": "Temporale",
     "partlyCloudy": "Parzialmente Nuvoloso",
+    "partlyCloudyNight": "Parzialmente Nuvoloso (notte)",
     "heavyRain": "Acquazzone",
     "rain": "Pioggia",
     "snow": "Neve",

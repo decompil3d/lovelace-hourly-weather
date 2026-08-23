@@ -11,7 +11,15 @@ export type WindType = 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb
 export type ShowDateType = 'false' | 'boundary' | 'all';
 export type IconFillType = 'single' | 'full' | number;
 export type Condition = 'clear-night' | 'cloudy' | 'fog' | 'hail' | 'lightning' | 'lightning-rainy' | 'partlycloudy' | 'pouring' | 'rainy' | 'snowy' | 'snowy-rainy' | 'sunny' | 'windy' | 'windy-variant' | 'exceptional';
-type PerConditionConfig<TValue> = Partial<Record<Condition, TValue>>;
+/**
+ * Conditions the card can render. A superset of the conditions Home Assistant
+ * reports: `night-partly-cloudy` is derived by the card for partly cloudy
+ * segments that fall after sunset.
+ */
+export type DisplayCondition = Condition | 'night-partly-cloudy';
+/** Daytime and nighttime variant of a condition, in that order. */
+export type DayNightVariants = [day: DisplayCondition, night: DisplayCondition];
+type PerConditionConfig<TValue> = Partial<Record<DisplayCondition, TValue>>;
 export type IconMap = PerConditionConfig<string>;
 
 export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
@@ -66,7 +74,7 @@ export interface ForecastSegment {
 }
 
 export type ConditionSpan = [
-  condition: Condition,
+  condition: DisplayCondition,
   span: number
 ]
 

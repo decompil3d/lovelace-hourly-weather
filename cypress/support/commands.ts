@@ -70,6 +70,10 @@ interface HALocale {
   time_format: string;
 }
 
+Cypress.Commands.add('setHomeLocation', (latitude: number, longitude: number) => {
+  cy.window().invoke('setHWHomeLocation', latitude, longitude).wait(1);
+});
+
 Cypress.Commands.add('setLocale', (locale: Partial<HALocale>) => {
   cy.window().invoke('setHWLocale', locale).wait(1);
 });
@@ -99,6 +103,7 @@ declare global {
       addForecast(entityId: string, forecast: ForecastSegment[]): Chainable<void>;
       enableForecastSubscriptions(): Chainable<void>;
       updateLastForecastSubscription(forecast: ForecastSegment[]): Chainable<void>;
+      setHomeLocation(latitude: number, longitude: number): Chainable<void>;
       setLocale(locale: Partial<HALocale>): Chainable<void>;
       slotAssignedNodes(name?: string): Chainable<Node[]>;
     }

@@ -46,6 +46,7 @@
     "hail": "冰雹",
     "thunderstorm": "雷暴",
     "partlyCloudy": "局部多云",
+    "partlyCloudyNight": "局部多云（夜间）",
     "heavyRain": "大雨",
     "rain": "雨",
     "snow": "雪",

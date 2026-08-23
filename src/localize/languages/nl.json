@@ -46,6 +46,7 @@
     "hail": "Hagel",
     "thunderstorm": "Onweersbui",
     "partlyCloudy": "Half bewolkt",
+    "partlyCloudyNight": "Half bewolkt (nacht)",
     "heavyRain": "Zware regen",
     "rain": "Regen",
     "snow": "Sneeuw",
