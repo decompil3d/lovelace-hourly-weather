@@ -1342,22 +1342,29 @@ describe('Weather bar', () => {
         });
     });
 
-    it('shows expected precipitation if specified in config (overrules show_precipitation_amount config setting)', () => {
+    it('shows aggregated expected precipitation if specified in config (overrules show_precipitation_amount config setting)', () => {
       cy.configure({
         show_precipitation_amounts: true,
         show_expected_precipitation: true,
-        label_spacing: '1'
+        label_spacing: '2'
       });
       cy.get('weather-bar')
         .shadow()
         .find('div.axes > div.bar-block div.precipitation')
         .should('have.length', 12)
         .each((el, i) => {
-            if (expectedPrecipitation[i] === 0 || expectedPrecipitationProbability[i] === 0) {
+          if (i % 2 === 0) {
+            const firstExpectedPrecipitation = Math.round(expectedPrecipitation[i] * expectedPrecipitationProbability[i])/100;
+            const secondExpectedPrecipitation = Math.round(expectedPrecipitation[i+1] * expectedPrecipitationProbability[i+1])/100;
+            const aggregatedExpectedPrecipitation = firstExpectedPrecipitation + secondExpectedPrecipitation;
+            if (aggregatedExpectedPrecipitation === 0) {
               cy.wrap(el).should('be.empty');
             } else {
-              cy.wrap(el).should('have.text', `${Math.round(expectedPrecipitation[i] * expectedPrecipitationProbability[i])/100} in`);
+              cy.wrap(el).should('have.text', `${aggregatedExpectedPrecipitation} in`);
             }
+          } else {
+            cy.wrap(el).should('be.empty');
+          }
         });
     });
   });
