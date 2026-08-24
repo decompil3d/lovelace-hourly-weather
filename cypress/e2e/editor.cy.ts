@@ -1,27 +1,18 @@
 export {};
 
-type TestHaForm = HTMLElement;
-declare global {
-    interface Window {
-    testForm: TestHaForm;
-  }
-}
-
 describe('Editor', () => {
   beforeEach(() => {
     cy.visit('editor-harness.html');
     cy.window().should('have.property', 'editorReady', true);
   });
 
-  function getHaForm() {
-    return cy.window()
-    .its('testForm')
-    .should('exist');
-  }
-
   function input(name: string) {
-    return getHaForm().find(`input[data-name="${name}"]`);
-  }
+    return cy
+        .get('hourly-weather-editor')
+        .shadow()
+        .find(`input[data-name="${name}"]`)
+        .should('exist');
+    }
 
   it('does not disable precipitation switches by default', () => {
     input('show_expected_precipitation')
@@ -70,6 +61,7 @@ describe('Editor', () => {
       .then(async ($editor) => {
         const editor = $editor[0] as HTMLElement & {
           setConfig(config: Record<string, unknown>): Promise<void>;
+          updateComplete: Promise<boolean>;
         };
 
         await editor.setConfig({
@@ -79,6 +71,8 @@ describe('Editor', () => {
           show_precipitation_amounts: false,
           show_precipitation_probability: false,
         });
+
+        await editor.updateComplete;
       });
 
     input('show_precipitation_amounts')
