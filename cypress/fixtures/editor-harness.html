@@ -85,6 +85,41 @@
 
   <script>
     window.addEventListener('load', async () => {
+
+        function waitForHaForm(editor) {
+            return new Promise((resolve, reject) => {
+                const timeout = setTimeout(() => {
+                reject(new Error('ha-form was not rendered by hourly-weather-editor'));
+                }, 5000);
+
+                const findForm = () => {
+                const form = editor.renderRoot?.querySelector('ha-form');
+
+                if (form) {
+                    clearTimeout(timeout);
+                    observer?.disconnect();
+                    resolve(form);
+                }
+                };
+
+                const root = editor.renderRoot;
+
+                if (!root) {
+                reject(new Error('Editor renderRoot was not created'));
+                return;
+                }
+
+                const observer = new MutationObserver(findForm);
+
+                observer.observe(root, {
+                childList: true,
+                subtree: true,
+                });
+
+                findForm();
+            });
+        }
+
         const card = document.createElement('hourly-weather');
 
         const editor = await card.constructor.getConfigElement();
@@ -104,8 +139,6 @@
 
         document.querySelector('#wrapper').appendChild(editor);
 
-        window.testEditor = editor;
-
         await editor.setConfig({
             type: 'custom:hourly-weather',
             entity: 'weather.mock',
@@ -114,8 +147,7 @@
             show_precipitation_probability: false,
         });
 
-        await new Promise(resolve => requestAnimationFrame(resolve));
-
+        window.testForm = await waitForHaForm(editor);
         window.editorReady = true;
     });
   </script>

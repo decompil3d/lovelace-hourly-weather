@@ -1,12 +1,9 @@
 export {};
 
-type TestEditor = HTMLElement & {
-  shadowRoot: ShadowRoot;
-};
-
+type TestHaForm = HTMLElement;
 declare global {
-  interface Window {
-    testEditor: TestEditor;
+    interface Window {
+    testForm: TestHaForm;
   }
 }
 
@@ -18,16 +15,8 @@ describe('Editor', () => {
 
   function getHaForm() {
     return cy.window()
-        .its('testEditor')
-        .should('exist')
-        .then(editor => {
-        const testEditor = editor as unknown as TestEditor;
-        const form = testEditor.shadowRoot.querySelector('ha-form');
-
-        expect(form).to.exist;
-
-        return cy.wrap(form);
-        });
+    .its('testForm')
+    .should('exist');
   }
 
   function input(name: string) {
