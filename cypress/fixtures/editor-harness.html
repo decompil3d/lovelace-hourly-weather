@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hourly Weather Editor</title>
+
+  <script>
+    class TestHaForm extends HTMLElement {
+      set hass(value) {
+        this._hass = value;
+      }
+
+      set data(value) {
+        this._data = value;
+        this.render();
+      }
+
+      set schema(value) {
+        this._schema = value;
+        this.render();
+      }
+
+      get schema() {
+        return this._schema;
+      }
+
+      set computeLabel(value) {
+        this._computeLabel = value;
+      }
+
+      render() {
+        this.innerHTML = '';
+
+        for (const item of this._schema || []) {
+          const label = document.createElement('label');
+          const input = document.createElement('input');
+
+          input.type = 'checkbox';
+          input.dataset.name = item.name;
+          input.checked = Boolean(this._data?.[item.name]);
+          input.disabled = Boolean(item.disabled);
+
+          input.addEventListener('change', () => {
+            const value = {
+              ...(this._data || {}),
+              [item.name]: input.checked,
+            };
+
+            this._data = value;
+
+            this.dispatchEvent(
+              new CustomEvent('value-changed', {
+                detail: { value },
+                bubbles: true,
+                composed: true,
+              }),
+            );
+          });
+
+          label.textContent =
+            this._computeLabel?.(item) || item.name;
+          label.appendChild(input);
+          this.appendChild(label);
+        }
+      }
+    }
+
+    customElements.define('ha-form', TestHaForm);
+
+    window.loadCardHelpers = async () => ({
+      createCardElement() {
+        return document.createElement('div');
+      },
+    });
+  </script>
+
+  <script
+    src="../../dist/hourly-weather.js"
+    type="module">
+  </script>
+</head>
+
+<body>
+  <div id="wrapper"></div>
+
+  <script>
+    window.addEventListener('load', async () => {
+        const card = document.createElement('hourly-weather');
+
+        const editor = await card.constructor.getConfigElement();
+
+        // Cypress harness workaround for ScopedRegistryHost.
+        editor.constructor.prototype.createRenderRoot = function () {
+            return this.attachShadow({ mode: 'open' });
+        };
+
+        editor.hass = {
+            locale: {
+            language: 'en',
+            number_format: 'language',
+            time_format: 'language',
+            },
+        };
+
+        document.querySelector('#wrapper').appendChild(editor);
+
+        window.testEditor = editor;
+
+        await editor.setConfig({
+            type: 'custom:hourly-weather',
+            entity: 'weather.mock',
+            show_expected_precipitation: false,
+            show_precipitation_amounts: false,
+            show_precipitation_probability: false,
+        });
+
+        await new Promise(resolve => requestAnimationFrame(resolve));
+
+        window.editorReady = true;
+    });
+  </script>
+</body>
+</html>

@@ -15,6 +15,7 @@
     "label_spacing": "Antall prognosesegment til romtid og temperaturetikettar etter (valfritt)",
     "show_wind": "Vis vindhastigheit og retning",
     "show_precipitation_amounts": "Vis nedbørsmengde",
+    "show_expected_precipitation": "Vis forventa nedbør (forventa mengd * sannsyn)",
     "neither": "Ingen",
     "both": "Både",
     "speed_only": "Kun hastigheit",

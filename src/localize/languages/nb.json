@@ -15,6 +15,7 @@
     "label_spacing": "Antall prognosesegmenter til romtid og temperaturetiketter etter (valgfritt)",
     "show_wind": "Vis vindhastighet og retning",
     "show_precipitation_amounts": "Vis nedbørsmengde",
+    "show_expected_precipitation": "Vis forventet nedbør (forventet mengde * sannsynlighet)",
     "speed_only": "Kun hastighet",
     "direction_only": "Kun retning",
     "barb": "Som vindmothak",

@@ -35,6 +35,7 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   show_wind?: WindType | boolean; // 'true' | 'false' | 'speed' | 'direction' | 'barb' | 'barb-and-speed' | 'barb-and-direction' | 'barb-speed-and-direction'
   show_precipitation_amounts?: boolean;
   show_precipitation_probability?: boolean;
+  show_expected_precipitation?: boolean;
   show_date?: ShowDateType; // 'false' | 'boundary' | 'all'
   label_spacing?: string; // number
   test_gui?: boolean;

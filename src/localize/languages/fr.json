@@ -15,6 +15,7 @@
     "label_spacing": "Segments d'espacement entre les étiquettes d'heure et de température (facultatif)",
     "show_wind": "Afficher la vitesse et la direction du vent",
     "show_precipitation_amounts": "Afficher la quantité de précipitations",
+    "show_expected_precipitation": "Afficher les précipitations attendues (quantité prévue * probabilité)",
     "speed_only": "Vitesse uniquement",
     "direction_only": "Sens uniquement",
     "barb": "Comme barbillon de vent",

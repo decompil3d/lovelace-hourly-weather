@@ -17,6 +17,7 @@
     "show_date": "Показвай дати",
     "show_precipitation_amounts": "Покажи количеството валежи",
     "show_precipitation_probability": "Покажи вероятноста за валежи",
+    "show_expected_precipitation": "Показване на очакваните валежи (прогнозно количество * вероятност)",
     "none": "Няма",
     "speed_and_direction": "Скорост и посока",
     "speed_only": "Само скорост",

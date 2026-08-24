@@ -16,6 +16,7 @@
     "show_wind": "Szélsebesség és irány megjelenítése",
     "show_precipitation_amounts": "Csapadékmennyiség megjelenítése",
     "show_precipitation_probability": "Csapadék valószínűségének megjelenítése",
+    "show_expected_precipitation": "Várható csapadék megjelenítése (előrejelzett mennyiség * valószínűség)",
     "speed_only": "Sebesség",
     "direction_only": "Irány",
     "barb": "Irány nyílként",

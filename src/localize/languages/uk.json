@@ -17,6 +17,7 @@
     "show_date": "Показувати дати",
     "show_precipitation_amounts": "Показувати кількість опадів",
     "show_precipitation_probability": "Показувати ймовірність опадів",
+    "show_expected_precipitation": "Показати очікувані опади (прогнозована кількість * ймовірність)",
     "none": "Нічого",
     "speed_and_direction": "Швидкість та напрямок",
     "speed_only": "Тільки швидкість",

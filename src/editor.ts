@@ -12,6 +12,7 @@ interface HaFormSchema {
   label?: string;
   selector?: Record<string, any>;
   required?: boolean;
+  disabled?: boolean;
   type?: string;
   default?: any;
 }
@@ -71,6 +72,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
 
   get _show_precipitation_probability(): boolean {
     return this._config?.show_precipitation_probability ?? false;
+  }
+
+  get _show_expected_precipitation(): boolean {
+    return this._config?.show_expected_precipitation ?? false;
   }
 
   get _offset(): string {
@@ -165,12 +170,18 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         },
       },
       {
+        name: 'show_expected_precipitation',
+        selector: { boolean: {} },
+      },
+      {
         name: 'show_precipitation_amounts',
         selector: { boolean: {} },
+        disabled: this._show_expected_precipitation,
       },
       {
         name: 'show_precipitation_probability',
         selector: { boolean: {} },
+        disabled: this._show_expected_precipitation,
       },
     ];
   }
@@ -197,6 +208,7 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         show_date: localize('editor.show_date'),
         show_precipitation_amounts: localize('editor.show_precipitation_amounts'),
         show_precipitation_probability: localize('editor.show_precipitation_probability'),
+        show_expected_precipitation: localize('editor.show_expected_precipitation'),
       };
 
       return labelMap[schemaItem.name] || schemaItem.name;

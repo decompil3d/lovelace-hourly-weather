@@ -52,6 +52,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   show_precipitation_probability = false;
 
+  @property({ type: Boolean })
+  show_exptected_precipitation = false;
+
   @property({ type: String })
   show_date: ShowDateType = 'false';
 
@@ -115,8 +118,8 @@ export class WeatherBar extends LitElement {
       const showWindSpeed = (windCfg === 'true' || windCfg.includes('speed')) && !skipLabel;
       const showWindDirection = (windCfg === 'true' || windCfg.includes('direction')) && !skipLabel;
       const showWindBarb = windCfg.includes('barb') && !skipLabel;
-      const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
-      const showPrecipitationProbability = this.show_precipitation_probability && !skipLabel;
+      const showPrecipitationAmounts = (this.show_precipitation_amounts || this.show_exptected_precipitation) && !skipLabel;
+      const showPrecipitationProbability = this.show_precipitation_probability && !this.show_exptected_precipitation && !skipLabel;
       const { hour, date, temperature } = this.temperatures[i];
       let renderedDate: string | TemplateResult | null = null;
       if (!skipLabel && this.show_date && this.show_date !== 'false') {

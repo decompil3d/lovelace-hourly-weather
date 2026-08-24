@@ -81,6 +81,7 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 | `hide_bar`                       | bool                   | **Optional** | Whether to hide the bar itself                                                                                                                                  | `false`             |
 | `icon_fill`                      | [Icon Fill][icon_fill] | **Optional** | Whether to repeat the icon inside the bar                                                                                                                       | `'single`           |
 | `show_wind`                      | [Wind][wind]           | **Optional** | Whether to show wind speed and/or direction under the bar                                                                                                       | `'false'`           |
+| `show_expected_precipitation`    | bool                   | **Optional** | Whether to show the aggregated expected precipitation (rain) amount (calculated as $amount * probability$) for each displayed label interval under the bar (disables `show_precipitation_amounts` and `show_precipitations_probability`)                                                                    | `false`             |
 | `show_precipitation_amounts`     | bool                   | **Optional** | Whether to show the aggregated precipitation (rain) amount for each displayed label interval under the bar                                                                                                       | `false`             |
 | `show_precipitation_probability` | bool                   | **Optional** | Whether to show the combined precipitation probability for each displayed label interval under the bar                                                                                                  | `false`             |
 | `show_date`                      | [string][dates]        | **Optional** | Whether to show date under the bar                                                                                                                              | `'false'`           |
@@ -93,12 +94,12 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 
 ### Precipitation and label spacing
 
-When precipitation amounts or probabilities are enabled, their values represent
+When expected precipitation, precipitation amounts or probabilities are enabled, their values represent
 the forecast segments covered by each displayed label.
 
 For example, with `label_spacing: 2`, the precipitation label at the first
 segment summarizes segments 1-2, the next label summarizes segments 3-4, and
-so on. Precipitation amounts are summed. Precipitation probabilities are combined as the probability that precipitation
+so on. Precipitation amounts and expected precipitation amounts are summed. Precipitation probabilities are combined as the probability that precipitation
 occurs during at least one segment in that interval:
 
 $$

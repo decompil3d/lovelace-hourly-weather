@@ -1301,6 +1301,65 @@ describe('Weather bar', () => {
           }
         });
     });
+
+    it('does not show probabilities if expected precipitation specified in config', () => {
+      cy.configure({
+        show_precipitation_probability: true,
+        show_expected_precipitation: true,
+        label_spacing: '1'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.precipitation')
+        .should('have.length', 12)
+        .each((el, i) => {
+          if (expectedPrecipitation[i] === 0 || expectedPrecipitationProbability[i] === 0) {
+            cy.wrap(el.text()).should('be.empty');
+          } else {
+            cy.wrap(el).should('not.include.text', `%`)
+              .should('have.text', `${Math.round(expectedPrecipitation[i] * expectedPrecipitationProbability[i])/100} in`)
+              .find('span')
+              .should('not.exist');
+          }
+        });
+    });
+
+    it('shows expected precipitation if specified in config', () => {
+      cy.configure({
+        show_expected_precipitation: true,
+        label_spacing: '1'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.precipitation')
+        .should('have.length', 12)
+        .each((el, i) => {
+            if (expectedPrecipitation[i] === 0 || expectedPrecipitationProbability[i] === 0) {
+              cy.wrap(el).should('be.empty');
+            } else {
+              cy.wrap(el).should('have.text', `${Math.round(expectedPrecipitation[i] * expectedPrecipitationProbability[i])/100} in`);
+            }
+        });
+    });
+
+    it('shows expected precipitation if specified in config (overrules show_precipitation_amount config setting)', () => {
+      cy.configure({
+        show_precipitation_amounts: true,
+        show_expected_precipitation: true,
+        label_spacing: '1'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.precipitation')
+        .should('have.length', 12)
+        .each((el, i) => {
+            if (expectedPrecipitation[i] === 0 || expectedPrecipitationProbability[i] === 0) {
+              cy.wrap(el).should('be.empty');
+            } else {
+              cy.wrap(el).should('have.text', `${Math.round(expectedPrecipitation[i] * expectedPrecipitationProbability[i])/100} in`);
+            }
+        });
+    });
   });
 });
 

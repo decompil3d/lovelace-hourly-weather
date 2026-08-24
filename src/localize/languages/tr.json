@@ -17,6 +17,7 @@
     "show_date": "Tarihleri göster",
     "show_precipitation_amounts": "Yağış miktarını göster",
     "show_precipitation_probability": "Yağış olasılığını göster",
+    "show_expected_precipitation": "Beklenen yağışı göster (tahmin edilen miktar * olasılık)",
     "none": "Yok",
     "speed_and_direction": "Hız ve yön",
     "speed_only": "Sadece hız",

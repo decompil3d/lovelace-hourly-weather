@@ -15,6 +15,7 @@
     "label_spacing": "Anzahl der Vorhersagesegmente für Raumzeit- und Temperaturbeschriftungen nach (optional)",
     "show_wind": "Zeigt Windgeschwindigkeit und -richtung an",
     "show_precipitation_amounts": "Niederschlagsmenge anzeigen",
+    "show_expected_precipitation": "Erwarteten Niederschlag anzeigen (Vorhersagemenge * Wahrscheinlichkeit)",
     "speed_only": "Nur Geschwindigkeit",
     "direction_only": "Nur Richtung",
     "barb": "Als Windbarbe",

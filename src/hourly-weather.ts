@@ -324,6 +324,7 @@ export class HourlyWeatherCard extends LitElement {
     const icon_fill = config.icon_fill;
     const hideMinutes = !!config.hide_minutes;
     const roundTemperatures = !!config.round_temperatures;
+    const showExpectedPrecipitation = !!config.show_expected_precipitation;
 
     if (numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
@@ -382,7 +383,7 @@ export class HourlyWeatherCard extends LitElement {
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset, hideMinutes, roundTemperatures);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit, hideMinutes);
-    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit, hideMinutes, labelSpacing);
+    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit, hideMinutes, labelSpacing, showExpectedPrecipitation);
 
     const colorSettings = this.getColorSettings(config.colors);
 
@@ -391,9 +392,9 @@ export class HourlyWeatherCard extends LitElement {
         .header=${config.name}
         @action=${this._handleAction}
         .actionHandler=${actionHandler({
-      hasHold: hasAction(config.hold_action),
-      hasDoubleClick: hasAction(config.double_tap_action),
-    })}
+          hasHold: hasAction(config.hold_action),
+          hasDoubleClick: hasAction(config.double_tap_action),
+        })}
         tabindex="0"
         .label=${`Hourly Weather: ${config.entity || 'No Entity Defined'}`}
       >
@@ -414,8 +415,8 @@ export class HourlyWeatherCard extends LitElement {
             .hide_bar=${!!config.hide_bar}
             .icon_fill=${config.icon_fill}
             .show_wind=${showWind}
-            .show_precipitation_amounts=${!!config.show_precipitation_amounts}
-            .show_precipitation_probability=${!!config.show_precipitation_probability}
+            .show_precipitation_amounts=${!!config.show_precipitation_amounts || showExpectedPrecipitation}
+            .show_precipitation_probability=${!!config.show_precipitation_probability && !showExpectedPrecipitation}
             .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
@@ -458,7 +459,7 @@ export class HourlyWeatherCard extends LitElement {
     return temperatures;
   }
 
-  private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string, hideMinutes: boolean, labelSpacing: number): SegmentPrecipitation[] {
+  private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string, hideMinutes: boolean, labelSpacing: number, showExpectedPrecipitation: boolean): SegmentPrecipitation[] {
     const precipitation: SegmentPrecipitation[] = [];
 
     for (let i = 0; i < numSegments; i++) {
@@ -471,21 +472,26 @@ export class HourlyWeatherCard extends LitElement {
           Math.min(offset + i + labelSpacing, offset + numSegments),
         );
 
-        const totalAmount = interval.reduce(
-          (sum, segment) => sum + (Number(segment.precipitation) || 0),
-          0,
-        );
+        const totalAmount = interval.reduce((sum, segment) => {
+          const amount = Number(segment.precipitation) || 0;
+          const factor = showExpectedPrecipitation
+            ? (Number(segment.precipitation_probability) || 0) / 100
+            : 1;
+          return sum + amount * factor;
+        }, 0);
 
         // Probability for "rain at least once in this interval", assuming
         // independent segment probabilities.
-        const probability = 100 * (
-          1 - interval.reduce(
-            (noneProbability, segment) =>
-              noneProbability * (1 - (Number(segment.precipitation_probability) || 0) / 100),
-            1,
+        const probability = !showExpectedPrecipitation
+          ? 100 * (
+            1 - interval.reduce(
+              (noneProbability, segment) =>
+                noneProbability * (1 - (Number(segment.precipitation_probability) || 0) / 100),
+              1,
+            )
           )
-        );
-        const roundedProbability = Math.round(probability);
+          : undefined;
+        const roundedProbability = probability !== undefined ? Math.round(probability) : undefined;
 
         precipitation.push({
           hour: this.formatHour(new Date(fs.datetime), this.hass.locale, hideMinutes),
@@ -494,11 +500,11 @@ export class HourlyWeatherCard extends LitElement {
               ? `${formatNumber(totalAmount, this.hass.locale)} ${unit}`.trim()
               : '',
           precipitationProbability:
-            roundedProbability > 0
+            roundedProbability !== undefined && roundedProbability > 0
               ? `${formatNumber(roundedProbability, this.hass.locale)}%`
               : '',
           precipitationProbabilityText:
-            roundedProbability > 0
+            roundedProbability !== undefined && roundedProbability > 0
               ? this.localize(
                   'card.chance_of_precipitation',
                   '{0}',
