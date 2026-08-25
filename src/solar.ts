@@ -116,9 +116,16 @@ export function solarElevation(when: Date, latitude: number, longitude: number):
     - rightAscension;
 
   const observerLatitude = latitude * DEG_TO_RAD;
-  return Math.asin(
-    Math.sin(observerLatitude) * Math.sin(declination)
-    + Math.cos(observerLatitude) * Math.cos(declination) * Math.cos(hourAngle)) / DEG_TO_RAD;
+
+  // Mathematically the cosine of the zenith angle, so within [-1, 1]. Rounding
+  // can carry it one ULP past 1 when the sun is almost exactly overhead, which
+  // would turn the `asin` into `NaN`, so clamp before taking it. Reaching that
+  // needs the latitude to equal the sun's declination, which confines it to the
+  // tropics; at high latitudes the value stays well below 1.
+  const sinElevation = Math.sin(observerLatitude) * Math.sin(declination)
+    + Math.cos(observerLatitude) * Math.cos(declination) * Math.cos(hourAngle);
+
+  return Math.asin(Math.min(1, Math.max(-1, sinElevation))) / DEG_TO_RAD;
 }
 
 /**
