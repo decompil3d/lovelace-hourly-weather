@@ -11,12 +11,7 @@
  *
  * Everything works purely on the epoch milliseconds of a `Date`. There is
  * deliberately no local-date arithmetic and no locale-formatted date string
- * involved: a previous implementation derived a reference day via
- * `new Date(when.toLocaleDateString())`, which produces `Invalid Date` in every
- * locale whose short date format `Date`'s parser does not understand (`de-DE`
- * `13.6.2024`, `en-GB` `13/06/2024`, `nl-NL` `13-6-2024`, ...). Sunrise/sunset
- * then came out as `NaN`, every comparison against them was `false`, and so
- * every segment was treated as night. See #692.
+ * involved.
  */
 
 // --- Unit conversions -------------------------------------------------------
