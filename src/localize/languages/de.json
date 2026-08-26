@@ -46,6 +46,7 @@
     "hail": "Hagel",
     "thunderstorm": "Gewitter",
     "partlyCloudy": "Teilweise bewölkt",
+    "partlyCloudyNight": "Teilweise bewölkt (Nacht)",
     "heavyRain": "Platzregen",
     "rain": "Regen",
     "snow": "Schnee",

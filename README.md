@@ -155,6 +155,26 @@ label_spacing: |
 | `haptic`          | string | **Optional** | Haptic feedback _success, warning, failure, light, medium, heavy, selection_                       | `none`      |
 | `repeat`          | number | **Optional** | How often to repeat the `hold_action` in milliseconds.                                             | `none`      |
 
+## Day and night conditions
+
+Home Assistant weather integrations decide between `sunny` and `clear-night` from the sun position at the moment the
+forecast is produced, and then apply that one choice to every segment of the forecast. A forecast fetched at noon
+therefore labels tonight's clear hours `sunny`, and one fetched after dark labels tomorrow's clear hours `clear-night`.
+
+This card resolves each segment against its own timestamp instead, using your Home Assistant home location:
+
+| Reported by the integration | Sun is up      | Sun is down            |
+|-----------------------------|----------------|------------------------|
+| `sunny` / `clear-night`     | `sunny`        | `clear-night`          |
+| `partlycloudy`              | `partlycloudy` | `night-partly-cloudy`  |
+
+`night-partly-cloudy` is not a Home Assistant condition — the card derives it, because Home Assistant has no nighttime
+variant of `partlycloudy`. It can be styled and re-iconed like any other condition via [`colors`](#color-options) and
+[`icon_map`](#icon-map-options).
+
+No configuration is needed. If your `hass.config` carries no latitude and longitude, the condition reported by the
+integration is used unchanged.
+
 ## Color Options
 
 `colors` is specified as an object containing one or more of the keys listed below and values that are valid CSS
@@ -175,23 +195,24 @@ color in your Home Assistant theme.
 Some conditions will default to whatever the value is of some other condition. For example, `fog` will default to
 whatever `cloudy` is.
 
-| Key               | Default                |
-|-------------------|------------------------|
-| `clear-night`     | `#000`                 |
-| `cloudy`          | `#777`                 |
-| `fog`             | same as `cloudy`       |
-| `hail`            | `#2b5174`              |
-| `lightning`       | same as `rainy`        |
-| `lightning-rainy` | same as `rainy`        |
-| `partlycloudy`    | `#b3dbff`              |
-| `pouring`         | same as `rainy`        |
-| `rainy`           | `#44739d`              |
-| `snowy`           | `#fff`                 |
-| `snowy-rainy`     | same as `partlycloudy` |
-| `sunny`           | `#90cbff`              |
-| `windy`           | same as `sunny`        |
-| `windy-variant`   | same as `sunny`        |
-| `exceptional`     | `#ff9d00`              |
+| Key                   | Default                |
+|-----------------------|------------------------|
+| `clear-night`         | `#111`                 |
+| `cloudy`              | `#777`                 |
+| `fog`                 | same as `cloudy`       |
+| `hail`                | `#2b5174`              |
+| `lightning`           | same as `rainy`        |
+| `lightning-rainy`     | same as `rainy`        |
+| `partlycloudy`        | `#b3dbff`              |
+| `night-partly-cloudy` | `#333`                 |
+| `pouring`             | same as `rainy`        |
+| `rainy`               | `#44739d`              |
+| `snowy`               | `#fff`                 |
+| `snowy-rainy`         | same as `partlycloudy` |
+| `sunny`               | `#90cbff`              |
+| `windy`               | same as `sunny`        |
+| `windy-variant`       | same as `sunny`        |
+| `exceptional`         | `#ff9d00`              |
 
 ### Sample colors configuration
 
@@ -211,23 +232,24 @@ colors:
 `icon_map` can be used to customize the icon used for each weather condition. It is specified as an object containing
 one or more of the keys listed below and values that are valid icons installed in Home Assistant.
 
-| Key               | Default                       |
-|-------------------|-------------------------------|
-| `clear-night`     | `mdi:weather-night`           |
-| `cloudy`          | `mdi:weather-cloudy`          |
-| `fog`             | `mdi:weather-fog`             |
-| `hail`            | `mdi:weather-hail`            |
-| `lightning`       | `mdi:weather-lightning`       |
-| `lightning-rainy` | `mdi:weather-lightning-rainy` |
-| `partlycloudy`    | `mdi:weather-partly-cloudy`   |
-| `pouring`         | `mdi:weather-pouring`         |
-| `rainy`           | `mdi:weather-rainy`           |
-| `snowy`           | `mdi:weather-snowy`           |
-| `snowy-rainy`     | `mdi:weather-snowy-rainy`     |
-| `sunny`           | `mdi:weather-sunny`           |
-| `windy`           | `mdi:weather-windy`           |
-| `windy-variant`   | `mdi:weather-windy-variant`   |
-| `exceptional`     | `mdi:alert-outline`           |
+| Key                   | Default                           |
+|-----------------------|-----------------------------------|
+| `clear-night`         | `mdi:weather-night`               |
+| `cloudy`              | `mdi:weather-cloudy`              |
+| `fog`                 | `mdi:weather-fog`                 |
+| `hail`                | `mdi:weather-hail`                |
+| `lightning`           | `mdi:weather-lightning`           |
+| `lightning-rainy`     | `mdi:weather-lightning-rainy`     |
+| `partlycloudy`        | `mdi:weather-partly-cloudy`       |
+| `night-partly-cloudy` | `mdi:weather-night-partly-cloudy` |
+| `pouring`             | `mdi:weather-pouring`             |
+| `rainy`               | `mdi:weather-rainy`               |
+| `snowy`               | `mdi:weather-snowy`               |
+| `snowy-rainy`         | `mdi:weather-snowy-rainy`         |
+| `sunny`               | `mdi:weather-sunny`               |
+| `windy`               | `mdi:weather-windy`               |
+| `windy-variant`       | `mdi:weather-windy-variant`       |
+| `exceptional`         | `mdi:alert-outline`               |
 
 ### Sample icon map configuration
 

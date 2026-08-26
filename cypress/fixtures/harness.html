@@ -611,6 +611,14 @@
           }
         }
       };
+      window.setHWHomeLocation = (latitude, longitude) => h.hass = {
+        ...h.hass,
+        config: {
+          ...h.hass.config,
+          latitude,
+          longitude
+        }
+      };
       window.setHWLocale = locale => h.hass = {
         ...h.hass,
         locale: {

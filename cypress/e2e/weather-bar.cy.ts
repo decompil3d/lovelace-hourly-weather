@@ -1197,11 +1197,11 @@ describe('Weather bar', () => {
         .find('div.axes > div.bar-block div.precipitation')
         .should('have.length', 12)
         .each((el, i) => {
-            if (expectedPrecipitation[i] === 0) {
-              cy.wrap(el).should('be.empty');
-            } else {
-              cy.wrap(el).should('have.text', `${expectedPrecipitation[i]} in`);
-            }
+          if (expectedPrecipitation[i] === 0) {
+            cy.wrap(el).should('be.empty');
+          } else {
+            cy.wrap(el).should('have.text', `${expectedPrecipitation[i]} in`);
+          }
         });
     });
 
@@ -1216,10 +1216,10 @@ describe('Weather bar', () => {
         .should('have.length', 12)
         .each((el, i) => {
           if (i % 2 === 0) {
-            if (expectedPrecipitation[i] + expectedPrecipitation[i+1] === 0) {
+            if (expectedPrecipitation[i] + expectedPrecipitation[i + 1] === 0) {
               cy.wrap(el).should('be.empty');
             } else {
-              cy.wrap(el).should('have.text', `${expectedPrecipitation[i] + expectedPrecipitation[i+1]} in`);
+              cy.wrap(el).should('have.text', `${expectedPrecipitation[i] + expectedPrecipitation[i + 1]} in`);
             }
           }
           else {
@@ -1283,18 +1283,18 @@ describe('Weather bar', () => {
           else {
             const firstProbability = expectedPrecipitationProbability[i];
             const secondProbability = expectedPrecipitationProbability[i + 1];
-            const expectedExpectedProbability = i < 4 ? aggregateProbability(firstProbability, secondProbability): firstProbability;
+            const expectedExpectedProbability = i < 4 ? aggregateProbability(firstProbability, secondProbability) : firstProbability;
             if (expectedExpectedProbability === 0) {
               cy.wrap(el.text()).should('be.empty');
             } else {
               cy.wrap(el).should(
-                'have.text', 
+                'have.text',
                 `${expectedExpectedProbability}%`
               )
                 .find('span')
                 .should(
-                  'have.attr', 
-                  'title', 
+                  'have.attr',
+                  'title',
                   `${expectedExpectedProbability}% chance of precipitation`
                 );
             }
