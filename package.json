@@ -21,7 +21,7 @@
     "@lit-labs/scoped-registry-mixin": "^1.0.4",
     "custom-card-helpers": "^1.7.2",
     "home-assistant-js-websocket": "^9.6.0",
-    "is-valid-css-color": "^2.0.4",
+    "is-valid-css-color": "^3.1.0",
     "lit": "^3.3.1",
     "tippy.js": "^6.3.7"
   },
