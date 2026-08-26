@@ -71,7 +71,7 @@ describe('Config', () => {
   it('warns for invalid colors', () => {
     cy.configure({
       colors: {
-        cloudy: '#FF000011', // too many digits
+        cloudy: '#FF00001122', // too many digits
         partlycloudy: 'rgb(0, 255, 0, 0, 0)', // too many params
         sunny: 'foo(240, 100%, 50%)', // wrong function
         "clear-night": 'blahblah', // invalid color name
@@ -85,7 +85,7 @@ describe('Config', () => {
           background: 'blahblah' // invalid color name
         },
         exceptional: {
-          foreground: '#12345678' // too many digits
+          foreground: '#123456789' // too many digits
         },
         hail: {
           background: 'foo(240, 100%, 50%)', // wrong function
@@ -99,7 +99,7 @@ describe('Config', () => {
       .should('have.length', 1)
       .its(0)
       .its('textContent')
-      .should('contain', 'cloudy: "#FF000011"')
+      .should('contain', 'cloudy: "#FF00001122"')
       .and('contain', 'partlycloudy: "rgb(0, 255, 0, 0, 0)"')
       .and('contain', 'sunny: "foo(240, 100%, 50%)"')
       .and('contain', 'clear-night: "blahblah"')
@@ -107,7 +107,7 @@ describe('Config', () => {
       .and('contain', 'windy: {}')
       .and('contain', 'rainy: {\n  "blah": "blue"\n}')
       .and('contain', 'fog: {\n  "background": "blahblah"\n}')
-      .and('contain', 'exceptional: {\n  "foreground": "#12345678"\n}')
+      .and('contain', 'exceptional: {\n  "foreground": "#123456789"\n}')
       .and('contain', 'hail: {\n  "background": "foo(240, 100%, 50%)",\n  "foreground": "rgb(0, 255, 0, 0)"\n}');
   });
   it('warns for invalid color vars', () => {
