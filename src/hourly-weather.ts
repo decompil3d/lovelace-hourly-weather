@@ -12,7 +12,7 @@ import {
   hasAction,
   hasConfigOrEntityChanged,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
-import { isValidColorName, isValidHSL, isValidRGB } from 'is-valid-css-color';
+import { isValidCssColor } from 'is-valid-css-color';
 import { CSSResultGroup, LitElement, PropertyValues, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
@@ -500,10 +500,10 @@ export class HourlyWeatherCard extends LitElement {
           precipitationProbabilityText:
             roundedProbability > 0
               ? this.localize(
-                  'card.chance_of_precipitation',
-                  '{0}',
-                  String(roundedProbability),
-                )
+                'card.chance_of_precipitation',
+                '{0}',
+                String(roundedProbability),
+              )
               : '',
         });
       } else {
@@ -614,9 +614,7 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private static isValidColor(color: string): boolean {
-    if (!(isValidRGB(color) ||
-      isValidColorName(color) ||
-      isValidHSL(color) ||
+    if (!(isValidCssColor(color) ||
       HourlyWeatherCard.isValidColorVar(color))) {
       return false;
     }
