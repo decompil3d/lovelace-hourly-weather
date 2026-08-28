@@ -52,6 +52,9 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   show_precipitation_probability = false;
 
+  @property({ type: Boolean })
+  has_current_segment = false;
+
   @property({ type: String })
   show_date: ShowDateType = 'false';
 
@@ -109,7 +112,7 @@ export class WeatherBar extends LitElement {
     const barBlocks: TemplateResult[] = [];
     let lastDate: string | null = null;
     for (let i = 0; i < this.temperatures.length; i += 1) {
-      const skipLabel = i % (this.label_spacing) !== 0;
+      const skipLabel = this.shouldSkipLabel(i);
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
       const showWindSpeed = (windCfg === 'true' || windCfg.includes('speed')) && !skipLabel;
@@ -180,6 +183,12 @@ export class WeatherBar extends LitElement {
         <div class="axes">${barBlocks}</div>
       </div>
     `;
+  }
+
+  private shouldSkipLabel(index: number): boolean {
+    if (!this.has_current_segment) return index % this.label_spacing !== 0;
+    if (index === 0) return false;
+    return (index - 1) % this.label_spacing !== 0;
   }
 
   protected update(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void {

@@ -29,6 +29,7 @@ import type {
   ColorMap,
   ColorObject,
   ColorSettings,
+  Condition,
   ConditionSpan,
   DisplayCondition,
   ForecastEvent,
@@ -320,7 +321,21 @@ export class HourlyWeatherCard extends LitElement {
 
     const entityId: string = config.entity;
     const state = this.hass.states[entityId];
-    const { forecast, pending } = this.getForecast();
+    if (!state) {
+      return await this._showError(this.localize('errors.check_entity'));
+    }
+
+    const { forecast: forecastOnly, pending } = this.getForecast();
+    const currentWeather = config.show_current
+      ? this.getCurrentWeatherSegment(state)
+      : undefined;
+    const upcomingForecast = forecastOnly && currentWeather
+      ? forecastOnly.filter(segment => this.isAfterCurrentWeather(segment, currentWeather))
+      : forecastOnly;
+    const forecast = upcomingForecast && currentWeather
+      ? [currentWeather, ...upcomingForecast]
+      : upcomingForecast;
+    const hasCurrentSegment = !!(upcomingForecast && currentWeather);
     const windSpeedUnit = state.attributes.wind_speed_unit ?? '';
     const precipitationUnit = state.attributes.precipitation_unit ?? '';
     const numSegments = this.parseInteger(config.num_segments ?? config.num_hours ?? 12);
@@ -388,7 +403,15 @@ export class HourlyWeatherCard extends LitElement {
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset, hideMinutes, roundTemperatures);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit, hideMinutes);
-    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit, hideMinutes, labelSpacing);
+    const precipitation = this.getPrecipitation(
+      forecast,
+      numSegments,
+      offset,
+      precipitationUnit,
+      hideMinutes,
+      labelSpacing,
+      hasCurrentSegment && offset === 0,
+    );
 
     const colorSettings = this.getColorSettings(config.colors);
 
@@ -422,6 +445,7 @@ export class HourlyWeatherCard extends LitElement {
             .show_wind=${showWind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}
+            .has_current_segment=${hasCurrentSegment && offset === 0}
             .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
@@ -457,6 +481,33 @@ export class HourlyWeatherCard extends LitElement {
 
     const parsed = Number(value);
     return Number.isInteger(parsed) ? parsed : Number.NaN;
+  }
+
+  private getCurrentWeatherSegment(state: HomeAssistant['states'][string]): ForecastSegment | undefined {
+    const attributes = state.attributes;
+    const temperature = Number(attributes.temperature);
+    if (!(state.state in ICONS) || !Number.isFinite(temperature)) {
+      return undefined;
+    }
+
+    return {
+      clouds: Number(attributes.cloud_coverage ?? attributes.clouds ?? Number.NaN),
+      condition: state.state as Condition,
+      datetime: state.last_updated || new Date().toISOString(),
+      precipitation: Number(attributes.precipitation ?? Number.NaN),
+      precipitation_probability: Number(attributes.precipitation_probability ?? Number.NaN),
+      pressure: Number(attributes.pressure ?? Number.NaN),
+      temperature,
+      wind_bearing: attributes.wind_bearing ?? Number.NaN,
+      wind_speed: Number(attributes.wind_speed ?? Number.NaN),
+    };
+  }
+
+  private isAfterCurrentWeather(segment: ForecastSegment, currentWeather: ForecastSegment): boolean {
+    const segmentTime = new Date(segment.datetime).getTime();
+    const currentTime = new Date(currentWeather.datetime).getTime();
+    if (Number.isNaN(segmentTime) || Number.isNaN(currentTime)) return true;
+    return segmentTime > currentTime;
   }
 
   /**
@@ -505,14 +556,27 @@ export class HourlyWeatherCard extends LitElement {
     return temperatures;
   }
 
-  private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string, hideMinutes: boolean, labelSpacing: number): SegmentPrecipitation[] {
+  private getPrecipitation(
+    forecast: ForecastSegment[],
+    numSegments: number,
+    offset: number,
+    unit: string,
+    hideMinutes: boolean,
+    labelSpacing: number,
+    hasCurrentSegment: boolean,
+  ): SegmentPrecipitation[] {
     const precipitation: SegmentPrecipitation[] = [];
 
     for (let i = 0; i < numSegments; i++) {
       const fs = forecast[offset + i];
 
-      // Only these entries are rendered when label_spacing is used.
-      if (i % labelSpacing === 0) {
+      const labelIndex = hasCurrentSegment ? i - 1 : i;
+      const isCurrentSegment = hasCurrentSegment && i === 0;
+
+      // Current conditions are not a forecast interval, so they never
+      // contribute to precipitation totals. Forecast label spacing restarts
+      // at the first actual forecast segment.
+      if (!isCurrentSegment && labelIndex % labelSpacing === 0) {
         const interval = forecast.slice(
           offset + i,
           Math.min(offset + i + labelSpacing, offset + numSegments),
