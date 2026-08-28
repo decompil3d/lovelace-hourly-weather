@@ -5,13 +5,16 @@ import tippy, { Instance } from 'tippy.js';
 import { ICONS, LABELS } from "./conditions";
 import { DIRECTIONS_BEARINGS } from './directions';
 import { getWindBarbSVG } from "./lib/svg-wind-barbs";
-import type { ColorMap, ConditionSpan, IconFillType, IconMap, SegmentPrecipitation, SegmentTemperature, SegmentWind, ShowDateType, WindType } from "./types";
+import type { ColorMap, ConditionSpan, DisplayCondition, IconFillType, IconMap, SegmentPrecipitation, SegmentTemperature, SegmentWind, ShowDateType, WindType } from "./types";
 
 const tippyStyles: string = process.env.TIPPY_CSS!;
 
 export class WeatherBar extends LitElement {
   @property({ type: Array })
   conditions: ConditionSpan[] = [];
+
+  @property({ type: Array })
+  segment_conditions: DisplayCondition[] = [];
 
   @property({ type: Array })
   temperatures: SegmentTemperature[] = [];
@@ -52,6 +55,15 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   show_precipitation_probability = false;
 
+  @property({ type: Boolean })
+  precipitation_on_bar = false;
+
+  @property({ type: Number })
+  precipitation_amount_font_size = 11;
+
+  @property({ type: Number })
+  precipitation_probability_font_size = 10;
+
   @property({ type: String })
   show_date: ShowDateType = 'false';
 
@@ -64,21 +76,19 @@ export class WeatherBar extends LitElement {
   private tips: Instance[] = [];
 
   render() {
+    const showBarOverlay = this.precipitation_on_bar && !this.hide_bar;
     const conditionBars: TemplateResult[] = [];
     let gridStart = 1;
     if (!this.hide_bar) {
       for (const cond of this.conditions) {
         const label = this.labels[cond[0]];
 
-        let icon: string | undefined = this.icon_map?.[cond[0]];
-        if (!icon) {
-          icon = ICONS[cond[0]];
-          if (icon === cond[0]) icon = 'mdi:weather-' + icon;
-          else icon = 'mdi:' + icon;
-        }
+        const icon = this.getConditionIcon(cond[0]);
 
         const iconMarkup: TemplateResult[] = [];
-        if (!this.icons) {
+        if (showBarOverlay) {
+          // The per-segment overlay supplies the icon and precipitation data.
+        } else if (!this.icons) {
           iconMarkup.push(html`<span class="condition-label">${label}</span>`);
         } else {
           let iconSize: IconFillType;
@@ -115,8 +125,8 @@ export class WeatherBar extends LitElement {
       const showWindSpeed = (windCfg === 'true' || windCfg.includes('speed')) && !skipLabel;
       const showWindDirection = (windCfg === 'true' || windCfg.includes('direction')) && !skipLabel;
       const showWindBarb = windCfg.includes('barb') && !skipLabel;
-      const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel;
-      const showPrecipitationProbability = this.show_precipitation_probability && !skipLabel;
+      const showPrecipitationAmounts = this.show_precipitation_amounts && !skipLabel && !showBarOverlay;
+      const showPrecipitationProbability = this.show_precipitation_probability && !skipLabel && !showBarOverlay;
       const { hour, date, temperature } = this.temperatures[i];
       let renderedDate: string | TemplateResult | null = null;
       if (!skipLabel && this.show_date && this.show_date !== 'false') {
@@ -176,8 +186,76 @@ export class WeatherBar extends LitElement {
     return html`
       <div class="main">
         ${colorStyles ?? null}
-        ${this.hide_bar ? null : html`<div class="bar">${conditionBars}</div>`}
+        ${this.hide_bar ? null : html`
+          <div class="bar-shell">
+            <div class="bar">${conditionBars}</div>
+            ${showBarOverlay ? this.renderBarOverlay() : null}
+          </div>
+        `}
         <div class="axes">${barBlocks}</div>
+      </div>
+    `;
+  }
+
+  private getConditionIcon(condition: DisplayCondition): string {
+    const customIcon = this.icon_map?.[condition];
+    if (customIcon) return customIcon;
+
+    const configuredIcon = ICONS[condition];
+    return configuredIcon === condition
+      ? `mdi:weather-${configuredIcon}`
+      : `mdi:${configuredIcon}`;
+  }
+
+  private renderBarOverlay(): TemplateResult {
+    const amountFontSize = Number(this.precipitation_amount_font_size) > 0
+      ? Number(this.precipitation_amount_font_size)
+      : 11;
+    const probabilityFontSize = Number(this.precipitation_probability_font_size) > 0
+      ? Number(this.precipitation_probability_font_size)
+      : 10;
+
+    return html`
+      <div class="bar-overlay">
+        ${this.segment_conditions.map((condition, index) => {
+          const skipLabel = index % this.label_spacing !== 0;
+          if (skipLabel) return html`<div class="bar-overlay-item"></div>`;
+
+          const values = this.precipitation[index];
+          const showAmount = this.show_precipitation_amounts && values?.precipitationAmount;
+          const showProbability = this.show_precipitation_probability && values?.precipitationProbability;
+          const accessibleValues = [
+            this.labels[condition],
+            showAmount ? values.precipitationAmount : '',
+            showProbability ? values.precipitationProbabilityText : '',
+          ].filter(Boolean).join(', ');
+          return html`
+            <div class="bar-overlay-item" role="img" aria-label=${accessibleValues}>
+              <div
+                class=${showAmount || showProbability ? 'bar-overlay-content' : 'bar-overlay-content no-values'}
+                aria-hidden="true"
+              >
+                <ha-icon icon=${this.getConditionIcon(condition)}></ha-icon>
+                ${showAmount || showProbability ? html`
+                  <span class="bar-precipitation-stack">
+                    ${showAmount ? html`
+                      <span class="bar-precipitation-amount" style=${styleMap({ fontSize: `${amountFontSize}px` })}>
+                        ${values.precipitationAmount}
+                      </span>
+                    ` : null}
+                    ${showProbability ? html`
+                      <span
+                        class="bar-precipitation-probability"
+                        title=${values.precipitationProbabilityText}
+                        style=${styleMap({ fontSize: `${probabilityFontSize}px` })}
+                      >${values.precipitationProbability}</span>
+                    ` : null}
+                  </span>
+                ` : null}
+              </div>
+            </div>
+          `;
+        })}
       </div>
     `;
   }
@@ -203,7 +281,7 @@ export class WeatherBar extends LitElement {
         vars.push(`--color-${key}-foreground: ${color.foreground};`);
     }
     return html`<style>
-      .main > .bar {
+      .main > .bar-shell > .bar {
         ${unsafeCSS(vars.join(' '))}
       }
     </style>`;
@@ -243,6 +321,54 @@ export class WeatherBar extends LitElement {
       display: grid;
       grid-auto-flow: column;
       grid-auto-columns: 1fr;
+    }
+    .bar-shell {
+      position: relative;
+    }
+    .bar-overlay {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      pointer-events: none;
+      color: var(--primary-text-color);
+      text-shadow: 1px 1px 2px var(--primary-background-color);
+    }
+    .bar-overlay-item {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bar-overlay-content {
+      width: 100%;
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      white-space: nowrap;
+    }
+    .bar-overlay-content.no-values {
+      display: flex;
+      justify-content: center;
+    }
+    .bar-overlay-content > ha-icon {
+      flex: 0 0 auto;
+      justify-self: end;
+      margin-right: 0.15rem;
+      --mdc-icon-size: 22px;
+      filter: drop-shadow(1px 1px 3px var(--primary-background-color));
+    }
+    .bar-precipitation-stack {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      justify-self: start;
+      margin-left: 0.15rem;
+      line-height: 1;
     }
     .bar > div {
       height: 30px;
