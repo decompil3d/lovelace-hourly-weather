@@ -284,8 +284,13 @@ export class HourlyWeatherCard extends LitElement {
       this.configRenderPending = false;
       this.triggerConfigRender();
     }
-    if (!this.subscribedToForecast ||
-      (changedProps.has('config') && this.config?.entity !== changedProps.get('config')?.entity)) {
+    const previousConfig = changedProps.get('config') as HourlyWeatherCardConfig | undefined;
+    const entityChanged = changedProps.has('config') &&
+      this.config?.entity !== previousConfig?.entity;
+    const forecastTypeChanged = changedProps.has('config') &&
+      this.config?.forecast_type !== previousConfig?.forecast_type;
+
+    if (!this.subscribedToForecast || entityChanged || forecastTypeChanged) {
       this.subscribeToForecastEvents();
     }
   }
