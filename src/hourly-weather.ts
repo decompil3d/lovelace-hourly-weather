@@ -46,6 +46,7 @@ customElements.define('weather-bar', WeatherBar);
 
 // Naive localizer is used before we can get at card configuration data
 const naiveLocalizer = getLocalizer(void 0, void 0);
+const AUTO_LABEL_MIN_WIDTH_PX = 56;
 
 /* eslint no-console: 0 */
 console.info(
@@ -83,6 +84,9 @@ export class HourlyWeatherCard extends LitElement {
 
   @state() private forecastEvent?: ForecastEvent;
   @state() private subscribedToForecast?: Promise<() => void>;
+  @state() private observedWidth = 0;
+
+  private resizeObserver?: ResizeObserver;
 
   private configRenderPending = false;
 
@@ -250,6 +254,15 @@ export class HourlyWeatherCard extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(entries => {
+        const width = Math.round(entries[0]?.contentRect.width ?? 0);
+        if (width > 0 && width !== this.observedWidth) {
+          this.observedWidth = width;
+        }
+      });
+      this.resizeObserver.observe(this);
+    }
     if (this.hasUpdated) {
       this.subscribeToForecastEvents();
     }
@@ -257,6 +270,8 @@ export class HourlyWeatherCard extends LitElement {
 
   public disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = undefined;
     this.unsubscribeForecastEvents();
   }
 
@@ -264,6 +279,10 @@ export class HourlyWeatherCard extends LitElement {
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) {
       return false;
+    }
+
+    if (changedProps.has('observedWidth')) {
+      return true;
     }
 
     if (changedProps.has('hass')) {
@@ -320,7 +339,10 @@ export class HourlyWeatherCard extends LitElement {
     const precipitationUnit = state.attributes.precipitation_unit ?? '';
     const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
     const offset = parseInt(config.offset ?? '0', 10);
-    const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
+    const configuredLabelSpacing = parseInt(config.label_spacing ?? '2', 10);
+    const labelSpacing = config.auto_label_spacing
+      ? Math.max(configuredLabelSpacing, this.getResponsiveLabelSpacing(numSegments))
+      : configuredLabelSpacing;
     const forecastNotAvailable = !forecast || !forecast.length;
     const icon_fill = config.icon_fill;
     const hideMinutes = !!config.hide_minutes;
@@ -340,7 +362,7 @@ export class HourlyWeatherCard extends LitElement {
       return await this._showError(this.localize('errors.too_many_segments_requested'));
     }
 
-    if (labelSpacing < 1) {
+    if (configuredLabelSpacing < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
     }
@@ -423,6 +445,12 @@ export class HourlyWeatherCard extends LitElement {
         </div>
       </ha-card>
     `;
+  }
+
+  private getResponsiveLabelSpacing(numSegments: number): number {
+    if (this.observedWidth <= 0 || numSegments <= 0) return 1;
+    const usableWidth = Math.max(this.observedWidth - 32, 1);
+    return Math.max(1, Math.ceil(numSegments * AUTO_LABEL_MIN_WIDTH_PX / usableWidth));
   }
 
   private getConditionListFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): ConditionSpan[] {
@@ -725,6 +753,10 @@ export class HourlyWeatherCard extends LitElement {
 
   // https://lit.dev/docs/components/styles/
   static get styles(): CSSResultGroup {
-    return css``;
+    return css`
+      :host {
+        display: block;
+      }
+    `;
   }
 }
