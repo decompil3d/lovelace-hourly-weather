@@ -1301,6 +1301,75 @@ describe('Weather bar', () => {
           }
         });
     });
+
+    it('places icon and precipitation around the segment marker on the bar', () => {
+      cy.configure({
+        icons: true,
+        num_segments: '4',
+        label_spacing: '2',
+        show_precipitation_amounts: true,
+        show_precipitation_probability: true,
+        precipitation_on_bar: true,
+        precipitation_amount_font_size: 13,
+        precipitation_probability_font_size: 9,
+      });
+
+      cy.get('weather-bar')
+        .shadow()
+        .find('.bar-overlay-item')
+        .should('have.length', 4)
+        .eq(0)
+        .should('have.attr', 'aria-label')
+        .and('contain', 'Cloudy')
+        .and('contain', '0.7 in')
+        .and('contain', '94% chance of precipitation');
+
+      cy.get('weather-bar')
+        .shadow()
+        .find('.bar-overlay-item')
+        .eq(0)
+        .then(item => {
+          const itemRect = item.get(0).getBoundingClientRect();
+          const iconRect = item.find('ha-icon').get(0).getBoundingClientRect();
+          const valuesRect = item.find('.bar-precipitation-stack').get(0).getBoundingClientRect();
+          const markerCenter = itemRect.left + itemRect.width / 2;
+          const gapCenter = (iconRect.right + valuesRect.left) / 2;
+          expect(Math.abs(markerCenter - gapCenter)).to.be.lessThan(0.6);
+        });
+
+      cy.get('weather-bar')
+        .shadow()
+        .find('.bar-precipitation-amount')
+        .first()
+        .should('have.css', 'font-size', '13px');
+      cy.get('weather-bar')
+        .shadow()
+        .find('.bar-precipitation-probability')
+        .first()
+        .should('have.css', 'font-size', '9px');
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.precipitation')
+        .each(el => cy.wrap(el).should('be.empty'));
+    });
+
+    it('shows segment icons on the precipitation bar without a separate icons setting', () => {
+      cy.configure({
+        icons: false,
+        num_segments: '2',
+        label_spacing: '1',
+        show_precipitation_amounts: true,
+        precipitation_on_bar: true,
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('.bar-overlay-item ha-icon')
+        .should('have.length', 2);
+      cy.get('weather-bar')
+        .shadow()
+        .find('.bar > div .condition-label')
+        .should('not.exist');
+    });
   });
 });
 

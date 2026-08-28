@@ -381,6 +381,7 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
+    const segmentConditions = this.getSegmentConditionsFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset, hideMinutes, roundTemperatures);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit, hideMinutes);
     const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit, hideMinutes, labelSpacing);
@@ -404,6 +405,7 @@ export class HourlyWeatherCard extends LitElement {
           <!-- @ts-ignore -->
           <weather-bar
             .conditions=${conditionList}
+            .segment_conditions=${segmentConditions}
             .temperatures=${temperatures}
             .wind=${wind}
             .precipitation=${precipitation}
@@ -417,6 +419,9 @@ export class HourlyWeatherCard extends LitElement {
             .show_wind=${showWind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}
+            .precipitation_on_bar=${!!config.precipitation_on_bar}
+            .precipitation_amount_font_size=${config.precipitation_amount_font_size}
+            .precipitation_probability_font_size=${config.precipitation_probability_font_size}
             .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
@@ -440,6 +445,12 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
     return res;
+  }
+
+  private getSegmentConditionsFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): DisplayCondition[] {
+    return forecast
+      .slice(offset, offset + numSegments)
+      .map(segment => this.getDisplayCondition(segment));
   }
 
   /**
