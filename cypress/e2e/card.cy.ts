@@ -133,6 +133,8 @@ describe('Card', () => {
       num_segments: '2',
       label_spacing: '1',
       show_current: true,
+      show_precipitation_amounts: true,
+      show_precipitation_probability: true,
     });
 
     cy.get('weather-bar')
@@ -147,6 +149,11 @@ describe('Card', () => {
       .find('div.bar > div')
       .first()
       .should('have.attr', 'data-tippy-content', 'Rain');
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.precipitation')
+      .first()
+      .should('have.text', '0.35 mm75%');
   });
 
   it('falls back to forecast when current weather is unavailable', () => {

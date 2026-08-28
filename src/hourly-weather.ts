@@ -327,7 +327,7 @@ export class HourlyWeatherCard extends LitElement {
 
     const { forecast: forecastOnly, pending } = this.getForecast();
     const currentWeather = config.show_current
-      ? this.getCurrentWeatherSegment(state)
+      ? this.getCurrentWeatherSegment(state, forecastOnly)
       : undefined;
     const upcomingForecast = forecastOnly && currentWeather
       ? forecastOnly.filter(segment => this.isAfterCurrentWeather(segment, currentWeather))
@@ -483,19 +483,36 @@ export class HourlyWeatherCard extends LitElement {
     return Number.isInteger(parsed) ? parsed : Number.NaN;
   }
 
-  private getCurrentWeatherSegment(state: HomeAssistant['states'][string]): ForecastSegment | undefined {
+  private getCurrentWeatherSegment(
+    state: HomeAssistant['states'][string],
+    forecast: ForecastSegment[] | undefined,
+  ): ForecastSegment | undefined {
     const attributes = state.attributes;
     const temperature = Number(attributes.temperature);
     if (!(state.state in ICONS) || !Number.isFinite(temperature)) {
       return undefined;
     }
 
+    const currentTime = new Date(state.last_updated || Date.now()).getTime();
+    const ongoingForecast = forecast
+      ?.filter(segment => {
+        const segmentTime = new Date(segment.datetime).getTime();
+        return !Number.isNaN(segmentTime) && segmentTime <= currentTime;
+      })
+      .slice(-1)[0];
+    const currentPrecipitation = Number(attributes.precipitation);
+    const currentProbability = Number(attributes.precipitation_probability);
+
     return {
       clouds: Number(attributes.cloud_coverage ?? attributes.clouds ?? Number.NaN),
       condition: state.state as Condition,
       datetime: state.last_updated || new Date().toISOString(),
-      precipitation: Number(attributes.precipitation ?? Number.NaN),
-      precipitation_probability: Number(attributes.precipitation_probability ?? Number.NaN),
+      precipitation: Number.isFinite(currentPrecipitation)
+        ? currentPrecipitation
+        : Number(ongoingForecast?.precipitation ?? Number.NaN),
+      precipitation_probability: Number.isFinite(currentProbability)
+        ? currentProbability
+        : Number(ongoingForecast?.precipitation_probability ?? Number.NaN),
       pressure: Number(attributes.pressure ?? Number.NaN),
       temperature,
       wind_bearing: attributes.wind_bearing ?? Number.NaN,
@@ -573,14 +590,16 @@ export class HourlyWeatherCard extends LitElement {
       const labelIndex = hasCurrentSegment ? i - 1 : i;
       const isCurrentSegment = hasCurrentSegment && i === 0;
 
-      // Current conditions are not a forecast interval, so they never
-      // contribute to precipitation totals. Forecast label spacing restarts
-      // at the first actual forecast segment.
-      if (!isCurrentSegment && labelIndex % labelSpacing === 0) {
-        const interval = forecast.slice(
-          offset + i,
-          Math.min(offset + i + labelSpacing, offset + numSegments),
-        );
+      // The current segment may carry precipitation from the ongoing hourly
+      // forecast interval, but it never aggregates with future intervals.
+      // Forecast label spacing restarts at the first future segment.
+      if (isCurrentSegment || labelIndex % labelSpacing === 0) {
+        const interval = isCurrentSegment
+          ? [fs]
+          : forecast.slice(
+            offset + i,
+            Math.min(offset + i + labelSpacing, offset + numSegments),
+          );
 
         const totalAmount = interval.reduce(
           (sum, segment) => sum + (Number(segment.precipitation) || 0),

@@ -119,9 +119,11 @@ Set `show_current: true` to prepend the weather entity's current condition and
 temperature to the forecast. `num_segments` still controls the total number of
 segments displayed, including the current segment. If the entity does not expose
 a valid current condition and temperature, the card safely falls back to the
-forecast alone. Current conditions are kept out of forecast precipitation
-totals, `label_spacing` restarts at the first forecast segment, and any forecast
-interval that has already started is omitted so the timeline remains chronological.
+forecast alone. When the weather entity does not expose current precipitation,
+the current segment uses amount and probability from the ongoing hourly forecast
+interval without combining them with future intervals. `label_spacing` restarts
+at the first future segment, and the already-started forecast interval is omitted
+from the remaining timeline so it is not duplicated.
 
 ### Templating
 
