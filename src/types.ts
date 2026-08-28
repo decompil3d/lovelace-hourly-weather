@@ -119,5 +119,5 @@ export type ForecastType = "hourly" | "daily" | "twice_daily";
 
 export interface ForecastEvent {
   type: ForecastType;
-  forecast: [ForecastSegment] | null;
+  forecast: ForecastSegment[] | null;
 }
