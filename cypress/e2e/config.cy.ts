@@ -246,6 +246,26 @@ describe('Config', () => {
       cy.enableForecastSubscriptions();
     });
 
+    it('resubscribes when forecast_type changes without changing entity', () => {
+      cy.window().then((win: any) => {
+        cy.spy(win.hourlyWeather.hass.connection, 'subscribeMessage').as('subscribeMessage');
+      });
+
+      cy.configure({ forecast_type: 'hourly' });
+      cy.configure({ forecast_type: 'daily' });
+
+      cy.get('@subscribeMessage').then((subscribeMessage: any) => {
+        const forecastSubscriptions = subscribeMessage.getCalls()
+          .map((call: any) => call.args[1])
+          .filter((message: any) => message.type === 'weather/subscribe_forecast');
+
+        expect(forecastSubscriptions).to.have.length(2);
+        expect(forecastSubscriptions[0].forecast_type).to.equal('hourly');
+        expect(forecastSubscriptions[1].forecast_type).to.equal('daily');
+        expect(forecastSubscriptions[1].entity_id).to.equal(forecastSubscriptions[0].entity_id);
+      });
+    });
+
     it('uses forecast from subscription when available', () => {
       cy.addEntity({
         'weather.fromSub': {
