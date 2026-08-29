@@ -145,8 +145,9 @@ export class HourlyWeatherCard extends LitElement {
 
   private unsubscribeForecastEvents() {
     if (this.subscribedToForecast) {
-      this.subscribedToForecast.then((unsub) => unsub()).catch(() => void 0);
+      const subscription = this.subscribedToForecast;
       this.subscribedToForecast = undefined;
+      Promise.resolve(subscription).then((unsub) => unsub()).catch(() => void 0);
     }
   }
 
