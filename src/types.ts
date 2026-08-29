@@ -121,3 +121,12 @@ export interface ForecastEvent {
   type: ForecastType;
   forecast: ForecastSegment[] | null;
 }
+
+export type ForecastServiceResponse = Record<string, {
+  forecast?: ForecastSegment[] | null;
+}>;
+
+export interface ForecastServiceCallResult {
+  response?: ForecastServiceResponse;
+  service_response?: ForecastServiceResponse;
+}

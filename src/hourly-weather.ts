@@ -33,6 +33,7 @@ import type {
   DisplayCondition,
   ForecastEvent,
   ForecastSegment,
+  ForecastServiceCallResult,
   ForecastType,
   HourlyWeatherCardConfig,
   LocalizerLastSettings,
@@ -90,6 +91,7 @@ export class HourlyWeatherCard extends LitElement {
 
   private forecastRecoveryTimer?: number;
   private forecastRecoveryPending = false;
+  private lastValidForecastAt?: number;
 
   private configRenderPending = false;
 
@@ -154,15 +156,25 @@ export class HourlyWeatherCard extends LitElement {
 
   private acceptForecastEvent(event: ForecastEvent): boolean {
     if (!this.hasUsableForecast(event?.forecast)) {
-      this.scheduleForecastRecovery(INITIAL_FORECAST_RECOVERY_DELAY_MS);
+      this.scheduleForecastRecovery(this.getForecastRecoveryDelay());
       return false;
     }
 
     // Ignore transient empty subscription updates so a refresh cannot replace
     // a working card with a zero-height pending render.
     this.forecastEvent = event;
+    this.lastValidForecastAt = Date.now();
     this.scheduleForecastRecovery(FORECAST_STALE_AFTER_MS);
     return true;
+  }
+
+  private getForecastRecoveryDelay(): number {
+    if (this.lastValidForecastAt === undefined) {
+      return INITIAL_FORECAST_RECOVERY_DELAY_MS;
+    }
+
+    const forecastAge = Date.now() - this.lastValidForecastAt;
+    return Math.max(0, FORECAST_STALE_AFTER_MS - forecastAge);
   }
 
   private stopForecastRecovery() {
@@ -189,12 +201,18 @@ export class HourlyWeatherCard extends LitElement {
       return;
     }
 
+    const recoveryDelay = this.getForecastRecoveryDelay();
+    if (this.lastValidForecastAt !== undefined && recoveryDelay > 0) {
+      this.scheduleForecastRecovery(recoveryDelay);
+      return;
+    }
+
     const entityId = this.config.entity;
     const forecastType = this.getIdealForecastType();
     this.forecastRecoveryPending = true;
 
     try {
-      const result: any = await this.hass.callWS({
+      const result = await this.hass.callWS<ForecastServiceCallResult>({
         type: 'call_service',
         domain: 'weather',
         service: 'get_forecasts',
@@ -202,7 +220,7 @@ export class HourlyWeatherCard extends LitElement {
         target: { entity_id: entityId },
         return_response: true,
       });
-      const response = result?.response ?? result?.service_response ?? result;
+      const response = result.response ?? result.service_response;
       const forecast = response?.[entityId]?.forecast;
       if (this.hasUsableForecast(forecast)) {
         this.acceptForecastEvent({ type: forecastType, forecast });
@@ -245,7 +263,7 @@ export class HourlyWeatherCard extends LitElement {
       });
       this.scheduleForecastRecovery(
         this.hasUsableForecast(this.forecastEvent?.forecast)
-          ? FORECAST_STALE_AFTER_MS
+          ? this.getForecastRecoveryDelay()
           : INITIAL_FORECAST_RECOVERY_DELAY_MS
       );
     } catch (error) {
@@ -390,6 +408,7 @@ export class HourlyWeatherCard extends LitElement {
 
     if (entityChanged || forecastTypeChanged) {
       this.forecastEvent = undefined;
+      this.lastValidForecastAt = undefined;
     }
     if (!this.subscribedToForecast || entityChanged || forecastTypeChanged) {
       this.subscribeToForecastEvents();

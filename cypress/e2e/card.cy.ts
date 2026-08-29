@@ -108,6 +108,17 @@ describe('Card', () => {
     cy.get('.forecast-pending').should('not.exist');
   });
 
+  it('does not recover while the last valid subscription update is fresh', () => {
+    cy.enableForecastSubscriptions();
+    cy.configure({ entity: 'weather.mock' });
+    cy.get('weather-bar').should('exist');
+
+    cy.updateLastForecastSubscription([]);
+    cy.recoverForecast();
+
+    cy.window().should('not.have.property', 'lastHWCallWS');
+  });
+
   it('recovers a stalled subscription through weather.get_forecasts', () => {
     cy.enableForecastSubscriptions();
     cy.addEntity({
