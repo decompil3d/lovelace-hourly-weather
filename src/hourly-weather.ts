@@ -202,6 +202,10 @@ export class HourlyWeatherCard extends LitElement {
       return;
     }
 
+    if (!this.subscribedToForecast) {
+      await this.subscribeToForecastEvents();
+    }
+
     const recoveryDelay = this.getForecastRecoveryDelay();
     if (this.lastValidForecastAt !== undefined && recoveryDelay > 0) {
       this.scheduleForecastRecovery(recoveryDelay);
@@ -233,9 +237,6 @@ export class HourlyWeatherCard extends LitElement {
       this.forecastRecoveryPending = false;
     }
 
-    if (!this.subscribedToForecast) {
-      await this.subscribeToForecastEvents();
-    }
     this.scheduleForecastRecovery(FORECAST_RECOVERY_RETRY_MS);
   }
 

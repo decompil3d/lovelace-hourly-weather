@@ -119,6 +119,26 @@ describe('Card', () => {
     cy.window().should('not.have.property', 'lastHWCallWS');
   });
 
+  it('re-establishes a failed subscription while the last forecast is fresh', () => {
+    cy.enableForecastSubscriptions();
+    cy.configure({ entity: 'weather.mock' });
+    cy.get('weather-bar').should('exist');
+
+    cy.window().then(async (win: any) => {
+      const card = win.hourlyWeather;
+      const subscribe = cy.spy(card.hass.connection, 'subscribeMessage');
+      card.subscribedToForecast = undefined;
+
+      await card.recoverForecast();
+
+      expect(subscribe).to.have.been.calledWithMatch(
+        Cypress.sinon.match.func,
+        { type: 'weather/subscribe_forecast', entity_id: 'weather.mock' }
+      );
+      expect(win.lastHWCallWS).to.equal(undefined);
+    });
+  });
+
   it('recovers a stalled subscription through weather.get_forecasts', () => {
     cy.enableForecastSubscriptions();
     cy.addEntity({
