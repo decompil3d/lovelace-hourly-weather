@@ -323,20 +323,20 @@ export class HourlyWeatherCard extends LitElement {
     const { forecast, pending } = this.getForecast();
     const windSpeedUnit = state.attributes.wind_speed_unit ?? '';
     const precipitationUnit = state.attributes.precipitation_unit ?? '';
-    const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
-    const offset = parseInt(config.offset ?? '0', 10);
-    const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
+    const numSegments = this.parseInteger(config.num_segments ?? config.num_hours ?? 12);
+    const offset = this.parseInteger(config.offset ?? 0);
+    const labelSpacing = this.parseInteger(config.label_spacing ?? 2);
     const forecastNotAvailable = !forecast || !forecast.length;
     const icon_fill = config.icon_fill;
     const hideMinutes = !!config.hide_minutes;
     const roundTemperatures = !!config.round_temperatures;
 
-    if (numSegments < 1) {
+    if (!Number.isInteger(numSegments) || numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'num_segments'));
     }
 
-    if (offset < 0) {
+    if (!Number.isInteger(offset) || offset < 0) {
       return await this._showError(this.localize('errors.offset_must_be_positive_int'));
     }
 
@@ -345,7 +345,7 @@ export class HourlyWeatherCard extends LitElement {
       return await this._showError(this.localize('errors.too_many_segments_requested'));
     }
 
-    if (labelSpacing < 1) {
+    if (!Number.isInteger(labelSpacing) || labelSpacing < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
     }
@@ -445,6 +445,18 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
     return res;
+  }
+
+  private parseInteger(value: unknown): number {
+    if (typeof value === 'number') {
+      return Number.isInteger(value) ? value : Number.NaN;
+    }
+    if (typeof value !== 'string' || value.trim() === '') {
+      return Number.NaN;
+    }
+
+    const parsed = Number(value);
+    return Number.isInteger(parsed) ? parsed : Number.NaN;
   }
 
   /**

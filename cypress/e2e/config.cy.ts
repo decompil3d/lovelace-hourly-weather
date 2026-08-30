@@ -13,6 +13,19 @@ describe('Config', () => {
       .find('p')
       .should('have.text', 'num_segments must be a positive integer');
   });
+  it('rejects partially numeric and fractional num_segments values', () => {
+    cy.configure({ num_segments: '2x' });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', 'num_segments must be a positive integer');
+
+    cy.configure({ num_segments: '2.9' });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', 'num_segments must be a positive integer');
+  });
   it('errors for offset < 0', () => {
     cy.configure({
       offset: '-1'
@@ -21,6 +34,19 @@ describe('Config', () => {
       .shadow()
       .find('p')
       .should('have.text', 'offset must be a positive integer');
+  });
+  it('rejects non-integer offset and label_spacing values', () => {
+    cy.configure({ offset: '1.5' });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', 'offset must be a positive integer');
+
+    cy.configure({ label_spacing: '2x' });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', 'label_spacing must be a positive integer');
   });
   it('errors for num_segments > forecast length', () => {
     cy.configure({
