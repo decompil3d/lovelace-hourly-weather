@@ -33,6 +33,7 @@ import type {
   DisplayCondition,
   ForecastEvent,
   ForecastSegment,
+  ForecastServiceCallResult,
   ForecastType,
   HourlyWeatherCardConfig,
   LocalizerLastSettings,
@@ -47,6 +48,10 @@ customElements.define('weather-bar', WeatherBar);
 // Naive localizer is used before we can get at card configuration data
 const naiveLocalizer = getLocalizer(void 0, void 0);
 const AUTO_LABEL_MIN_WIDTH_PX = 56;
+
+const INITIAL_FORECAST_RECOVERY_DELAY_MS = 1500;
+const FORECAST_RECOVERY_RETRY_MS = 30000;
+const FORECAST_STALE_AFTER_MS = 35 * 60 * 1000;
 
 /* eslint no-console: 0 */
 console.info(
@@ -87,6 +92,10 @@ export class HourlyWeatherCard extends LitElement {
   @state() private observedWidth = 0;
 
   private resizeObserver?: ResizeObserver;
+
+  private forecastRecoveryTimer?: number;
+  private forecastRecoveryPending = false;
+  private lastValidForecastAt?: number;
 
   private configRenderPending = false;
 
@@ -140,9 +149,99 @@ export class HourlyWeatherCard extends LitElement {
 
   private unsubscribeForecastEvents() {
     if (this.subscribedToForecast) {
-      this.subscribedToForecast.then((unsub) => unsub());
+      const subscription = this.subscribedToForecast;
       this.subscribedToForecast = undefined;
+      Promise.resolve(subscription).then((unsub) => unsub()).catch(() => void 0);
     }
+  }
+
+  private hasUsableForecast(forecast: ForecastSegment[] | null | undefined): forecast is ForecastSegment[] {
+    return Array.isArray(forecast) && forecast.length > 0;
+  }
+
+  private acceptForecastEvent(event: ForecastEvent): boolean {
+    if (!this.hasUsableForecast(event?.forecast)) {
+      this.scheduleForecastRecovery(this.getForecastRecoveryDelay());
+      return false;
+    }
+
+    // Ignore transient empty subscription updates so a refresh cannot replace
+    // a working card with a zero-height pending render.
+    this.forecastEvent = event;
+    this.lastValidForecastAt = Date.now();
+    this.scheduleForecastRecovery(FORECAST_STALE_AFTER_MS);
+    return true;
+  }
+
+  private getForecastRecoveryDelay(): number {
+    if (this.lastValidForecastAt === undefined) {
+      return INITIAL_FORECAST_RECOVERY_DELAY_MS;
+    }
+
+    const forecastAge = Date.now() - this.lastValidForecastAt;
+    return Math.max(0, FORECAST_STALE_AFTER_MS - forecastAge);
+  }
+
+  private stopForecastRecovery() {
+    if (this.forecastRecoveryTimer !== undefined) {
+      window.clearTimeout(this.forecastRecoveryTimer);
+      this.forecastRecoveryTimer = undefined;
+    }
+  }
+
+  private scheduleForecastRecovery(delayMs: number) {
+    this.stopForecastRecovery();
+    if (!this.isConnected || !this.hass || !this.config?.entity || !this.hassSupportsForecastEvents()) {
+      return;
+    }
+
+    this.forecastRecoveryTimer = window.setTimeout(() => {
+      this.forecastRecoveryTimer = undefined;
+      void this.recoverForecast();
+    }, delayMs);
+  }
+
+  private async recoverForecast() {
+    if (this.forecastRecoveryPending || !this.isConnected || !this.hass?.callWS || !this.config?.entity) {
+      return;
+    }
+
+    if (!this.subscribedToForecast) {
+      await this.subscribeToForecastEvents();
+    }
+
+    const recoveryDelay = this.getForecastRecoveryDelay();
+    if (this.lastValidForecastAt !== undefined && recoveryDelay > 0) {
+      this.scheduleForecastRecovery(recoveryDelay);
+      return;
+    }
+
+    const entityId = this.config.entity;
+    const forecastType = this.getIdealForecastType();
+    this.forecastRecoveryPending = true;
+
+    try {
+      const result = await this.hass.callWS<ForecastServiceCallResult>({
+        type: 'call_service',
+        domain: 'weather',
+        service: 'get_forecasts',
+        service_data: { type: forecastType },
+        target: { entity_id: entityId },
+        return_response: true,
+      });
+      const response = result.response ?? result.service_response;
+      const forecast = response?.[entityId]?.forecast;
+      if (this.hasUsableForecast(forecast)) {
+        this.acceptForecastEvent({ type: forecastType, forecast });
+        return;
+      }
+    } catch (error) {
+      console.warn('[hourly-weather] forecast recovery failed', error);
+    } finally {
+      this.forecastRecoveryPending = false;
+    }
+
+    this.scheduleForecastRecovery(FORECAST_RECOVERY_RETRY_MS);
   }
 
   private async subscribeToForecastEvents() {
@@ -152,13 +251,31 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     const forecastType = this.getIdealForecastType();
-    this.subscribedToForecast = this.hass.connection.subscribeMessage<ForecastEvent>(
-      evt => this.forecastEvent = evt,
-      {
-        type: 'weather/subscribe_forecast',
-        forecast_type: forecastType,
-        entity_id: this.config.entity
+    try {
+      const subscription = this.hass.connection.subscribeMessage<ForecastEvent>(
+        evt => this.acceptForecastEvent(evt),
+        {
+          type: 'weather/subscribe_forecast',
+          forecast_type: forecastType,
+          entity_id: this.config.entity
+        });
+      this.subscribedToForecast = subscription;
+      subscription.catch((error) => {
+        if (this.subscribedToForecast === subscription) {
+          this.subscribedToForecast = undefined;
+        }
+        console.warn('[hourly-weather] forecast subscription failed', error);
+        this.scheduleForecastRecovery(0);
       });
+      this.scheduleForecastRecovery(
+        this.hasUsableForecast(this.forecastEvent?.forecast)
+          ? this.getForecastRecoveryDelay()
+          : INITIAL_FORECAST_RECOVERY_DELAY_MS
+      );
+    } catch (error) {
+      console.warn('[hourly-weather] could not subscribe to forecast updates', error);
+      this.scheduleForecastRecovery(0);
+    }
   }
 
   private getIdealForecastType(): ForecastType {
@@ -272,6 +389,7 @@ export class HourlyWeatherCard extends LitElement {
     super.disconnectedCallback();
     this.resizeObserver?.disconnect();
     this.resizeObserver = undefined;
+    this.stopForecastRecovery();
     this.unsubscribeForecastEvents();
   }
 
@@ -303,8 +421,17 @@ export class HourlyWeatherCard extends LitElement {
       this.configRenderPending = false;
       this.triggerConfigRender();
     }
-    if (!this.subscribedToForecast ||
-      (changedProps.has('config') && this.config?.entity !== changedProps.get('config')?.entity)) {
+    const previousConfig = changedProps.get('config') as HourlyWeatherCardConfig | undefined;
+    const entityChanged = changedProps.has('config') &&
+      this.config?.entity !== previousConfig?.entity;
+    const forecastTypeChanged = changedProps.has('config') &&
+      this.config?.forecast_type !== previousConfig?.forecast_type;
+
+    if (entityChanged || forecastTypeChanged) {
+      this.forecastEvent = undefined;
+      this.lastValidForecastAt = undefined;
+    }
+    if (!this.subscribedToForecast || entityChanged || forecastTypeChanged) {
       this.subscribeToForecastEvents();
     }
   }
@@ -337,9 +464,9 @@ export class HourlyWeatherCard extends LitElement {
     const { forecast, pending } = this.getForecast();
     const windSpeedUnit = state.attributes.wind_speed_unit ?? '';
     const precipitationUnit = state.attributes.precipitation_unit ?? '';
-    const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
-    const offset = parseInt(config.offset ?? '0', 10);
-    const configuredLabelSpacing = parseInt(config.label_spacing ?? '2', 10);
+    const numSegments = this.parseInteger(config.num_segments ?? config.num_hours ?? 12);
+    const offset = this.parseInteger(config.offset ?? 0);
+    const configuredLabelSpacing = this.parseInteger(config.label_spacing ?? 2);
     const labelSpacing = config.auto_label_spacing
       ? Math.max(configuredLabelSpacing, this.getResponsiveLabelSpacing(numSegments))
       : configuredLabelSpacing;
@@ -348,21 +475,21 @@ export class HourlyWeatherCard extends LitElement {
     const hideMinutes = !!config.hide_minutes;
     const roundTemperatures = !!config.round_temperatures;
 
-    if (numSegments < 1) {
+    if (!Number.isInteger(numSegments) || numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'num_segments'));
     }
 
-    if (offset < 0) {
+    if (!Number.isInteger(offset) || offset < 0) {
       return await this._showError(this.localize('errors.offset_must_be_positive_int'));
     }
 
     if (!forecastNotAvailable && numSegments > (forecast.length - offset)) {
-      if (pending) return;
+      if (pending) return this.renderPendingCard(config);
       return await this._showError(this.localize('errors.too_many_segments_requested'));
     }
 
-    if (configuredLabelSpacing < 1) {
+    if (!Number.isInteger(configuredLabelSpacing) || configuredLabelSpacing < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
     }
@@ -383,7 +510,7 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     if (forecastNotAvailable) {
-      if (pending) return;
+      if (pending) return this.renderPendingCard(config);
       return html`
         <ha-card
           .header=${config.name}
@@ -453,6 +580,17 @@ export class HourlyWeatherCard extends LitElement {
     return Math.max(1, Math.ceil(numSegments * AUTO_LABEL_MIN_WIDTH_PX / usableWidth));
   }
 
+  private renderPendingCard(config: HourlyWeatherCardConfig): TemplateResult {
+    return html`
+      <ha-card
+        .header=${config.name}
+        tabindex="0"
+        .label=${`Hourly Weather: ${config.entity || 'No Entity Defined'}`}
+      >
+        <div class="card-content forecast-pending" aria-busy="true"></div>
+      </ha-card>`;
+  }
+
   private getConditionListFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): ConditionSpan[] {
     let lastCond: DisplayCondition = this.getDisplayCondition(forecast[offset]);
     let j = 0;
@@ -468,6 +606,18 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
     return res;
+  }
+
+  private parseInteger(value: unknown): number {
+    if (typeof value === 'number') {
+      return Number.isInteger(value) ? value : Number.NaN;
+    }
+    if (typeof value !== 'string' || value.trim() === '') {
+      return Number.NaN;
+    }
+
+    const parsed = Number(value);
+    return Number.isInteger(parsed) ? parsed : Number.NaN;
   }
 
   /**
@@ -756,6 +906,9 @@ export class HourlyWeatherCard extends LitElement {
     return css`
       :host {
         display: block;
+      }
+      .forecast-pending {
+        min-height: 24px;
       }
     `;
   }

@@ -13,6 +13,19 @@ describe('Config', () => {
       .find('p')
       .should('have.text', 'num_segments must be a positive integer');
   });
+  it('rejects partially numeric and fractional num_segments values', () => {
+    cy.configure({ num_segments: '2x' });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', 'num_segments must be a positive integer');
+
+    cy.configure({ num_segments: '2.9' });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', 'num_segments must be a positive integer');
+  });
   it('errors for offset < 0', () => {
     cy.configure({
       offset: '-1'
@@ -21,6 +34,19 @@ describe('Config', () => {
       .shadow()
       .find('p')
       .should('have.text', 'offset must be a positive integer');
+  });
+  it('rejects non-integer offset and label_spacing values', () => {
+    cy.configure({ offset: '1.5' });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', 'offset must be a positive integer');
+
+    cy.configure({ label_spacing: '2x' });
+    cy.get('hui-error-card')
+      .shadow()
+      .find('p')
+      .should('have.text', 'label_spacing must be a positive integer');
   });
   it('errors for num_segments > forecast length', () => {
     cy.configure({
@@ -244,6 +270,26 @@ describe('Config', () => {
   describe('Forecast events from subscription', () => {
     beforeEach(() => {
       cy.enableForecastSubscriptions();
+    });
+
+    it('resubscribes when forecast_type changes without changing entity', () => {
+      cy.window().then((win: any) => {
+        cy.spy(win.hourlyWeather.hass.connection, 'subscribeMessage').as('subscribeMessage');
+      });
+
+      cy.configure({ forecast_type: 'hourly' });
+      cy.configure({ forecast_type: 'daily' });
+
+      cy.get('@subscribeMessage').then((subscribeMessage: any) => {
+        const forecastSubscriptions = subscribeMessage.getCalls()
+          .map((call: any) => call.args[1])
+          .filter((message: any) => message.type === 'weather/subscribe_forecast');
+
+        expect(forecastSubscriptions).to.have.length(2);
+        expect(forecastSubscriptions[0].forecast_type).to.equal('hourly');
+        expect(forecastSubscriptions[1].forecast_type).to.equal('daily');
+        expect(forecastSubscriptions[1].entity_id).to.equal(forecastSubscriptions[0].entity_id);
+      });
     });
 
     it('uses forecast from subscription when available', () => {
