@@ -56,6 +56,14 @@ Cypress.Commands.add('addForecast', (entityId: string, forecast: ForecastSegment
   cy.window().invoke('addHWForecast', entityId, forecast).wait(1);
 });
 
+Cypress.Commands.add('addFallbackForecast', (entityId: string, forecast: ForecastSegment[]) => {
+  cy.window().invoke('addHWFallbackForecast', entityId, forecast).wait(1);
+});
+
+Cypress.Commands.add('recoverForecast', () => {
+  cy.window().invoke('recoverHWForecast').wait(1);
+});
+
 Cypress.Commands.add('enableForecastSubscriptions', () => {
   cy.window().invoke('enableHWForecastSubscriptions').wait(1);
 });
@@ -103,6 +111,8 @@ declare global {
       configure(config: Partial<HourlyWeatherCardConfig>, noDefaults?: boolean): Chainable<void>;
       addEntity(entities: Record<string, WeatherEntity>): Chainable<void>;
       addForecast(entityId: string, forecast: ForecastSegment[]): Chainable<void>;
+      addFallbackForecast(entityId: string, forecast: ForecastSegment[]): Chainable<void>;
+      recoverForecast(): Chainable<void>;
       enableForecastSubscriptions(): Chainable<void>;
       updateLastForecastSubscription(forecast: ForecastSegment[]): Chainable<void>;
       setHomeLocation(latitude: number, longitude: number): Chainable<void>;

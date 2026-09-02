@@ -51,27 +51,12 @@ describe('Card', () => {
       .find('p')
       .should('have.text', 'Check the configured forecast entity.');
   });
-  it('handles graceful transient error if forecast is there by attribute, but not with the right amount of segments', () => {
+  it('keeps its layout while a forecast subscription is pending', () => {
     cy.enableForecastSubscriptions();
 
-    const forecast1 = [
-      {
-        "datetime": "2022-07-21T17:00:00+00:00",
-        "precipitation": 0,
-        "precipitation_probability": 0,
-        "pressure": 1007,
-        "wind_speed": 4.67,
-        "wind_bearing": 'WSW',
-        "condition": "cloudy" as Condition,
-        "clouds": 60,
-        "temperature": 84
-      },
-    ];
     cy.addEntity({
       'weather.fromSub': {
-        attributes: {
-          forecast: forecast1
-        }
+        attributes: {}
       }
     });
     cy.configure({
@@ -79,7 +64,9 @@ describe('Card', () => {
       num_segments: '2'
     });
     cy.get('ha-card')
-      .should('not.exist');
+      .should('exist')
+      .find('.forecast-pending')
+      .should('have.attr', 'aria-busy', 'true');
 
     const forecast2 = [
       {
@@ -213,5 +200,68 @@ describe('Card', () => {
         expect(values.eq(1)).to.have.text('0.7 mm');
         expect(values.eq(2)).to.have.text('');
       });
+  });
+
+  it('keeps the last good forecast when a subscription emits an empty refresh', () => {
+    cy.enableForecastSubscriptions();
+    cy.configure({ entity: 'weather.mock' });
+    cy.get('weather-bar').should('exist');
+
+    cy.updateLastForecastSubscription([]);
+    cy.get('weather-bar').should('exist');
+    cy.get('.forecast-pending').should('not.exist');
+  });
+
+  it('does not recover while the last valid subscription update is fresh', () => {
+    cy.enableForecastSubscriptions();
+    cy.configure({ entity: 'weather.mock' });
+    cy.get('weather-bar').should('exist');
+
+    cy.updateLastForecastSubscription([]);
+    cy.recoverForecast();
+
+    cy.window().should('not.have.property', 'lastHWCallWS');
+  });
+
+  it('re-establishes a failed subscription while the last forecast is fresh', () => {
+    cy.enableForecastSubscriptions();
+    cy.configure({ entity: 'weather.mock' });
+    cy.get('weather-bar').should('exist');
+
+    cy.window().then(async (win: any) => {
+      const card = win.hourlyWeather;
+      const subscribe = cy.spy(card.hass.connection, 'subscribeMessage');
+      card.subscribedToForecast = undefined;
+
+      await card.recoverForecast();
+
+      expect(subscribe).to.have.been.calledWithMatch(
+        Cypress.sinon.match.func,
+        { type: 'weather/subscribe_forecast', entity_id: 'weather.mock' }
+      );
+      expect(win.lastHWCallWS).to.equal(undefined);
+    });
+  });
+
+  it('recovers a stalled subscription through weather.get_forecasts', () => {
+    cy.enableForecastSubscriptions();
+    cy.addEntity({
+      'weather.stalled': { attributes: {} }
+    });
+    cy.configure({ entity: 'weather.stalled', num_segments: '1' });
+    cy.get('.forecast-pending').should('exist');
+
+    cy.window().then((win: any) => {
+      cy.addFallbackForecast('weather.stalled', win.hourlyWeather.hass.states['weather.mock'].attributes.forecast);
+    });
+    cy.recoverForecast();
+
+    cy.get('weather-bar').should('exist');
+    cy.window().its('lastHWCallWS').should('deep.include', {
+      type: 'call_service',
+      domain: 'weather',
+      service: 'get_forecasts',
+      return_response: true,
+    });
   });
 });
