@@ -119,5 +119,14 @@ export type ForecastType = "hourly" | "daily" | "twice_daily";
 
 export interface ForecastEvent {
   type: ForecastType;
-  forecast: [ForecastSegment] | null;
+  forecast: ForecastSegment[] | null;
+}
+
+export type ForecastServiceResponse = Record<string, {
+  forecast?: ForecastSegment[] | null;
+}>;
+
+export interface ForecastServiceCallResult {
+  response?: ForecastServiceResponse;
+  service_response?: ForecastServiceResponse;
 }
