@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
-    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/eslint-plugin": "^8.68.0",
     "@typescript-eslint/parser": "^8.20.0",
     "cypress": "^15.21.1",
     "eslint": "^8.57.0",
