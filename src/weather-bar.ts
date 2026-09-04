@@ -52,6 +52,15 @@ export class WeatherBar extends LitElement {
   @property({ type: Boolean })
   show_precipitation_probability = false;
 
+  @property({ type: Boolean })
+  has_current_segment = false;
+
+  @property({ type: String })
+  current_label = 'Now';
+
+  @property({ type: String })
+  current_time = '';
+
   @property({ type: String })
   show_date: ShowDateType = 'false';
 
@@ -109,7 +118,7 @@ export class WeatherBar extends LitElement {
     const barBlocks: TemplateResult[] = [];
     let lastDate: string | null = null;
     for (let i = 0; i < this.temperatures.length; i += 1) {
-      const skipLabel = i % (this.label_spacing) !== 0;
+      const skipLabel = this.shouldSkipLabel(i);
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
       const showWindSpeed = (windCfg === 'true' || windCfg.includes('speed')) && !skipLabel;
@@ -159,7 +168,9 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-right"></div>
           <div class="bar-block-bottom">
             <div class="date">${renderedDate}</div>
-            <div class="hour">${hideHours ? null : hour}</div>
+            <div class="hour">${hideHours ? null : this.has_current_segment && i === 0
+              ? html`<span class="current-time" tabindex="0" data-tippy-content=${this.current_time}>${this.current_label}</span>`
+              : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
             <div class="wind">${wind}</div>
             <div class="precipitation">${precipitation}</div>
@@ -182,12 +193,18 @@ export class WeatherBar extends LitElement {
     `;
   }
 
+  private shouldSkipLabel(index: number): boolean {
+    if (!this.has_current_segment) return index % this.label_spacing !== 0;
+    if (index === 0) return false;
+    return (index - 1) % this.label_spacing !== 0;
+  }
+
   protected update(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void {
     super.update(changedProperties);
 
     this.tips.forEach(t => t.destroy());
 
-    this.tips = tippy(this.renderRoot.querySelectorAll('.bar > div'), {
+    this.tips = tippy(this.renderRoot.querySelectorAll('.bar > div, .current-time'), {
       appendTo: this.renderRoot.firstElementChild || void 0,
       touch: 'hold'
     });

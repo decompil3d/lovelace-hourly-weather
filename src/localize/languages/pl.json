@@ -10,6 +10,7 @@
     "entity": "Encja",
     "name": "Nazwa (opcjonalnie)",
     "icons": "Pokaż ikony zamiast etykiet tekstowych",
+    "show_current": "Pokaż aktualną pogodę jako pierwszy segment",
     "offset": "Liczba segmentów prognozy, o które należy skompensować początek (opcjonalnie)",
     "segments_to_show": "Liczba segmentów prognozy do wyświetlenia (opcjonalnie)",
     "label_spacing": "Liczba segmentów prognozy do etykiet czasoprzestrzeni i temperatury według (opcjonalnie)",
@@ -73,6 +74,7 @@
     "nnw": "PPZ"
   },
   "card": {
+    "now": "TERAZ",
     "chance_of_precipitation": "{0}% szans na opady"
   }
 }

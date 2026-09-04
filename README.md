@@ -68,6 +68,7 @@ decimal by 1). Otherwise, the integration may complain of a duplicate unique ID.
 | `forecast_type`                  | string                 | **Optional** | The type of forecast data to use. One of `hourly`, `daily`, or `twice-daily`. If not specified, the card will attempt to use the finest-grained data available. |                     |
 | `name`                           | string                 | **Optional** | Card name (set to `null` to hide)                                                                                                                               | `Hourly Weather`    |
 | `icons`                          | bool                   | **Optional** | Whether to show icons instead of text labels                                                                                                                    | `false`             |
+| `show_current`                   | bool                   | **Optional** | Whether to prepend the weather entity's current condition and temperature as the first segment                                                                 | `false`             |
 | `icon_map`                       | [Icon map][icon_map]   | **Optional** | Custom icons to use for the weather conditions. Uses `mdi` icons by default.                                                                                    |                     |
 | `num_segments`                   | number                 | **Optional** | Number of forecast segments to show (integer >= 1)                                                                                                              | `12`                |
 | ~~`num_hours`~~                  | number                 | **Optional** | _Deprecated:_ Use `num_segments` instead                                                                                                                        | `12`                |
@@ -111,6 +112,22 @@ percentage.
 
 If the final label interval contains fewer segments than `label_spacing`, it
 summarizes the remaining segment or segments.
+
+### Current weather segment
+
+Set `show_current: true` to prepend the weather entity's current condition and
+temperature to the forecast. `num_segments` still controls the total number of
+segments displayed, including the current segment. If the entity does not expose
+a valid current condition and temperature, the card safely falls back to the
+forecast alone. When the weather entity does not expose current precipitation,
+the current segment uses amount and probability from the ongoing hourly forecast
+interval without combining them with future intervals. `label_spacing` restarts
+at the first future segment, and the already-started forecast interval is omitted
+from the remaining timeline so it is not duplicated.
+
+The current segment is labeled "Now" (translated to the configured language).
+Hover, focus, or touch and hold the label to see the weather entity's update time,
+including minutes even when `hide_minutes` is enabled.
 
 ### Templating
 
