@@ -74,6 +74,7 @@
     "nnw": "NNW"
   },
   "card": {
+    "now": "Now",
     "chance_of_precipitation": "{0}% chance of precipitation"
   }
 }

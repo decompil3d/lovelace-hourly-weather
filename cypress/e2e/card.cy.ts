@@ -167,6 +167,42 @@ describe('Card', () => {
       .should('have.text', '84°');
   });
 
+  it('labels current conditions on a narrow card and reveals their time on focus', () => {
+    cy.viewport(478, 400);
+    cy.setLocale({ language: 'en', time_format: '12' });
+    cy.window().then((win: any) => {
+      cy.addEntity({
+        'weather.current_label': {
+          state: 'cloudy',
+          last_updated: '2022-07-21T16:45:00+00:00',
+          attributes: {
+            temperature: 12,
+            forecast: win.hourlyWeather.hass.states['weather.mock'].attributes.forecast,
+          },
+        },
+      });
+    });
+    cy.configure({ entity: 'weather.current_label', show_current: true, hide_minutes: true });
+    cy.get('weather-bar').shadow().find('.current-time')
+      .should('have.text', 'Now')
+      .and('have.attr', 'data-tippy-content', '4:45 PM')
+      .focus();
+    cy.get('weather-bar').shadow().find('.tippy-content')
+      .should('be.visible').and('have.text', '4:45 PM');
+    cy.get('weather-bar').shadow().find('.hour').then(hours => {
+      const current = hours[0].querySelector('.current-time')!.getBoundingClientRect();
+      const range = hours[1].ownerDocument.createRange();
+      range.selectNodeContents(hours[1]);
+      expect(current.right).to.be.lessThan(range.getBoundingClientRect().left);
+    });
+    cy.configure({ entity: 'weather.current_label', show_current: true, language: 'pl' });
+    cy.get('weather-bar').shadow().find('.current-time').should('have.text', 'TERAZ');
+    cy.configure({ entity: 'weather.current_label', show_current: true, hide_hours: true });
+    cy.get('weather-bar').shadow().find('.current-time').should('not.exist');
+    cy.configure({ entity: 'weather.current_label', show_current: true, offset: '1', num_segments: '2' });
+    cy.get('weather-bar').shadow().find('.current-time').should('not.exist');
+  });
+
   it('keeps current conditions out of forecast precipitation intervals', () => {
     cy.window().then((win: any) => {
       cy.addEntity({

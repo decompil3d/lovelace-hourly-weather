@@ -568,6 +568,8 @@ export class HourlyWeatherCard extends LitElement {
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}
             .has_current_segment=${hasCurrentSegment && offset === 0}
+            .current_label=${this.localize('card.now')}
+            .current_time=${currentWeather ? formatTime(new Date(currentWeather.datetime), this.hass.locale) : ''}
             .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>

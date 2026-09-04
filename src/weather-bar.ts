@@ -56,6 +56,12 @@ export class WeatherBar extends LitElement {
   has_current_segment = false;
 
   @property({ type: String })
+  current_label = 'Now';
+
+  @property({ type: String })
+  current_time = '';
+
+  @property({ type: String })
   show_date: ShowDateType = 'false';
 
   @property({ type: Number })
@@ -162,7 +168,9 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-right"></div>
           <div class="bar-block-bottom">
             <div class="date">${renderedDate}</div>
-            <div class="hour">${hideHours ? null : hour}</div>
+            <div class="hour">${hideHours ? null : this.has_current_segment && i === 0
+              ? html`<span class="current-time" tabindex="0" data-tippy-content=${this.current_time}>${this.current_label}</span>`
+              : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
             <div class="wind">${wind}</div>
             <div class="precipitation">${precipitation}</div>
@@ -196,7 +204,7 @@ export class WeatherBar extends LitElement {
 
     this.tips.forEach(t => t.destroy());
 
-    this.tips = tippy(this.renderRoot.querySelectorAll('.bar > div'), {
+    this.tips = tippy(this.renderRoot.querySelectorAll('.bar > div, .current-time'), {
       appendTo: this.renderRoot.firstElementChild || void 0,
       touch: 'hold'
     });
