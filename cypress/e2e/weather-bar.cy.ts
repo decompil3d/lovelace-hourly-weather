@@ -595,6 +595,22 @@ describe('Weather bar', () => {
         .find('div.axes > div.bar-block div.temperature:not(:empty)')
         .should('have.length', 3);
     });
+    it('automatically reduces labels only when the card is narrow', () => {
+      cy.configure({
+        label_spacing: '1',
+        auto_label_spacing: true,
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.hour:not(:empty)')
+        .should('have.length', 6);
+
+      cy.get('#wrapper').invoke('css', 'max-width', '900px');
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.hour:not(:empty)')
+        .should('have.length', 12);
+    });
     it('does not show wind speed/direction by default', () => {
       cy.get('weather-bar')
         .shadow()
