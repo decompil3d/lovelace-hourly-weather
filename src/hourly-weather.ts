@@ -47,7 +47,11 @@ customElements.define('weather-bar', WeatherBar);
 
 // Naive localizer is used before we can get at card configuration data
 const naiveLocalizer = getLocalizer(void 0, void 0);
+// Heuristic width budget for one time/temperature label column, including a gap
+// between labels. 56 px keeps typical labels readable without measuring text.
 const AUTO_LABEL_MIN_WIDTH_PX = 56;
+// ha-card's .card-content has 16 px of padding on each side of the weather bar.
+const CARD_CONTENT_HORIZONTAL_PADDING_PX = 2 * 16;
 
 const INITIAL_FORECAST_RECOVERY_DELAY_MS = 1500;
 const FORECAST_RECOVERY_RETRY_MS = 30000;
@@ -576,7 +580,7 @@ export class HourlyWeatherCard extends LitElement {
 
   private getResponsiveLabelSpacing(numSegments: number): number {
     if (this.observedWidth <= 0 || numSegments <= 0) return 1;
-    const usableWidth = Math.max(this.observedWidth - 32, 1);
+    const usableWidth = Math.max(this.observedWidth - CARD_CONTENT_HORIZONTAL_PADDING_PX, 1);
     return Math.max(1, Math.ceil(numSegments * AUTO_LABEL_MIN_WIDTH_PX / usableWidth));
   }
 
@@ -905,6 +909,8 @@ export class HourlyWeatherCard extends LitElement {
   static get styles(): CSSResultGroup {
     return css`
       :host {
+        /* Give ResizeObserver a block box that fills the available card width;
+           non-replaced inline elements do not report a usable observed width. */
         display: block;
       }
       .forecast-pending {
