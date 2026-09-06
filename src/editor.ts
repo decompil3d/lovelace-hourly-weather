@@ -138,6 +138,10 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         selector: { boolean: {} },
       },
       {
+        name: 'auto_label_spacing',
+        selector: { boolean: {} },
+      },
+      {
         name: 'show_wind',
         selector: {
           select: {
@@ -198,6 +202,7 @@ export class HourlyWeatherCardEditor extends ScopedRegistryHost(LitElement) impl
         label_spacing: localize('editor.label_spacing'),
         icons: localize('editor.icons'),
         show_current: localize('editor.show_current'),
+        auto_label_spacing: localize('editor.auto_label_spacing'),
         show_wind: localize('editor.show_wind'),
         show_date: localize('editor.show_date'),
         show_precipitation_amounts: localize('editor.show_precipitation_amounts'),

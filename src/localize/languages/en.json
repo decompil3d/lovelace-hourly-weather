@@ -13,6 +13,7 @@
     "offset": "Number of forecast segments to offset start by (Optional)",
     "icons": "Show icons instead of text labels",
     "show_current": "Show current weather as the first segment",
+    "auto_label_spacing": "Automatically reduce labels when the card is narrow",
     "label_spacing": "Number of forecast segments to space time and temperature labels by (Optional)",
     "show_wind": "Show wind speed and direction",
     "show_date": "Show dates",
