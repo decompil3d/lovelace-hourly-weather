@@ -99,7 +99,9 @@ Cypress.Commands.add('slotAssignedNodes', { prevSubject: true }, (subject, name)
 declare global {
   namespace Cypress {
     interface WeatherEntity {
-      attributes: {
+      state?: string;
+      last_updated?: string;
+      attributes: Record<string, any> & {
         wind_speed_unit?: string,
         forecast?: ForecastSegment[];
       };
