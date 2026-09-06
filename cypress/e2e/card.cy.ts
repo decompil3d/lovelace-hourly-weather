@@ -167,7 +167,7 @@ describe('Card', () => {
       .should('have.text', '84°');
   });
 
-  it('labels current conditions on a narrow card without a timestamp tooltip', () => {
+  it('labels current conditions on a narrow card with a native timestamp title', () => {
     cy.viewport(478, 400);
     cy.setLocale({ language: 'en', time_format: '12' });
     cy.window().then((win: any) => {
@@ -186,6 +186,7 @@ describe('Card', () => {
     cy.get('weather-bar').shadow().find('.current-time')
       .should(label => {
         expect(label).to.have.text('Now');
+        expect(label).to.have.attr('title', '4:45 PM');
         expect(label).not.to.have.attr('tabindex');
         expect(label).not.to.have.attr('data-tippy-content');
       });
