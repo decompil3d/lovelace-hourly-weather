@@ -126,8 +126,6 @@ at the first future segment, and the already-started forecast interval is omitte
 from the remaining timeline so it is not duplicated.
 
 The current segment is labeled "Now" (translated to the configured language).
-Hover, focus, or touch and hold the label to see the weather entity's update time,
-including minutes even when `hide_minutes` is enabled.
 
 ### Templating
 

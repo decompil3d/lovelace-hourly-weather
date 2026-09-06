@@ -167,7 +167,7 @@ describe('Card', () => {
       .should('have.text', '84°');
   });
 
-  it('labels current conditions on a narrow card and reveals their time on focus', () => {
+  it('labels current conditions on a narrow card without a timestamp tooltip', () => {
     cy.viewport(478, 400);
     cy.setLocale({ language: 'en', time_format: '12' });
     cy.window().then((win: any) => {
@@ -184,11 +184,11 @@ describe('Card', () => {
     });
     cy.configure({ entity: 'weather.current_label', show_current: true, hide_minutes: true });
     cy.get('weather-bar').shadow().find('.current-time')
-      .should('have.text', 'Now')
-      .and('have.attr', 'data-tippy-content', '4:45 PM')
-      .focus();
-    cy.get('weather-bar').shadow().find('.tippy-content')
-      .should('be.visible').and('have.text', '4:45 PM');
+      .should(label => {
+        expect(label).to.have.text('Now');
+        expect(label).not.to.have.attr('tabindex');
+        expect(label).not.to.have.attr('data-tippy-content');
+      });
     cy.get('weather-bar').shadow().find('.hour').then(hours => {
       const current = hours[0].querySelector('.current-time')!.getBoundingClientRect();
       const range = hours[1].ownerDocument.createRange();
