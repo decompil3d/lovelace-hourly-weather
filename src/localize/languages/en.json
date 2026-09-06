@@ -12,6 +12,7 @@
     "segments_to_show": "Number of forecast segments to show (Optional)",
     "offset": "Number of forecast segments to offset start by (Optional)",
     "icons": "Show icons instead of text labels",
+    "auto_label_spacing": "Automatically reduce labels when the card is narrow",
     "label_spacing": "Number of forecast segments to space time and temperature labels by (Optional)",
     "show_wind": "Show wind speed and direction",
     "show_date": "Show dates",
