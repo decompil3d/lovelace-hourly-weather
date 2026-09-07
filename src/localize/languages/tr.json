@@ -12,6 +12,8 @@
     "segments_to_show": "Gösterilecek tahmin dilimi sayısı (İsteğe bağlı)",
     "offset": "Başlangıcı öteleme sayısı (İsteğe bağlı)",
     "icons": "Metin etiketleri yerine simgeleri göster",
+    "show_current": "Mevcut hava durumunu ilk bölüm olarak göster",
+    "auto_label_spacing": "Kart daraldığında etiketleri otomatik olarak küçült",
     "label_spacing": "Zaman ve sıcaklık etiketlerinin aralık sayısı (İsteğe bağlı)",
     "show_wind": "Rüzgar hızı ve yönünü göster",
     "show_date": "Tarihleri göster",
@@ -73,6 +75,7 @@
     "nnw": "KKB"
   },
   "card": {
+    "now": "Şimdi",
     "chance_of_precipitation": "%{0} yağış olasılığı"
   }
 }

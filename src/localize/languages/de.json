@@ -9,31 +9,33 @@
   "editor": {
     "entity": "Entität",
     "name": "Bezeichnung (optional)",
-    "icons": "Zeigen Sie Symbole anstelle von Textbeschriftungen an",
-    "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (optional)",
     "segments_to_show": "Anzahl der anzuzeigenden Prognosesegmente (optional)",
+    "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (optional)",
+    "icons": "Zeigen Sie Symbole anstelle von Textbeschriftungen an",
+    "show_current": "Aktuelles Wetter als erstes Segment anzeigen",
+    "auto_label_spacing": "Etiketten bei schmaler Karte automatisch verkleinern",
     "label_spacing": "Anzahl der Vorhersagesegmente für Raumzeit- und Temperaturbeschriftungen nach (optional)",
     "show_wind": "Zeigt Windgeschwindigkeit und -richtung an",
+    "show_date": "Termine anzeigen",
     "show_precipitation_amounts": "Niederschlagsmenge anzeigen",
-    "speed_only": "Nur Geschwindigkeit",
-    "direction_only": "Nur Richtung",
-    "barb": "Als Windbarbe",
     "show_precipitation_probability": "Niederschlagswahrscheinlichkeit anzeigen",
     "none": "Keiner",
     "speed_and_direction": "Geschwindigkeit und Richtung",
+    "speed_only": "Nur Geschwindigkeit",
+    "direction_only": "Nur Richtung",
+    "barb": "Als Windbarbe",
     "barb_and_speed": "Als Windwiderhaken und Geschwindigkeit",
     "barb_and_direction": "Als Windwiderhaken und Richtung",
     "barb_speed_and_direction": "Als Windwiderstand, Geschwindigkeit und Richtung",
-    "show_date": "Termine anzeigen",
     "all": "Alle",
     "on_day_boundaries": "An Tagesgrenzen"
   },
   "errors": {
     "missing_entity": "Keine Wetter-Entität festgelegt",
+    "too_many_segments_requested": "Zu viele Prognosesegmente in num_segments angefordert. Muss <= Anzahl der Segmente in der Prognoseentität sein.",
     "must_be_int": "Muss eine gerade ganze Zahl größer oder gleich 2 sein.",
     "invalid_colors": "Die folgenden Farben in Ihrer Konfiguration sind ungültig:",
     "must_be_positive_int": "Muss eine positive Ganzzahl sein",
-    "too_many_segments_requested": "Zu viele Prognosesegmente in num_segments angefordert. Muss <= Anzahl der Segmente in der Prognoseentität sein.",
     "offset_must_be_positive_int": "offset muss eine positive Ganzzahl sein",
     "forecast_not_available": "Prognose nicht verfügbar",
     "check_entity": "Überprüfen Sie die konfigurierte Prognoseentität.",
@@ -73,6 +75,7 @@
     "nnw": "NNW"
   },
   "card": {
-    "chance_of_precipitation": "{0}% Niederschlagswahrscheinlichkeit"
+    "chance_of_precipitation": "{0}% Niederschlagswahrscheinlichkeit",
+    "now": "Jetzt"
   }
 }

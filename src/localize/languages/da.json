@@ -12,8 +12,11 @@
     "segments_to_show": "Antal udsigtssegmenter der skal vises (Valgfri)",
     "offset": "Antal udsigtssegmenter starten skal forskydes (Valgfri)",
     "icons": "Vis ikoner i stedet for tekst",
+    "show_current": "Vis det aktuelle vejr som det første segment",
+    "auto_label_spacing": "Reducer automatisk etiketter, når kortet er smalt",
     "label_spacing": "Antal segmenter imellem tid og temperatur labels (Valgfri)",
     "show_wind": "Vis vindhastighed og retning",
+    "show_date": "Vis datoer",
     "show_precipitation_amounts": "Vis nedbørsmængde",
     "show_precipitation_probability": "Vis nedbørssandsynlighed",
     "none": "Ingen",
@@ -24,7 +27,6 @@
     "barb_and_speed": "Som vindrose og hastighed",
     "barb_and_direction": "Som vindrose og retning",
     "barb_speed_and_direction": "Som vindrose, hastighed, og retning",
-    "show_date": "Vis datoer",
     "all": "Alle",
     "on_day_boundaries": "På dagsgrænser"
   },
@@ -73,6 +75,7 @@
     "nnw": "NNV"
   },
   "card": {
+    "now": "Nu",
     "chance_of_precipitation": "{0}% risiko for nedbør"
   }
 }
