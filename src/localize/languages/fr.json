@@ -75,6 +75,7 @@
     "nnw": "NNO"
   },
   "card": {
+    "now": "Maintenant",
     "chance_of_precipitation": "{0}% probabilité de précipitations"
   }
 }

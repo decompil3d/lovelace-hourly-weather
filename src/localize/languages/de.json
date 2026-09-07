@@ -13,6 +13,7 @@
     "offset": "Anzahl der Prognosesegmente zum Versetzen beginnen um (optional)",
     "icons": "Zeigen Sie Symbole anstelle von Textbeschriftungen an",
     "show_current": "Aktuelles Wetter als erstes Segment anzeigen\n#__# Beschriftungen bei schmaler Karte automatisch verkleinern\n#__# Jetzt",
+    "auto_label_spacing": "Etiketten bei schmaler Karte automatisch verkleinern\n#__# Jetzt",
     "label_spacing": "Anzahl der Vorhersagesegmente für Raumzeit- und Temperaturbeschriftungen nach (optional)",
     "show_wind": "Zeigt Windgeschwindigkeit und -richtung an",
     "show_date": "Termine anzeigen",
