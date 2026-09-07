@@ -28,7 +28,9 @@
     "barb_speed_and_direction": "Som vindmothak, hastighet og retning",
     "show_date": "Vis datoer",
     "all": "Alle",
-    "on_day_boundaries": "På dagsgrenser"
+    "on_day_boundaries": "På dagsgrenser",
+    "show_current": "Vis gjeldende vær som det første segmentet",
+    "auto_label_spacing": "Reduser etiketter automatisk når kortet er smalt"
   },
   "errors": {
     "missing_entity": "entity manglar i konfigurasjonen",
@@ -75,6 +77,7 @@
     "nnw": "NNV"
   },
   "card": {
-    "chance_of_precipitation": "{0}% sjanse for nedbør"
+    "chance_of_precipitation": "{0}% sjanse for nedbør",
+    "now": "Nå"
   }
 }

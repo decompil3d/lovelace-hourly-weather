@@ -9,31 +9,33 @@
   "editor": {
     "entity": "Entidade",
     "name": "Nome (opcional)",
-    "icons": "Mostrar ícones em vez de rótulos de texto",
-    "offset": "Número de segmentos de previsão para começar a compensar (opcional)",
     "segments_to_show": "Número de segmentos de previsão a serem exibidos (opcional)",
+    "offset": "Número de segmentos de previsão para começar a compensar (opcional)",
+    "icons": "Mostrar ícones em vez de rótulos de texto",
+    "show_current": "Exibir a previsão do tempo atual como primeiro segmento",
+    "auto_label_spacing": "Reduzir automaticamente os rótulos quando o cartão for estreito",
     "label_spacing": "Número de segmentos de previsão para rótulos de tempo e temperatura de espaço por (opcional)",
     "show_wind": "Mostrar velocidade e direção do vento",
+    "show_date": "Mostrar datas",
     "show_precipitation_amounts": "Mostrar quantidade de precipitação",
-    "speed_only": "Apenas velocidade",
-    "direction_only": "Apenas direção",
-    "barb": "Como farpa de vento",
     "show_precipitation_probability": "Mostrar probabilidade de precipitação",
     "none": "Nenhum",
     "speed_and_direction": "Velocidade e direção",
+    "speed_only": "Apenas velocidade",
+    "direction_only": "Apenas direção",
+    "barb": "Como farpa de vento",
     "barb_and_speed": "Como farpa de vento e velocidade",
     "barb_and_direction": "Como farpa de vento e direção",
     "barb_speed_and_direction": "Como farpa de vento, velocidade e direção",
-    "show_date": "Mostrar datas",
     "all": "Todos",
     "on_day_boundaries": "Nos limites do dia"
   },
   "errors": {
     "missing_entity": "A entidade não existe na configuração",
+    "too_many_segments_requested": "Muitos segmentos de previsão solicitados em num_segments. Deve ser <= número de segmentos na entidade de previsão.",
     "must_be_int": "Deve ser um número inteiro par maior ou igual a 2",
     "invalid_colors": "As seguintes cores em sua configuração são inválidas:",
     "must_be_positive_int": "Deve ser um número inteiro positivo",
-    "too_many_segments_requested": "Muitos segmentos de previsão solicitados em num_segments. Deve ser <= número de segmentos na entidade de previsão.",
     "offset_must_be_positive_int": "offset deve ser um número inteiro positivo",
     "forecast_not_available": "Previsão não disponível",
     "check_entity": "Verifique a entidade de previsão configurada.",
@@ -73,6 +75,7 @@
     "nnw": "NNO"
   },
   "card": {
+    "now": "Agora",
     "chance_of_precipitation": "{0}% chance de chuva"
   }
 }

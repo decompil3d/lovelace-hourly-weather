@@ -1,39 +1,41 @@
 {
   "common": {
     "version": "Versjon",
-    "invalid_configuration": "Ikke gyldig konfiguration",
     "title": "Timelig vær",
     "title_card": "Timevis værkort",
-    "description": "Et kort for å gjengi værforhold hver time som en bar."
+    "description": "Et kort for å gjengi værforhold hver time som en bar.",
+    "invalid_configuration": "Ikke gyldig konfiguration"
   },
   "editor": {
-    "icons": "Vis ikoner i stedet for tekstetiketter",
     "entity": "Entitet (obligatorisk)",
     "name": "Navn (valgfritt)",
-    "offset": "Antall prognosesegmenter å utligne start med (valgfritt)",
     "segments_to_show": "Antall prognosesegmenter som skal vises (valgfritt)",
+    "offset": "Antall prognosesegmenter å utligne start med (valgfritt)",
+    "icons": "Vis ikoner i stedet for tekstetiketter",
+    "show_current": "Vis gjeldende vær som det første segmentet",
+    "auto_label_spacing": "Reduser etiketter automatisk når kortet er smalt",
     "label_spacing": "Antall prognosesegmenter til romtid og temperaturetiketter etter (valgfritt)",
     "show_wind": "Vis vindhastighet og retning",
+    "show_date": "Vis datoer",
     "show_precipitation_amounts": "Vis nedbørsmengde",
-    "speed_only": "Kun hastighet",
-    "direction_only": "Kun retning",
-    "barb": "Som vindmothak",
     "show_precipitation_probability": "Vis nedbørssannsynlighet",
     "none": "Ingen",
     "speed_and_direction": "Fart og retning",
+    "speed_only": "Kun hastighet",
+    "direction_only": "Kun retning",
+    "barb": "Som vindmothak",
     "barb_and_speed": "Som vindmottak og fart",
     "barb_and_direction": "Som vindmottak og retning",
     "barb_speed_and_direction": "Som vindmothak, hastighet og retning",
-    "show_date": "Vis datoer",
     "all": "Alle",
     "on_day_boundaries": "På dagsgrenser"
   },
   "errors": {
     "missing_entity": "entity mangler i konfigurasjonen",
+    "too_many_segments_requested": "For mange prognosesegmenter er forespurt i num_segments. Må være <= antall segmenter i prognoseenheten.",
     "must_be_int": "Må være et jevnt heltall større enn eller lik 2",
     "invalid_colors": "Følgende farger i konfigurasjonen din er ugyldige:",
     "must_be_positive_int": "Må være et positivt heltall",
-    "too_many_segments_requested": "For mange prognosesegmenter er forespurt i num_segments. Må være <= antall segmenter i prognoseenheten.",
     "offset_must_be_positive_int": "offset må være et positivt heltall",
     "forecast_not_available": "Værvarsel er ikke tilgjengelig",
     "check_entity": "Sjekk den konfigurerte prognoseenheten.",
@@ -73,6 +75,7 @@
     "nnw": "NNV"
   },
   "card": {
+    "now": "Nå",
     "chance_of_precipitation": "{0}% sjanse for nedbør"
   }
 }

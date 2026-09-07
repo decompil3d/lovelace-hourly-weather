@@ -12,6 +12,8 @@
     "segments_to_show": "显示的预测段数（可选）",
     "offset": "开始的预测段偏移数（可选）",
     "icons": "显示图标而非文字标签",
+    "show_current": "将当前天气显示为第一部分",
+    "auto_label_spacing": "卡片变窄时自动缩小标签",
     "label_spacing": "时间和温度标签的预测段间距数（可选）",
     "show_wind": "显示风速和风向",
     "show_date": "显示日期",
@@ -73,6 +75,7 @@
     "nnw": "北偏西"
   },
   "card": {
+    "now": "现在",
     "chance_of_precipitation": "{0}%的降雨概率"
   }
 }
