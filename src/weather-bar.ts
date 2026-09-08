@@ -169,8 +169,8 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-bottom">
             <div class="date">${renderedDate}</div>
             <div class="hour">${hideHours ? null : this.has_current_segment && i === 0
-              ? html`<span class="current-time" title=${this.current_time}>${this.current_label}</span>`
-              : hour}</div>
+          ? html`<span class="current-time" title=${this.current_time}>${this.current_label}</span>`
+          : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
             <div class="wind">${wind}</div>
             <div class="precipitation">${precipitation}</div>
@@ -227,10 +227,11 @@ export class WeatherBar extends LitElement {
   }
 
   private getWindBarb(speed: number, direction: number): TemplateResult {
+    const isCalm = speed < 1.0;
     const svgStyles = {
       transform: `rotate(${direction}deg)`
     };
-    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="70 40 120 120" class="barb" style=${styleMap(svgStyles)}>
+    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="70 40 120 120" class="barb" style=${isCalm ? undefined : styleMap(svgStyles)}>
       ${getWindBarbSVG(speed)}
     </svg>`;
   }

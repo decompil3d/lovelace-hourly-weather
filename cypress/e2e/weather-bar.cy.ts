@@ -706,6 +706,102 @@ describe('Weather bar', () => {
         });
     });
 
+    it('does not rotate calm barb', () => {
+      cy.addEntity({
+        'weather.calm_start': {
+          attributes: {
+            wind_speed_unit: 'mph',
+            forecast: [
+              {
+                "datetime": "2022-07-21T17:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 0,
+                "pressure": 1007,
+                "wind_speed": 0.67,
+                "wind_bearing": 123,
+                "condition": "cloudy",
+                "clouds": 60,
+                "temperature": 84
+              },
+              {
+                "datetime": "2022-07-21T18:00:00+00:00",
+                "precipitation": 0.35,
+                "precipitation_probability": 0,
+                "pressure": 1007,
+                "wind_speed": 0.07,
+                "wind_bearing": 123,
+                "condition": "cloudy",
+                "clouds": 75,
+                "temperature": 85
+              },
+              {
+                "datetime": "2022-07-21T19:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 0,
+                "pressure": 1007,
+                "wind_speed": 0,
+                "wind_bearing": 123,
+                "condition": "cloudy",
+                "clouds": 60,
+                "temperature": 85
+              },
+              {
+                "datetime": "2022-07-21T20:00:00+00:00",
+                "precipitation": 1.3,
+                "precipitation_probability": 1,
+                "pressure": 1007,
+                "wind_speed": 2.2369362921, // 1 m/s
+                "wind_bearing": 304,
+                "condition": "partlycloudy",
+                "clouds": 49,
+                "temperature": 84
+              },
+              {
+                "datetime": "2022-07-21T21:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 1,
+                "pressure": 1007,
+                "wind_speed": 5.78,
+                "wind_bearing": 290,
+                "condition": "partlycloudy",
+                "clouds": 34,
+                "temperature": 84
+              },
+              {
+                "datetime": "2022-07-21T22:00:00+00:00",
+                "precipitation": 0,
+                "precipitation_probability": 1,
+                "pressure": 1008,
+                "wind_speed": 5.06,
+                "wind_bearing": 285,
+                "condition": "partlycloudy",
+                "clouds": 19,
+                "temperature": 83
+              }
+            ]
+          }
+        }
+      });
+      cy.configure({
+        entity: 'weather.calm_start',
+        num_segments: '6',
+        label_spacing: '1',
+        show_wind: 'barb'
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.wind span')
+        .should('have.length', 6)
+        .each((el, i) => {
+          cy.wrap(el).find('svg').as(`wind-${i}`).should('exist');
+          if (i > 2) {
+            cy.get(`@wind-${i}`).should('have.attr', 'style', `transform:rotate(${expectedWindBearings[i]}deg);`);
+          } else {
+            cy.get(`@wind-${i}`).should('have.attr', 'style', '');
+          }
+        });
+    });
+
     it('shows wind barbs along with speed if specified in config', () => {
       cy.configure({
         show_wind: 'barb-and-speed'

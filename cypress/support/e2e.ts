@@ -18,3 +18,12 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('ResizeObserver loop completed with undelivered notifications') ||
+    err.message.includes('ResizeObserver loop limit exceeded')) {
+    // Returning false here prevents Cypress from failing the test
+    return false;
+  }
+  return true; // Let other errors fail the test
+});

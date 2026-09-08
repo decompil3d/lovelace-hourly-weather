@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type * as Sinon from "sinon";
 
 describe('Config', () => {
