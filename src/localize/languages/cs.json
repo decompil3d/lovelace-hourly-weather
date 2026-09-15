@@ -12,6 +12,8 @@
     "segments_to_show": "Počet dílků předpovědi k vykreslení (Nepovinné)",
     "offset": "Počet dílků, které se přeskočí před začátkem (Nepovinné)",
     "icons": "Zobrazit ikony namísto textových popisků",
+    "show_current": "Zobrazit aktuální počasí jako první segment",
+    "auto_label_spacing": "Automaticky zmenšit popisky, když je karta úzká",
     "label_spacing": "Po kolika dílcích se vykreslí čas a teplota (Nepovinné)",
     "show_wind": "Zobrazit rychlost a směr větru",
     "show_date": "Zobrazit datumy",
@@ -73,6 +75,7 @@
     "nnw": "SSZ"
   },
   "card": {
+    "now": "Nyní",
     "chance_of_precipitation": "{0}% šance srážek"
   }
 }

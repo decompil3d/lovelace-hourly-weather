@@ -64,6 +64,15 @@ export class WeatherBar extends LitElement {
   @property({ type: Number })
   precipitation_probability_font_size = 10;
 
+  @property({ type: Boolean })
+  has_current_segment = false;
+
+  @property({ type: String })
+  current_label = 'Now';
+
+  @property({ type: String })
+  current_time = '';
+
   @property({ type: String })
   show_date: ShowDateType = 'false';
 
@@ -119,7 +128,7 @@ export class WeatherBar extends LitElement {
     const barBlocks: TemplateResult[] = [];
     let lastDate: string | null = null;
     for (let i = 0; i < this.temperatures.length; i += 1) {
-      const skipLabel = i % (this.label_spacing) !== 0;
+      const skipLabel = this.shouldSkipLabel(i);
       const hideHours = this.hide_hours || skipLabel;
       const hideTemperature = this.hide_temperatures || skipLabel;
       const showWindSpeed = (windCfg === 'true' || windCfg.includes('speed')) && !skipLabel;
@@ -169,7 +178,9 @@ export class WeatherBar extends LitElement {
           <div class="bar-block-right"></div>
           <div class="bar-block-bottom">
             <div class="date">${renderedDate}</div>
-            <div class="hour">${hideHours ? null : hour}</div>
+            <div class="hour">${hideHours ? null : this.has_current_segment && i === 0
+          ? html`<span class="current-time" title=${this.current_time}>${this.current_label}</span>`
+          : hour}</div>
             <div class="temperature">${hideTemperature ? null : html`${temperature}&deg;`}</div>
             <div class="wind">${wind}</div>
             <div class="precipitation">${precipitation}</div>
@@ -207,6 +218,12 @@ export class WeatherBar extends LitElement {
       : `mdi:${configuredIcon}`;
   }
 
+  private shouldSkipLabel(index: number): boolean {
+    if (!this.has_current_segment) return index % this.label_spacing !== 0;
+    if (index === 0) return false;
+    return (index - 1) % this.label_spacing !== 0;
+  }
+
   private renderBarOverlay(): TemplateResult {
     const amountFontSize = Number(this.precipitation_amount_font_size) > 0
       ? Number(this.precipitation_amount_font_size)
@@ -218,7 +235,7 @@ export class WeatherBar extends LitElement {
     return html`
       <div class="bar-overlay">
         ${this.segment_conditions.map((condition, index) => {
-          const skipLabel = index % this.label_spacing !== 0;
+          const skipLabel = this.shouldSkipLabel(index);
           if (skipLabel) return html`<div class="bar-overlay-item"></div>`;
 
           const values = this.precipitation[index];
@@ -288,10 +305,11 @@ export class WeatherBar extends LitElement {
   }
 
   private getWindBarb(speed: number, direction: number): TemplateResult {
+    const isCalm = speed < 1.0;
     const svgStyles = {
       transform: `rotate(${direction}deg)`
     };
-    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="70 40 120 120" class="barb" style=${styleMap(svgStyles)}>
+    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="70 40 120 120" class="barb" style=${isCalm ? undefined : styleMap(svgStyles)}>
       ${getWindBarbSVG(speed)}
     </svg>`;
   }

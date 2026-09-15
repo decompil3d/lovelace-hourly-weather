@@ -28,7 +28,9 @@
     "barb_speed_and_direction": "Como farpa de vento, velocidade e direção",
     "show_date": "Mostrar datas",
     "all": "Todos",
-    "on_day_boundaries": "Nos limites do dia"
+    "on_day_boundaries": "Nos limites do dia",
+    "show_current": "Exibir a previsão do tempo atual como primeiro segmento",
+    "auto_label_spacing": "Reduzir automaticamente os rótulos quando o cartão for estreito"
   },
   "errors": {
     "missing_entity": "entidade está faltando na configuração",
@@ -75,6 +77,7 @@
     "nnw": "NNO"
   },
   "card": {
-    "chance_of_precipitation": "{0}% chance de precipitação"
+    "chance_of_precipitation": "{0}% chance de precipitação",
+    "now": "Agora"
   }
 }

@@ -34,6 +34,8 @@ export interface HourlyWeatherCardConfig extends LovelaceCardConfig {
   icon_map?: IconMap;
   offset?: string; // number
   colors?: ColorConfig;
+  show_current?: boolean;
+  auto_label_spacing?: boolean;
   hide_bar?: boolean;
   icon_fill?: IconFillType;
   hide_hours?: boolean;
@@ -122,5 +124,14 @@ export type ForecastType = "hourly" | "daily" | "twice_daily";
 
 export interface ForecastEvent {
   type: ForecastType;
-  forecast: [ForecastSegment] | null;
+  forecast: ForecastSegment[] | null;
+}
+
+export type ForecastServiceResponse = Record<string, {
+  forecast?: ForecastSegment[] | null;
+}>;
+
+export interface ForecastServiceCallResult {
+  response?: ForecastServiceResponse;
+  service_response?: ForecastServiceResponse;
 }

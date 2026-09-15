@@ -29,10 +29,12 @@ import type {
   ColorMap,
   ColorObject,
   ColorSettings,
+  Condition,
   ConditionSpan,
   DisplayCondition,
   ForecastEvent,
   ForecastSegment,
+  ForecastServiceCallResult,
   ForecastType,
   HourlyWeatherCardConfig,
   LocalizerLastSettings,
@@ -46,6 +48,15 @@ customElements.define('weather-bar', WeatherBar);
 
 // Naive localizer is used before we can get at card configuration data
 const naiveLocalizer = getLocalizer(void 0, void 0);
+// Heuristic width budget for one time/temperature label column, including a gap
+// between labels. 56 px keeps typical labels readable without measuring text.
+const AUTO_LABEL_MIN_WIDTH_PX = 56;
+// ha-card's .card-content has 16 px of padding on each side of the weather bar.
+const CARD_CONTENT_HORIZONTAL_PADDING_PX = 2 * 16;
+
+const INITIAL_FORECAST_RECOVERY_DELAY_MS = 1500;
+const FORECAST_RECOVERY_RETRY_MS = 30000;
+const FORECAST_STALE_AFTER_MS = 35 * 60 * 1000;
 
 /* eslint no-console: 0 */
 console.info(
@@ -83,6 +94,13 @@ export class HourlyWeatherCard extends LitElement {
 
   @state() private forecastEvent?: ForecastEvent;
   @state() private subscribedToForecast?: Promise<() => void>;
+  @state() private observedWidth = 0;
+
+  private resizeObserver?: ResizeObserver;
+
+  private forecastRecoveryTimer?: number;
+  private forecastRecoveryPending = false;
+  private lastValidForecastAt?: number;
 
   private configRenderPending = false;
 
@@ -136,9 +154,99 @@ export class HourlyWeatherCard extends LitElement {
 
   private unsubscribeForecastEvents() {
     if (this.subscribedToForecast) {
-      this.subscribedToForecast.then((unsub) => unsub());
+      const subscription = this.subscribedToForecast;
       this.subscribedToForecast = undefined;
+      Promise.resolve(subscription).then((unsub) => unsub()).catch(() => void 0);
     }
+  }
+
+  private hasUsableForecast(forecast: ForecastSegment[] | null | undefined): forecast is ForecastSegment[] {
+    return Array.isArray(forecast) && forecast.length > 0;
+  }
+
+  private acceptForecastEvent(event: ForecastEvent): boolean {
+    if (!this.hasUsableForecast(event?.forecast)) {
+      this.scheduleForecastRecovery(this.getForecastRecoveryDelay());
+      return false;
+    }
+
+    // Ignore transient empty subscription updates so a refresh cannot replace
+    // a working card with a zero-height pending render.
+    this.forecastEvent = event;
+    this.lastValidForecastAt = Date.now();
+    this.scheduleForecastRecovery(FORECAST_STALE_AFTER_MS);
+    return true;
+  }
+
+  private getForecastRecoveryDelay(): number {
+    if (this.lastValidForecastAt === undefined) {
+      return INITIAL_FORECAST_RECOVERY_DELAY_MS;
+    }
+
+    const forecastAge = Date.now() - this.lastValidForecastAt;
+    return Math.max(0, FORECAST_STALE_AFTER_MS - forecastAge);
+  }
+
+  private stopForecastRecovery() {
+    if (this.forecastRecoveryTimer !== undefined) {
+      window.clearTimeout(this.forecastRecoveryTimer);
+      this.forecastRecoveryTimer = undefined;
+    }
+  }
+
+  private scheduleForecastRecovery(delayMs: number) {
+    this.stopForecastRecovery();
+    if (!this.isConnected || !this.hass || !this.config?.entity || !this.hassSupportsForecastEvents()) {
+      return;
+    }
+
+    this.forecastRecoveryTimer = window.setTimeout(() => {
+      this.forecastRecoveryTimer = undefined;
+      void this.recoverForecast();
+    }, delayMs);
+  }
+
+  private async recoverForecast() {
+    if (this.forecastRecoveryPending || !this.isConnected || !this.hass?.callWS || !this.config?.entity) {
+      return;
+    }
+
+    if (!this.subscribedToForecast) {
+      await this.subscribeToForecastEvents();
+    }
+
+    const recoveryDelay = this.getForecastRecoveryDelay();
+    if (this.lastValidForecastAt !== undefined && recoveryDelay > 0) {
+      this.scheduleForecastRecovery(recoveryDelay);
+      return;
+    }
+
+    const entityId = this.config.entity;
+    const forecastType = this.getIdealForecastType();
+    this.forecastRecoveryPending = true;
+
+    try {
+      const result = await this.hass.callWS<ForecastServiceCallResult>({
+        type: 'call_service',
+        domain: 'weather',
+        service: 'get_forecasts',
+        service_data: { type: forecastType },
+        target: { entity_id: entityId },
+        return_response: true,
+      });
+      const response = result.response ?? result.service_response;
+      const forecast = response?.[entityId]?.forecast;
+      if (this.hasUsableForecast(forecast)) {
+        this.acceptForecastEvent({ type: forecastType, forecast });
+        return;
+      }
+    } catch (error) {
+      console.warn('[hourly-weather] forecast recovery failed', error);
+    } finally {
+      this.forecastRecoveryPending = false;
+    }
+
+    this.scheduleForecastRecovery(FORECAST_RECOVERY_RETRY_MS);
   }
 
   private async subscribeToForecastEvents() {
@@ -148,13 +256,31 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     const forecastType = this.getIdealForecastType();
-    this.subscribedToForecast = this.hass.connection.subscribeMessage<ForecastEvent>(
-      evt => this.forecastEvent = evt,
-      {
-        type: 'weather/subscribe_forecast',
-        forecast_type: forecastType,
-        entity_id: this.config.entity
+    try {
+      const subscription = this.hass.connection.subscribeMessage<ForecastEvent>(
+        evt => this.acceptForecastEvent(evt),
+        {
+          type: 'weather/subscribe_forecast',
+          forecast_type: forecastType,
+          entity_id: this.config.entity
+        });
+      this.subscribedToForecast = subscription;
+      subscription.catch((error) => {
+        if (this.subscribedToForecast === subscription) {
+          this.subscribedToForecast = undefined;
+        }
+        console.warn('[hourly-weather] forecast subscription failed', error);
+        this.scheduleForecastRecovery(0);
       });
+      this.scheduleForecastRecovery(
+        this.hasUsableForecast(this.forecastEvent?.forecast)
+          ? this.getForecastRecoveryDelay()
+          : INITIAL_FORECAST_RECOVERY_DELAY_MS
+      );
+    } catch (error) {
+      console.warn('[hourly-weather] could not subscribe to forecast updates', error);
+      this.scheduleForecastRecovery(0);
+    }
   }
 
   private getIdealForecastType(): ForecastType {
@@ -250,6 +376,15 @@ export class HourlyWeatherCard extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(entries => {
+        const width = Math.round(entries[0]?.contentRect.width ?? 0);
+        if (width > 0 && width !== this.observedWidth) {
+          this.observedWidth = width;
+        }
+      });
+      this.resizeObserver.observe(this);
+    }
     if (this.hasUpdated) {
       this.subscribeToForecastEvents();
     }
@@ -257,6 +392,9 @@ export class HourlyWeatherCard extends LitElement {
 
   public disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = undefined;
+    this.stopForecastRecovery();
     this.unsubscribeForecastEvents();
   }
 
@@ -264,6 +402,10 @@ export class HourlyWeatherCard extends LitElement {
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) {
       return false;
+    }
+
+    if (changedProps.has('observedWidth')) {
+      return true;
     }
 
     if (changedProps.has('hass')) {
@@ -284,8 +426,17 @@ export class HourlyWeatherCard extends LitElement {
       this.configRenderPending = false;
       this.triggerConfigRender();
     }
-    if (!this.subscribedToForecast ||
-      (changedProps.has('config') && this.config?.entity !== changedProps.get('config')?.entity)) {
+    const previousConfig = changedProps.get('config') as HourlyWeatherCardConfig | undefined;
+    const entityChanged = changedProps.has('config') &&
+      this.config?.entity !== previousConfig?.entity;
+    const forecastTypeChanged = changedProps.has('config') &&
+      this.config?.forecast_type !== previousConfig?.forecast_type;
+
+    if (entityChanged || forecastTypeChanged) {
+      this.forecastEvent = undefined;
+      this.lastValidForecastAt = undefined;
+    }
+    if (!this.subscribedToForecast || entityChanged || forecastTypeChanged) {
       this.subscribeToForecastEvents();
     }
   }
@@ -315,32 +466,49 @@ export class HourlyWeatherCard extends LitElement {
 
     const entityId: string = config.entity;
     const state = this.hass.states[entityId];
-    const { forecast, pending } = this.getForecast();
+    if (!state) {
+      return await this._showError(this.localize('errors.check_entity'));
+    }
+
+    const { forecast: forecastOnly, pending } = this.getForecast();
+    const currentWeather = config.show_current
+      ? this.getCurrentWeatherSegment(state, forecastOnly)
+      : undefined;
+    const upcomingForecast = forecastOnly && currentWeather
+      ? forecastOnly.filter(segment => this.isAfterCurrentWeather(segment, currentWeather))
+      : forecastOnly;
+    const hasCurrentSegment = !!(upcomingForecast && currentWeather);
+    const forecast = hasCurrentSegment
+      ? [currentWeather, ...upcomingForecast]
+      : upcomingForecast;
     const windSpeedUnit = state.attributes.wind_speed_unit ?? '';
     const precipitationUnit = state.attributes.precipitation_unit ?? '';
-    const numSegments = parseInt(config.num_segments ?? config.num_hours ?? '12', 10);
-    const offset = parseInt(config.offset ?? '0', 10);
-    const labelSpacing = parseInt(config.label_spacing ?? '2', 10);
+    const numSegments = this.parseInteger(config.num_segments ?? config.num_hours ?? 12);
+    const offset = this.parseInteger(config.offset ?? 0);
+    const configuredLabelSpacing = this.parseInteger(config.label_spacing ?? 2);
+    const labelSpacing = config.auto_label_spacing
+      ? Math.max(configuredLabelSpacing, this.getResponsiveLabelSpacing(numSegments))
+      : configuredLabelSpacing;
     const forecastNotAvailable = !forecast || !forecast.length;
     const icon_fill = config.icon_fill;
     const hideMinutes = !!config.hide_minutes;
     const roundTemperatures = !!config.round_temperatures;
 
-    if (numSegments < 1) {
+    if (!Number.isInteger(numSegments) || numSegments < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'num_segments'));
     }
 
-    if (offset < 0) {
+    if (!Number.isInteger(offset) || offset < 0) {
       return await this._showError(this.localize('errors.offset_must_be_positive_int'));
     }
 
     if (!forecastNotAvailable && numSegments > (forecast.length - offset)) {
-      if (pending) return;
+      if (pending) return this.renderPendingCard(config);
       return await this._showError(this.localize('errors.too_many_segments_requested'));
     }
 
-    if (labelSpacing < 1) {
+    if (!Number.isInteger(configuredLabelSpacing) || configuredLabelSpacing < 1) {
       // REMARK: Ok, so I'm re-using a localized string here. Probably not the best, but it avoids repeating for no good reason
       return await this._showError(this.localize('errors.offset_must_be_positive_int', 'offset', 'label_spacing'));
     }
@@ -361,7 +529,7 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     if (forecastNotAvailable) {
-      if (pending) return;
+      if (pending) return this.renderPendingCard(config);
       return html`
         <ha-card
           .header=${config.name}
@@ -384,7 +552,15 @@ export class HourlyWeatherCard extends LitElement {
     const segmentConditions = this.getSegmentConditionsFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset, hideMinutes, roundTemperatures);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit, hideMinutes);
-    const precipitation = this.getPrecipitation(forecast, numSegments, offset, precipitationUnit, hideMinutes, labelSpacing);
+    const precipitation = this.getPrecipitation(
+      forecast,
+      numSegments,
+      offset,
+      precipitationUnit,
+      hideMinutes,
+      labelSpacing,
+      hasCurrentSegment && offset === 0,
+    );
 
     const colorSettings = this.getColorSettings(config.colors);
 
@@ -422,12 +598,32 @@ export class HourlyWeatherCard extends LitElement {
             .precipitation_on_bar=${!!config.precipitation_on_bar}
             .precipitation_amount_font_size=${config.precipitation_amount_font_size}
             .precipitation_probability_font_size=${config.precipitation_probability_font_size}
+            .has_current_segment=${hasCurrentSegment && offset === 0}
+            .current_label=${this.localize('card.now')}
+            .current_time=${currentWeather ? formatTime(new Date(currentWeather.datetime), this.hass.locale) : ''}
             .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
         </div>
       </ha-card>
     `;
+  }
+
+  private getResponsiveLabelSpacing(numSegments: number): number {
+    if (this.observedWidth <= 0 || numSegments <= 0) return 1;
+    const usableWidth = Math.max(this.observedWidth - CARD_CONTENT_HORIZONTAL_PADDING_PX, 1);
+    return Math.max(1, Math.ceil(numSegments * AUTO_LABEL_MIN_WIDTH_PX / usableWidth));
+  }
+
+  private renderPendingCard(config: HourlyWeatherCardConfig): TemplateResult {
+    return html`
+      <ha-card
+        .header=${config.name}
+        tabindex="0"
+        .label=${`Hourly Weather: ${config.entity || 'No Entity Defined'}`}
+      >
+        <div class="card-content forecast-pending" aria-busy="true"></div>
+      </ha-card>`;
   }
 
   private getConditionListFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): ConditionSpan[] {
@@ -451,6 +647,62 @@ export class HourlyWeatherCard extends LitElement {
     return forecast
       .slice(offset, offset + numSegments)
       .map(segment => this.getDisplayCondition(segment));
+  }
+
+  private parseInteger(value: unknown): number {
+    if (typeof value === 'number') {
+      return Number.isInteger(value) ? value : Number.NaN;
+    }
+    if (typeof value !== 'string' || value.trim() === '') {
+      return Number.NaN;
+    }
+
+    const parsed = Number(value);
+    return Number.isInteger(parsed) ? parsed : Number.NaN;
+  }
+
+  private getCurrentWeatherSegment(
+    state: HomeAssistant['states'][string],
+    forecast: ForecastSegment[] | undefined,
+  ): ForecastSegment | undefined {
+    const attributes = state.attributes;
+    const temperature = Number(attributes.temperature);
+    if (!(state.state in ICONS) || !Number.isFinite(temperature)) {
+      return undefined;
+    }
+
+    const currentTime = new Date(state.last_updated || Date.now()).getTime();
+    const forecastUpToNow = forecast
+      ?.filter(segment => {
+        const segmentTime = new Date(segment.datetime).getTime();
+        return !Number.isNaN(segmentTime) && segmentTime <= currentTime;
+      }) ?? [];
+    const ongoingForecast = forecastUpToNow[forecastUpToNow.length - 1];
+    const currentPrecipitation = Number(attributes.precipitation);
+    const currentProbability = Number(attributes.precipitation_probability);
+
+    return {
+      clouds: Number(attributes.cloud_coverage ?? attributes.clouds ?? Number.NaN),
+      condition: state.state as Condition,
+      datetime: state.last_updated || new Date().toISOString(),
+      precipitation: Number.isFinite(currentPrecipitation)
+        ? currentPrecipitation
+        : Number(ongoingForecast?.precipitation ?? Number.NaN),
+      precipitation_probability: Number.isFinite(currentProbability)
+        ? currentProbability
+        : Number(ongoingForecast?.precipitation_probability ?? Number.NaN),
+      pressure: Number(attributes.pressure ?? Number.NaN),
+      temperature,
+      wind_bearing: attributes.wind_bearing ?? Number.NaN,
+      wind_speed: Number(attributes.wind_speed ?? Number.NaN),
+    };
+  }
+
+  private isAfterCurrentWeather(segment: ForecastSegment, currentWeather: ForecastSegment): boolean {
+    const segmentTime = new Date(segment.datetime).getTime();
+    const currentTime = new Date(currentWeather.datetime).getTime();
+    if (Number.isNaN(segmentTime) || Number.isNaN(currentTime)) return true;
+    return segmentTime > currentTime;
   }
 
   /**
@@ -499,18 +751,33 @@ export class HourlyWeatherCard extends LitElement {
     return temperatures;
   }
 
-  private getPrecipitation(forecast: ForecastSegment[], numSegments: number, offset: number, unit: string, hideMinutes: boolean, labelSpacing: number): SegmentPrecipitation[] {
+  private getPrecipitation(
+    forecast: ForecastSegment[],
+    numSegments: number,
+    offset: number,
+    unit: string,
+    hideMinutes: boolean,
+    labelSpacing: number,
+    hasCurrentSegment: boolean,
+  ): SegmentPrecipitation[] {
     const precipitation: SegmentPrecipitation[] = [];
 
     for (let i = 0; i < numSegments; i++) {
       const fs = forecast[offset + i];
 
-      // Only these entries are rendered when label_spacing is used.
-      if (i % labelSpacing === 0) {
-        const interval = forecast.slice(
-          offset + i,
-          Math.min(offset + i + labelSpacing, offset + numSegments),
-        );
+      const labelIndex = hasCurrentSegment ? i - 1 : i;
+      const isCurrentSegment = hasCurrentSegment && i === 0;
+
+      // The current segment may carry precipitation from the ongoing hourly
+      // forecast interval, but it never aggregates with future intervals.
+      // Forecast label spacing restarts at the first future segment.
+      if (isCurrentSegment || labelIndex % labelSpacing === 0) {
+        const interval = isCurrentSegment
+          ? [fs]
+          : forecast.slice(
+            offset + i,
+            Math.min(offset + i + labelSpacing, offset + numSegments),
+          );
 
         const totalAmount = interval.reduce(
           (sum, segment) => sum + (Number(segment.precipitation) || 0),
@@ -736,6 +1003,15 @@ export class HourlyWeatherCard extends LitElement {
 
   // https://lit.dev/docs/components/styles/
   static get styles(): CSSResultGroup {
-    return css``;
+    return css`
+      :host {
+        /* Give ResizeObserver a block box that fills the available card width;
+           non-replaced inline elements do not report a usable observed width. */
+        display: block;
+      }
+      .forecast-pending {
+        min-height: 24px;
+      }
+    `;
   }
 }

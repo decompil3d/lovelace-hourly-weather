@@ -9,31 +9,33 @@
   "editor": {
     "entity": "Entità (Richiesta)",
     "name": "Nome (Facoltativo)",
-    "icons": "Mostra le icone invece delle etichette di testo",
-    "offset": "Numero di segmenti di previsione di cui compensare l'inizio (Facoltativo)",
     "segments_to_show": "Numero di segmenti di previsione da mostrare (facoltativo)",
+    "offset": "Numero di segmenti di previsione di cui compensare l'inizio (Facoltativo)",
+    "icons": "Mostra le icone invece delle etichette di testo",
+    "show_current": "Mostra le condizioni meteo attuali come primo segmento",
+    "auto_label_spacing": "Riduci automaticamente le etichette quando la scheda è stretta",
     "label_spacing": "Numero di segmenti di previsione per spazio etichette tempo e temperatura per (facoltativo)",
     "show_wind": "Mostra la velocità e la direzione del vento",
+    "show_date": "Mostra date",
     "show_precipitation_amounts": "Mostra la quantità di precipitazioni",
-    "speed_only": "Solo velocità",
-    "direction_only": "Solo direzione",
-    "barb": "Come una punta di vento",
     "show_precipitation_probability": "Mostra la probabilità di precipitazioni",
     "none": "Nessuno",
     "speed_and_direction": "Velocità e direzione",
+    "speed_only": "Solo velocità",
+    "direction_only": "Solo direzione",
+    "barb": "Come una punta di vento",
     "barb_and_speed": "Come il vento tagliente e la velocità",
     "barb_and_direction": "Come il vento e la direzione",
     "barb_speed_and_direction": "Come la punta del vento, la velocità e la direzione",
-    "show_date": "Mostra date",
     "all": "Tutto",
     "on_day_boundaries": "Sui confini del giorno"
   },
   "errors": {
     "missing_entity": "entità mancante nella configurazione",
+    "too_many_segments_requested": "Troppi segmenti di previsione richiesti in num_segments. Deve essere <= numero di segmenti nell'entità di previsione.",
     "must_be_int": "Deve essere un numero intero pari, maggiore o uguale a 2",
     "invalid_colors": "I seguenti colori nella tua configurazione non sono validi:",
     "must_be_positive_int": "Deve essere un numero intero positivo",
-    "too_many_segments_requested": "Troppi segmenti di previsione richiesti in num_segments. Deve essere <= numero di segmenti nell'entità di previsione.",
     "offset_must_be_positive_int": "offset deve essere un numero intero positivo",
     "forecast_not_available": "Previsione non disponibile",
     "check_entity": "Controllare l'entità di previsione configurata.",
@@ -73,6 +75,7 @@
     "nnw": "NNO"
   },
   "card": {
+    "now": "Ora",
     "chance_of_precipitation": "{0}% possibilità di precipitazioni"
   }
 }

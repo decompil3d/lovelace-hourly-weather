@@ -1,4 +1,4 @@
-name: 'Translate strings'
+name: "Translate strings"
 
 on:
   push:
@@ -18,17 +18,18 @@ jobs:
         id: translate
         uses: msnyder-msft/i18n-auto-translation-action@v1.0.0
         with:
-            provider: 'google-official'
-            subscriptionKey: '${{ secrets.TRANSLATOR_SUBSCRIPTION_KEY }}'
-            filePath: './src/localize/languages/en.json'
-            from: 'en'
-            to: 'bg,cs,da,de,es,fr,hu,it,nb,nl,pl,pt,ru,sk,tr,uk,zh'
-            debug: false
+          provider: "google-official"
+          subscriptionKey: "${{ secrets.TRANSLATOR_SUBSCRIPTION_KEY }}"
+          filePath: "./src/localize/languages/en.json"
+          from: "en"
+          to: "bg,cs,da,de,es,fr,hu,it,nb,nl,pl,pt,ru,sk,tr,uk,zh"
+          debug: false
 
       - name: Copy new strings to sub-locales
         uses: ./.github/actions/copy-to-sub-locales
         with:
-          mappings: pt=>pt-BR,nb=>nn-NO
+          # Google translate does not support sr-Latn, so we just copy English strings to it for new strings.
+          mappings: pt=>pt-BR,nb=>nn-NO,en=>sr-Latn
 
       - name: Get current branch name
         id: branch_name
@@ -38,8 +39,8 @@ jobs:
         uses: devops-infra/action-commit-push@v1.5.0
         continue-on-error: true
         with:
-            github_token: '${{ secrets.GITHUB_TOKEN }}'
-            commit_prefix: '[Auto] '
-            commit_message: 'Adding updated localization files'
-            force: false
-            target_branch: ${{steps.vars.branch_name.current_branch}}
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          commit_prefix: "[Auto] "
+          commit_message: "Adding updated localization files"
+          force: false
+          target_branch: ${{steps.vars.branch_name.current_branch}}

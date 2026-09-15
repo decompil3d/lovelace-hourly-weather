@@ -1,0 +1,81 @@
+{
+  "common": {
+    "version": "Verzija",
+    "title": "Prognoza po satima",
+    "title_card": "Kartica sa prognozom po satima",
+    "description": "Kartica za prikaz vremenskih uslova po satima u obliku trake.",
+    "invalid_configuration": "Neispravna konfiguracija"
+  },
+  "editor": {
+    "entity": "Entitet (Obavezno)",
+    "name": "Naziv (Opciono)",
+    "segments_to_show": "Broj segmenata prognoze za prikaz (Opciono)",
+    "offset": "Broj segmenata prognoze za pomeranje početka (Opciono)",
+    "icons": "Prikaz ikone umesto tekstualnih oznaka",
+    "show_current": "Prikaži trenutno vreme kao prvi segment",
+    "auto_label_spacing": "Automatski smanji broj oznaka kada je kartica uska",
+    "label_spacing": "Razmak između oznaka vremena i temperature izražen u broju segmenata (Opciono)",
+    "show_wind": "Prikaži brzinu i smer vetra",
+    "show_date": "Prikaži datume",
+    "show_precipitation_amounts": "Prikaz količine padavina",
+    "show_precipitation_probability": "Prikaz verovatnoće padavina",
+    "none": "Nijedno",
+    "speed_and_direction": "Brzina i smer",
+    "speed_only": "Samo brzina",
+    "direction_only": "Samo smer",
+    "barb": "Kao strelica za vetar (barb)",
+    "barb_and_speed": "Kao strelica za vetar i brzina",
+    "barb_and_direction": "Kao strelica za vetar i smer",
+    "barb_speed_and_direction": "Kao strelica za vetar, brzina i smer",
+    "all": "Sve",
+    "on_day_boundaries": "Na granicama dana"
+  },
+  "errors": {
+    "missing_entity": "entitet nedostaje u konfiguraciji",
+    "too_many_segments_requested": "Zatraženo je previše segmenata prognoze u 'num_segments'. Broj mora biti manji ili jednak broju segmenata u samom entitetu prognoze.",
+    "must_be_int": "Mora biti paran ceo broj veći od ili jednak 2",
+    "invalid_colors": "Sledeće boje u vašoj konfiguraciji nisu ispravne:",
+    "must_be_positive_int": "Mora biti pozitivan ceo broj",
+    "offset_must_be_positive_int": "'offset' mora biti pozitivan ceo broj",
+    "forecast_not_available": "Prognoza nije dostupna",
+    "check_entity": "Proverite podešeni entitet za prognozu.",
+    "invalid_value_icon_fill": "'icon_fill' mora biti pozitivan ceo broj ili jedna od vrednosti: 'single' ili 'full'"
+  },
+  "conditions": {
+    "clear": "Vedro",
+    "cloudy": "Oblačno",
+    "fog": "Magla",
+    "hail": "Grad",
+    "thunderstorm": "Grmljavina",
+    "partlyCloudy": "Delimično oblačno",
+    "partlyCloudyNight": "Delimično oblačno (noću)",
+    "heavyRain": "Jaka kiša",
+    "rain": "Kiša",
+    "snow": "Sneg",
+    "mixedPrecip": "Susnežica",
+    "sunny": "Sunčano",
+    "windy": "Vetrovito"
+  },
+  "direction": {
+    "n": "S",
+    "nne": "SSI",
+    "ne": "SI",
+    "ene": "ISI",
+    "e": "I",
+    "ese": "IJI",
+    "se": "JI",
+    "sse": "JJI",
+    "s": "J",
+    "ssw": "JJZ",
+    "sw": "JZ",
+    "wsw": "ZJZ",
+    "w": "Z",
+    "wnw": "ZZS",
+    "nw": "SZ",
+    "nnw": "SSZ"
+  },
+  "card": {
+    "now": "Sada",
+    "chance_of_precipitation": "{0}% šanse za padavine"
+  }
+}

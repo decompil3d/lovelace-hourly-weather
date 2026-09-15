@@ -12,19 +12,21 @@
     "segments_to_show": "Megjelenítendő előrejelzési órák száma (Opcionális)",
     "offset": "Az előrejelzett órák kezdő értékének eltolása (Opcionális)",
     "icons": "Ikonok megjelenítése szövegek helyett",
+    "show_current": "Aktuális időjárás megjelenítése első szegmensként",
+    "auto_label_spacing": "Automatikusan csökkentse a címkéket, ha a kártya keskeny",
     "label_spacing": "Az idő- és hőmérsékleti címkékhez tartozó előrejelzési órák időköze (Opcionális)",
     "show_wind": "Szélsebesség és irány megjelenítése",
+    "show_date": "Dátumok megjelenítése",
     "show_precipitation_amounts": "Csapadékmennyiség megjelenítése",
     "show_precipitation_probability": "Csapadék valószínűségének megjelenítése",
+    "none": "Egyik sem",
+    "speed_and_direction": "Sebesség és irány",
     "speed_only": "Sebesség",
     "direction_only": "Irány",
     "barb": "Irány nyílként",
-    "none": "Egyik sem",
-    "speed_and_direction": "Sebesség és irány",
     "barb_and_speed": "Szélfogóként és sebességként",
     "barb_and_direction": "Szellőként és irányként",
     "barb_speed_and_direction": "Szélfogként, sebességként és irányként",
-    "show_date": "Dátumok megjelenítése",
     "all": "Minden",
     "on_day_boundaries": "A napok határain"
   },
@@ -73,6 +75,7 @@
     "nnw": "ÉÉNy"
   },
   "card": {
+    "now": "Most",
     "chance_of_precipitation": "{0}% a csapadék valószínűsége"
   }
 }

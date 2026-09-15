@@ -590,6 +590,17 @@
       },
       locale: {language: 'en', number_format: 'language', time_format: 'language'}
     }
+    h.hass.callWS = async message => {
+      window.lastHWCallWS = message;
+      const entityId = message?.target?.entity_id;
+      return {
+        response: {
+          [entityId]: {
+            forecast: window.HWFallbackForecasts?.[entityId]
+          }
+        }
+      };
+    };
     w.appendChild(h);
     window.hourlyWeather = h;
     window.addEventListener('load', () => {
@@ -602,7 +613,10 @@
         }
       };
       window.HWForecasts = {};
+      window.HWFallbackForecasts = {};
       window.addHWForecast = (entityId, forecast) => window.HWForecasts[entityId] = forecast;
+      window.addHWFallbackForecast = (entityId, forecast) => window.HWFallbackForecasts[entityId] = forecast;
+      window.recoverHWForecast = () => h.recoverForecast();
       window.enableHWForecastSubscriptions = () => h.hass = {
         ...h.hass,
         services: {

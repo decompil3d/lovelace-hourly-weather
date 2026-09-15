@@ -12,8 +12,11 @@
     "segments_to_show": "Počet segmentov prognózy, ktoré sa majú zobraziť (voliteľné)",
     "offset": "Počet segmentov prognózy, o ktoré sa má začať kompenzácia (voliteľné)",
     "icons": "Zobrazovať ikony namiesto textových štítkov",
+    "show_current": "Zobraziť aktuálne počasie ako prvý segment",
+    "auto_label_spacing": "Automaticky zmenšiť popisky, keď je karta úzka",
     "label_spacing": "Počet segmentov predpovede na štítky časopriestoru a teploty podľa (voliteľné)",
     "show_wind": "Zobraziť rýchlosť a smer vetra",
+    "show_date": "Zobraziť dátumy",
     "show_precipitation_amounts": "Zobraziť množstvo zrážok",
     "show_precipitation_probability": "Zobraziť pravdepodobnosť zrážok",
     "none": "Nič",
@@ -24,7 +27,6 @@
     "barb_and_speed": "Ako veterný osteň a rýchlosť",
     "barb_and_direction": "Ako veterný osteň a smer",
     "barb_speed_and_direction": "Ako veterný osteň, rýchlosť a smer",
-    "show_date": "Zobraziť dátumy",
     "all": "Všetky",
     "on_day_boundaries": "Na hraniciach dňa"
   },
@@ -73,6 +75,7 @@
     "nnw": "SSZ"
   },
   "card": {
+    "now": "Teraz",
     "chance_of_precipitation": "{0}% možnosť zrážok"
   }
 }
