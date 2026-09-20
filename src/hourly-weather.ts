@@ -945,7 +945,9 @@ export class HourlyWeatherCard extends LitElement {
     const inner = trimmed.slice(4, -1).trim();
 
     // Split on the first comma only (fallbacks may contain commas)
-    const [property, fallback] = inner.split(',');
+    const separator = inner.indexOf(',');
+    const property = separator === -1 ? inner : inner.slice(0, separator);
+    const fallback = separator === -1 ? undefined : inner.slice(separator + 1);
     const propName = property.trim();
 
     if (!HourlyWeatherCard.isValidCustomPropertyName(propName)) return false;
