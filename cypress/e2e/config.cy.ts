@@ -148,7 +148,8 @@ describe('Config', () => {
         rainy: 'var(--glahp, blue)', // valid
         fog: ' var(--zing)', // valid
         exceptional: 'var( --zong)', // valid
-        hail: 'var(--blong,  #123456  )' // valid
+        hail: 'var(--blong,  #123456  )', // valid
+        snowy: 'var(--rgb-red, rgb(255, 0, 0))' // valid fallback with commas
       }
     });
     cy.get('hui-warning')
@@ -165,7 +166,8 @@ describe('Config', () => {
       .and('not.contain', 'rainy')
       .and('not.contain', 'fog')
       .and('not.contain', 'exceptional')
-      .and('not.contain', 'hail');
+      .and('not.contain', 'hail')
+      .and('not.contain', 'snowy');
   });
   it('errors for invalid string values for icon_fill', () => {
     cy.configure({
