@@ -231,7 +231,10 @@ export class WeatherBar extends LitElement {
     const svgStyles = {
       transform: `rotate(${direction}deg)`
     };
-    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="70 40 120 120" class="barb" style=${isCalm ? undefined : styleMap(svgStyles)}>
+    const calmStyles = {
+      marginTop: '-10px'
+    };
+    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="70 40 120 120" class="barb" style=${styleMap(isCalm ? calmStyles : svgStyles)}>
       ${getWindBarbSVG(speed)}
     </svg>`;
   }
