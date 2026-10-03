@@ -76,6 +76,7 @@ interface HALocale {
   language: string;
   number_format: string;
   time_format: string;
+  time_zone?: 'local' | 'server';
 }
 
 Cypress.Commands.add('setHomeLocation', (latitude: number, longitude: number) => {
