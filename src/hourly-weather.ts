@@ -104,6 +104,9 @@ export class HourlyWeatherCard extends LitElement {
 
   private configRenderPending = false;
 
+  private templateRenderVersion = 0;
+  private templateSubscriptions: Array<Promise<() => void>> = [];
+
   private localizer?: ReturnType<typeof getLocalizer> = void 0;
   private localizerLastSettings: LocalizerLastSettings = {
     configuredLanguage: void 0,
@@ -337,45 +340,63 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private triggerConfigRender(): void {
-    if (!this.hass?.connection) {
-      // HASS connection not ready yet, so wait until it is
+    this.unsubscribeTemplates();
+    if (!this.isConnected || !this.hass?.connection) {
+      // Wait until the card is connected and the HASS connection is ready.
       this.configRenderPending = true;
       return;
     }
+    this.configRenderPending = false;
     this.renderedConfig = this.renderConfig();
+  }
+
+  private unsubscribeTemplates(): void {
+    this.templateRenderVersion++;
+    for (const subscription of this.templateSubscriptions) {
+      subscription.then(unsubscribe => unsubscribe()).catch(() => void 0);
+    }
+    this.templateSubscriptions = [];
   }
 
   private async renderConfig(): Promise<HourlyWeatherCardConfig> {
     const { config } = this;
     if (!config) return config;
-    const r: HourlyWeatherCardConfig = {
-      ...config,
-      num_segments: await this.renderTemplate(config?.num_segments),
-      offset: await this.renderTemplate(config?.offset),
-      label_spacing: await this.renderTemplate(config?.label_spacing),
-      name: await this.renderTemplate(config?.name)
-    };
-
-    return r;
+    const rendered = { ...config };
+    const version = this.templateRenderVersion;
+    let ready = false;
+    const keys = ['num_segments', 'offset', 'label_spacing', 'name'] as const;
+    await Promise.all(keys.map(key => this.renderTemplate(config[key], version, value => {
+      rendered[key] = value;
+      if (ready) {
+        this.renderedConfig = Promise.resolve({ ...rendered });
+      }
+    })));
+    ready = true;
+    return rendered;
   }
 
-  private async renderTemplate(raw: string | undefined): Promise<string | undefined> {
-    if (!raw) return raw; // not defined
-    if (typeof raw !== 'string') return raw; // not a template
-    if (!raw.includes('{{')) return raw; // not a template
+  private async renderTemplate(raw: string | undefined, version: number, update: (value: string) => void): Promise<void> {
+    if (!raw || typeof raw !== 'string' || !raw.includes('{{')) return;
     return new Promise(resolve => {
-      this.hass.connection.subscribeMessage<RenderTemplateResult>(
-        msg => resolve(msg.result),
+      const subscription = Promise.resolve(this.hass.connection.subscribeMessage<RenderTemplateResult>(
+        msg => {
+          if (version !== this.templateRenderVersion) return;
+          update(msg.result);
+          resolve();
+        },
         {
           type: 'render_template',
           template: raw
         }
-      );
+      ));
+      this.templateSubscriptions.push(subscription);
+      subscription.catch(error => console.warn('[hourly-weather] template subscription failed', error));
     });
   }
 
   public connectedCallback(): void {
     super.connectedCallback();
+    this.triggerConfigRender();
     if (typeof ResizeObserver !== 'undefined') {
       this.resizeObserver = new ResizeObserver(entries => {
         const width = Math.round(entries[0]?.contentRect.width ?? 0);
@@ -396,6 +417,7 @@ export class HourlyWeatherCard extends LitElement {
     this.resizeObserver = undefined;
     this.stopForecastRecovery();
     this.unsubscribeForecastEvents();
+    this.unsubscribeTemplates();
   }
 
   // https://lit.dev/docs/components/lifecycle/#reactive-update-cycle-performing
@@ -404,7 +426,7 @@ export class HourlyWeatherCard extends LitElement {
       return false;
     }
 
-    if (changedProps.has('observedWidth')) {
+    if (changedProps.has('observedWidth') || changedProps.has('renderedConfig')) {
       return true;
     }
 
