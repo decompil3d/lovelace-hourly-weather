@@ -87,6 +87,17 @@ Cypress.Commands.add('setLocale', (locale: Partial<HALocale>) => {
   cy.window().invoke('setHWLocale', locale).wait(1);
 });
 
+Cypress.Commands.add('setServerTimeZone', (timeZone: string) => {
+  cy.window().then(win => {
+    // @ts-expect-error accessing hourlyWeather global
+    const card = win.hourlyWeather;
+    card.hass = {
+      ...card.hass,
+      config: { ...card.hass.config, time_zone: timeZone },
+    };
+  });
+});
+
 Cypress.Commands.add('slotAssignedNodes', { prevSubject: true }, (subject, name) => {
   let slot: Cypress.JQueryWithSelector<HTMLSlotElement>;
   if (name) {
@@ -118,6 +129,7 @@ declare global {
       updateLastForecastSubscription(forecast: ForecastSegment[]): Chainable<void>;
       setHomeLocation(latitude: number, longitude: number): Chainable<void>;
       setLocale(locale: Partial<HALocale>): Chainable<void>;
+      setServerTimeZone(timeZone: string): Chainable<void>;
       slotAssignedNodes(name?: string): Chainable<Node[]>;
     }
   }

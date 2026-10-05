@@ -1,20 +1,9 @@
-const setServerTimeZone = (timeZone: string) => {
-  cy.window().then(win => {
-    // @ts-expect-error accessing hourlyWeather global
-    const card = win.hourlyWeather;
-    card.hass = {
-      ...card.hass,
-      config: { ...card.hass.config, time_zone: timeZone },
-    };
-  });
-};
-
 const firstHour = () => cy.get('weather-bar').shadow().find('.hour').first();
 
 describe('Time zone preference', () => {
   beforeEach(() => {
     cy.visitHarness();
-    setServerTimeZone('America/New_York');
+    cy.setServerTimeZone('America/New_York');
     cy.setLocale({ time_format: '24', time_zone: 'server' });
   });
 
@@ -47,14 +36,14 @@ describe('Time zone preference', () => {
   });
 
   it('uses the same time zone for dates across midnight', () => {
-    setServerTimeZone('Asia/Tokyo');
+    cy.setServerTimeZone('Asia/Tokyo');
     cy.configure({ show_date: 'all' });
     firstHour().should('have.text', '02:00');
     cy.get('weather-bar').shadow().find('.date').first().should('have.text', 'Jul 22');
   });
 
   it('supports time zones with half-hour offsets', () => {
-    setServerTimeZone('Asia/Kolkata');
+    cy.setServerTimeZone('Asia/Kolkata');
     cy.configure({});
     firstHour().should('have.text', '22:30');
   });
