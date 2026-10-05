@@ -203,7 +203,7 @@ describe('Config', () => {
         // @ts-expect-error accessing hourlyWeather global
         cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
           result: 10
-        });
+        }).resolves(() => void 0);
       });
       cy.configure({
         num_segments: '{{ num_segments_template }}'
@@ -225,7 +225,7 @@ describe('Config', () => {
         // @ts-expect-error accessing hourlyWeather global
         cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
           result: 4
-        });
+        }).resolves(() => void 0);
       });
       cy.configure({
         label_spacing: '{{ label_spacing_template }}'
@@ -251,7 +251,7 @@ describe('Config', () => {
         // @ts-expect-error accessing hourlyWeather global
         cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
           result: 2
-        });
+        }).resolves(() => void 0);
       });
       cy.configure({
         offset: '{{ offset_template }}'

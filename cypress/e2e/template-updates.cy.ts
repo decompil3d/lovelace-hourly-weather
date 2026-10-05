@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type * as Sinon from "sinon";
 
 describe('Template subscription updates', () => {
   let callbacks: Record<string, (message: { result: string }) => void>;
@@ -151,7 +152,7 @@ describe('Template subscription updates', () => {
   });
 
   it('does not subscribe for literal configuration', () => {
-    cy.configure({ name: 'Literal title', num_segments: 3 });
+    cy.configure({ name: 'Literal title', num_segments: '3' });
     cy.get('ha-card').shadow().find('h1').should('have.text', 'Literal title');
     cy.window().then((win: any) => expect(win.hourlyWeather.hass.connection.subscribeMessage).not.to.have.been.called);
   });

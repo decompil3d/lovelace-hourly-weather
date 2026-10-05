@@ -35,7 +35,7 @@
         subscribeMessage: (/** @type {(msg: string) => void} */ cb, /** @type {SubscribeMessageOpts} */ { type, template, forecast_type, entity_id }) => {
           if (type === 'render_template') {
             cb({ result: 'TEMPLATE:' + template.replace(/\{\{\s*/, '').replace(/\s*\}\}/, '') });
-            return;
+            return Promise.resolve(function noop_unsub() {});
           }
           if (type === 'weather/subscribe_forecast') {
             window.lastForecastSubCallback = cb;

@@ -365,6 +365,8 @@ export class HourlyWeatherCard extends LitElement {
     const version = this.templateRenderVersion;
     let ready = false;
     const keys = ['num_segments', 'offset', 'label_spacing', 'name'] as const;
+    // Wait only for each template's first result. Subscription callbacks stay
+    // active after Promise.all resolves and publish later results below.
     await Promise.all(keys.map(key => this.renderTemplate(config[key], version, value => {
       rendered[key] = value;
       if (ready) {
@@ -378,7 +380,7 @@ export class HourlyWeatherCard extends LitElement {
   private async renderTemplate(raw: string | undefined, version: number, update: (value: string) => void): Promise<void> {
     if (!raw || typeof raw !== 'string' || !raw.includes('{{')) return;
     return new Promise(resolve => {
-      const subscription = Promise.resolve(this.hass.connection.subscribeMessage<RenderTemplateResult>(
+      const subscription = this.hass.connection.subscribeMessage<RenderTemplateResult>(
         msg => {
           if (version !== this.templateRenderVersion) return;
           update(msg.result);
@@ -388,7 +390,7 @@ export class HourlyWeatherCard extends LitElement {
           type: 'render_template',
           template: raw
         }
-      ));
+      );
       this.templateSubscriptions.push(subscription);
       subscription.catch(error => console.warn('[hourly-weather] template subscription failed', error));
     });
