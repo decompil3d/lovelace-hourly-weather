@@ -4,9 +4,8 @@ import {
   FrontendLocaleData,
   HomeAssistant,
   LovelaceCardEditor,
-  formatDateShort,
+  TimeFormat,
   formatNumber,
-  formatTime,
   getLovelace,
   handleAction,
   hasAction,
@@ -595,7 +594,7 @@ export class HourlyWeatherCard extends LitElement {
             .show_precipitation_probability=${!!config.show_precipitation_probability}
             .has_current_segment=${hasCurrentSegment && offset === 0}
             .current_label=${this.localize('card.now')}
-            .current_time=${currentWeather ? formatTime(new Date(currentWeather.datetime), this.hass.locale) : ''}
+            .current_time=${currentWeather ? this.formatTime(new Date(currentWeather.datetime), this.hass.locale) : ''}
             .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
@@ -732,7 +731,7 @@ export class HourlyWeatherCard extends LitElement {
         Math.round(fs.temperature) :
         fs.temperature;
       temperatures.push({
-        date: formatDateShort(dt, this.hass.locale),
+        date: this.formatDateTime(dt, { day: 'numeric', month: 'short' }),
         hour: this.formatHour(dt, this.hass.locale, hideMinutes),
         temperature: formatNumber(temperature, this.hass.locale)
       })
@@ -867,12 +866,34 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private formatHour(time: Date, locale: FrontendLocaleData, hideMinutes: boolean): string {
-    const formatted = formatTime(time, locale);
+    const formatted = this.formatTime(time, locale);
     if (hideMinutes || formatted.includes('AM') || formatted.includes('PM')) {
       // Drop ':00' in 12 hour time
       return formatted.replace(':00', '');
     }
     return formatted;
+  }
+
+  private formatTime(time: Date, locale: FrontendLocaleData): string {
+    let hour12 = locale.time_format === TimeFormat.am_pm;
+    if (locale.time_format === TimeFormat.language || locale.time_format === TimeFormat.system) {
+      const language = locale.time_format === TimeFormat.language ? locale.language : undefined;
+      const sample = new Date().toLocaleString(language);
+      hour12 = sample.includes('AM') || sample.includes('PM');
+    }
+    return this.formatDateTime(time, {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12,
+    });
+  }
+
+  private formatDateTime(time: Date, options: Intl.DateTimeFormatOptions): string {
+    const locale = this.hass.locale as FrontendLocaleData & { time_zone?: 'local' | 'server' };
+    return new Intl.DateTimeFormat(locale.language, {
+      ...options,
+      timeZone: locale.time_zone === 'server' ? this.hass.config?.time_zone : undefined,
+    }).format(time);
   }
 
   private getColorSettings(colorConfig?: ColorConfig): ColorSettings {
