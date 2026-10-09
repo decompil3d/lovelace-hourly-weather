@@ -797,7 +797,7 @@ describe('Weather bar', () => {
           if (i > 2) {
             cy.get(`@wind-${i}`).should('have.attr', 'style', `transform:rotate(${expectedWindBearings[i]}deg);`);
           } else {
-            cy.get(`@wind-${i}`).should('have.attr', 'style', '');
+            cy.get(`@wind-${i}`).should('have.attr', 'style', 'margin-top:-10px;');
           }
         });
     });

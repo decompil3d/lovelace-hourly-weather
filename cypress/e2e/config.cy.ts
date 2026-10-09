@@ -148,7 +148,8 @@ describe('Config', () => {
         rainy: 'var(--glahp, blue)', // valid
         fog: ' var(--zing)', // valid
         exceptional: 'var( --zong)', // valid
-        hail: 'var(--blong,  #123456  )' // valid
+        hail: 'var(--blong,  #123456  )', // valid
+        snowy: 'var(--rgb-red, rgb(255, 0, 0))' // valid fallback with commas
       }
     });
     cy.get('hui-warning')
@@ -165,7 +166,8 @@ describe('Config', () => {
       .and('not.contain', 'rainy')
       .and('not.contain', 'fog')
       .and('not.contain', 'exceptional')
-      .and('not.contain', 'hail');
+      .and('not.contain', 'hail')
+      .and('not.contain', 'snowy');
   });
   it('errors for invalid string values for icon_fill', () => {
     cy.configure({
@@ -201,7 +203,7 @@ describe('Config', () => {
         // @ts-expect-error accessing hourlyWeather global
         cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
           result: 10
-        });
+        }).resolves(() => void 0);
       });
       cy.configure({
         num_segments: '{{ num_segments_template }}'
@@ -223,7 +225,7 @@ describe('Config', () => {
         // @ts-expect-error accessing hourlyWeather global
         cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
           result: 4
-        });
+        }).resolves(() => void 0);
       });
       cy.configure({
         label_spacing: '{{ label_spacing_template }}'
@@ -249,7 +251,7 @@ describe('Config', () => {
         // @ts-expect-error accessing hourlyWeather global
         cy.stub(win.hourlyWeather.hass.connection, 'subscribeMessage').yieldsAsync({
           result: 2
-        });
+        }).resolves(() => void 0);
       });
       cy.configure({
         offset: '{{ offset_template }}'

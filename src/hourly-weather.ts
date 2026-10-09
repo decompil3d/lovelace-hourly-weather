@@ -4,9 +4,8 @@ import {
   FrontendLocaleData,
   HomeAssistant,
   LovelaceCardEditor,
-  formatDateShort,
+  TimeFormat,
   formatNumber,
-  formatTime,
   getLovelace,
   handleAction,
   hasAction,
@@ -103,6 +102,9 @@ export class HourlyWeatherCard extends LitElement {
   private lastValidForecastAt?: number;
 
   private configRenderPending = false;
+
+  private templateRenderVersion = 0;
+  private templateSubscriptions: Array<Promise<() => void>> = [];
 
   private localizer?: ReturnType<typeof getLocalizer> = void 0;
   private localizerLastSettings: LocalizerLastSettings = {
@@ -337,45 +339,65 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private triggerConfigRender(): void {
-    if (!this.hass?.connection) {
-      // HASS connection not ready yet, so wait until it is
+    this.unsubscribeTemplates();
+    if (!this.isConnected || !this.hass?.connection) {
+      // Wait until the card is connected and the HASS connection is ready.
       this.configRenderPending = true;
       return;
     }
+    this.configRenderPending = false;
     this.renderedConfig = this.renderConfig();
+  }
+
+  private unsubscribeTemplates(): void {
+    this.templateRenderVersion++;
+    for (const subscription of this.templateSubscriptions) {
+      subscription.then(unsubscribe => unsubscribe()).catch(() => void 0);
+    }
+    this.templateSubscriptions = [];
   }
 
   private async renderConfig(): Promise<HourlyWeatherCardConfig> {
     const { config } = this;
     if (!config) return config;
-    const r: HourlyWeatherCardConfig = {
-      ...config,
-      num_segments: await this.renderTemplate(config?.num_segments),
-      offset: await this.renderTemplate(config?.offset),
-      label_spacing: await this.renderTemplate(config?.label_spacing),
-      name: await this.renderTemplate(config?.name)
-    };
-
-    return r;
+    const rendered = { ...config };
+    const version = this.templateRenderVersion;
+    let ready = false;
+    const keys = ['num_segments', 'offset', 'label_spacing', 'name'] as const;
+    // Wait only for each template's first result. Subscription callbacks stay
+    // active after Promise.all resolves and publish later results below.
+    await Promise.all(keys.map(key => this.renderTemplate(config[key], version, value => {
+      rendered[key] = value;
+      if (ready) {
+        this.renderedConfig = Promise.resolve({ ...rendered });
+      }
+    })));
+    ready = true;
+    return rendered;
   }
 
-  private async renderTemplate(raw: string | undefined): Promise<string | undefined> {
-    if (!raw) return raw; // not defined
-    if (typeof raw !== 'string') return raw; // not a template
-    if (!raw.includes('{{')) return raw; // not a template
+  private async renderTemplate(raw: string | undefined, version: number, update: (value: string) => void): Promise<void> {
+    if (!raw || typeof raw !== 'string' || !raw.includes('{{')) return;
     return new Promise(resolve => {
-      this.hass.connection.subscribeMessage<RenderTemplateResult>(
-        msg => resolve(msg.result),
+      const subscription = this.hass.connection.subscribeMessage<RenderTemplateResult>(
+        msg => {
+          if (version !== this.templateRenderVersion) return;
+          update(msg.result);
+          resolve();
+        },
         {
           type: 'render_template',
           template: raw
         }
       );
+      this.templateSubscriptions.push(subscription);
+      subscription.catch(error => console.warn('[hourly-weather] template subscription failed', error));
     });
   }
 
   public connectedCallback(): void {
     super.connectedCallback();
+    this.triggerConfigRender();
     if (typeof ResizeObserver !== 'undefined') {
       this.resizeObserver = new ResizeObserver(entries => {
         const width = Math.round(entries[0]?.contentRect.width ?? 0);
@@ -396,6 +418,7 @@ export class HourlyWeatherCard extends LitElement {
     this.resizeObserver = undefined;
     this.stopForecastRecovery();
     this.unsubscribeForecastEvents();
+    this.unsubscribeTemplates();
   }
 
   // https://lit.dev/docs/components/lifecycle/#reactive-update-cycle-performing
@@ -404,7 +427,7 @@ export class HourlyWeatherCard extends LitElement {
       return false;
     }
 
-    if (changedProps.has('observedWidth')) {
+    if (changedProps.has('observedWidth') || changedProps.has('renderedConfig')) {
       return true;
     }
 
@@ -595,7 +618,7 @@ export class HourlyWeatherCard extends LitElement {
             .show_precipitation_probability=${!!config.show_precipitation_probability}
             .has_current_segment=${hasCurrentSegment && offset === 0}
             .current_label=${this.localize('card.now')}
-            .current_time=${currentWeather ? formatTime(new Date(currentWeather.datetime), this.hass.locale) : ''}
+            .current_time=${currentWeather ? this.formatTime(new Date(currentWeather.datetime), this.hass.locale) : ''}
             .show_date=${config.show_date}
             .label_spacing=${labelSpacing}
             .labels=${this.labels}></weather-bar>
@@ -732,7 +755,7 @@ export class HourlyWeatherCard extends LitElement {
         Math.round(fs.temperature) :
         fs.temperature;
       temperatures.push({
-        date: formatDateShort(dt, this.hass.locale),
+        date: this.formatDateTime(dt, { day: 'numeric', month: 'short' }),
         hour: this.formatHour(dt, this.hass.locale, hideMinutes),
         temperature: formatNumber(temperature, this.hass.locale)
       })
@@ -867,12 +890,34 @@ export class HourlyWeatherCard extends LitElement {
   }
 
   private formatHour(time: Date, locale: FrontendLocaleData, hideMinutes: boolean): string {
-    const formatted = formatTime(time, locale);
+    const formatted = this.formatTime(time, locale);
     if (hideMinutes || formatted.includes('AM') || formatted.includes('PM')) {
       // Drop ':00' in 12 hour time
       return formatted.replace(':00', '');
     }
     return formatted;
+  }
+
+  private formatTime(time: Date, locale: FrontendLocaleData): string {
+    let hour12 = locale.time_format === TimeFormat.am_pm;
+    if (locale.time_format === TimeFormat.language || locale.time_format === TimeFormat.system) {
+      const language = locale.time_format === TimeFormat.language ? locale.language : undefined;
+      const sample = new Date().toLocaleString(language);
+      hour12 = sample.includes('AM') || sample.includes('PM');
+    }
+    return this.formatDateTime(time, {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12,
+    });
+  }
+
+  private formatDateTime(time: Date, options: Intl.DateTimeFormatOptions): string {
+    const locale = this.hass.locale as FrontendLocaleData & { time_zone?: 'local' | 'server' };
+    return new Intl.DateTimeFormat(locale.language, {
+      ...options,
+      timeZone: locale.time_zone === 'server' ? this.hass.config?.time_zone : undefined,
+    }).format(time);
   }
 
   private getColorSettings(colorConfig?: ColorConfig): ColorSettings {
@@ -945,7 +990,9 @@ export class HourlyWeatherCard extends LitElement {
     const inner = trimmed.slice(4, -1).trim();
 
     // Split on the first comma only (fallbacks may contain commas)
-    const [property, fallback] = inner.split(',');
+    const separator = inner.indexOf(',');
+    const property = separator === -1 ? inner : inner.slice(0, separator);
+    const fallback = separator === -1 ? undefined : inner.slice(separator + 1);
     const propName = property.trim();
 
     if (!HourlyWeatherCard.isValidCustomPropertyName(propName)) return false;
