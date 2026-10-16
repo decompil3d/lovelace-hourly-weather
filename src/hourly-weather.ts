@@ -777,17 +777,18 @@ export class HourlyWeatherCard extends LitElement {
     for (let i = 0; i < numSegments; i++) {
       const fs = forecast[offset + i];
 
-      const labelIndex = hasCurrentSegment ? i - 1 : i;
       const isCurrentSegment = hasCurrentSegment && i === 0;
+      // With a current segment, the first forecast label also covers the
+      // forecast segments between "Now" and itself, so none is left out.
+      const isFirstForecastLabel = hasCurrentSegment && i === labelSpacing;
 
       // The current segment may carry precipitation from the ongoing hourly
       // forecast interval, but it never aggregates with future intervals.
-      // Forecast label spacing restarts at the first future segment.
-      if (isCurrentSegment || labelIndex % labelSpacing === 0) {
+      if (i % labelSpacing === 0) {
         const interval = isCurrentSegment
           ? [fs]
           : forecast.slice(
-            offset + i,
+            offset + (isFirstForecastLabel ? 1 : i),
             Math.min(offset + i + labelSpacing, offset + numSegments),
           );
 

@@ -192,8 +192,10 @@ describe('Card', () => {
       });
     cy.get('weather-bar').shadow().find('.hour').then(hours => {
       const current = hours[0].querySelector('.current-time')!.getBoundingClientRect();
-      const range = hours[1].ownerDocument.createRange();
-      range.selectNodeContents(hours[1]);
+      // the first forecast label follows on the label_spacing grid (default 2)
+      expect(hours[1]).to.have.text('');
+      const range = hours[2].ownerDocument.createRange();
+      range.selectNodeContents(hours[2]);
       expect(current.right).to.be.lessThan(range.getBoundingClientRect().left);
     });
     cy.configure({ entity: 'weather.current_label', show_current: true, language: 'pl' });
@@ -234,8 +236,37 @@ describe('Card', () => {
       .find('div.precipitation')
       .then(values => {
         expect(values.eq(0)).to.have.text('');
-        expect(values.eq(1)).to.have.text('0.7 mm');
-        expect(values.eq(2)).to.have.text('');
+        expect(values.eq(1)).to.have.text('');
+        // the first forecast label also covers the segment between Now and itself
+        expect(values.eq(2)).to.have.text('0.7 mm');
+      });
+  });
+
+  it('keeps forecast labels on the label spacing grid after the current segment', () => {
+    cy.window().then((win: any) => {
+      cy.addEntity({
+        'weather.current_grid': {
+          state: 'cloudy',
+          last_updated: '2022-07-21T16:45:00+00:00',
+          attributes: {
+            temperature: 12,
+            forecast: win.hourlyWeather.hass.states['weather.mock'].attributes.forecast,
+          },
+        },
+      });
+    });
+    cy.configure({
+      entity: 'weather.current_grid',
+      num_segments: '7',
+      label_spacing: '2',
+      show_current: true,
+    });
+    cy.get('weather-bar')
+      .shadow()
+      .find('div.temperature')
+      .then(temperatures => {
+        const labelled = temperatures.toArray().map(t => t.textContent!.trim() !== '');
+        expect(labelled).to.deep.equal([true, false, true, false, true, false, true]);
       });
   });
 
