@@ -122,9 +122,12 @@ segments displayed, including the current segment. If the entity does not expose
 a valid current condition and temperature, the card safely falls back to the
 forecast alone. When the weather entity does not expose current precipitation,
 the current segment uses amount and probability from the ongoing hourly forecast
-interval without combining them with future intervals. `label_spacing` restarts
-at the first future segment, and the already-started forecast interval is omitted
-from the remaining timeline so it is not duplicated.
+interval without combining them with future intervals. The current segment takes
+the first label slot, so the forecast labels keep the same `label_spacing` grid
+(with `label_spacing: 2`, the next label is on the third segment). The first
+forecast label's precipitation also covers the forecast segments between the
+current segment and itself. The already-started forecast interval is omitted from
+the remaining timeline so it is not duplicated.
 
 The current segment is labeled "Now" (translated to the configured language).
 Hover over the label to see the weather entity's update time in a native browser
