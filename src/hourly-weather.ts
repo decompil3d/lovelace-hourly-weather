@@ -572,6 +572,7 @@ export class HourlyWeatherCard extends LitElement {
     }
 
     const conditionList = this.getConditionListFromForecast(forecast, numSegments, offset);
+    const segmentConditions = this.getSegmentConditionsFromForecast(forecast, numSegments, offset);
     const temperatures = this.getTemperatures(forecast, numSegments, offset, hideMinutes, roundTemperatures);
     const wind = this.getWind(forecast, numSegments, offset, windSpeedUnit, hideMinutes);
     const precipitation = this.getPrecipitation(
@@ -603,6 +604,7 @@ export class HourlyWeatherCard extends LitElement {
           <!-- @ts-ignore -->
           <weather-bar
             .conditions=${conditionList}
+            .segment_conditions=${segmentConditions}
             .temperatures=${temperatures}
             .wind=${wind}
             .precipitation=${precipitation}
@@ -616,6 +618,9 @@ export class HourlyWeatherCard extends LitElement {
             .show_wind=${showWind}
             .show_precipitation_amounts=${!!config.show_precipitation_amounts}
             .show_precipitation_probability=${!!config.show_precipitation_probability}
+            .precipitation_on_bar=${!!config.precipitation_on_bar}
+            .precipitation_amount_font_size=${config.precipitation_amount_font_size}
+            .precipitation_probability_font_size=${config.precipitation_probability_font_size}
             .has_current_segment=${hasCurrentSegment && offset === 0}
             .current_label=${this.localize('card.now')}
             .current_time=${currentWeather ? this.formatTime(new Date(currentWeather.datetime), this.hass.locale) : ''}
@@ -659,6 +664,12 @@ export class HourlyWeatherCard extends LitElement {
       }
     }
     return res;
+  }
+
+  private getSegmentConditionsFromForecast(forecast: ForecastSegment[], numSegments: number, offset: number): DisplayCondition[] {
+    return forecast
+      .slice(offset, offset + numSegments)
+      .map(segment => this.getDisplayCondition(segment));
   }
 
   private parseInteger(value: unknown): number {
