@@ -194,9 +194,9 @@ export class WeatherBar extends LitElement {
   }
 
   private shouldSkipLabel(index: number): boolean {
-    if (!this.has_current_segment) return index % this.label_spacing !== 0;
-    if (index === 0) return false;
-    return (index - 1) % this.label_spacing !== 0;
+    // The current segment takes the first label slot, so forecast labels stay
+    // on the same evenly spaced grid instead of crowding the "Now" label.
+    return index % this.label_spacing !== 0;
   }
 
   protected update(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void {
