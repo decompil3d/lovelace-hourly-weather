@@ -29,7 +29,7 @@
     "@types/node": "^26.5.1",
     "@typescript-eslint/eslint-plugin": "^8.73.0",
     "@typescript-eslint/parser": "^8.73.0",
-    "cypress": "^16.1.0",
+    "cypress": "^16.3.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.8",
