@@ -752,7 +752,7 @@ export class HourlyWeatherCard extends LitElement {
       const fs = forecast[i];
       const dt = new Date(fs.datetime)
       const temperature = roundTemperatures && !Number.isNaN(fs.temperature) ?
-        Math.round(fs.temperature) :
+        (Math.round(fs.temperature) || 0) : // `|| 0` turns -0 into 0
         fs.temperature;
       temperatures.push({
         date: this.formatDateTime(dt, { day: 'numeric', month: 'short' }),
