@@ -582,6 +582,38 @@ describe('Weather bar', () => {
           }
         });
     });
+    it('does not show negative zero when rounding temperatures between -0.5 and 0', () => {
+      const temperatures = [-0.4, -0.1, -0.5, -0.6];
+      cy.addEntity({
+        'weather.negative_zero': {
+          attributes: {
+            forecast: temperatures.map((temperature, i) => ({
+              "datetime": `2022-07-21T${17 + i}:00:00+00:00`,
+              "precipitation": 0,
+              "precipitation_probability": 0,
+              "pressure": 1007,
+              "wind_speed": 4.67,
+              "wind_bearing": 'WSW',
+              "condition": "cloudy",
+              "clouds": 60,
+              temperature
+            }))
+          }
+        }
+      });
+      cy.configure({
+        entity: 'weather.negative_zero',
+        num_segments: '4',
+        label_spacing: '1',
+        round_temperatures: true
+      });
+      cy.get('weather-bar')
+        .shadow()
+        .find('div.axes > div.bar-block div.temperature')
+        .then(els => {
+          expect([...els].map(el => el.textContent)).to.deep.equal(['0°', '0°', '0°', '-1°']);
+        });
+    });
     it('spaces labels as specified in config', () => {
       cy.configure({
         label_spacing: '4'
